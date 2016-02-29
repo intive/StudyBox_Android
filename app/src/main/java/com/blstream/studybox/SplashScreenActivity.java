@@ -12,7 +12,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
 
         initializeSplashScreen(SPLASH_DISPLAY_LENGTH, MainActivity.class);
     }
@@ -23,13 +22,14 @@ public class SplashScreenActivity extends AppCompatActivity {
      * @param destination Activity that should be started after the SplashScreen
      */
     private void initializeSplashScreen(int delay, final Class<?> destination) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent mainIntent = new Intent(SplashScreenActivity.this, destination);
-                SplashScreenActivity.this.startActivity(mainIntent);
-                SplashScreenActivity.this.finish();
-            }
-        }, delay);
+        new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent mainIntent = new Intent(SplashScreenActivity.this, destination);
+                        SplashScreenActivity.this.startActivity(mainIntent);
+                        SplashScreenActivity.this.finish();
+                    }
+                }, delay);
     }
 }
