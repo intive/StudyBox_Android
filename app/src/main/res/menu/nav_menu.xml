@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_account"
+            android:title="Moje konto" />
+        <item
+            android:id="@+id/nav_my_decks"
+            android:title="Moje talie" />
+        <item
+            android:id="@+id/nav_create_fiche"
+            android:title="Stwórz nową fiszkę" />
+        <item
+            android:id="@+id/nav_show_deck"
+            android:title="Odkryj nową talie" />
+        <item
+            android:id="@+id/nav_stats"
+            android:title="Statystyki" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Wyloguj" />
+
+    </group>
+</menu>
