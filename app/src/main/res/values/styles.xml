@@ -1,13 +1,34 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!-- Base application Theme -->
+    <style name="StudyBoxTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/colorGraphite</item>
+        <item name="android:colorBackground">@color/colorGrey</item>
+        <item name="android:windowBackground">@color/colorGrey</item>
+        <item name="colorPrimary">@color/colorGraphite</item>
+        <item name="colorAccent">@color/colorGraphite</item>
     </style>
 
+    <!-- Theme with raspberry toolbar&actionbar and blue accents. -->
+    <style name="StudyBoxTheme.Raspberry" parent="StudyBoxTheme">
+        <item name="colorPrimary">@color/colorRaspberry</item>
+        <item name="colorAccent">@color/colorDarkBlue</item>
+    </style>
+
+    <!-- Theme with blue toolbar&actionbar and raspberry accents. -->
+    <style name="StudyBoxTheme.Blue" parent="StudyBoxTheme">
+        <item name="colorPrimary">@color/colorDarkBlue</item>
+        <item name="colorAccent">@color/colorRaspberry</item>
+        <item name="android:textColorPrimary">@color/colorGraphite</item>
+        <item name="android:textColorPrimaryInverse">@color/colorGrey</item>
+    </style>
+
+    <!-- Style for font "Lato-Black" -->
+    <style name="StudyBoxTheme.BoldTextView" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">fonts/Lato-Black.ttf</item>
+    </style>
+
+    <!-- Style for splash screen -->
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="windowNoTitle">true</item>
@@ -15,5 +36,6 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
 
 </resources>

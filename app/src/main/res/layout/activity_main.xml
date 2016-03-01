@@ -11,7 +11,15 @@
     tools:context="com.blstream.studybox.MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:text="Lato-Regular!"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lato-Black!"
+        android:layout_below="@+id/textView"
+        style="@style/StudyBoxTheme.BoldTextView"/>
 </RelativeLayout>
