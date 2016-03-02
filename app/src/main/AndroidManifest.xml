@@ -19,9 +19,11 @@
         </activity>
         <activity android:name=".MainActivity">
 
-            
+
         </activity>
-        <activity android:name=".DecksActivity">
+        <activity android:name=".DecksActivity"
+            android:label="@string/title_activity_decks"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
