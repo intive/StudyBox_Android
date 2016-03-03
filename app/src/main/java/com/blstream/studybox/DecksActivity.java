@@ -1,27 +1,28 @@
 package com.blstream.studybox;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 
-public class DecksActivity extends AppCompatActivity implements DecksAdapter.ClickListener {
+public class DecksActivity extends MvpActivity<DecksView, DecksPresenter> implements DecksView, DecksAdapter.ClickListener {
 
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-    @BindInt(R.integer.column_quantity)
-    int columnQuantity;
+    @Bind(R.id.decks_recycler_view)
+    RecyclerView recyclerView;
+    DecksAdapter adapter;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindInt(R.integer.column_quantity)
+    int columnQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +33,36 @@ public class DecksActivity extends AppCompatActivity implements DecksAdapter.Cli
         setSupportActionBar(toolbar);
 
         setUpRecyclerView();
+        loadData();
     }
 
     private void setUpRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.decks_recycler_view);
-        layoutManager = new GridLayoutManager(this, columnQuantity);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
         recyclerView.setHasFixedSize(true);
 
         adapter = new DecksAdapter();
-        ((DecksAdapter) adapter).setOnItemClickListener(this);
+        adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(int position, View v) {
-        // Start test
+        // run the test
     }
+
+    public void loadData() {
+        presenter.loadDecks();
+    }
+
+    @Override
+    public void setData(DecksList data) {
+        adapter.setDecks(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public DecksPresenter createPresenter() {
+        return new DecksPresenter();
+    }
+
 }

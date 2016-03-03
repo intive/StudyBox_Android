@@ -74,4 +74,8 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
     public interface ClickListener {
         void onItemClick(int position, View v);
     }
+
+    public void setDecks(DecksList data) {
+
+    }
 }
