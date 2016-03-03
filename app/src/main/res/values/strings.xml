@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StudyBox</string>
+    <string name="title_activity_decks">DecksActivity</string>
 </resources>

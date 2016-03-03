@@ -1,9 +1,9 @@
 package com.blstream.studybox;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -13,7 +13,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initializeSplashScreen(SPLASH_DISPLAY_LENGTH, MainActivity.class);
+        initializeSplashScreen(SPLASH_DISPLAY_LENGTH, DecksActivity.class);
     }
 
     /**
