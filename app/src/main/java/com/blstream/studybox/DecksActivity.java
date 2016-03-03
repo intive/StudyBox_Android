@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.BindInt;
@@ -13,9 +14,9 @@ import butterknife.ButterKnife;
 
 public class DecksActivity extends AppCompatActivity implements DecksAdapter.ClickListener {
 
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    @Bind(R.id.decks_recycler_view)
+    RecyclerView recyclerView;
+    DecksAdapter adapter;
 
     @BindInt(R.integer.column_quantity)
     int columnQuantity;
@@ -35,18 +36,18 @@ public class DecksActivity extends AppCompatActivity implements DecksAdapter.Cli
     }
 
     private void setUpRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.decks_recycler_view);
-        layoutManager = new GridLayoutManager(this, columnQuantity);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
         recyclerView.setHasFixedSize(true);
 
         adapter = new DecksAdapter();
-        ((DecksAdapter) adapter).setOnItemClickListener(this);
+        adapter.setOnItemClickListener(this);
+
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(int position, View v) {
-        // Start test
+        // start test
+        Toast.makeText(this,"You clicked a card",Toast.LENGTH_LONG).show();
     }
 }
