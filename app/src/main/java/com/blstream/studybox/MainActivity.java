@@ -1,8 +1,8 @@
 package com.blstream.studybox;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -18,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Gibkie żuczki");
     }
 
+    /**
+     * Applies custom font to every activity that overrides this method
+     */
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

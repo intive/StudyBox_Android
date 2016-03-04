@@ -10,6 +10,9 @@ public class Application extends android.app.Application {
         customFontInit();
     }
 
+    /**
+     * Use this method to define custom font that will be used as default application font
+     */
     private void customFontInit() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/Lato-Regular.ttf")

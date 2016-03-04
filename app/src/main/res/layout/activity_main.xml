@@ -14,12 +14,19 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lato-Regular!"/>
+        android:text="This should be lato regular - ggg"/>
+
 
     <TextView
+        android:layout_below="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lato-Black!"
-        android:layout_below="@+id/textView"
-        style="@style/StudyBoxTheme.BoldTextView"/>
+        android:text="This should be Lato Black - ggg "
+        style="@style/StudyBoxTheme.BoldTextView"
+        />
+
+
+
+
+
 </RelativeLayout>
