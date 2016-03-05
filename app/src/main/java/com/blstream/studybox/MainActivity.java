@@ -46,17 +46,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
 
         switch (id) {
-            case R.id.nav_my_account:
+            case R.id.my_account:
                 break;
-            case R.id.nav_my_decks:
+            case R.id.my_decks:
                 break;
-            case R.id.nav_create_fiche:
+            case R.id.create_flashcard:
                 break;
-            case R.id.nav_show_deck:
+            case R.id.show_deck:
                 break;
-            case R.id.nav_stats:
+            case R.id.statistics:
                 break;
-            case R.id.nav_logout:
+            case R.id.logout:
                 break;
         }
 
