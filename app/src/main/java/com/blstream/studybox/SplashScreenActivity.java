@@ -13,7 +13,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initializeSplashScreen(SPLASH_DISPLAY_LENGTH, MainActivity.class);
+        initializeSplashScreen(SPLASH_DISPLAY_LENGTH, ExamActivity.class);
     }
 
     /**
