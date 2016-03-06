@@ -15,8 +15,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+            android:background="@color/colorDarkBlue"
+            />
 
     </RelativeLayout>
 
@@ -26,7 +26,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/nav_menu"/>
+        app:menu="@menu/nav_menu"
+        android:background="@color/colorRaspberry"/>
 
 </android.support.v4.widget.DrawerLayout>
->>>>>>> origin/development
+
