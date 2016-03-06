@@ -17,8 +17,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     /**
-     * Use this method to start a new Activity and close SplashScreen after set miliseconds
-     * @param delay amount of miliseconds to wait before finishing this activity
+     * Use this method to start a new Activity and close SplashScreen after set milliseconds
+     * @param delay amount of milliseconds to wait before finishing this activity
      * @param destination Activity that should be started after the SplashScreen
      */
     private void initializeSplashScreen(int delay, final Class<?> destination) {
