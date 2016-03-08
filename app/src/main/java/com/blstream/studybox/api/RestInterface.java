@@ -1,4 +1,4 @@
-package com.blstream.studybox;
+package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.DecksList;
 
