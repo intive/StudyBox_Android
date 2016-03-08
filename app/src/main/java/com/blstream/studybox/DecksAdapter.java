@@ -68,6 +68,7 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
+        // sample value
         return 8;
     }
 

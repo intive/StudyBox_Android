@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".DecksActivity"
             android:label="@string/title_activity_decks"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/StudyBoxTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

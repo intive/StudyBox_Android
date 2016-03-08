@@ -20,7 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         if (!isSplashActive) {
-            initializeSplashScreen(SPLASH_DISPLAY_LENGTH, MainActivity.class);
+            initializeSplashScreen(SPLASH_DISPLAY_LENGTH, DecksActivity.class);
             isSplashActive = true;
         }
     }
