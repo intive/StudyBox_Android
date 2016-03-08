@@ -3,7 +3,6 @@ package com.blstream.studybox.api;
 import com.blstream.studybox.model.DecksList;
 import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 
 /**
  * Created by Bartosz Kozajda on 08.03.2016.

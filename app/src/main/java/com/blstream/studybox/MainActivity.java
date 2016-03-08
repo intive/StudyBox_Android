@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onSendDecksEvent(SendDecksEvent sendDecksEvent){
         DecksList decksList = sendDecksEvent.getDecksList();
+        Log.d(TAG, String.valueOf(decksList.getDecks().get(0).getDeckName()));
     }
 
     @Override
