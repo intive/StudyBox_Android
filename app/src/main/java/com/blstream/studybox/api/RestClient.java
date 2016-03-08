@@ -1,8 +1,6 @@
 package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.DecksList;
-import com.squareup.okhttp.OkHttpClient;
-
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -31,7 +29,6 @@ public class RestClient {
     private RestClient(){
         restAdapter = new RestAdapter.Builder()
                 .setEndpoint(BASE_URL)
-                .setClient(new OkClient(new OkHttpClient()))
                 .build();
     }
 }
