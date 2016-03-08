@@ -1,6 +1,5 @@
 package com.blstream.studybox.api;
 
-import com.blstream.studybox.RestInterface;
 import com.blstream.studybox.model.DecksList;
 import com.squareup.okhttp.OkHttpClient;
 

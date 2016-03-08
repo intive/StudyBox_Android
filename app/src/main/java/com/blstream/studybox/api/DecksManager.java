@@ -2,7 +2,6 @@ package com.blstream.studybox.api;
 
 import android.content.Context;
 
-import com.blstream.studybox.api.RestClient;
 import com.blstream.studybox.event.GetDecksEvent;
 import com.blstream.studybox.event.SendDecksEvent;
 import com.blstream.studybox.model.DecksList;
