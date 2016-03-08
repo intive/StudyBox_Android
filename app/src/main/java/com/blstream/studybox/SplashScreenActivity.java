@@ -1,19 +1,28 @@
 package com.blstream.studybox;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private boolean isSplashActive;
+    private final String BUNDLE_KEY = "SPLASH_DISPLAYED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initializeSplashScreen(SPLASH_DISPLAY_LENGTH, DecksActivity.class);
+        if (savedInstanceState != null) {
+            isSplashActive = savedInstanceState.getBoolean(BUNDLE_KEY);
+        }
+
+        if (!isSplashActive) {
+            initializeSplashScreen(SPLASH_DISPLAY_LENGTH, MainActivity.class);
+            isSplashActive = true;
+        }
     }
 
     /**
@@ -31,5 +40,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                         SplashScreenActivity.this.finish();
                     }
                 }, delay);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean(BUNDLE_KEY, isSplashActive);
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
