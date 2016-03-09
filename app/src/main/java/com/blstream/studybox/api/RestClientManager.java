@@ -12,11 +12,11 @@ import retrofit.Callback;
 public class RestClientManager {
     public static RestClient client = new RestClient();
 
-    public static RestInterface getRestApi(Context context){
+    public static RestInterface getRestApi(){
         return client.getService();
     }
-    public static void getAllDecks(String json, Context context, Callback<DecksList> callback){
-        RestInterface restInterface = getRestApi(context);
+    public static void getAllDecks(String json, Callback<DecksList> callback){
+        RestInterface restInterface = getRestApi();
         restInterface.getAllDecks(json, callback);
     }
 }

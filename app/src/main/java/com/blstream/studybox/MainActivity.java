@@ -15,7 +15,6 @@ import retrofit.RetrofitError;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getDecks(){
-           RestClientManager.getAllDecks(Constants.API_KEY, context , new RequestCallback<DecksList>(new RequestListener<DecksList>() {
+           RestClientManager.getAllDecks(Constants.API_KEY, new RequestCallback<>(new RequestListener<DecksList>() {
                 @Override
                 public void onSuccess(DecksList response) {
                     Log.d(TAG, response.getDecks().get(0).getDeckName());
