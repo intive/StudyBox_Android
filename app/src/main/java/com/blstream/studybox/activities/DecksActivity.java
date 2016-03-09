@@ -1,4 +1,4 @@
-package com.blstream.studybox;
+package com.blstream.studybox.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blstream.studybox.decks_view.DecksAdapter;
+import com.blstream.studybox.decks_view.DecksPresenter;
+import com.blstream.studybox.decks_view.DecksView;
+import com.blstream.studybox.R;
 import com.blstream.studybox.model.DecksList;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 

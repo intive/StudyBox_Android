@@ -1,4 +1,4 @@
-package com.blstream.studybox;
+package com.blstream.studybox.activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.blstream.studybox.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

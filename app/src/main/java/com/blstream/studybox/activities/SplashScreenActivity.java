@@ -1,4 +1,4 @@
-package com.blstream.studybox;
+package com.blstream.studybox.activities;
 
 import android.content.Intent;
 import android.os.Handler;

@@ -1,4 +1,4 @@
-package com.blstream.studybox;
+package com.blstream.studybox.decks_view;
 
 import com.blstream.studybox.model.DecksList;
 import com.hannesdorfmann.mosby.mvp.MvpView;

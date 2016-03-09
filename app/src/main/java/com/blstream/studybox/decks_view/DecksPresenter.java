@@ -1,7 +1,6 @@
-package com.blstream.studybox;
+package com.blstream.studybox.decks_view;
 
-import android.util.Log;
-
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
