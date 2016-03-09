@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/my_account"
+            android:title="@string/nav_my_account" />
+        <item
+            android:id="@+id/my_decks"
+            android:title="@string/nav_my_decks" />
+        <item
+            android:id="@+id/create_flashcard"
+            android:title="@string/nav_create_flashcard" />
+        <item
+            android:id="@+id/show_deck"
+            android:title="@string/nav_show_deck" />
+        <item
+            android:id="@+id/statistics"
+            android:title="@string/nav_statistics" />
+        <item
+            android:id="@+id/logout"
+            android:title="@string/nav_logout" />
+
+    </group>
+</menu>
