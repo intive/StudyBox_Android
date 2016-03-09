@@ -27,7 +27,7 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="StudyBoxTheme.AppBarOverlay" parent="StudyBoxTheme" />
+    <style name="StudyBoxTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="StudyBoxTheme.PopupOverlay" parent="StudyBoxTheme" />
 

@@ -1,7 +1,6 @@
 package com.blstream.studybox;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -45,14 +44,12 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter> implem
 
         adapter = new DecksAdapter();
         adapter.setOnItemClickListener(this);
-
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(int position, View v) {
         // start test
-        Toast.makeText(this,"You clicked a card",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "You clicked a card", Toast.LENGTH_LONG).show();
     }
 
     public void loadData() {

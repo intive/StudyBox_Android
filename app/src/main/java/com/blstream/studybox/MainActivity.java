@@ -1,38 +1,29 @@
 package com.blstream.studybox;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import com.blstream.studybox.api.RequestCallback;
-import com.blstream.studybox.api.RequestListener;
-import com.blstream.studybox.api.RestClientManager;
-import com.blstream.studybox.model.DecksList;
-
-import retrofit.RetrofitError;
-
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.nav_view) NavigationView navigationView;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.nav_view)
+    NavigationView navigationView;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
