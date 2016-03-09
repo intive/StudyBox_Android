@@ -11,9 +11,6 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Łukasz on 2016-03-01.
- */
 public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> {
 
     private static ClickListener clickListener;

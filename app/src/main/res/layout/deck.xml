@@ -27,6 +27,7 @@
             android:layout_alignParentBottom="true">
 
             <ImageView
+                android:contentDescription="@string/quantity_icon"
                 android:id="@+id/quantity_icon"
                 android:layout_width="@dimen/quantity_icon_size"
                 android:layout_height="@dimen/quantity_icon_size"
@@ -38,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/quantity_icon"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/quantity_icon"
                 android:layout_toRightOf="@+id/quantity_icon"
                 android:textSize="@dimen/card_small_text_size" />
 
