@@ -1,10 +1,12 @@
 package com.blstream.studybox;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.blstream.studybox.model.DecksList;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
@@ -19,11 +21,11 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter> implem
     RecyclerView recyclerView;
     DecksAdapter adapter;
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
     @BindInt(R.integer.column_quantity)
     int columnQuantity;
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,14 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter> implem
 
         adapter = new DecksAdapter();
         adapter.setOnItemClickListener(this);
+
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(int position, View v) {
-        // run the test
+        // start test
+        Toast.makeText(this,"You clicked a card",Toast.LENGTH_LONG).show();
     }
 
     public void loadData() {

@@ -3,11 +3,13 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+
+        android:name=".Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/StudyBoxTheme">
 
         <activity android:name=".SplashScreenActivity"
                   android:theme="@style/SplashScreenTheme">
@@ -16,14 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity">
-
-
+        <activity android:name=".MainActivity"
+                  android:theme="@style/StudyBoxTheme">
         </activity>
         <activity android:name=".DecksActivity"
             android:label="@string/title_activity_decks"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/StudyBoxTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">StudyBox</string>
+    <string name="nav_my_account">Moje konto</string>
+    <string name="nav_my_decks">Moje talie</string>
+    <string name="nav_create_flashcard">Stwórz nową fiszkę</string>
+    <string name="nav_show_deck">Odkryj nową talie</string>
+    <string name="nav_statistics">Statystyki</string>
+    <string name="nav_logout">Wyloguj</string>
+
+    <string name="nav_open_drawer">Open navigation drawer</string>
+    <string name="nav_close_drawer">Close navigation drawer</string>
+
     <string name="title_activity_decks">DecksActivity</string>
+    <string name="quantity_icon">An icon signifies a questions in deck</string>
 </resources>

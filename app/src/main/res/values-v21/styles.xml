@@ -1,0 +1,16 @@
+<resources>
+
+    <style name="StudyBoxTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/colorGraphite</item>
+        <item name="colorPrimary">@color/colorRaspberry</item>
+        <item name="colorAccent">@color/colorDarkBlue</item>
+        <item name="android:colorBackground">@color/colorGrey</item>
+        <item name="android:windowBackground">@color/colorGrey</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+</resources>
