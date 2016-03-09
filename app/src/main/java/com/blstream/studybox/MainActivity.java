@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,11 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.blstream.studybox.api.RequestCallback;
-import com.blstream.studybox.api.RequestListener;
-import com.blstream.studybox.api.RestClientManager;
-import com.blstream.studybox.model.DecksList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        getDecks();
     }
 
     @Override
@@ -91,19 +84,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    public void getDecks(){
-        RestClientManager.getAllDecks(Constants.API_KEY, new RequestCallback<>(new RequestListener<DecksList>() {
-            @Override
-            public void onSuccess(DecksList response) {
-
-            }
-
-            @Override
-            public void onFailure(RetrofitError error) {
-
-            }
-        }));
     }
 }
