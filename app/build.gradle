@@ -31,4 +31,7 @@ dependencies {
 
     compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
     compile 'com.hannesdorfmann.mosby:viewstate:2.0.1'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'javax.annotation:javax.annotation-api:1.2'
+    compile 'com.google.code.gson:gson:2.5'
 }
