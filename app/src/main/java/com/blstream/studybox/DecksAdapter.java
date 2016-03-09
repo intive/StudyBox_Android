@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> {
 
     private static ClickListener clickListener;
-    DecksList decksList;
+    private DecksList decksList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Nullable
