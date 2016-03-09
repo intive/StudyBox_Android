@@ -2,11 +2,14 @@ package com.blstream.studybox;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.blstream.studybox.model.DecksList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,6 +20,7 @@ import butterknife.ButterKnife;
 public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> {
 
     private static ClickListener clickListener;
+    DecksList decksList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Nullable
@@ -61,14 +65,14 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.deckTitle.setText("Title");
-        holder.questionsQuantity.setText("8");
+        holder.deckTitle.setText(decksList.getDecks().get(position).getDeckName());
+        holder.questionsQuantity.setText(String.valueOf(decksList.getDecks().get(position).getNoOfQuestions()));
         holder.quantityIcon.setImageResource(R.drawable.ic_questions);
     }
 
     @Override
     public int getItemCount() {
-        return 8;
+        return decksList.getDecks().size();
     }
 
     public interface ClickListener {
@@ -76,6 +80,6 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
     }
 
     public void setDecks(DecksList data) {
-
+        decksList = data;
     }
 }

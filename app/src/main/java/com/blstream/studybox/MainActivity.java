@@ -20,20 +20,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getDecks();
-    }
-
-    private void getDecks(){
-           RestClientManager.getAllDecks(Constants.API_KEY, new RequestCallback<>(new RequestListener<DecksList>() {
-                @Override
-                public void onSuccess(DecksList response) {
-                    Log.d(TAG, response.getDecks().get(0).getDeckName());
-                }
-
-                @Override
-                public void onFailure(RetrofitError error) {
-
-                }
-            }));
     }
 }

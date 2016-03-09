@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.blstream.studybox.model.DecksList;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
 import butterknife.Bind;
@@ -32,8 +33,8 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter> implem
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        setUpRecyclerView();
         loadData();
+        setUpRecyclerView();
     }
 
     private void setUpRecyclerView() {
@@ -42,7 +43,6 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter> implem
 
         adapter = new DecksAdapter();
         adapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter> implem
     public void setData(DecksList data) {
         adapter.setDecks(data);
         adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
