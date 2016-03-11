@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -46,13 +45,15 @@ public class SplashScreenActivity extends AppCompatActivity {
         splashRunning = true;
     }
 
+
     @Override
-    public void onBackPressed() {
+    protected void onStop() {
         if (splashRunning) {
             splashHandler.removeCallbacks(splashRunnable);
-            splashRunning = false;
         }
-
-        super.onBackPressed();
+        splashHandler = null;
+        splashRunnable = null;
+        splashRunning = false;
+        super.onStop();
     }
 }
