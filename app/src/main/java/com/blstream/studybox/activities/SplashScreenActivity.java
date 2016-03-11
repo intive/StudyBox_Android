@@ -16,11 +16,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (null == splashHandler) {
+        if (splashHandler == null) {
             splashHandler = new Handler();
         }
 
-        if (null == splashRunnable) {
+        if (splashRunnable == null) {
             splashRunnable = initializeSplashRunnable(DecksActivity.class);
         }
 
