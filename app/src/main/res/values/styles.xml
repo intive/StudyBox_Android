@@ -29,6 +29,6 @@
 
     <style name="StudyBoxTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="StudyBoxTheme.PopupOverlay" parent="StudyBoxTheme" />
+    <style name="StudyBoxTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

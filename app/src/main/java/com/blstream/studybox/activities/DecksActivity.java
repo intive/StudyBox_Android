@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -115,6 +116,12 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
         // Only for testing
         Toast.makeText(this, "Selected: " + item.getTitle(), Toast.LENGTH_SHORT).show();
 
+        return true;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
     }
 }
