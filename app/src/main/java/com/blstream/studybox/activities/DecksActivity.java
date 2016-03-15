@@ -56,16 +56,16 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        loadData();
         setUpRecyclerView();
+        loadData();
     }
 
     private void setUpRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
-        recyclerView.setHasFixedSize(true);
-
         adapter = new DecksAdapter();
         adapter.setOnItemClickListener(this);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
