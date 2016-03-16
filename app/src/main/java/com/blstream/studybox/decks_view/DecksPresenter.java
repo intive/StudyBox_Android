@@ -14,7 +14,7 @@ import retrofit.RetrofitError;
  */
 public class DecksPresenter extends MvpBasePresenter<DecksView> {
 
-    public void loadDecks() {
+    public void loadDecks(final boolean pullToRefresh) {
         RestClientManager.getAllDecks(Constants.API_KEY, new RequestCallback<>(new RequestListener<DecksList>() {
             @Override
             public void onSuccess(DecksList response) {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,14 +18,14 @@ import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
 import com.blstream.studybox.R;
 import com.blstream.studybox.model.DecksList;
-import com.hannesdorfmann.mosby.mvp.MvpActivity;
+import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 
-public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
-        implements DecksView, DecksAdapter.ClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
+        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.decks_recycler_view)
     RecyclerView recyclerView;
@@ -42,6 +43,9 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
+    @Bind(R.id.contentView)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +54,14 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         navigationView.setNavigationItemSelectedListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        loadData();
+        loadData(false);
         setUpRecyclerView();
     }
 
@@ -71,11 +76,7 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
     @Override
     public void onItemClick(int position, View v) {
         // start test
-        Toast.makeText(this, "You clicked a card", Toast.LENGTH_LONG).show();
-    }
-
-    public void loadData() {
-        presenter.loadDecks();
+        Toast.makeText(this, "You clicked a card:" + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -84,6 +85,23 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void loadData(boolean pullToRefresh) {
+        presenter.loadDecks(pullToRefresh);
+    }
+
+
+    @Override
+    protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
+        return null;
+    }
+
+    @Override
+    public void onRefresh() {
+        loadData(true);
+    }
+
 
     @Override
     public DecksPresenter createPresenter() {
