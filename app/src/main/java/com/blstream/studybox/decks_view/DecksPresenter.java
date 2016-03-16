@@ -19,10 +19,14 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> {
             @Override
             public void onSuccess(DecksList response) {
                 getView().setData(response);
+                getView().showContent();
             }
 
             @Override
             public void onFailure(RetrofitError error) {
+                if (isViewAttached()) {
+                    getView().showError(error.getCause(), pullToRefresh);
+                }
 
             }
         }));

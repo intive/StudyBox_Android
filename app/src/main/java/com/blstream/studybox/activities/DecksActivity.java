@@ -66,11 +66,12 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     private void setUpRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
-        recyclerView.setHasFixedSize(true);
-
         adapter = new DecksAdapter();
         adapter.setOnItemClickListener(this);
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
@@ -91,6 +92,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         presenter.loadDecks(pullToRefresh);
     }
 
+    @Override
+    public void showContent() {
+        super.showContent();
+        contentView.setRefreshing(false);
+    }
 
     @Override
     protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
@@ -98,10 +104,20 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
+    public void showError(Throwable e, boolean pullToRefresh) {
+        super.showError(e, pullToRefresh);
+        contentView.setRefreshing(false);
+    }
+
+    @Override
     public void onRefresh() {
         loadData(true);
     }
 
+    @Override
+    public void showLoading(boolean pullToRefresh) {
+        super.showLoading(pullToRefresh);
+    }
 
     @Override
     public DecksPresenter createPresenter() {

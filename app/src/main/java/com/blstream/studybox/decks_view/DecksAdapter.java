@@ -52,7 +52,7 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
     }
 
     public DecksAdapter() {
-
+        decksList = new DecksList();
     }
 
     @Override
