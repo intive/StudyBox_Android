@@ -1,48 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:stretchColumns="*"
-    android:weightSum="1">
+    android:orientation="vertical"
+    android:padding="@dimen/layout_padding"
+    android:weightSum="1.4">
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.6">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
 
         <TextView
-            android:text="@string/answer"
             android:id="@+id/answer"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:text="@string/question"
+            android:textSize="@dimen/text_18"
+            android:textAllCaps="true"
             android:gravity="center"
-            android:layout_margin="5dp"
-            android:layout_span="2"/>
-    </TableRow>
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2">
+        <ImageView
+            android:id="@+id/answer_image"
+            android:textColor="#fff"
+            android:text="@string/question"
+            android:contentDescription="@string/answer"
+            android:scaleType="centerInside"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="0.4"
+        android:layout_gravity="center"
+        android:weightSum="2">
+
         <ImageButton
             android:id="@+id/incorrect_ans_btn"
-            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/no"
             android:contentDescription="@string/incorrect"
-            android:background="@color/colorPrimary"
-            android:layout_margin="5dp"
-            android:onClick="showNextQuestion"/>
+            android:background="@color/colorAccent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:onClick="showNextPage"/>
 
         <ImageButton
             android:id="@+id/correct_ans_btn"
-            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/yes"
+            android:layout_gravity="center"
             android:contentDescription="@string/correct"
-            android:background="@color/colorAccent"
-            android:layout_margin="5dp"
-            android:onClick="showNextQuestion"/>
+            android:background="@color/colorPrimary"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:onClick="showNextPage"/>
 
-    </TableRow>
-</TableLayout>
+    </LinearLayout>
+
+</LinearLayout>

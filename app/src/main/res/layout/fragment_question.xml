@@ -3,24 +3,49 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:padding="@dimen/layout_padding"
+    android:weightSum="1.4">
 
-    <TextView
-        android:text="@string/question"
-        android:id="@+id/question"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_margin="5dp"
-        android:layout_weight="0.6"/>
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/question"
+            android:text="@string/question"
+            android:textSize="@dimen/text_18"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/question_image"
+            android:text="@string/question"
+            android:contentDescription="@string/answer"
+            android:scaleType="centerInside"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <TextView
-        android:text="@string/prompt"
         android:id="@+id/prompt"
-        android:layout_width="match_parent"
+        android:text="@string/prompt"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_16"
+        android:textColor="#fff"
+        android:layout_weight="0.4"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_margin="5dp"
-        android:layout_weight="0.2"/>
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/colorAccent"
+        android:gravity="center" />
 
 </LinearLayout>

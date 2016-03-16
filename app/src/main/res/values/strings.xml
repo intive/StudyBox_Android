@@ -2,11 +2,15 @@
     <string name="app_name">StudyBox</string>
     <string name="title_activity_exam">ExamActivity</string>
     <string name="deck_name">Matematyka</string>
-    <string name="deck_no">#1</string>
-    <string name="correct_answers">0/20</string>
+    <string name="question_no">#%1$d</string>
+    <string name="correct_answers">%1$d/%2$d</string>
     <string name="answer">Odpowiedź</string>
     <string name="incorrect">Zła odpowiedź</string>
     <string name="correct">Dobra odpowiedź</string>
     <string name="question">Pytanie</string>
     <string name="prompt">Podpowiedź</string>
+    <string name="congrats">Gratulacje!</string>
+    <string name="your_score">Twój wynik</string>
+    <string name="my_decks">Moje talie</string>
+    <string name="improve_result">Popraw wynik</string>
 </resources>
