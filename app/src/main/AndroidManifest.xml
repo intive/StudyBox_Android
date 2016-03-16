@@ -21,6 +21,15 @@
         <activity android:name=".activities.MainActivity"
                   android:theme="@style/StudyBoxTheme">
         </activity>
+        <activity android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/StudyBoxTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.DecksActivity"
             android:label="@string/title_activity_decks"
             android:theme="@style/StudyBoxTheme">
