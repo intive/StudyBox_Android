@@ -14,4 +14,8 @@
     <dimen name="card_view_margin">4dp</dimen>
     <dimen name="quantity_icon_size">12dp</dimen>
 
+    <!-- Dimensions login activity -->
+    <dimen name="layout_margin">40dp</dimen>
+    <dimen name="text_view_margin">8dp</dimen>
+
 </resources>
