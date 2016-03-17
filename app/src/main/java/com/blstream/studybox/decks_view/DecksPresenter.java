@@ -18,8 +18,10 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> {
         RestClientManager.getAllDecks(Constants.API_KEY, new RequestCallback<>(new RequestListener<DecksList>() {
             @Override
             public void onSuccess(DecksList response) {
-                getView().setData(response);
-                getView().showContent();
+                if (isViewAttached()){
+                    getView().setData(response);
+                    getView().showContent();
+                }
             }
 
             @Override
@@ -27,7 +29,6 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> {
                 if (isViewAttached()) {
                     getView().showError(error.getCause(), pullToRefresh);
                 }
-
             }
         }));
 

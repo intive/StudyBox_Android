@@ -54,6 +54,10 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
     public DecksAdapter() {
         decksList = new DecksList();
     }
+    
+    public DecksAdapter(DecksList decksList) {
+        this.decksList = decksList;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -60,9 +60,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
-
-        loadData(false);
+        
         setUpRecyclerView();
+        loadData(false);
     }
 
     private void setUpRecyclerView() {
@@ -77,7 +77,12 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     @Override
     public void onItemClick(int position, View v) {
         // start test
-        Toast.makeText(this, "You clicked a card:" + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "You clicked a card", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void loadData(boolean pullToRefresh) {
+        presenter.loadDecks(pullToRefresh);
     }
 
     @Override
@@ -85,11 +90,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         adapter.setDecks(data);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void loadData(boolean pullToRefresh) {
-        presenter.loadDecks(pullToRefresh);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     public void showLoading(boolean pullToRefresh) {
         super.showLoading(pullToRefresh);
     }
-
+    
     @Override
     public DecksPresenter createPresenter() {
         return new DecksPresenter();

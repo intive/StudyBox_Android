@@ -7,4 +7,7 @@
     <color name="colorGraphite">#424242</color>
     <color name="colorGrey">#FAFAFA</color>
 
+    <!-- Exam colors -->
+    <color name="white">#FFFFFF</color>
+
 </resources>
