@@ -5,12 +5,12 @@
     <dimen name="recycler_view_padding">4dp</dimen>
 
     <!-- Card dimensions -->
-    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="card_corner_radius">2dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_padding">8dp</dimen>
     <dimen name="card_title_text_size">24sp</dimen>
     <dimen name="card_small_text_size">14sp</dimen>
-    <dimen name="card_size">152dp</dimen>
+    <dimen name="card_size">155dp</dimen>
     <dimen name="card_view_margin">4dp</dimen>
     <dimen name="quantity_icon_size">12dp</dimen>
 
