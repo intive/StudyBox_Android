@@ -1,10 +1,11 @@
-package com.blstream.studybox;
+package com.blstream.studybox.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.DeckViewPager;
 

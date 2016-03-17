@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-import com.blstream.studybox.ExamActivity;
+import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.QuestionFragment;
 import com.blstream.studybox.exam_view.fragment.ResultFragment;
