@@ -28,6 +28,17 @@
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/image_description" />
 
+                <TextView
+                    android:id="@+id/view_auth_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auth_error"
+                    android:textColor="@color/colorRaspberry"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/text_view_margin"
+                    android:layout_marginBottom="@dimen/text_view_margin"
+                    android:visibility="gone"/>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -81,4 +92,5 @@
 
             </LinearLayout>
         </ScrollView>
+
 </LinearLayout>
