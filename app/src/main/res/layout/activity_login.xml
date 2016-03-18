@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="com.blstream.studybox.activities.LoginActivity">
 
     <ScrollView
@@ -73,6 +75,7 @@
             <TextView android:id="@+id/link_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_view_margin"
                 android:text="@string/sign_up"
                 android:gravity="center"/>
 
