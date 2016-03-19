@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -58,7 +59,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
-        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         
         setUpRecyclerView();
@@ -77,19 +78,21 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     @Override
     public void onItemClick(int position, View v) {
         // start test
-        Toast.makeText(this, "You clicked a card", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "You clicked a card: " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void loadData(boolean pullToRefresh) {
+        Log.e("DECK", "loadData");
         presenter.loadDecks(pullToRefresh);
     }
 
     @Override
     public void setData(DecksList data) {
-        adapter.setDecks(data);
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
+        Log.e("DECK", "setData");
+//        adapter.setDecks(data);
+//        adapter.notifyDataSetChanged();
+//        recyclerView.setAdapter(adapter);
     }
 
     @Override
