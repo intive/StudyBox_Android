@@ -20,7 +20,8 @@
         <activity android:name=".activities.MainActivity">
         </activity>
         <activity android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:theme="@style/StudyBoxTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
