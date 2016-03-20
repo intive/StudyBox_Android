@@ -4,9 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="@dimen/exam_layout_padding"
+    android:fitsSystemWindows="true"
     android:weightSum="1.4">
 
     <FrameLayout
+        android:id="@+id/answerContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
@@ -14,22 +16,10 @@
 
         <TextView
             android:id="@+id/answer"
-            android:text="@string/question"
+            android:text="@string/answer"
             android:textSize="@dimen/exam_medium_text"
             android:textAllCaps="true"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <ImageView
-            android:id="@+id/answer_image"
-            android:textColor="@color/white"
-            android:text="@string/question"
-            android:contentDescription="@string/answer"
-            android:scaleType="centerInside"
-            android:gravity="center"
-            android:visibility="invisible"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

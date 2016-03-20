@@ -3,15 +3,15 @@ package com.blstream.studybox.exam_view.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.squareup.picasso.Picasso;
+import com.blstream.studybox.exam_view.ImageTextDisplayer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,15 +21,14 @@ public class AnswerFragment extends Fragment {
     @Bind(R.id.answer)
     public TextView tvAnswer;
 
-    @Bind(R.id.answer_image)
-    public ImageView answerImage;
+    private String[] answers;
+    private ImageView[] answerImageTab;
+    private ImageTextDisplayer imgTxtDisplayer;
 
-    private String answer;
-
-    public static AnswerFragment newInstance(String answer) {
+    public static AnswerFragment newInstance(String[] answers) {
         AnswerFragment answerFragment = new AnswerFragment();
         Bundle args = new Bundle();
-        args.putString("answer", answer);
+        args.putStringArray("answers", answers);
         answerFragment.setArguments(args);
         return answerFragment;
     }
@@ -37,7 +36,7 @@ public class AnswerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        answer = getArguments().getString("answer");
+        answers = getArguments().getStringArray("answers");
     }
 
     @Override
@@ -50,22 +49,23 @@ public class AnswerFragment extends Fragment {
 
     private void initView(View view){
         ButterKnife.bind(this, view);
-        setAnswerView();
+        FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.answerContainer);
+
+        answerImageTab = imgTxtDisplayer.setImageTab(frameLayout);
+        imgTxtDisplayer.setView(answerImageTab[0], tvAnswer, answers[0]);
+        imgTxtDisplayer.initPreloadImages(answers, answerImageTab);
     }
 
-    private void setAnswerView(){
-        if (Patterns.WEB_URL.matcher(answer).matches()) {
-            setAnswerVisibility(View.INVISIBLE, View.VISIBLE);
-            Picasso.with(getActivity()).load(answer).fit().centerInside()
-                    .placeholder(R.drawable.camera).into(answerImage);
-        } else {
-            tvAnswer.setText(answer);
-            setAnswerVisibility(View.VISIBLE, View.INVISIBLE);
-        }
+    public void setImgTxtDisplayer(ImageTextDisplayer imgTxtDisplayer) {
+        this.imgTxtDisplayer = imgTxtDisplayer;
     }
 
-    private void setAnswerVisibility(int tvVisibility, int imgVisibility){
-        tvAnswer.setVisibility(tvVisibility);
-        answerImage.setVisibility(imgVisibility);
+    public void initOnRestart(){
+        imgTxtDisplayer.setView(answerImageTab[0], tvAnswer, answers[0]);
+        imgTxtDisplayer.initPreloadImages(answers, answerImageTab);
+    }
+
+    public void changeData(String currentAnswer, String answerToPreload) {
+        imgTxtDisplayer.changeData(currentAnswer, answerToPreload, tvAnswer, answerImageTab);
     }
 }

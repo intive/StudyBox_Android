@@ -21,7 +21,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         if (splashRunnable == null) {
-            splashRunnable = initializeSplashRunnable(LoginActivity.class);
+            splashRunnable = initializeSplashRunnable(ExamActivity.class);
         }
 
         if (!splashRunning) {

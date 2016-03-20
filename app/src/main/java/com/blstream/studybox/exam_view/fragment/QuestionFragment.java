@@ -3,15 +3,15 @@ package com.blstream.studybox.exam_view.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.squareup.picasso.Picasso;
+import com.blstream.studybox.exam_view.ImageTextDisplayer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,17 +25,17 @@ public class QuestionFragment extends Fragment {
 
     @Bind(R.id.prompt)
     public TextView tvPrompt;
-    
-    @Bind(R.id.question_image)
-    public ImageView questionImage;
 
-    private String question;
+    private static final String PROMPT = "Podpowiedz";
+    private String[] questions;
     private String prompt;
+    private ImageView[] questionImageTab;
+    private ImageTextDisplayer imgTxtDisplayer;
 
-    public static QuestionFragment newInstance(String question, String prompt) {
+    public static QuestionFragment newInstance(String[] questions, String prompt) {
         QuestionFragment questionFragment = new QuestionFragment();
         Bundle args = new Bundle();
-        args.putString("question", question);
+        args.putStringArray("questions", questions);
         args.putString("prompt", prompt);
         questionFragment.setArguments(args);
         return questionFragment;
@@ -44,7 +44,7 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        question = getArguments().getString("question");
+        questions = getArguments().getStringArray("questions");
         prompt = getArguments().getString("prompt");
     }
 
@@ -58,31 +58,36 @@ public class QuestionFragment extends Fragment {
 
     public void initView(View view) {
         ButterKnife.bind(this, view);
-        setQuestionView();
+        FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.questionContainer);
+
+        imgTxtDisplayer.initVariables(getContext(), getActivity());
+        questionImageTab = imgTxtDisplayer.setImageTab(frameLayout);
+        imgTxtDisplayer.setView(questionImageTab[0], tvQuestion, questions[0]);
+        imgTxtDisplayer.initPreloadImages(questions, questionImageTab);
+    }
+
+    public void initOnRestart(String prompt){
+        this.prompt = prompt;
+        imgTxtDisplayer.setView(questionImageTab[0], tvQuestion, questions[0]);
         setPromptView();
+        imgTxtDisplayer.initPreloadImages(questions, questionImageTab);
     }
 
-    public void setQuestionView() {
-        if (Patterns.WEB_URL.matcher(question).matches()) {
-            setQuestionVisibility(View.INVISIBLE, View.VISIBLE);
-            Picasso.with(getActivity()).load(question).fit().centerInside()
-                    .placeholder(R.drawable.camera).into(questionImage);
-        } else {
-            tvQuestion.setText(question);
-            setQuestionVisibility(View.VISIBLE, View.INVISIBLE);
-        }
-    }
-
-    public void setQuestionVisibility(int tvVisibility, int imgVisibility){
-        tvQuestion.setVisibility(tvVisibility);
-        questionImage.setVisibility(imgVisibility);
+    public void changeData(String currentAnswer, String answerToPreload, String prompt) {
+        this.prompt = prompt;
+        setPromptView();
+        imgTxtDisplayer.changeData(currentAnswer, answerToPreload, tvQuestion, questionImageTab);
     }
 
     public void setPromptView() {
-        if(prompt.equals(""))
+        if(prompt.equals("")) {
             tvPrompt.setTextColor(Color.GRAY);
-        else
+            tvPrompt.setClickable(false);
+        } else {
             tvPrompt.setClickable(true);
+            tvPrompt.setTextColor(Color.WHITE);
+        }
+        tvPrompt.setText(PROMPT);
     }
 
     @OnClick (R.id.prompt)
@@ -90,4 +95,8 @@ public class QuestionFragment extends Fragment {
             tvPrompt.setText(prompt);
             tvPrompt.setClickable(false);
         }
+
+    public void setImgTxtDisplayer(ImageTextDisplayer imgTxtDisplayer) {
+        this.imgTxtDisplayer = imgTxtDisplayer;
+    }
 }

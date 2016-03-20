@@ -7,6 +7,7 @@
     android:weightSum="1.4">
 
     <FrameLayout
+        android:id="@+id/questionContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/exam_element_bottom_margin"
@@ -17,17 +18,6 @@
             android:text="@string/question"
             android:textSize="@dimen/exam_medium_text"
             android:textAllCaps="true"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:id="@+id/question_image"
-            android:text="@string/question"
-            android:contentDescription="@string/answer"
-            android:scaleType="centerInside"
-            android:visibility="invisible"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_width="match_parent"

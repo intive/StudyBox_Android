@@ -1,9 +1,10 @@
 package com.blstream.studybox.exam_view.fragment;
 
 
-import android.content.res.Configuration;
+import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,16 @@ import com.blstream.studybox.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ResultFragment extends Fragment {
+public class ResultFragment extends DialogFragment {
 
     @Bind(R.id.total_score)
     public TextView totalScore;
+
+    @Bind(R.id.congrats)
+    public TextView congrats;
+
+    @Bind(R.id.improve_result)
+    public TextView improve_result;
 
     private int correctAnswers;
     private int noOfQuestions;
@@ -36,6 +43,7 @@ public class ResultFragment extends Fragment {
         super.onCreate(savedInstanceState);
         correctAnswers = getArguments().getInt("correctAnswers");
         noOfQuestions = getArguments().getInt("noOfQuestions");
+        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Light);
     }
 
     @Override
@@ -49,23 +57,37 @@ public class ResultFragment extends Fragment {
     public void initView(View view){
         ButterKnife.bind(this, view);
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
+        matchApiVersionLayout();
     }
 
+    public void matchApiVersionLayout(){
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            congrats.setPadding(0, getBarHeight("status_bar_height"), 0, 0);
+            improve_result.setPadding(0, 0, 0, getBarHeight("navigation_bar_height"));
+        }
+    }
+
+    public int getBarHeight(String barName) {
+        int result = 0;
+        int resourceId = getResources().getIdentifier(
+                barName, "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    @NonNull
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        populateViewForOrientation(inflater, (ViewGroup) getView());
-    }
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-    private void populateViewForOrientation(LayoutInflater inflater, ViewGroup viewGroup) {
-        viewGroup.removeAllViewsInLayout();
-        View subview = inflater.inflate(R.layout.fragment_result, viewGroup);
-        initView(subview);
-    }
-
-    public void setTotalScore(int correctAnswers){
-        this.correctAnswers = correctAnswers;
-        totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
+        return new Dialog(getActivity(), getTheme()){
+            @Override
+            public void onBackPressed() {
+                dismiss();
+                getActivity().finish();
+            }
+        };
     }
 }

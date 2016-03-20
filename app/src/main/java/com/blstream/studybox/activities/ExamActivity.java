@@ -1,13 +1,15 @@
 package com.blstream.studybox.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
-import com.blstream.studybox.exam_view.DeckViewPager;
+import com.blstream.studybox.exam_view.fragment.ResultFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +29,14 @@ public class ExamActivity extends AppCompatActivity {
     public TextView correctAnswers;
 
     @Bind(R.id.vpPager)
-    public DeckViewPager viewPager;
+    public ViewPager viewPager;
 
     private DeckPagerAdapter adapterViewPager;
     private int pageCounter;
     private int correctAnswersCounter;
     private int totalPages;
     private Integer noOfQuestions;
+    DialogFragment dialog;
 
     //------For testing------
     final List<Card> questions = new ArrayList<>();
@@ -70,19 +73,36 @@ public class ExamActivity extends AppCompatActivity {
     public void initView() {
         ButterKnife.bind(this);
         deckName.setText(deck.deckName);
-        questionNo.setText(getString(R.string.question_no, pageCounter/2 + 1));
+        questionNo.setText(getString(R.string.question_no, pageCounter / 2 + 1));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         adapterViewPager =
-                new DeckPagerAdapter(getSupportFragmentManager(), deck);
+                new DeckPagerAdapter(getSupportFragmentManager(), deck, 4);
         viewPager.setAdapter(adapterViewPager);
-        viewPager.setOffscreenPageLimit(5);
+        matchApiVersionLayout();
+    }
+
+    public void matchApiVersionLayout(){
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            deckName.setPadding(0, getBarHeight("status_bar_height"), 0, 0);
+            correctAnswers.setPadding(0, 0, 0, getBarHeight("navigation_bar_height"));
+        }
+    }
+
+    public int getBarHeight(String barName) {
+        int result = 0;
+        int resourceId = getResources().getIdentifier(
+                barName, "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     public void showNextPage(View view) {
             pageCounter+=2;
             updateCorrectAnswersCounter(view);
-            viewPager.setCurrentItem(pageCounter, false);
             setPageData(view);
     }
 
@@ -92,18 +112,19 @@ public class ExamActivity extends AppCompatActivity {
     }
 
     public void setPageData(View view){
-        if(pageCounter == totalPages - 1)
-            setResultPageData(view);
-        else
+        if(pageCounter == totalPages - 1) {
+            dialog = ResultFragment.newInstance(
+                    correctAnswersCounter, deck.numberOfQuestions);
+            dialog.show(getSupportFragmentManager(), "dialog");
+        }else {
+            viewPager.setCurrentItem(0, false);
             setQuestionPageData(view);
+        }
     }
 
-    public void setResultPageData(View view) {
-        adapterViewPager.setTotalScore(correctAnswersCounter);
-        setDeckInfoVisibility(View.GONE);
-    }
-
-    public void setQuestionPageData(View view){
+    public void setQuestionPageData(View view) {
+        adapterViewPager.updateCounters();
+        adapterViewPager.changeData();
         questionNo.setText(getString(R.string.question_no, pageCounter / 2 + 1));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
@@ -118,7 +139,9 @@ public class ExamActivity extends AppCompatActivity {
     public void restartExam(View view) {
         setInitialValues();
         setDeckInfoVisibility(View.VISIBLE);
+        adapterViewPager.initOnRestart();
         viewPager.setCurrentItem(pageCounter, false);
+        dialog.dismiss();
     }
 
     public void setInitialValues(){
