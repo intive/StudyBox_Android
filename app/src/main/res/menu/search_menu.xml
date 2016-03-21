@@ -7,4 +7,10 @@
         android:title="Search"
         app:showAsAction="collapseActionView|ifRoom"
         android:actionViewClass="android.widget.SearchView"/>
+
+    <item
+        android:title="Edytuj"
+        android:id="@+id/action_create"
+        android:actionLayout="@layout/text_item_for_toolbar"
+        android:showAsAction = "always"/>
 </menu>

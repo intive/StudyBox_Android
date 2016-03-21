@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-  
+
     <include
         layout="@layout/app_bar_decks"
         android:layout_width="match_parent"
