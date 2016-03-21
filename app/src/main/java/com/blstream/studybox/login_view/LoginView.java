@@ -6,6 +6,8 @@ public interface LoginView extends MvpView {
 
     void showLoginForm();
     void showAuthError();
+    void showEmptyEmailError();
+    void showEmptyPasswordError();
     void showInvalidEmailError();
     void showInvalidPasswordError();
     void showLoading();

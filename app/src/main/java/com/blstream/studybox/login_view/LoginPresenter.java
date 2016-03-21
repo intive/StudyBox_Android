@@ -20,6 +20,20 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
             }
 
             @Override
+            public void onEmailFieldEmpty() {
+                if (isViewAttached()) {
+                    getView().showEmptyEmailError();
+                }
+            }
+
+            @Override
+            public void onPasswordFieldEmpty() {
+                if (isViewAttached()) {
+                    getView().showEmptyPasswordError();
+                }
+            }
+
+            @Override
             public void onEmailValidationFailure() {
                 if (isViewAttached()) {
                     getView().showInvalidEmailError();

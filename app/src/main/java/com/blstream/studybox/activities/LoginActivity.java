@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
@@ -35,6 +36,9 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
     @Bind(R.id.view_auth_error)
     TextView authErrorView;
+
+    @Bind(R.id.progress_bar_login)
+    ProgressBar loginProgressBar;
 
     @Bind(R.id.link_unlicensed_user)
     TextView unlicensedUserLink;
@@ -89,8 +93,9 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         LoginViewState vs = (LoginViewState) viewState;
         vs.setShowLoginForm();
 
-        //setLoginFormEnabled(true);
+        setLoginFormEnabled(true);
         authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -100,18 +105,51 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
         setLoginFormEnabled(true);
         authErrorView.setVisibility(View.VISIBLE);
+        loginProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyEmailError() {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
+
+        setLoginFormEnabled(true);
+        emailInput.setError(getString(R.string.empty_field));
+        authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyPasswordError() {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
+
+        setLoginFormEnabled(true);
+        passwordInput.setError(getString(R.string.empty_field));
+        authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showInvalidEmailError() {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
+
         setLoginFormEnabled(true);
         emailInput.setError(getString(R.string.invalid_email));
+        authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showInvalidPasswordError() {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
+
         setLoginFormEnabled(true);
         passwordInput.setError(getString(R.string.invalid_password));
+        authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -121,6 +159,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
         setLoginFormEnabled(false);
         authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.VISIBLE);
     }
 
     private void setLoginFormEnabled(boolean enabled) {
@@ -129,6 +168,12 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         loginButton.setEnabled(enabled);
         unlicensedUserLink.setEnabled(enabled);
         signUpLink.setEnabled(enabled);
+
+        if (enabled) {
+            loginButton.setAlpha(1f);
+        } else {
+            loginButton.setAlpha(0.5f);
+        }
     }
 
     @Override

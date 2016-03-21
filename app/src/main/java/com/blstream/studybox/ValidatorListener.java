@@ -6,6 +6,8 @@ public interface ValidatorListener {
 
     void onSuccess(AuthCredentials credentials);
 
+    void onEmailFieldEmpty();
+    void onPasswordFieldEmpty();
     void onEmailValidationFailure();
     void onPasswordValidationFailure();
 }

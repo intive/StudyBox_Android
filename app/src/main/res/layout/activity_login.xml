@@ -76,6 +76,14 @@
                     android:background="@color/colorRaspberry"
                     android:textColor="@color/colorGrey" />
 
+                <ProgressBar
+                    android:id="@+id/progress_bar_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:visibility="gone" />
+
                 <TextView android:id="@+id/link_unlicensed_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

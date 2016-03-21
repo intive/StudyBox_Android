@@ -23,15 +23,20 @@ public class CredentialValidator {
         boolean isPasswordValid = matcher.matches();
         boolean isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(credentials.getEmail()).matches();
 
+        if (credentials.getEmail().isEmpty()) {
+            listener.onEmailFieldEmpty();
+        } else if (!isEmailValid) {
+            listener.onEmailValidationFailure();
+        }
+
+        if (credentials.getPassword().isEmpty()) {
+            listener.onPasswordFieldEmpty();
+        } else if (!isPasswordValid) {
+            listener.onPasswordValidationFailure();
+        }
+
         if (isEmailValid && isPasswordValid) {
             listener.onSuccess(credentials);
-        } else {
-            if (!isEmailValid) {
-                listener.onEmailValidationFailure();
-            }
-            if (!isPasswordValid) {
-                listener.onPasswordValidationFailure();
-            }
         }
     }
 }
