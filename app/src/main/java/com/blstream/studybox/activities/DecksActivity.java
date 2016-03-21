@@ -13,10 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blstream.studybox.R;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
-import com.blstream.studybox.R;
 import com.blstream.studybox.model.DecksList;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
@@ -34,39 +34,41 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
     @BindInt(R.integer.column_quantity)
     int columnQuantity;
 
-    @Bind(R.id.toolbar)
+    @Bind(R.id.toolbar_decks)
     Toolbar toolbar;
 
-    @Bind(R.id.nav_view)
+    @Bind(R.id.nav_view_decks)
     NavigationView navigationView;
 
-    @Bind(R.id.drawer_layout)
+    @Bind(R.id.drawer_layout_decks)
     DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decks);
-
+        initView();
+        setUpRecyclerView();
+        loadData();
+    }
+    private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
-        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-
-        loadData();
-        setUpRecyclerView();
     }
 
     private void setUpRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
-        recyclerView.setHasFixedSize(true);
-
         adapter = new DecksAdapter();
         adapter.setOnItemClickListener(this);
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
@@ -83,7 +85,6 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
     public void setData(DecksList data) {
         adapter.setDecks(data);
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -121,7 +122,7 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.search_menu, menu);
+        getMenuInflater().inflate(R.menu.search_toolbar_menu, menu);
         return true;
     }
 }

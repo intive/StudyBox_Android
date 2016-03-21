@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/exam_layout_padding"
+    android:weightSum="1.4">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/answer"
+            android:text="@string/question"
+            android:textSize="@dimen/exam_medium_text"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/answer_image"
+            android:textColor="@color/white"
+            android:text="@string/question"
+            android:contentDescription="@string/answer"
+            android:scaleType="centerInside"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="0.4"
+        android:layout_gravity="center"
+        android:weightSum="2">
+
+        <ImageButton
+            android:id="@+id/incorrect_ans_btn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:src="@drawable/no"
+            android:contentDescription="@string/incorrect"
+            android:background="@color/colorRaspberry"
+            android:layout_marginEnd="@dimen/exam_element_margin"
+            android:layout_marginRight="@dimen/exam_element_margin"
+            android:onClick="showNextPage"/>
+
+        <ImageButton
+            android:id="@+id/correct_ans_btn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:src="@drawable/yes"
+            android:layout_gravity="center"
+            android:contentDescription="@string/correct"
+            android:background="@color/colorDarkBlue"
+            android:layout_marginStart="@dimen/exam_element_margin"
+            android:layout_marginLeft="@dimen/exam_element_margin"
+            android:onClick="showNextPage"/>
+
+    </LinearLayout>
+
+</LinearLayout>
