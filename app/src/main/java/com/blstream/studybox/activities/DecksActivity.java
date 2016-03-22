@@ -67,7 +67,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     private void setUpRecyclerView() {
         adapter = new DecksAdapter();
-        adapter.setDecks(new DecksList());
         adapter.setOnItemClickListener(this);
 
         recyclerView.setAdapter(adapter);
@@ -90,7 +89,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     public void setData(DecksList data) {
         adapter.setDecks(data);
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -106,7 +104,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void showError(Throwable e, boolean pullToRefresh) {
-        super.showError(e, pullToRefresh);
+        //super.showError(e, pullToRefresh);
+        super.showLightError(e.getMessage());
         contentView.setRefreshing(false);
     }
 
@@ -119,7 +118,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     public void showLoading(boolean pullToRefresh) {
         super.showLoading(pullToRefresh);
     }
-    
+
     @Override
     public DecksPresenter createPresenter() {
         return new DecksPresenter();
