@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -68,6 +67,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     private void setUpRecyclerView() {
         adapter = new DecksAdapter();
+        adapter.setDecks(new DecksList());
         adapter.setOnItemClickListener(this);
 
         recyclerView.setAdapter(adapter);
@@ -83,16 +83,14 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        Log.e("DECK", "loadData");
         presenter.loadDecks(pullToRefresh);
     }
 
     @Override
     public void setData(DecksList data) {
-        Log.e("DECK", "setData");
-//        adapter.setDecks(data);
-//        adapter.notifyDataSetChanged();
-//        recyclerView.setAdapter(adapter);
+        adapter.setDecks(data);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
