@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         unlicensedUserLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExamActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DecksActivity.class);
                 startActivity(intent);
             }
         });
