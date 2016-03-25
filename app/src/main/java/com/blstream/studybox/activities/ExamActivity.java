@@ -96,11 +96,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         resultDialog.show(getSupportFragmentManager(), "result");
     }
 
-    public void restarExam(){
+    public boolean restarExam(){
         setInitialValues();
         setFirstCard();
         adapterViewPager.onResultDisplay();
-        resultDialog.dismiss();
+        return true;
     }
 
     public void updateCounters(boolean addCorrectAnswer){
@@ -134,8 +134,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    public void onRestartExam(){
-        restarExam();
+    public boolean onRestartExam(){
+        return restarExam();
     }
 
     //------For testing------
