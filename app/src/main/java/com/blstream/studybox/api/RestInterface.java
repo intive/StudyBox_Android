@@ -2,6 +2,8 @@ package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.DecksList;
 
+import org.json.JSONObject;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -12,4 +14,7 @@ import retrofit.http.Path;
 public interface RestInterface {
     @GET("/{json}")
     void getAllDecks(@Path("json") String json, Callback<DecksList> cb);
+
+    @GET("/basic-auth/user@mail.com/asdfghjkl")
+    void authenticate(Callback<JSONObject> callback);
 }

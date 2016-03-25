@@ -1,17 +1,23 @@
 package com.blstream.studybox.api;
 
-import com.blstream.studybox.Constants;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
-/**
- * Created by Bartosz Kozajda on 09.03.2016.
- */
 public class RestClient {
     private RestInterface restInterface;
 
-    public RestClient(){
+    public RestClient(String url){
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(Constants.BASE_URL)
+                .setEndpoint(url)
+                .build();
+
+        restInterface = restAdapter.create(RestInterface.class);
+    }
+
+    public RestClient(String url, RequestInterceptor interceptor){
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(url)
+                .setRequestInterceptor(interceptor)
                 .build();
 
         restInterface = restAdapter.create(RestInterface.class);
