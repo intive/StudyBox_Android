@@ -32,15 +32,6 @@ public class ImageTextDisplayer {
         width = displaymetrics.widthPixels;
     }
 
-    public void setVariables(Context context, Activity activity){
-        this.context = context;
-        this.activity = activity;
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        height = displaymetrics.heightPixels;
-        width = displaymetrics.widthPixels;
-    }
-
     public ImageView[] init(FrameLayout frameLayout, TextView tvQuestion, String[] imgToLoad){
         ImageView[] imageTab = setImageTab(frameLayout);
         initPreloadImages(imgToLoad, imageTab);

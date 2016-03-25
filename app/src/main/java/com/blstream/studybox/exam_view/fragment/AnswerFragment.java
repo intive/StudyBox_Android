@@ -47,7 +47,6 @@ public class AnswerFragment extends Fragment {
     private void initView(View view){
         ButterKnife.bind(this, view);
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.answerContainer);
-      //  imgTxtDisplayer.setVariables(getContext(), getActivity().getBaseContext());
         answerImageTab = imgTxtDisplayer.init(frameLayout, tvAnswer, cardsProvider.getFirstAnswers());
     }
 

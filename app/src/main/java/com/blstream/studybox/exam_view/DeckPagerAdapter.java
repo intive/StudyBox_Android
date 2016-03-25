@@ -71,7 +71,6 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void onResultDisplay(){
-       // cardsProvider.changeCard();
         cardsProvider.initOnRestart();
         imgTxtDisplayer.setImgIndexes(cardsProvider.getPosition());
         answerFragment.initOnRestart();

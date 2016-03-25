@@ -52,7 +52,6 @@ public class QuestionFragment extends Fragment {
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.questionContainer);
 
         prompt = cardsProvider.getFirstPrompt();
-    //    imgTxtDisplayer.setVariables(getContext(), getActivity());
         questionImageTab = imgTxtDisplayer.init(frameLayout, tvQuestion, cardsProvider.getFirstQuestions());
     }
 
