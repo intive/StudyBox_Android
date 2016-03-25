@@ -6,4 +6,5 @@
     <dimen name="exam_medium_text">29sp</dimen>
     <dimen name="exam_large_text">34sp</dimen>
     <dimen name="result_button_width">500dp</dimen>
+    <dimen name="result_button_height">100dp</dimen>
 </resources>

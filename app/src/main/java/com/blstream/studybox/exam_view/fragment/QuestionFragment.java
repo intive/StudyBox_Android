@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.exam_view.CardsProvider;
 import com.blstream.studybox.exam_view.ImageTextDisplayer;
 
 import butterknife.Bind;
@@ -27,25 +28,15 @@ public class QuestionFragment extends Fragment {
     public TextView tvPrompt;
 
     private static final String PROMPT = "Podpowiedz";
-    private String[] questions;
-    private String prompt;
     private ImageView[] questionImageTab;
     private ImageTextDisplayer imgTxtDisplayer;
+    private CardsProvider cardsProvider;
+    private String prompt;
 
-    public static QuestionFragment newInstance(String[] questions, String prompt) {
-        QuestionFragment questionFragment = new QuestionFragment();
-        Bundle args = new Bundle();
-        args.putStringArray("questions", questions);
-        args.putString("prompt", prompt);
-        questionFragment.setArguments(args);
-        return questionFragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        questions = getArguments().getStringArray("questions");
-        prompt = getArguments().getString("prompt");
     }
 
     @Override
@@ -60,23 +51,22 @@ public class QuestionFragment extends Fragment {
         ButterKnife.bind(this, view);
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.questionContainer);
 
-        imgTxtDisplayer.initVariables(getContext(), getActivity());
-        questionImageTab = imgTxtDisplayer.setImageTab(frameLayout);
-        imgTxtDisplayer.setView(questionImageTab[0], tvQuestion, questions[0]);
-        imgTxtDisplayer.initPreloadImages(questions, questionImageTab);
+        prompt = cardsProvider.getFirstPrompt();
+    //    imgTxtDisplayer.setVariables(getContext(), getActivity());
+        questionImageTab = imgTxtDisplayer.init(frameLayout, tvQuestion, cardsProvider.getFirstQuestions());
     }
 
-    public void initOnRestart(String prompt){
-        this.prompt = prompt;
-        imgTxtDisplayer.setView(questionImageTab[0], tvQuestion, questions[0]);
+    public void initOnRestart(){
+        this.prompt = cardsProvider.getFirstPrompt();
+        imgTxtDisplayer.initOnRestart(questionImageTab, tvQuestion, cardsProvider.getFirstQuestions());
         setPromptView();
-        imgTxtDisplayer.initPreloadImages(questions, questionImageTab);
     }
 
-    public void changeData(String currentAnswer, String answerToPreload, String prompt) {
-        this.prompt = prompt;
+    public void changeData() {
+        this.prompt = cardsProvider.getNextPrompt();
         setPromptView();
-        imgTxtDisplayer.changeData(currentAnswer, answerToPreload, tvQuestion, questionImageTab);
+        imgTxtDisplayer.changeData(cardsProvider.getNextQuestion(),
+                cardsProvider.getLaterQuestion(), tvQuestion, questionImageTab);
     }
 
     public void setPromptView() {
@@ -91,12 +81,13 @@ public class QuestionFragment extends Fragment {
     }
 
     @OnClick (R.id.prompt)
-        public void onClick(View view) {
-            tvPrompt.setText(prompt);
-            tvPrompt.setClickable(false);
-        }
+    public void onClick(View view) {
+        tvPrompt.setText(prompt);
+        tvPrompt.setClickable(false);
+    }
 
-    public void setImgTxtDisplayer(ImageTextDisplayer imgTxtDisplayer) {
-        this.imgTxtDisplayer = imgTxtDisplayer;
+    public void setVariables(ImageTextDisplayer imgTxtDisp, CardsProvider cardsProv) {
+        imgTxtDisplayer = imgTxtDisp;
+        cardsProvider = cardsProv;
     }
 }

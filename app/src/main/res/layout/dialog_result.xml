@@ -49,7 +49,7 @@
             android:textAllCaps="true"
             android:textSize="@dimen/exam_medium_text"
             android:textColor="@color/white"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/result_button_height"
             android:layout_width="@dimen/result_button_width"
             android:layout_gravity="center"
             android:background="@color/colorDarkBlue"
@@ -62,10 +62,9 @@
             android:textAllCaps="true"
             android:textSize="@dimen/exam_medium_text"
             android:textColor="@color/white"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/result_button_height"
             android:layout_width="@dimen/result_button_width"
             android:layout_gravity="center"
-            android:onClick="restartExam"
             android:background="@color/colorGraphite"
             android:gravity="center" />
 

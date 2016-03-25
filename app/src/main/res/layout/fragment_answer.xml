@@ -14,15 +14,22 @@
         android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/answer"
-            android:text="@string/answer"
-            android:textSize="@dimen/exam_medium_text"
-            android:textAllCaps="true"
-            android:gravity="center"
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:fitsSystemWindows="true">
+
+            <TextView
+                android:id="@+id/answer"
+                android:text="@string/answer"
+                android:textSize="@dimen/exam_medium_text"
+                android:textAllCaps="true"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </ScrollView>
 
     </FrameLayout>
 
@@ -43,8 +50,7 @@
             android:contentDescription="@string/incorrect"
             android:background="@color/colorRaspberry"
             android:layout_marginEnd="@dimen/exam_element_margin"
-            android:layout_marginRight="@dimen/exam_element_margin"
-            android:onClick="showNextPage"/>
+            android:layout_marginRight="@dimen/exam_element_margin"/>
 
         <ImageButton
             android:id="@+id/correct_ans_btn"
@@ -56,8 +62,7 @@
             android:contentDescription="@string/correct"
             android:background="@color/colorDarkBlue"
             android:layout_marginStart="@dimen/exam_element_margin"
-            android:layout_marginLeft="@dimen/exam_element_margin"
-            android:onClick="showNextPage"/>
+            android:layout_marginLeft="@dimen/exam_element_margin"/>
 
     </LinearLayout>
 

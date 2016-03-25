@@ -1,6 +1,7 @@
 package com.blstream.studybox.exam_view;
 
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,28 +16,22 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     private final ExamActivity.Deck deck;
     private final QuestionFragment questionFragment;
     private final AnswerFragment answerFragment;
-    private int counter;
-    private int position;
     private int preloadImageCount;
-    private ImageTextDisplayer imgTxtDisplayer;
+    ImageTextDisplayer imgTxtDisplayer;
+    CardsProvider cardsProvider;
 
-    public DeckPagerAdapter(FragmentManager fragmentManager, ExamActivity.Deck deck, int preloadImageCount) {
+    public DeckPagerAdapter(FragmentManager fragmentManager, ExamActivity.Deck deck,
+                            int preloadImageCount, Activity activity) {
         super(fragmentManager);
         this.deck = deck;
         setPreloadImageCount(preloadImageCount);
-        String[] answer = new String[preloadImageCount];
-        String[] question = new String[preloadImageCount];
-        String prompt = deck.cards.get(0).prompt;
-        for(int i = 0; i < preloadImageCount; i++){
-            answer[i] = deck.cards.get(i).answer;
-            question[i] = deck.cards.get(i).question;
-        }
-        imgTxtDisplayer = new ImageTextDisplayer(preloadImageCount);
+        imgTxtDisplayer = new ImageTextDisplayer(preloadImageCount, activity);
+        cardsProvider = new CardsProvider(deck, preloadImageCount);
 
-        questionFragment = QuestionFragment.newInstance(question, prompt);
-        questionFragment.setImgTxtDisplayer(imgTxtDisplayer);
-        answerFragment = AnswerFragment.newInstance(answer);
-        answerFragment.setImgTxtDisplayer(imgTxtDisplayer);
+        questionFragment = new QuestionFragment();
+        answerFragment = new AnswerFragment();
+        questionFragment.setVariables(imgTxtDisplayer, cardsProvider);
+        answerFragment.setVariables(imgTxtDisplayer, cardsProvider);
     }
 
     @Override
@@ -56,41 +51,30 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public void updateCounters(){
-        position++;
-        if(counter != preloadImageCount - 1)
-            counter++;
+    public void setPreloadImageCount(int preImgCount) {
+        if(preloadImageCount > MAX_PRELOAD_IMAGE_COUNT)
+            preloadImageCount = MAX_PRELOAD_IMAGE_COUNT;
         else
-            counter = 0;
+            preloadImageCount = preImgCount;
+
+        if(preloadImageCount > deck.numberOfQuestions)
+            preloadImageCount = deck.numberOfQuestions;
+        else if(preloadImageCount == 0)
+            preloadImageCount = 1;
     }
 
     public void changeData(){
-        ExamActivity.Card currentCard = deck.cards.get(position);
-        imgTxtDisplayer.setImgIndexes(counter);
-        if(deck.numberOfQuestions > position + preloadImageCount - 1) {
-            ExamActivity.Card card = deck.cards.get(position + preloadImageCount - 1);
-            answerFragment.changeData(currentCard.answer, card.answer);
-            questionFragment.changeData(currentCard.question, card.question, currentCard.prompt);
-        } else {
-            answerFragment.changeData(currentCard.answer, "");
-            questionFragment.changeData(currentCard.question, "", currentCard.prompt);
-        }
+        cardsProvider.changeCard();
+        imgTxtDisplayer.setImgIndexes(cardsProvider.getPosition());
+        answerFragment.changeData();
+        questionFragment.changeData();
     }
 
-    public void setPreloadImageCount(int preloadImageCount) {
-        if(preloadImageCount > MAX_PRELOAD_IMAGE_COUNT)
-            this.preloadImageCount = MAX_PRELOAD_IMAGE_COUNT;
-        else
-            this.preloadImageCount = preloadImageCount;
-
-        if(this.preloadImageCount > deck.numberOfQuestions)
-            this.preloadImageCount = deck.numberOfQuestions;
-    }
-
-    public void initOnRestart(){
-        position = 0;
-        counter = 0;
-        questionFragment.initOnRestart(deck.cards.get(0).prompt);
+    public void onResultDisplay(){
+       // cardsProvider.changeCard();
+        cardsProvider.initOnRestart();
+        imgTxtDisplayer.setImgIndexes(cardsProvider.getPosition());
         answerFragment.initOnRestart();
+        questionFragment.initOnRestart();
     }
 }

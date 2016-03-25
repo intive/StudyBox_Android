@@ -1,15 +1,14 @@
 package com.blstream.studybox.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
-import com.blstream.studybox.exam_view.fragment.ResultFragment;
+import com.blstream.studybox.exam_view.fragment.AnswerFragment;
+import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExamActivity extends AppCompatActivity {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnRestartExam {
 
     @Bind(R.id.deckName)
     public TextView deckName;
@@ -32,11 +31,10 @@ public class ExamActivity extends AppCompatActivity {
     public ViewPager viewPager;
 
     private DeckPagerAdapter adapterViewPager;
-    private int pageCounter;
+    private int cardCounter;
     private int correctAnswersCounter;
-    private int totalPages;
     private Integer noOfQuestions;
-    DialogFragment dialog;
+    ResultDialogFragment resultDialog;
 
     //------For testing------
     final List<Card> questions = new ArrayList<>();
@@ -49,107 +47,94 @@ public class ExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam);
 
         //------For testing------
-        questions.add(new Card("Pytanie", "Dobra podpowiedz", "Odpowiedz"));
-        questions.add(new Card("What gets wet with drying?", "", "http://animaliaz-life.com/data_images/horse/horse6.jpg"));
-        questions.add(new Card("http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg", "Dobra podpowiedź", "http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg"));
-        questions.add(new Card("What gets wet with drying?", "Bug? That's not a bug, that's a feature.", "A towel"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://upload.wikimedia.org/wikipedia/commons/a/a5/" +
-                "European_Rabbit,_Lake_District,_UK_-_August_2011.jpg"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://encrypted-tbn2.gstatic.com/" +
-                "images?q=tbn:ANd9GcSQsyEbYgkjylaK0Mym8I7ER295ecK3QXIWtHVba6pI43QFUjLf"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://fishfair2000.files.wordpress.com/2015/01/rabbits.jpg"));
-        deck = new Deck(3, "Biologia", 7, questions);
+        populateDeck();
         //------For testing------
 
         setVariables();
         initView();
     }
 
-    public void setVariables(){
-        noOfQuestions = deck.numberOfQuestions;
-        totalPages = noOfQuestions * 2 + 1;
-    }
-
     public void initView() {
         ButterKnife.bind(this);
         deckName.setText(deck.deckName);
-        questionNo.setText(getString(R.string.question_no, pageCounter / 2 + 1));
+        questionNo.setText(getString(R.string.question_no, cardCounter));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         adapterViewPager =
-                new DeckPagerAdapter(getSupportFragmentManager(), deck, 4);
+                new DeckPagerAdapter(getSupportFragmentManager(), deck, 4, this);
         viewPager.setAdapter(adapterViewPager);
-        matchApiVersionLayout();
     }
 
-    public void matchApiVersionLayout(){
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP){
-            deckName.setPadding(0, getBarHeight("status_bar_height"), 0, 0);
-            correctAnswers.setPadding(0, 0, 0, getBarHeight("navigation_bar_height"));
-        }
+    public void setVariables(){
+        noOfQuestions = deck.numberOfQuestions;
+        cardCounter = 1;
     }
 
-    public int getBarHeight(String barName) {
-        int result = 0;
-        int resourceId = getResources().getIdentifier(
-                barName, "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
+    public void updateCard(boolean addCorrectAnswer){
+        updateCounters(addCorrectAnswer);
+        setCard();
     }
 
-    public void showNextPage(View view) {
-            pageCounter+=2;
-            updateCorrectAnswersCounter(view);
-            setPageData(view);
+    public void setCard(){
+        if(cardCounter - 1  == noOfQuestions)
+            displayResult();
+        else
+            displayNextCard();
     }
 
-    public void updateCorrectAnswersCounter(View view){
-        if(view.getId() == R.id.correct_ans_btn)
+    public void displayNextCard() {
+        viewPager.setCurrentItem(0, false);
+        adapterViewPager.changeData();
+        questionNo.setText(getString(R.string.question_no, cardCounter));
+        correctAnswers.setText(getString(
+                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+    }
+
+    public void displayResult(){
+        adapterViewPager.onResultDisplay();
+        resultDialog = ResultDialogFragment.newInstance(
+                correctAnswersCounter, deck.numberOfQuestions);
+        resultDialog.show(getSupportFragmentManager(), "result");
+    }
+
+    public void updateCounters(boolean addCorrectAnswer){
+        updateCorrectAnswersCounter(addCorrectAnswer);
+        cardCounter++;
+    }
+
+    public void updateCorrectAnswersCounter(boolean addCorrectAnswer){
+        if(addCorrectAnswer)
             correctAnswersCounter++;
     }
 
-    public void setPageData(View view){
-        if(pageCounter == totalPages - 1) {
-            dialog = ResultFragment.newInstance(
-                    correctAnswersCounter, deck.numberOfQuestions);
-            dialog.show(getSupportFragmentManager(), "dialog");
-        }else {
-            viewPager.setCurrentItem(0, false);
-            setQuestionPageData(view);
-        }
-    }
-
-    public void setQuestionPageData(View view) {
-        adapterViewPager.updateCounters();
-        adapterViewPager.changeData();
-        questionNo.setText(getString(R.string.question_no, pageCounter / 2 + 1));
-        correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
-    }
-
-    public void setDeckInfoVisibility(int visibility){
-        deckName.setVisibility(visibility);
-        questionNo.setVisibility(visibility);
-        correctAnswers.setVisibility(visibility);
-    }
-
-    public void restartExam(View view) {
+    public void restartExam() {
         setInitialValues();
-        setDeckInfoVisibility(View.VISIBLE);
-        adapterViewPager.initOnRestart();
-        viewPager.setCurrentItem(pageCounter, false);
-        dialog.dismiss();
+        setFirstCard();
     }
 
     public void setInitialValues(){
-        pageCounter = 0;
+        cardCounter = 1;
         correctAnswersCounter = 0;
+    }
+
+    public void setFirstCard(){
         questionNo.setText(getString(R.string.question_no, 1));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+        viewPager.setCurrentItem(0, false);
+    }
+
+
+    //---------------------------
+
+    @Override
+    public void onMoveToNextCard(boolean addCorrectAnswer) {
+        updateCard(addCorrectAnswer);
+    }
+
+    @Override
+    public void onRestartExam() {
+        restartExam();
     }
 
     //------For testing------
@@ -177,6 +162,19 @@ public class ExamActivity extends AppCompatActivity {
             numberOfQuestions = nOfQue;
             cards = crds;
         }
+    }
+
+    public void populateDeck(){
+        questions.add(new Card("Pytanie", "Dobra podpowiedz", "Odpowiedz"));
+        questions.add(new Card("What gets wet with drying?", "", "http://animaliaz-life.com/data_images/horse/horse6.jpg"));
+        questions.add(new Card("http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg", "Dobra podpowiedź", "http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg"));
+        questions.add(new Card("What gets wet with drying?", "Bug? That's not a bug, that's a feature.", "A towel"));
+        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://upload.wikimedia.org/wikipedia/commons/a/a5/" +
+                "European_Rabbit,_Lake_District,_UK_-_August_2011.jpg"));
+        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://encrypted-tbn2.gstatic.com/" +
+                "images?q=tbn:ANd9GcSQsyEbYgkjylaK0Mym8I7ER295ecK3QXIWtHVba6pI43QFUjLf"));
+        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://fishfair2000.files.wordpress.com/2015/01/rabbits.jpg"));
+        deck = new Deck(3, "Biologia", 7, questions);
     }
     //------For testing------
 }

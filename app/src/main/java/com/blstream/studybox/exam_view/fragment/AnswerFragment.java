@@ -1,6 +1,7 @@
 package com.blstream.studybox.exam_view.fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,32 +12,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.exam_view.CardsProvider;
 import com.blstream.studybox.exam_view.ImageTextDisplayer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AnswerFragment extends Fragment {
 
     @Bind(R.id.answer)
     public TextView tvAnswer;
 
-    private String[] answers;
     private ImageView[] answerImageTab;
     private ImageTextDisplayer imgTxtDisplayer;
+    private CardsProvider cardsProvider;
+    private Activity activity;
 
-    public static AnswerFragment newInstance(String[] answers) {
-        AnswerFragment answerFragment = new AnswerFragment();
-        Bundle args = new Bundle();
-        args.putStringArray("answers", answers);
-        answerFragment.setArguments(args);
-        return answerFragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        answers = getArguments().getStringArray("answers");
+        activity = getActivity();
     }
 
     @Override
@@ -50,22 +47,33 @@ public class AnswerFragment extends Fragment {
     private void initView(View view){
         ButterKnife.bind(this, view);
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.answerContainer);
-
-        answerImageTab = imgTxtDisplayer.setImageTab(frameLayout);
-        imgTxtDisplayer.setView(answerImageTab[0], tvAnswer, answers[0]);
-        imgTxtDisplayer.initPreloadImages(answers, answerImageTab);
+      //  imgTxtDisplayer.setVariables(getContext(), getActivity().getBaseContext());
+        answerImageTab = imgTxtDisplayer.init(frameLayout, tvAnswer, cardsProvider.getFirstAnswers());
     }
 
-    public void setImgTxtDisplayer(ImageTextDisplayer imgTxtDisplayer) {
-        this.imgTxtDisplayer = imgTxtDisplayer;
+    @OnClick({R.id.correct_ans_btn, R.id.incorrect_ans_btn})
+    public void onClick(View view) {
+        if(view.getId() == R.id.correct_ans_btn)
+            ((OnMoveToNextCard)activity).onMoveToNextCard(true);
+        else
+            ((OnMoveToNextCard)activity).onMoveToNextCard(false);
     }
 
-    public void initOnRestart(){
-        imgTxtDisplayer.setView(answerImageTab[0], tvAnswer, answers[0]);
-        imgTxtDisplayer.initPreloadImages(answers, answerImageTab);
+    public interface OnMoveToNextCard {
+        void onMoveToNextCard(boolean addCorrectAnswer);
     }
 
-    public void changeData(String currentAnswer, String answerToPreload) {
-        imgTxtDisplayer.changeData(currentAnswer, answerToPreload, tvAnswer, answerImageTab);
+    public void initOnRestart() {
+        imgTxtDisplayer.initOnRestart(answerImageTab, tvAnswer, cardsProvider.getFirstAnswers());
+    }
+
+    public void changeData() {
+        imgTxtDisplayer.changeData(cardsProvider.getNextAnswer(),
+                cardsProvider.getLaterAnswer(), tvAnswer, answerImageTab);
+    }
+
+    public void setVariables(ImageTextDisplayer imgTxtDisp, CardsProvider cardsProv) {
+        imgTxtDisplayer = imgTxtDisp;
+        cardsProvider = cardsProv;
     }
 }

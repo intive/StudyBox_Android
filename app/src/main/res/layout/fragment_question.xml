@@ -13,15 +13,22 @@
         android:layout_marginBottom="@dimen/exam_element_bottom_margin"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/question"
-            android:text="@string/question"
-            android:textSize="@dimen/exam_medium_text"
-            android:textAllCaps="true"
-            android:gravity="center"
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:fitsSystemWindows="true">
+
+            <TextView
+                android:id="@+id/question"
+                android:text="@string/question"
+                android:textSize="@dimen/exam_medium_text"
+                android:textAllCaps="true"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
 
     </FrameLayout>
 
