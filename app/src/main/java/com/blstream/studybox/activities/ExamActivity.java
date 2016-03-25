@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnRestartExam {
 
     @Bind(R.id.deckName)
     public TextView deckName;
@@ -94,9 +94,13 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         resultDialog = ResultDialogFragment.newInstance(
                 correctAnswersCounter, deck.numberOfQuestions);
         resultDialog.show(getSupportFragmentManager(), "result");
+    }
+
+    public void restarExam(){
         setInitialValues();
         setFirstCard();
         adapterViewPager.onResultDisplay();
+        resultDialog.dismiss();
     }
 
     public void updateCounters(boolean addCorrectAnswer){
@@ -107,10 +111,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     public void updateCorrectAnswersCounter(boolean addCorrectAnswer){
         if(addCorrectAnswer)
             correctAnswersCounter++;
-    }
-
-    public void restartExam() {
-
     }
 
     public void setInitialValues(){
@@ -133,10 +133,10 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         updateCard(addCorrectAnswer);
     }
 
-//    @Override
-//    public void onRestartExam() {
-//        restartExam();
-//    }
+    @Override
+    public void onRestartExam(){
+        restarExam();
+    }
 
     //------For testing------
     public class Card{

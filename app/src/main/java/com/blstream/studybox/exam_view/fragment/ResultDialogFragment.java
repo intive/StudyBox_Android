@@ -56,14 +56,18 @@ public class ResultDialogFragment extends DialogFragment {
 
     @OnClick(R.id.improve_result)
     public void onClick(View view) {
-        dismiss();
+        ((OnRestartExam) getActivity()).onRestartExam();
+    }
+
+    public interface OnRestartExam {
+        void onRestartExam();
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        return new Dialog(getActivity(), getTheme()){
+        return new Dialog(getActivity(), getTheme()) {
             @Override
             public void onBackPressed() {
                 dismiss();
