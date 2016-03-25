@@ -56,12 +56,18 @@ public class ResultDialogFragment extends DialogFragment {
 
     @OnClick(R.id.improve_result)
     public void onClick(View view) {
-        if(((OnRestartExam) getActivity()).onRestartExam())
-            dismiss();
+        ((OnRestartExam) getActivity()).onRestartExam();
+       // dismiss();
     }
 
+//    @Override
+//    public void onShow(DialogInterface dialog) {
+//        Log.d("nic", "nic");
+//        ((OnResultShow) getActivity()).onResultShow();
+//    }
+
     public interface OnRestartExam {
-        boolean onRestartExam();
+        void onRestartExam();
     }
 
     @NonNull
