@@ -3,7 +3,6 @@ package com.blstream.studybox.activities;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
@@ -95,14 +94,12 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         resultDialog = ResultDialogFragment.newInstance(
                 correctAnswersCounter, deck.numberOfQuestions);
         resultDialog.show(getSupportFragmentManager(), "result");
-        viewPager.setVisibility(View.INVISIBLE);
     }
 
     public void restarExam(){
         setInitialValues();
         adapterViewPager.onResultDisplay();
         setFirstCard();
-        resultDialog.dismiss();
     }
 
     public void updateCounters(boolean addCorrectAnswer){
@@ -125,7 +122,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         viewPager.setCurrentItem(0, false);
-        viewPager.setVisibility(View.VISIBLE);
     }
 
 

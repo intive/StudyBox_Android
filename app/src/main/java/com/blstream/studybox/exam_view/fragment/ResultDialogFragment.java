@@ -2,6 +2,7 @@ package com.blstream.studybox.exam_view.fragment;
 
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -16,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ResultDialogFragment extends DialogFragment {
+public class ResultDialogFragment extends DialogFragment implements DialogInterface.OnShowListener{
 
     @Bind(R.id.total_score)
     public TextView totalScore;
@@ -56,15 +57,13 @@ public class ResultDialogFragment extends DialogFragment {
 
     @OnClick(R.id.improve_result)
     public void onClick(View view) {
-        ((OnRestartExam) getActivity()).onRestartExam();
-       // dismiss();
+        dismiss();
     }
 
-//    @Override
-//    public void onShow(DialogInterface dialog) {
-//        Log.d("nic", "nic");
-//        ((OnResultShow) getActivity()).onResultShow();
-//    }
+    @Override
+    public void onShow(DialogInterface dialog) {
+        ((OnRestartExam) getActivity()).onRestartExam();
+    }
 
     public interface OnRestartExam {
         void onRestartExam();
@@ -74,12 +73,14 @@ public class ResultDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        return new Dialog(getActivity(), getTheme()) {
+        Dialog result = new Dialog(getActivity(), getTheme()) {
             @Override
             public void onBackPressed() {
                 dismiss();
                 getActivity().finish();
             }
         };
+        result.setOnShowListener(this);
+        return result;
     }
 }
