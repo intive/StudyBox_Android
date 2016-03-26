@@ -1,5 +1,6 @@
 package com.blstream.studybox.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -181,5 +182,10 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         Intent intent = new Intent(getApplicationContext(), DecksActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public Context getContext() {
+        return LoginActivity.this;
     }
 }

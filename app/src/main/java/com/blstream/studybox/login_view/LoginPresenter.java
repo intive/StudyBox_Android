@@ -1,8 +1,9 @@
 package com.blstream.studybox.login_view;
 
 import com.blstream.studybox.Constants;
-import com.blstream.studybox.CredentialValidator;
-import com.blstream.studybox.ValidatorListener;
+import com.blstream.studybox.login.CredentialValidator;
+import com.blstream.studybox.login.LoginUtils;
+import com.blstream.studybox.login.ValidatorListener;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
@@ -60,7 +61,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         validator.validate();
     }
 
-    protected void authenticate(AuthCredentials credentials) {
+    protected void authenticate(final AuthCredentials credentials) {
         RestClientManager.authenticate(Constants.AUTH_URL,
                 new AuthRequestInterceptor(credentials.getEmail(), credentials.getPassword()),
                 new RequestCallback<>(new RequestListener<JSONObject>() {
@@ -68,6 +69,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     public void onSuccess(JSONObject response) {
                         if (isViewAttached()) {
                             getView().loginSuccessful();
+                            LoginUtils.saveUser(credentials.getEmail(), credentials.getPassword(), getView().getContext());
                         }
                     }
 
@@ -77,6 +79,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                             getView().showAuthError();
                         }
                     }
-                }));
+                })
+        );
     }
 }

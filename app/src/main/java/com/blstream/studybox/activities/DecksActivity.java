@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blstream.studybox.login.LoginUtils;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
@@ -109,6 +110,8 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
             case R.id.statistics:
                 break;
             case R.id.logout:
+                LoginUtils.deleteUser(DecksActivity.this);
+                finish();
                 break;
         }
 
