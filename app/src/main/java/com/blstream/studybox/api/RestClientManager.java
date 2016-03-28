@@ -2,10 +2,9 @@ package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.DecksList;
 
-import org.json.JSONObject;
-
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
+import retrofit.client.Response;
 
 public class RestClientManager {
 
@@ -14,7 +13,7 @@ public class RestClientManager {
         restInterface.getAllDecks(json, callback);
     }
 
-    public static void authenticate(String url, RequestInterceptor interceptor, Callback<JSONObject> callback) {
+    public static void authenticate(String url, RequestInterceptor interceptor, Callback<Response> callback) {
         RestInterface restInterface = new RestClient(url, interceptor).getService();
         restInterface.authenticate(callback);
     }

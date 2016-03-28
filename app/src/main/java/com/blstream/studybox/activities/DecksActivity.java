@@ -1,5 +1,6 @@
 package com.blstream.studybox.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -111,6 +112,8 @@ public class DecksActivity extends MvpActivity<DecksView, DecksPresenter>
                 break;
             case R.id.logout:
                 LoginUtils.deleteUser(DecksActivity.this);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
                 finish();
                 break;
         }

@@ -116,6 +116,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
         setLoginFormEnabled(true);
         emailInput.setError(getString(R.string.empty_field));
+        emailInput.requestFocus();
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.GONE);
     }
@@ -127,6 +128,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
         setLoginFormEnabled(true);
         passwordInput.setError(getString(R.string.empty_field));
+        passwordInput.requestFocus();
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.GONE);
     }
@@ -138,6 +140,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
         setLoginFormEnabled(true);
         emailInput.setError(getString(R.string.invalid_email));
+        emailInput.requestFocus();
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.GONE);
     }
@@ -149,6 +152,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
         setLoginFormEnabled(true);
         passwordInput.setError(getString(R.string.invalid_password));
+        passwordInput.requestFocus();
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.GONE);
     }

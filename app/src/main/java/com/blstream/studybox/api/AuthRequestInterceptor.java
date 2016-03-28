@@ -2,19 +2,22 @@ package com.blstream.studybox.api;
 
 import android.util.Base64;
 
+import com.blstream.studybox.model.AuthCredentials;
+
 import retrofit.RequestInterceptor;
 
 public class AuthRequestInterceptor implements RequestInterceptor {
 
     private String basicCredentials;
 
-    public AuthRequestInterceptor(String email, String password) {
-        this.basicCredentials =
-                "Basic " + Base64.encodeToString((email + ":" + password).getBytes(), Base64.NO_WRAP);
+    public AuthRequestInterceptor(AuthCredentials credentials) {
+        String combinedCredentials = credentials.getEmail() + ":" + credentials.getPassword();
+        this.basicCredentials = "Basic " + Base64.encodeToString(combinedCredentials.getBytes(), Base64.NO_WRAP);
     }
 
     @Override
     public void intercept(RequestFacade request) {
         request.addHeader("Authorization", basicCredentials);
+        request.addHeader("Cache-Control", "no-cache"); // required by our mock server
     }
 }

@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.blstream.studybox.Constants;
+import com.blstream.studybox.model.AuthCredentials;
 
 public class LoginUtils {
-    public static void saveUser(String email, String password, Context context) {
+    public static void saveUser(AuthCredentials credentials, Context context) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.LOGIN_PREF_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.LOGIN_EMAIL, email);
-        editor.putString(Constants.LOGIN_PASSWORD, password);
+        editor.putString(Constants.LOGIN_EMAIL, credentials.getEmail());
+        editor.putString(Constants.LOGIN_PASSWORD, credentials.getPassword());
         editor.putBoolean(Constants.LOGIN_STATUS, true);
         editor.apply();
     }

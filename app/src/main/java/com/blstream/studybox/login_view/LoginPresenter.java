@@ -11,9 +11,8 @@ import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
-import org.json.JSONObject;
-
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
@@ -62,14 +61,13 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     }
 
     protected void authenticate(final AuthCredentials credentials) {
-        RestClientManager.authenticate(Constants.AUTH_URL,
-                new AuthRequestInterceptor(credentials.getEmail(), credentials.getPassword()),
-                new RequestCallback<>(new RequestListener<JSONObject>() {
+        RestClientManager.authenticate(Constants.AUTH_URL, new AuthRequestInterceptor(credentials),
+                new RequestCallback<>(new RequestListener<Response>() {
                     @Override
-                    public void onSuccess(JSONObject response) {
+                    public void onSuccess(Response response) {
                         if (isViewAttached()) {
                             getView().loginSuccessful();
-                            LoginUtils.saveUser(credentials.getEmail(), credentials.getPassword(), getView().getContext());
+                            LoginUtils.saveUser(credentials, getView().getContext());
                         }
                     }
 
