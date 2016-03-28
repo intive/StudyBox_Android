@@ -12,17 +12,17 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 import com.squareup.picasso.Picasso;
 
-public class ImageTextDisplayer {
+public class ImageTextDisplay {
 
-    private int preloadImageCount;
+    private final int preloadImageCount;
     private int prevIndex;
     private int index;
-    private int height;
-    private int width;
-    private Context context;
-    private Activity activity;
+    private final int height;
+    private final int width;
+    private final Context context;
+    private final Activity activity;
 
-    public ImageTextDisplayer(int preloadImageCount, Activity activity) {
+    public ImageTextDisplay(int preloadImageCount, Activity activity) {
         this.preloadImageCount = preloadImageCount;
         this.activity = activity;
         this.context = activity.getBaseContext();
@@ -44,7 +44,7 @@ public class ImageTextDisplayer {
         setView(imageTab[0], tvQuestion, imgToLoad[0]);
     }
 
-    public ImageView[] setImageTab(FrameLayout frameLayout){
+    private ImageView[] setImageTab(FrameLayout frameLayout){
         ImageView[] imageTab = new ImageView[preloadImageCount];
         for (int i = 0; i < preloadImageCount; i++) {
             imageTab[i] = new ImageView(context);
@@ -54,7 +54,7 @@ public class ImageTextDisplayer {
         return imageTab;
     }
 
-    public void setView(ImageView image, TextView tv, String textToDisplay){
+    private void setView(ImageView image, TextView tv, String textToDisplay){
         String text = "";
         if (Patterns.WEB_URL.matcher(textToDisplay).matches()){
             image.setVisibility(View.VISIBLE);
@@ -85,18 +85,18 @@ public class ImageTextDisplayer {
         prevIndex = (position - 1) % preloadImageCount;
     }
 
-    public void showText(String currentData, TextView tv, ImageView[] imageTab){
+    private void showText(String currentData, TextView tv, ImageView[] imageTab){
         tv.setText(currentData);
         imageTab[prevIndex].setVisibility(View.INVISIBLE);
     }
 
-    public void showImage(TextView tv, ImageView[] imageTab){
+    private void showImage(TextView tv, ImageView[] imageTab){
         tv.setText("");
         imageTab[index].setVisibility(View.VISIBLE);
         imageTab[prevIndex].setVisibility(View.INVISIBLE);
     }
 
-    public void preloadImage(String dataToPreload, ImageView image){
+    private void preloadImage(String dataToPreload, ImageView image){
         if(Patterns.WEB_URL.matcher(dataToPreload).matches()){
             Picasso.with(activity).load(dataToPreload).resize(width, height).centerInside()
                     .placeholder(R.drawable.camera).into(image);

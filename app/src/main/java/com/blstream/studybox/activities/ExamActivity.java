@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnRestartExam {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
 
     @Bind(R.id.deckName)
     public TextView deckName;
@@ -34,10 +34,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int cardCounter;
     private int correctAnswersCounter;
     private Integer noOfQuestions;
-    ResultDialogFragment resultDialog;
 
     //------For testing------
-    final List<Card> questions = new ArrayList<>();
+    private final List<Card> questions = new ArrayList<>();
     private Deck deck;
     //------For testing------
 
@@ -54,7 +53,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         initView();
     }
 
-    public void initView() {
+    private void initView() {
         ButterKnife.bind(this);
         deckName.setText(deck.deckName);
         questionNo.setText(getString(R.string.question_no, cardCounter));
@@ -65,24 +64,24 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         viewPager.setAdapter(adapterViewPager);
     }
 
-    public void setVariables(){
+    private void setVariables(){
         noOfQuestions = deck.numberOfQuestions;
         cardCounter = 1;
     }
 
-    public void updateCard(boolean addCorrectAnswer){
+    private void updateCard(boolean addCorrectAnswer){
         updateCounters(addCorrectAnswer);
         setCard();
     }
 
-    public void setCard(){
+    private void setCard(){
         if(cardCounter - 1  == noOfQuestions)
             displayResult();
         else
             displayNextCard();
     }
 
-    public void displayNextCard() {
+    private void displayNextCard() {
         viewPager.setCurrentItem(0, false);
         adapterViewPager.changeData();
         questionNo.setText(getString(R.string.question_no, cardCounter));
@@ -90,34 +89,34 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
     }
 
-    public void displayResult(){
-        resultDialog = ResultDialogFragment.newInstance(
+    private void displayResult(){
+        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
                 correctAnswersCounter, deck.numberOfQuestions);
         resultDialog.show(getSupportFragmentManager(), "result");
     }
 
-    public void restarExam(){
+    private void restarExam(){
         setInitialValues();
         adapterViewPager.onResultDisplay();
         setFirstCard();
     }
 
-    public void updateCounters(boolean addCorrectAnswer){
+    private void updateCounters(boolean addCorrectAnswer){
         updateCorrectAnswersCounter(addCorrectAnswer);
         cardCounter++;
     }
 
-    public void updateCorrectAnswersCounter(boolean addCorrectAnswer){
+    private void updateCorrectAnswersCounter(boolean addCorrectAnswer){
         if(addCorrectAnswer)
             correctAnswersCounter++;
     }
 
-    public void setInitialValues(){
+    private void setInitialValues(){
         cardCounter = 1;
         correctAnswersCounter = 0;
     }
 
-    public void setFirstCard() {
+    private void setFirstCard() {
         questionNo.setText(getString(R.string.question_no, 1));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
@@ -133,7 +132,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    public void onRestartExam(){
+    public void onResultShow(){
         restarExam();
     }
 
@@ -164,7 +163,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         }
     }
 
-    public void populateDeck(){
+    private void populateDeck(){
         questions.add(new Card("Pytanie", "Dobra podpowiedz", "Odpowiedz"));
         questions.add(new Card("What gets wet with drying?", "", "http://animaliaz-life.com/data_images/horse/horse6.jpg"));
         questions.add(new Card("http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg", "Dobra podpowiedź", "http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg"));

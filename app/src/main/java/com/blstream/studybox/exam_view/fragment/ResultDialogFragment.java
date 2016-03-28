@@ -50,7 +50,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         return view;
     }
 
-    public void initView(View view){
+    private void initView(View view){
         ButterKnife.bind(this, view);
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
     }
@@ -62,11 +62,11 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     @Override
     public void onShow(DialogInterface dialog) {
-        ((OnRestartExam) getActivity()).onRestartExam();
+        ((OnResultShow) getActivity()).onResultShow();
     }
 
-    public interface OnRestartExam {
-        void onRestartExam();
+    public interface OnResultShow {
+        void onResultShow();
     }
 
     @NonNull

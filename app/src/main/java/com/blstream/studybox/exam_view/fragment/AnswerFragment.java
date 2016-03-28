@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.CardsProvider;
-import com.blstream.studybox.exam_view.ImageTextDisplayer;
+import com.blstream.studybox.exam_view.ImageTextDisplay;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,7 +25,7 @@ public class AnswerFragment extends Fragment {
     public TextView tvAnswer;
 
     private ImageView[] answerImageTab;
-    private ImageTextDisplayer imgTxtDisplayer;
+    private ImageTextDisplay imgTxtDisplay;
     private CardsProvider cardsProvider;
     private Activity activity;
 
@@ -47,7 +47,7 @@ public class AnswerFragment extends Fragment {
     private void initView(View view){
         ButterKnife.bind(this, view);
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.answerContainer);
-        answerImageTab = imgTxtDisplayer.init(frameLayout, tvAnswer, cardsProvider.getFirstAnswers());
+        answerImageTab = imgTxtDisplay.init(frameLayout, tvAnswer, cardsProvider.getFirstAnswers());
     }
 
     @OnClick({R.id.correct_ans_btn, R.id.incorrect_ans_btn})
@@ -63,16 +63,16 @@ public class AnswerFragment extends Fragment {
     }
 
     public void initOnRestart() {
-        imgTxtDisplayer.initOnRestart(answerImageTab, tvAnswer, cardsProvider.getFirstAnswers());
+        imgTxtDisplay.initOnRestart(answerImageTab, tvAnswer, cardsProvider.getFirstAnswers());
     }
 
     public void changeData() {
-        imgTxtDisplayer.changeData(cardsProvider.getNextAnswer(),
+        imgTxtDisplay.changeData(cardsProvider.getNextAnswer(),
                 cardsProvider.getLaterAnswer(), tvAnswer, answerImageTab);
     }
 
-    public void setVariables(ImageTextDisplayer imgTxtDisp, CardsProvider cardsProv) {
-        imgTxtDisplayer = imgTxtDisp;
+    public void setVariables(ImageTextDisplay imgTxtDisp, CardsProvider cardsProv) {
+        imgTxtDisplay = imgTxtDisp;
         cardsProvider = cardsProv;
     }
 }

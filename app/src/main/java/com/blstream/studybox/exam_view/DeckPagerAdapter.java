@@ -16,22 +16,21 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     private final ExamActivity.Deck deck;
     private final QuestionFragment questionFragment;
     private final AnswerFragment answerFragment;
-    private int preloadImageCount;
-    ImageTextDisplayer imgTxtDisplayer;
-    CardsProvider cardsProvider;
+    private final ImageTextDisplay imgTxtDisplay;
+    private final CardsProvider cardsProvider;
 
     public DeckPagerAdapter(FragmentManager fragmentManager, ExamActivity.Deck deck,
                             int preloadImageCount, Activity activity) {
         super(fragmentManager);
         this.deck = deck;
         setPreloadImageCount(preloadImageCount);
-        imgTxtDisplayer = new ImageTextDisplayer(preloadImageCount, activity);
+        imgTxtDisplay = new ImageTextDisplay(preloadImageCount, activity);
         cardsProvider = new CardsProvider(deck, preloadImageCount);
 
         questionFragment = new QuestionFragment();
         answerFragment = new AnswerFragment();
-        questionFragment.setVariables(imgTxtDisplayer, cardsProvider);
-        answerFragment.setVariables(imgTxtDisplayer, cardsProvider);
+        questionFragment.setVariables(imgTxtDisplay, cardsProvider);
+        answerFragment.setVariables(imgTxtDisplay, cardsProvider);
     }
 
     @Override
@@ -51,8 +50,9 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public void setPreloadImageCount(int preImgCount) {
-        if(preloadImageCount > MAX_PRELOAD_IMAGE_COUNT)
+    private void setPreloadImageCount(int preImgCount) {
+        int preloadImageCount;
+        if(preImgCount > MAX_PRELOAD_IMAGE_COUNT)
             preloadImageCount = MAX_PRELOAD_IMAGE_COUNT;
         else
             preloadImageCount = preImgCount;
@@ -65,14 +65,14 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
 
     public void changeData(){
         cardsProvider.changeCard();
-        imgTxtDisplayer.setImgIndexes(cardsProvider.getPosition());
+        imgTxtDisplay.setImgIndexes(cardsProvider.getPosition());
         answerFragment.changeData();
         questionFragment.changeData();
     }
 
     public void onResultDisplay(){
         cardsProvider.initOnRestart();
-        imgTxtDisplayer.setImgIndexes(cardsProvider.getPosition());
+        imgTxtDisplay.setImgIndexes(cardsProvider.getPosition());
         answerFragment.initOnRestart();
         questionFragment.initOnRestart();
     }

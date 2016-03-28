@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.CardsProvider;
-import com.blstream.studybox.exam_view.ImageTextDisplayer;
+import com.blstream.studybox.exam_view.ImageTextDisplay;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,15 +29,10 @@ public class QuestionFragment extends Fragment {
 
     private static final String PROMPT = "Podpowiedz";
     private ImageView[] questionImageTab;
-    private ImageTextDisplayer imgTxtDisplayer;
+    private ImageTextDisplay imgTxtDisplay;
     private CardsProvider cardsProvider;
     private String prompt;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,28 +42,28 @@ public class QuestionFragment extends Fragment {
         return view;
     }
 
-    public void initView(View view) {
+    private void initView(View view) {
         ButterKnife.bind(this, view);
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.questionContainer);
 
         prompt = cardsProvider.getFirstPrompt();
-        questionImageTab = imgTxtDisplayer.init(frameLayout, tvQuestion, cardsProvider.getFirstQuestions());
+        questionImageTab = imgTxtDisplay.init(frameLayout, tvQuestion, cardsProvider.getFirstQuestions());
     }
 
     public void initOnRestart(){
         this.prompt = cardsProvider.getFirstPrompt();
-        imgTxtDisplayer.initOnRestart(questionImageTab, tvQuestion, cardsProvider.getFirstQuestions());
+        imgTxtDisplay.initOnRestart(questionImageTab, tvQuestion, cardsProvider.getFirstQuestions());
         setPromptView();
     }
 
     public void changeData() {
         this.prompt = cardsProvider.getNextPrompt();
         setPromptView();
-        imgTxtDisplayer.changeData(cardsProvider.getNextQuestion(),
+        imgTxtDisplay.changeData(cardsProvider.getNextQuestion(),
                 cardsProvider.getLaterQuestion(), tvQuestion, questionImageTab);
     }
 
-    public void setPromptView() {
+    private void setPromptView() {
         if(prompt.equals("")) {
             tvPrompt.setTextColor(Color.GRAY);
             tvPrompt.setClickable(false);
@@ -85,8 +80,8 @@ public class QuestionFragment extends Fragment {
         tvPrompt.setClickable(false);
     }
 
-    public void setVariables(ImageTextDisplayer imgTxtDisp, CardsProvider cardsProv) {
-        imgTxtDisplayer = imgTxtDisp;
+    public void setVariables(ImageTextDisplay imgTxtDisp, CardsProvider cardsProv) {
+        imgTxtDisplay = imgTxtDisp;
         cardsProvider = cardsProv;
     }
 }

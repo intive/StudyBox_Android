@@ -5,14 +5,14 @@ import com.blstream.studybox.activities.ExamActivity;
 
 public class CardsProvider {
 
-    private ExamActivity.Deck deck;
+    private final ExamActivity.Deck deck;
     private ExamActivity.Card currentCard;
     private ExamActivity.Card laterCard;
-    private int preloadImageCount;
+    private final int preloadImageCount;
     private int position;
     private String[] answers;
     private String[] questions;
-    private String prompt;
+    private final String prompt;
 
     public CardsProvider (ExamActivity.Deck deck, int preloadImageCount) {
         this.deck = deck;
@@ -23,7 +23,7 @@ public class CardsProvider {
         setFirstImgs();
     }
 
-    public void setFirstImgs(){
+    private void setFirstImgs(){
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
         ExamActivity.Card card;
@@ -46,7 +46,7 @@ public class CardsProvider {
         return prompt;
     }
 
-    public void updatePosition(){
+    private void updatePosition(){
         position++;
     }
 
@@ -85,7 +85,7 @@ public class CardsProvider {
         }
     }
 
-    public void setCards(){
+    private void setCards(){
         currentCard = deck.cards.get(position);
         if (deck.numberOfQuestions > position + preloadImageCount - 1) {
             laterCard = deck.cards.get(position + preloadImageCount - 1);
