@@ -14,10 +14,12 @@ import com.blstream.studybox.R;
 
 public class DrawerAdapter extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    //TODO
+    //Delete Toast messages and contexts after providing better tests for drawer
+    
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
-    //Only for testing
     Context context;
 
 
