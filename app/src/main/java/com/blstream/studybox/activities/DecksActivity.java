@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.blstream.studybox.components.DrawerAdapter;
@@ -46,6 +47,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     DrawerAdapter drawerAdapter;
     @Bind(R.id.contentView)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    @Bind(R.id.loadingView)
+    ProgressBar loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         //super.showError(e, pullToRefresh);
         super.showLightError(e.getMessage());
         contentView.setRefreshing(false);
+        loadingView.setVisibility(View.GONE);
     }
 
     @Override
