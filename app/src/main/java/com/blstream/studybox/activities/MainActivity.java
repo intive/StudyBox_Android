@@ -2,14 +2,13 @@ package com.blstream.studybox.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -17,6 +16,7 @@ import com.blstream.studybox.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +44,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return true;
     }
 
     @Override
@@ -91,3 +98,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
+

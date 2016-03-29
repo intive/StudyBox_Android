@@ -16,11 +16,12 @@
             android:id="@+id/question"
             android:text="@string/question"
             android:textSize="@dimen/exam_medium_text"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
         <ImageView
             android:id="@+id/question_image"
@@ -38,14 +39,14 @@
     <TextView
         android:id="@+id/prompt"
         android:text="@string/prompt"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textSize="@dimen/exam_small_text"
         android:textColor="@color/white"
         android:layout_weight="0.4"
         android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:background="@color/colorRaspberry"
+        android:background="@color/colorDarkBlue"
         android:gravity="center" />
 
 </LinearLayout>
