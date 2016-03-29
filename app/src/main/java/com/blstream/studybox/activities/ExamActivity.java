@@ -1,12 +1,17 @@
 package com.blstream.studybox.activities;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
 import com.blstream.studybox.BaseActivity;
 import com.blstream.studybox.R;
+import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.DeckViewPager;
 
@@ -30,11 +35,21 @@ public class ExamActivity extends BaseActivity {
     @Bind(R.id.vpPager)
     public DeckViewPager viewPager;
 
+    @Bind(R.id.toolbar_exam)
+    Toolbar toolbar;
+
+    @Bind(R.id.nav_view_exam)
+    NavigationView navigationView;
+
+    @Bind(R.id.drawer_layout_exam)
+    DrawerLayout drawerLayout;
+
     private DeckPagerAdapter adapterViewPager;
     private int pageCounter;
     private int correctAnswersCounter;
     private int totalPages;
     private Integer noOfQuestions;
+    DrawerAdapter drawerAdapter;
 
     //------For testing------
     final List<Card> questions = new ArrayList<>();
@@ -68,8 +83,13 @@ public class ExamActivity extends BaseActivity {
         totalPages = noOfQuestions * 2 + 1;
     }
 
-    public void initView() {
+    private void initView() {
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        Context context = getApplicationContext();      //only For testing
+        drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
+        drawerAdapter.attachDrawer();
+
         deckName.setText(deck.deckName);
         questionNo.setText(getString(R.string.question_no, pageCounter/2 + 1));
         correctAnswers.setText(getString(
@@ -78,6 +98,8 @@ public class ExamActivity extends BaseActivity {
                 new DeckPagerAdapter(getSupportFragmentManager(), deck);
         viewPager.setAdapter(adapterViewPager);
         viewPager.setOffscreenPageLimit(5);
+
+
     }
 
     public void showNextPage(View view) {
@@ -155,6 +177,13 @@ public class ExamActivity extends BaseActivity {
             numberOfQuestions = nOfQue;
             cards = crds;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.edit_toolbar_menu, menu);
+        return true;
     }
     //------For testing------
 }

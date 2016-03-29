@@ -1,5 +1,7 @@
 package com.blstream.studybox;
 
+import com.blstream.studybox.debugger.DebugHelper;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class Application extends android.app.Application {
@@ -7,6 +9,7 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        DebugHelper.initialize(this, true, true);
         customFontInit();
     }
 
