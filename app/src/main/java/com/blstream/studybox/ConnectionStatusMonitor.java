@@ -24,11 +24,9 @@ public class ConnectionStatusMonitor extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // First time we use receiver. We need to assign context and create snackbar.
         if (contextFromActiveActivity == null) {
             contextFromActiveActivity = context;
             snackbar = createSnackbar(contextFromActiveActivity);
-            // Context is different from previous, so activity changed and we need update context and snackbar.
         } else if (context != contextFromActiveActivity) {
             contextFromActiveActivity = context;
             snackbar = createSnackbar(contextFromActiveActivity);
@@ -38,10 +36,7 @@ public class ConnectionStatusMonitor extends BroadcastReceiver {
     }
 
     private Snackbar createSnackbar(Context context) {
-        // Getting root view from activity that broadcast intent.
         View rootView = ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
-        //CoordinatorLayout view = (CoordinatorLayout) rootView.findViewById(R.id.coordinatorLayout);
-
         View view = useCoordinatorLayoutIfPossible(rootView);
 
         Snackbar createdSnackbar = Snackbar
