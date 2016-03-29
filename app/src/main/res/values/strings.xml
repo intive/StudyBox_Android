@@ -14,6 +14,15 @@
     <string name="title_activity_decks">DecksActivity</string>
     <string name="quantity_icon">An icon signifies a questions in deck</string>
 
+    <string name="title_activity_drawer">Drawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="nav_text_user">StudyBox User</string>
+    <string name="nav_text_email">user@email.com</string>
+
     <string name="title_activity_login">LoginActivity</string>
     <string name="email">E-MAIL</string>
     <string name="password">HASŁO</string>
@@ -39,4 +48,5 @@
     <string name="your_score">Twój wynik</string>
     <string name="my_decks">Moje talie</string>
     <string name="improve_result">Popraw wynik</string>
+
 </resources>
