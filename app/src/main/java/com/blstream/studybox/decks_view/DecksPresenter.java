@@ -25,12 +25,13 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> {
                         }
                     }
         
-            @Override
-            public void onFailure(RetrofitError error) {
-                if (isViewAttached()) {
-                    getView().showError(error, pullToRefresh);
-                }
-            }
-        }));
+                    @Override
+                    public void onFailure(RetrofitError error) {
+                        if (isViewAttached()) {
+                            getView().showError(error, pullToRefresh);
+                        }
+                    }
+                })
+        );
     }
 }
