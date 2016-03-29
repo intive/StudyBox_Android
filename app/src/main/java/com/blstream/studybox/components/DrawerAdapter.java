@@ -16,7 +16,7 @@ public class DrawerAdapter extends AppCompatActivity implements NavigationView.O
 
     //TODO
     //Delete Toast messages and contexts after providing better tests for drawer
-    
+
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     Toolbar toolbar;

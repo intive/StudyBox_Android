@@ -51,10 +51,10 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         this.clickListener = clickListener;
     }
 
-    public DecksAdapter(){
-        this.decksList = new DecksList();
+    public DecksAdapter() {
+        decksList = new DecksList();
     }
-
+    
     public DecksAdapter(DecksList decksList) {
         this.decksList = decksList;
     }
