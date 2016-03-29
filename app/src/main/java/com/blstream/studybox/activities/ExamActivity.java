@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blstream.studybox.BaseActivity;
 import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.DeckViewPager;
@@ -15,7 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExamActivity extends AppCompatActivity {
+public class ExamActivity extends BaseActivity {
 
     @Bind(R.id.deckName)
     public TextView deckName;

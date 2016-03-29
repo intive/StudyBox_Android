@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:fitsSystemWindows="true">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -14,31 +18,32 @@
             android:fitsSystemWindows="true">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin"
                 android:layout_marginRight="@dimen/layout_margin"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:src="@drawable/splashimage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/image_description" />
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/splashimage" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/input_email"
-                        android:imeOptions="flagNoExtractUi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/text_view_margin"
-                        android:inputType="textEmailAddress"
-                        android:hint="@string/email" />
+                        android:hint="@string/email"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="textEmailAddress" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -47,12 +52,12 @@
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/input_password"
-                        android:imeOptions="flagNoExtractUi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/text_view_margin"
-                        android:inputType="textPassword"
-                        android:hint="@string/password"/>
+                        android:hint="@string/password"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="textPassword" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -61,24 +66,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_view_margin"
-                    android:text="@string/login"
                     android:background="@color/colorRaspberry"
+                    android:text="@string/login"
                     android:textColor="@color/colorGrey" />
 
-                <TextView android:id="@+id/link_unlicensed_user"
+                <TextView
+                    android:id="@+id/link_unlicensed_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_view_margin"
-                    android:text="@string/unlicensed_user"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:text="@string/unlicensed_user" />
 
-                <TextView android:id="@+id/link_sign_up"
+                <TextView
+                    android:id="@+id/link_sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_view_margin"
-                    android:text="@string/sign_up"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:text="@string/sign_up" />
 
             </LinearLayout>
         </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

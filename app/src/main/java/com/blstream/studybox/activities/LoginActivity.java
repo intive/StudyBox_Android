@@ -6,15 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blstream.studybox.BaseActivity;
 import com.blstream.studybox.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Bartosz Kozajda on 16.03.2016.
- */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     @Bind(R.id.link_unlicensed_user)
     TextView unlicensedUserLink;
 
