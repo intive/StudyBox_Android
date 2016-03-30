@@ -18,12 +18,13 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     private final AnswerFragment answerFragment;
     private final ImageTextDisplay imgTxtDisplay;
     private final CardsProvider cardsProvider;
+    private int preloadImageCount;
 
     public DeckPagerAdapter(FragmentManager fragmentManager, Deck deck,
                             int preloadImageCount, Activity activity) {
         super(fragmentManager);
         this.deck = deck;
-        setPreloadImageCount(preloadImageCount);
+        setPreloadImageCount(preImagCount);
         imgTxtDisplay = new ImageTextDisplay(preloadImageCount, activity);
         cardsProvider = new CardsProvider(deck, preloadImageCount);
 
@@ -51,7 +52,6 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private void setPreloadImageCount(int preImgCount) {
-        int preloadImageCount;
         if(preImgCount > MAX_PRELOAD_IMAGE_COUNT)
             preloadImageCount = MAX_PRELOAD_IMAGE_COUNT;
         else

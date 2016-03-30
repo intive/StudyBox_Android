@@ -2,6 +2,7 @@ package com.blstream.studybox.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blstream.studybox.ConnectionStatusReceiver;
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
 import com.blstream.studybox.login_view.LoginPresenter;
 import com.blstream.studybox.login_view.LoginView;
@@ -20,12 +23,11 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Bartosz Kozajda on 16.03.2016.
- */
+
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
     implements LoginView {
-
+    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    
     @Bind(R.id.input_email)
     TextInputEditText emailInput;
 
@@ -72,6 +74,19 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 
     @Override

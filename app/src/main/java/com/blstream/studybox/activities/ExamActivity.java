@@ -1,17 +1,23 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
+import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.Constants;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.R;
+import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
@@ -25,6 +31,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
+
+    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.deckName)
     public TextView deckName;
@@ -65,6 +73,18 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
         setVariables();
         initView();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 
     private void initView() {
@@ -142,7 +162,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         viewPager.setCurrentItem(0, false);
     }
 
-
     @Override
     public void onMoveToNextCard(boolean addCorrectAnswer) {
         updateCard(addCorrectAnswer);
@@ -159,7 +178,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         if (deck == null) {
             return;
         }
-
         for (Card card : deck.getCards()) {
             questions.add(card);
         }
