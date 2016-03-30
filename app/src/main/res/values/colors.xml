@@ -7,6 +7,11 @@
     <color name="colorGraphite">#424242</color>
     <color name="colorGrey">#FAFAFA</color>
 
+
+    <color name="colorRaspberryDark">#af0049</color>
+    <color name="colorRaspberryLight">#f23c88</color>
+    <color name="colorGraphiteLight">#686868</color>
+
     <!-- Exam colors -->
     <color name="white">#FFFFFF</color>
 
