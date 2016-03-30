@@ -9,8 +9,7 @@ import com.blstream.studybox.login.LoginUtils;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    // TODO Reset to default value, which is 3000
-    private static final int SPLASH_DISPLAY_LENGTH = 30;
+    private static final int SPLASH_DISPLAY_LENGTH = 3000;
     private static Handler   splashHandler;
     private static Runnable  splashRunnable;
     private static boolean   splashRunning;
