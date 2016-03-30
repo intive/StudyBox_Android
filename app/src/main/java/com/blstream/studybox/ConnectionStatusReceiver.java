@@ -12,11 +12,20 @@ import java.util.List;
 
 /**
  * Class for monitoring network connection status.
- * Provide interface "ConnectionStatusReceiverListener" with two methods :
+ * In every activity should be:
+ *  public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+ * and
+ *  IntentFilter filter = new IntentFilter(Constants.ACTION);
+ *  registerReceiver(connectionStatusReceiver, filter);
+ * in OnResume() method, and
+ *  unregisterReceiver(connectionStatusReceiver);
+ * in OnPause() method.
+ *
+ * This receiver provides also interface "ConnectionStatusReceiverListener" with two methods :
  * - networkAvailable()
  * - networkUnavailable()
  * To use this you need to implement "ConnectionStatusReceiver.ConnectionStatusReceiverListener" in
- * your activity and call "connectionStatusReceiver.addListener(this);".
+ * your activity and call "connectionStatusReceiver.addListener(this);" in e.g. .
  */
 
 public class ConnectionStatusReceiver extends BroadcastReceiver {

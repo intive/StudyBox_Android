@@ -1,17 +1,20 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.blstream.studybox.BaseActivity;
+import com.blstream.studybox.ConnectionStatusReceiver;
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
 
 import butterknife.Bind;
@@ -19,7 +22,8 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -44,6 +48,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 
     @Override
