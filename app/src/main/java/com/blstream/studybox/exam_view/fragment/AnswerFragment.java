@@ -1,43 +1,39 @@
 package com.blstream.studybox.exam_view.fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.squareup.picasso.Picasso;
+import com.blstream.studybox.exam_view.CardsProvider;
+import com.blstream.studybox.exam_view.ImageTextDisplay;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AnswerFragment extends Fragment {
 
     @Bind(R.id.answer)
     public TextView tvAnswer;
 
-    @Bind(R.id.answer_image)
-    public ImageView answerImage;
+    private ImageView[] answerImageTab;
+    private ImageTextDisplay imgTxtDisplay;
+    private CardsProvider cardsProvider;
+    private Activity activity;
 
-    private String answer;
-
-    public static AnswerFragment newInstance(String answer) {
-        AnswerFragment answerFragment = new AnswerFragment();
-        Bundle args = new Bundle();
-        args.putString("answer", answer);
-        answerFragment.setArguments(args);
-        return answerFragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        answer = getArguments().getString("answer");
+        activity = getActivity();
     }
 
     @Override
@@ -50,22 +46,33 @@ public class AnswerFragment extends Fragment {
 
     private void initView(View view){
         ButterKnife.bind(this, view);
-        setAnswerView();
+        FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.answerContainer);
+        answerImageTab = imgTxtDisplay.init(frameLayout, tvAnswer, cardsProvider.getFirstAnswers());
     }
 
-    private void setAnswerView(){
-        if (Patterns.WEB_URL.matcher(answer).matches()) {
-            setAnswerVisibility(View.INVISIBLE, View.VISIBLE);
-            Picasso.with(getActivity()).load(answer).fit().centerInside()
-                    .placeholder(R.drawable.camera).into(answerImage);
-        } else {
-            tvAnswer.setText(answer);
-            setAnswerVisibility(View.VISIBLE, View.INVISIBLE);
-        }
+    @OnClick({R.id.correct_ans_btn, R.id.incorrect_ans_btn})
+    public void onClick(View view) {
+        if(view.getId() == R.id.correct_ans_btn)
+            ((OnMoveToNextCard)activity).onMoveToNextCard(true);
+        else
+            ((OnMoveToNextCard)activity).onMoveToNextCard(false);
     }
 
-    private void setAnswerVisibility(int tvVisibility, int imgVisibility){
-        tvAnswer.setVisibility(tvVisibility);
-        answerImage.setVisibility(imgVisibility);
+    public interface OnMoveToNextCard {
+        void onMoveToNextCard(boolean addCorrectAnswer);
+    }
+
+    public void initOnRestart() {
+        imgTxtDisplay.initOnRestart(answerImageTab, tvAnswer, cardsProvider.getFirstAnswers());
+    }
+
+    public void changeData() {
+        imgTxtDisplay.changeData(cardsProvider.getNextAnswer(),
+                cardsProvider.getLaterAnswer(), tvAnswer, answerImageTab);
+    }
+
+    public void setVariables(ImageTextDisplay imgTxtDisp, CardsProvider cardsProv) {
+        imgTxtDisplay = imgTxtDisp;
+        cardsProvider = cardsProv;
     }
 }

@@ -3,15 +3,16 @@ package com.blstream.studybox.exam_view.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.squareup.picasso.Picasso;
+import com.blstream.studybox.exam_view.CardsProvider;
+import com.blstream.studybox.exam_view.ImageTextDisplay;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,28 +26,13 @@ public class QuestionFragment extends Fragment {
 
     @Bind(R.id.prompt)
     public TextView tvPrompt;
-    
-    @Bind(R.id.question_image)
-    public ImageView questionImage;
 
-    private String question;
+    private static final String PROMPT = "Podpowiedz";
+    private ImageView[] questionImageTab;
+    private ImageTextDisplay imgTxtDisplay;
+    private CardsProvider cardsProvider;
     private String prompt;
 
-    public static QuestionFragment newInstance(String question, String prompt) {
-        QuestionFragment questionFragment = new QuestionFragment();
-        Bundle args = new Bundle();
-        args.putString("question", question);
-        args.putString("prompt", prompt);
-        questionFragment.setArguments(args);
-        return questionFragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        question = getArguments().getString("question");
-        prompt = getArguments().getString("prompt");
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,38 +42,46 @@ public class QuestionFragment extends Fragment {
         return view;
     }
 
-    public void initView(View view) {
+    private void initView(View view) {
         ButterKnife.bind(this, view);
-        setQuestionView();
+        FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.questionContainer);
+
+        prompt = cardsProvider.getFirstPrompt();
+        questionImageTab = imgTxtDisplay.init(frameLayout, tvQuestion, cardsProvider.getFirstQuestions());
+    }
+
+    public void initOnRestart(){
+        this.prompt = cardsProvider.getFirstPrompt();
+        imgTxtDisplay.initOnRestart(questionImageTab, tvQuestion, cardsProvider.getFirstQuestions());
         setPromptView();
     }
 
-    public void setQuestionView() {
-        if (Patterns.WEB_URL.matcher(question).matches()) {
-            setQuestionVisibility(View.INVISIBLE, View.VISIBLE);
-            Picasso.with(getActivity()).load(question).fit().centerInside()
-                    .placeholder(R.drawable.camera).into(questionImage);
-        } else {
-            tvQuestion.setText(question);
-            setQuestionVisibility(View.VISIBLE, View.INVISIBLE);
-        }
+    public void changeData() {
+        this.prompt = cardsProvider.getNextPrompt();
+        setPromptView();
+        imgTxtDisplay.changeData(cardsProvider.getNextQuestion(),
+                cardsProvider.getLaterQuestion(), tvQuestion, questionImageTab);
     }
 
-    public void setQuestionVisibility(int tvVisibility, int imgVisibility){
-        tvQuestion.setVisibility(tvVisibility);
-        questionImage.setVisibility(imgVisibility);
-    }
-
-    public void setPromptView() {
-        if(prompt.equals(""))
+    private void setPromptView() {
+        if(prompt.equals("")) {
             tvPrompt.setTextColor(Color.GRAY);
-        else
+            tvPrompt.setClickable(false);
+        } else {
             tvPrompt.setClickable(true);
+            tvPrompt.setTextColor(Color.WHITE);
+        }
+        tvPrompt.setText(PROMPT);
     }
 
     @OnClick (R.id.prompt)
-        public void onClick(View view) {
-            tvPrompt.setText(prompt);
-            tvPrompt.setClickable(false);
-        }
+    public void onClick(View view) {
+        tvPrompt.setText(prompt);
+        tvPrompt.setClickable(false);
+    }
+
+    public void setVariables(ImageTextDisplay imgTxtDisp, CardsProvider cardsProv) {
+        imgTxtDisplay = imgTxtDisp;
+        cardsProvider = cardsProv;
+    }
 }
