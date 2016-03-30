@@ -1,6 +1,7 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -85,6 +86,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     public void onItemClick(int position, View v) {
         // start test
         Toast.makeText(this, "You clicked a card: " + position, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, ExamActivity.class);
+        startActivity(intent);
     }
 
     @Override
