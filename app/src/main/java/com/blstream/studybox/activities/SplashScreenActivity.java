@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.blstream.studybox.login.LoginUtils;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static final int SPLASH_DISPLAY_LENGTH = 3000;
@@ -21,7 +23,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         if (splashRunnable == null) {
-            splashRunnable = initializeSplashRunnable(ExamActivity.class);
+            if (LoginUtils.isUserLoggedIn(SplashScreenActivity.this)){
+                splashRunnable = initializeSplashRunnable(DecksActivity.class);
+            } else {
+                splashRunnable = initializeSplashRunnable(LoginActivity.class);
+            }
         }
 
         if (!splashRunning) {
