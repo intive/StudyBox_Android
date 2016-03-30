@@ -26,7 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             if (LoginUtils.isUserLoggedIn(SplashScreenActivity.this)){
                 splashRunnable = initializeSplashRunnable(DecksActivity.class);
             } else {
-                splashRunnable = initializeSplashRunnable(ExamActivity.class);
+                splashRunnable = initializeSplashRunnable(LoginActivity.class);
             }
         }
 
