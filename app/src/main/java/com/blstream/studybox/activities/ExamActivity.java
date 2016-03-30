@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
@@ -65,7 +66,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setContentView(R.layout.activity_exam);
 
         Bundle data = getIntent().getExtras();
-        deck = data.getParcelable("DECK");
+        deck = data.getParcelable(Constants.DECK_DATA_KEY);
 
         //------For testing------
         populateDeck();
@@ -122,7 +123,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         resultDialog.show(getSupportFragmentManager(), "result");
     }
 
-    private void restarExam(){
+    private void restartExam(){
         setInitialValues();
         adapterViewPager.onResultDisplay();
         setFirstCard();
@@ -160,7 +161,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     @Override
     public void onResultShow(){
-        restarExam();
+        restartExam();
     }
 
     private void populateDeck() {

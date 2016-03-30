@@ -1,4 +1,3 @@
-
 package com.blstream.studybox.model;
 
 import android.os.Parcel;
@@ -26,7 +25,7 @@ public class Deck implements Parcelable{
     private Integer noOfQuestions;
     @SerializedName("cards")
     @Expose
-    private List<Card> cards = new ArrayList<Card>();
+    private List<Card> cards;
 
     // TODO: delete, its only for time when change model
     public Deck(int dNo, String dName, Integer nOfQue, List<Card> crds) {
@@ -118,7 +117,7 @@ public class Deck implements Parcelable{
         dest.writeInt(deckNo);
         dest.writeString(deckName);
         dest.writeInt(noOfQuestions);
-   //     dest.writeList(cards);
+        dest.writeTypedList(cards);
     }
 
     public static final Creator<Deck> CREATOR = new Creator<Deck>() {
@@ -137,5 +136,8 @@ public class Deck implements Parcelable{
         deckNo = source.readInt();
         deckName = source.readString();
         noOfQuestions = source.readInt();
+
+        cards = new ArrayList<Card>();
+        source.readTypedList(cards, Card.CREATOR);
     }
 }

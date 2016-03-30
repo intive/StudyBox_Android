@@ -1,5 +1,7 @@
-
 package com.blstream.studybox.model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Card {
+public class Card implements Parcelable{
 
     @SerializedName("questionNo")
     @Expose
@@ -101,4 +103,35 @@ public class Card {
         this.answer = answer;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(questionNo);
+        dest.writeString(question);
+        dest.writeString(prompt);
+        dest.writeString(answer);
+    }
+
+    public static final Creator<Card> CREATOR = new Creator<Card>() {
+        @Override
+        public Card createFromParcel(Parcel source) {
+            return new Card(source);
+        }
+
+        @Override
+        public Card[] newArray(int size) {
+            return new Card[size];
+        }
+    };
+
+    private Card(Parcel source) {
+        questionNo = source.readInt();
+        question = source.readString();
+        prompt = source.readString();
+        answer = source.readString();
+    }
 }

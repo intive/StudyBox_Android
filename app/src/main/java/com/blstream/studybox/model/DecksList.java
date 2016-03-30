@@ -1,4 +1,3 @@
-
 package com.blstream.studybox.model;
 
 import com.google.gson.annotations.Expose;

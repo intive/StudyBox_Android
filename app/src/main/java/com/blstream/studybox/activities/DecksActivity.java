@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.R;
 import com.blstream.studybox.decks_view.DecksAdapter;
@@ -90,7 +91,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         Toast.makeText(this, "You clicked a card: " + position, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra("DECK", decksList.getDecks().get(position));
+        intent.putExtra(Constants.DECK_DATA_KEY, decksList.getDecks().get(position));
         startActivity(intent);
     }
 
