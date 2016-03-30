@@ -15,21 +15,23 @@ import retrofit.RetrofitError;
 public class DecksPresenter extends MvpBasePresenter<DecksView> {
 
     public void loadDecks(final boolean pullToRefresh) {
-        RestClientManager.getAllDecks(Constants.API_KEY, new RequestCallback<>(new RequestListener<DecksList>() {
-            @Override
-            public void onSuccess(DecksList response) {
-                if (isViewAttached()) {
-                    getView().setData(response);
-                    getView().showContent();
-                }
-            }
-
-            @Override
-            public void onFailure(RetrofitError error) {
-                if (isViewAttached()) {
-                    getView().showError(error, pullToRefresh);
-                }
-            }
-        }));
+        RestClientManager.getAllDecks(Constants.API_KEY, Constants.BASE_URL,
+                new RequestCallback<>(new RequestListener<DecksList>() {
+                    @Override
+                    public void onSuccess(DecksList response) {
+                        if (isViewAttached()) {
+                            getView().setData(response);
+                            getView().showContent();
+                        }
+                    }
+        
+                    @Override
+                    public void onFailure(RetrofitError error) {
+                        if (isViewAttached()) {
+                            getView().showError(error, pullToRefresh);
+                        }
+                    }
+                })
+        );
     }
 }
