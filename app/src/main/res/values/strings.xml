@@ -49,7 +49,7 @@
     <string name="my_decks">Moje talie</string>
     <string name="improve_result">Popraw wynik</string>
 
-    <string name="no_internet_connection">Brak polaczenia z internetem</string>
+    <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="open_options">USTAWIENIA</string>
 
 </resources>
