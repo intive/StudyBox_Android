@@ -34,12 +34,12 @@
         </activity>
         <activity android:name=".activities.DecksActivity"
             android:label="@string/title_activity_decks"
-            android:theme="@style/NoDrawerTheme">
+            android:theme="@style/StudyBoxTheme">
         </activity>
         <activity
             android:name=".activities.ExamActivity"
             android:label="@string/title_activity_exam"
-            android:theme="@style/NoDrawerTheme"
+            android:theme="@style/StudyBoxTheme"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
     </application>

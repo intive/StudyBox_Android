@@ -70,6 +70,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setVariables();
         initView();
     }
+
     @Override
     protected void onResume(){
         super.onResume();
@@ -95,25 +96,26 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         adapterViewPager =
-                new DeckPagerAdapter(getSupportFragmentManager(), deck, 4, this);
+                new DeckPagerAdapter(getSupportFragmentManager(), deck, 0, this);
         viewPager.setAdapter(adapterViewPager);
     }
 
-    private void setVariables(){
+    private void setVariables() {
         noOfQuestions = deck.getNoOfQuestions();
         cardCounter = 1;
     }
 
-    private void updateCard(boolean addCorrectAnswer){
+    private void updateCard(boolean addCorrectAnswer) {
         updateCounters(addCorrectAnswer);
         setCard();
     }
 
-    private void setCard(){
-        if(cardCounter - 1  == noOfQuestions)
+    private void setCard() {
+        if (cardCounter - 1  == noOfQuestions) {
             displayResult();
-        else
+        } else {
             displayNextCard();
+        }
     }
 
     private void displayNextCard() {
@@ -130,7 +132,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         resultDialog.show(getSupportFragmentManager(), "result");
     }
 
-    private void restartExam(){
+    private void restartExam() {
         setInitialValues();
         adapterViewPager.onResultDisplay();
         setFirstCard();
@@ -142,11 +144,12 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void updateCorrectAnswersCounter(boolean addCorrectAnswer){
-        if(addCorrectAnswer)
+        if (addCorrectAnswer) {
             correctAnswersCounter++;
+        }
     }
 
-    private void setInitialValues(){
+    private void setInitialValues() {
         cardCounter = 1;
         correctAnswersCounter = 0;
     }
@@ -164,7 +167,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    public void onResultShow(){
+    public void onResultShow() {
         restartExam();
     }
 
@@ -173,10 +176,12 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         if (data == null) {
             return;
         }
+
         deck = data.getParcelable(Constants.DECK_DATA_KEY);
         if (deck == null) {
             return;
         }
+
         for (Card card : deck.getCards()) {
             questions.add(card);
         }
