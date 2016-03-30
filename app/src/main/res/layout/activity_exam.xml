@@ -8,10 +8,31 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/app_bar_exam"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:text="@string/deck_name"
+        android:id="@+id/deckName"
+        android:gravity="center"
+        android:layout_margin="@dimen/exam_element_margin" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/question_no"
+        android:id="@+id/questionNo"
+        android:gravity="center" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpPager"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.99">
+    </android.support.v4.view.ViewPager>
+    <!--<include-->
+        <!--layout="@layout/app_bar_exam"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view_exam"
