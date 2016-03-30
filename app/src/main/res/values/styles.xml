@@ -2,7 +2,6 @@
 
     <!-- Base application Theme -->
     <style name="StudyBoxTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
         <item name="colorPrimaryDark">@color/colorGraphite</item>
         <item name="colorPrimary">@color/colorRaspberry</item>
         <item name="colorAccent">@color/colorDarkBlue</item>
@@ -10,8 +9,6 @@
         <item name="android:windowBackground">@color/colorGrey</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-
     </style>
 
     <!-- Style for font "Lato-Black" -->
@@ -25,6 +22,17 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- Style for activities without navigation drawer -->
+    <style name="NoDrawerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/colorGraphite</item>
+        <item name="colorPrimary">@color/colorRaspberry</item>
+        <item name="colorAccent">@color/colorDarkBlue</item>
+        <item name="android:colorBackground">@color/colorGrey</item>
+        <item name="android:windowBackground">@color/colorGrey</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="StudyBoxTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

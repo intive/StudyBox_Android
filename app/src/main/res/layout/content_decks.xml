@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/contentView"
         android:layout_width="match_parent"
