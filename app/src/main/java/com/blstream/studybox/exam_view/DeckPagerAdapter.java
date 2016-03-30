@@ -21,7 +21,7 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     private int preloadImageCount;
 
     public DeckPagerAdapter(FragmentManager fragmentManager, Deck deck,
-                            int preloadImageCount, Activity activity) {
+                            int preImagCount, Activity activity) {
         super(fragmentManager);
         this.deck = deck;
         setPreloadImageCount(preImagCount);
