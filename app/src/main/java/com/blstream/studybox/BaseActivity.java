@@ -4,18 +4,18 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
-    private ConnectionStatusMonitor connectionStatusMonitor = new ConnectionStatusMonitor();
+    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Override
     public void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusMonitor, filter);
+        registerReceiver(connectionStatusReceiver, filter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        unregisterReceiver(connectionStatusMonitor);
+        unregisterReceiver(connectionStatusReceiver);
     }
 }

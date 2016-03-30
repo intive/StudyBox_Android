@@ -2,16 +2,18 @@ package com.blstream.studybox.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.blstream.studybox.BaseActivity;
+import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity{
     @Bind(R.id.link_unlicensed_user)
     TextView unlicensedUserLink;
 
@@ -30,5 +32,4 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
-
 }
