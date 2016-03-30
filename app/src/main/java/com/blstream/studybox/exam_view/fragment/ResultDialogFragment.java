@@ -3,6 +3,7 @@ package com.blstream.studybox.exam_view.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.activities.DecksActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,6 +60,11 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     @OnClick(R.id.improve_result)
     public void onClick(View view) {
         dismiss();
+    }
+
+    @OnClick(R.id.my_decks)
+    public void backToMyDecks(View view) {
+        startActivity(new Intent(getContext(), DecksActivity.class));
     }
 
     @Override
