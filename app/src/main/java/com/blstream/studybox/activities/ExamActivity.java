@@ -7,8 +7,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.View;
 import android.widget.TextView;
 
 import com.blstream.studybox.components.DrawerAdapter;
@@ -16,6 +14,8 @@ import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
+import com.blstream.studybox.model.Card;
+import com.blstream.studybox.model.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +55,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     //------For testing------
     private final List<Card> questions = new ArrayList<>();
+
     private Deck deck;
     //------For testing------
 
@@ -62,6 +63,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+
+        Bundle data = getIntent().getExtras();
+        deck = data.getParcelable("DECK");
 
         //------For testing------
         populateDeck();
@@ -78,7 +82,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
         drawerAdapter.attachDrawer();
 
-        deckName.setText(deck.deckName);
+        deckName.setText(deck.getDeckName());
         questionNo.setText(getString(R.string.question_no, cardCounter));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
@@ -88,7 +92,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setVariables(){
-        noOfQuestions = deck.numberOfQuestions;
+        noOfQuestions = deck.getNoOfQuestions();
         cardCounter = 1;
     }
 
@@ -114,7 +118,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void displayResult(){
         ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
-                correctAnswersCounter, deck.numberOfQuestions);
+                correctAnswersCounter, deck.getNoOfQuestions());
         resultDialog.show(getSupportFragmentManager(), "result");
     }
 
@@ -159,34 +163,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         restarExam();
     }
 
-    //------For testing------
-    public class Card{
-        public final String question;
-        public final String answer;
-        public final String prompt;
+    private void populateDeck() {
 
-        public Card(String que, String prmt, String ans){
-            question = que;
-            answer = ans;
-            prompt = prmt;
-        }
-    }
-
-    public class Deck{
-        public final Integer deckNumber;
-        public final String deckName;
-        public final int numberOfQuestions;
-        public final List<Card> cards;
-
-        public Deck(int dNo, String dName, Integer nOfQue, List<Card> crds){
-            deckNumber = dNo;
-            deckName = dName;
-            numberOfQuestions = nOfQue;
-            cards = crds;
-        }
-    }
-
-    private void populateDeck(){
         questions.add(new Card("Pytanie", "Dobra podpowiedz", "Odpowiedz"));
         questions.add(new Card("What gets wet with drying?", "", "http://animaliaz-life.com/data_images/horse/horse6.jpg"));
         questions.add(new Card("http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg", "Dobra podpowiedź", "http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg"));

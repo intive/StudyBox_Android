@@ -52,6 +52,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     @Bind(R.id.loadingView)
     ProgressBar loadingView;
 
+    private DecksList decksList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         Toast.makeText(this, "You clicked a card: " + position, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, ExamActivity.class);
+        intent.putExtra("DECK", decksList.getDecks().get(position));
         startActivity(intent);
     }
 
@@ -98,6 +101,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void setData(DecksList data) {
+        decksList = data;
         adapter.setDecks(data);
         adapter.notifyDataSetChanged();
     }

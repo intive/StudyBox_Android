@@ -1,6 +1,9 @@
 
 package com.blstream.studybox.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +13,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Deck {
+public class Deck implements Parcelable{
 
     @SerializedName("deckNo")
     @Expose
@@ -24,6 +27,14 @@ public class Deck {
     @SerializedName("cards")
     @Expose
     private List<Card> cards = new ArrayList<Card>();
+
+    // TODO: delete, its only for time when change model
+    public Deck(int dNo, String dName, Integer nOfQue, List<Card> crds) {
+        deckNo = dNo;
+        deckName = dName;
+        noOfQuestions = nOfQue;
+        cards = crds;
+    }
 
     /**
      * 
@@ -97,4 +108,34 @@ public class Deck {
         this.cards = cards;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(deckNo);
+        dest.writeString(deckName);
+        dest.writeInt(noOfQuestions);
+   //     dest.writeList(cards);
+    }
+
+    public static final Creator<Deck> CREATOR = new Creator<Deck>() {
+        @Override
+        public Deck createFromParcel(Parcel source) {
+            return new Deck(source);
+        }
+
+        @Override
+        public Deck[] newArray(int size) {
+            return new Deck[size];
+        }
+    };
+
+    private Deck(Parcel source) {
+        deckNo = source.readInt();
+        deckName = source.readString();
+        noOfQuestions = source.readInt();
+    }
 }

@@ -22,6 +22,13 @@ public class Card {
     @Expose
     private String answer;
 
+    // TODO: delete, its only for time when change model
+    public Card(String que, String prmt, String ans) {
+            question = que;
+            answer = ans;
+            prompt = prmt;
+    }
+
     /**
      * 
      * @return
