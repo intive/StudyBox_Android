@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.blstream.studybox.activities.DecksActivity">
-
-    <android.support.design.widget.AppBarLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/StudyBoxTheme.AppBarOverlay">
+    android:layout_height="wrap_content"
+    android:theme="@style/StudyBoxTheme.AppBarOverlay">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_decks"
@@ -22,8 +12,4 @@
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/StudyBoxTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_decks"/>
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.AppBarLayout>
