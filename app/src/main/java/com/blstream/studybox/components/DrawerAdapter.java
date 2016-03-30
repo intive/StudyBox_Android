@@ -1,6 +1,7 @@
 package com.blstream.studybox.components;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.activities.LoginActivity;
+import com.blstream.studybox.login.LoginUtils;
 
 public class DrawerAdapter extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -21,7 +24,6 @@ public class DrawerAdapter extends AppCompatActivity implements NavigationView.O
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     Context context;
-
 
     public DrawerAdapter(NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar, Context context) {
         this.navigationView = navigationView;
@@ -58,6 +60,10 @@ public class DrawerAdapter extends AppCompatActivity implements NavigationView.O
             case R.id.statistics:
                 break;
             case R.id.logout:
+                LoginUtils.deleteUser(context);
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(intent);
                 break;
         }
 

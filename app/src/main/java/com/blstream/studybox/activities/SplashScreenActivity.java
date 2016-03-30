@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.blstream.studybox.login.LoginUtils;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     // TODO Reset to default value, which is 3000
@@ -22,7 +24,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         if (splashRunnable == null) {
-            splashRunnable = initializeSplashRunnable(LoginActivity.class);
+            if (LoginUtils.isUserLoggedIn(SplashScreenActivity.this)){
+                splashRunnable = initializeSplashRunnable(DecksActivity.class);
+            } else {
+                splashRunnable = initializeSplashRunnable(LoginActivity.class);
+            }
         }
 
         if (!splashRunning) {

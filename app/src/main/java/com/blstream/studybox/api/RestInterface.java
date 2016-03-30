@@ -3,7 +3,9 @@ package com.blstream.studybox.api;
 import com.blstream.studybox.model.DecksList;
 
 import retrofit.Callback;
+import retrofit.client.Response;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
@@ -12,4 +14,7 @@ import retrofit.http.Path;
 public interface RestInterface {
     @GET("/{json}")
     void getAllDecks(@Path("json") String json, Callback<DecksList> cb);
+
+    @POST("/loginba.php")
+    void authenticate(Callback<Response> callback);
 }
