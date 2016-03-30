@@ -27,13 +27,6 @@ public class Deck implements Parcelable{
     @Expose
     private List<Card> cards;
 
-    // TODO: delete, its only for time when change model
-    public Deck(int dNo, String dName, Integer nOfQue, List<Card> crds) {
-        deckNo = dNo;
-        deckName = dName;
-        noOfQuestions = nOfQue;
-        cards = crds;
-    }
 
     /**
      * 

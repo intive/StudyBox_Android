@@ -152,8 +152,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
 
-    //---------------------------
-
     @Override
     public void onMoveToNextCard(boolean addCorrectAnswer) {
         updateCard(addCorrectAnswer);
@@ -166,16 +164,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void populateDeck() {
 
-        questions.add(new Card("Pytanie", "Dobra podpowiedz", "Odpowiedz"));
-        questions.add(new Card("What gets wet with drying?", "", "http://animaliaz-life.com/data_images/horse/horse6.jpg"));
-        questions.add(new Card("http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg", "Dobra podpowiedź", "http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg"));
-        questions.add(new Card("What gets wet with drying?", "Bug? That's not a bug, that's a feature.", "A towel"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://upload.wikimedia.org/wikipedia/commons/a/a5/" +
-                "European_Rabbit,_Lake_District,_UK_-_August_2011.jpg"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://encrypted-tbn2.gstatic.com/" +
-                "images?q=tbn:ANd9GcSQsyEbYgkjylaK0Mym8I7ER295ecK3QXIWtHVba6pI43QFUjLf"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://fishfair2000.files.wordpress.com/2015/01/rabbits.jpg"));
-        deck = new Deck(3, "Biologia", 7, questions);
+        for (Card card : deck.getCards()) {
+            questions.add(card);
+        }
     }
-    //------For testing------
 }
