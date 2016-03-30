@@ -50,27 +50,18 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private DeckPagerAdapter adapterViewPager;
     private int cardCounter;
     private int correctAnswersCounter;
- //   private int totalPages;
     private Integer noOfQuestions;
     DrawerAdapter drawerAdapter;
-
-    //------For testing------
     private final List<Card> questions = new ArrayList<>();
-
     private Deck deck;
-    //------For testing------
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
 
-        Bundle data = getIntent().getExtras();
-        deck = data.getParcelable(Constants.DECK_DATA_KEY);
-
-        //------For testing------
         populateDeck();
-        //------For testing------
 
         setVariables();
         initView();
@@ -163,6 +154,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void populateDeck() {
+        Bundle data = getIntent().getExtras();
+        deck = data.getParcelable(Constants.DECK_DATA_KEY);
+        if (deck == null) {
+            return;
+        }
 
         for (Card card : deck.getCards()) {
             questions.add(card);
