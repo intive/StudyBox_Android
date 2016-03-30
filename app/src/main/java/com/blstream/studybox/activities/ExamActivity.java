@@ -1,6 +1,7 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -10,8 +11,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
-import com.blstream.studybox.components.DrawerAdapter;
+import com.blstream.studybox.ConnectionStatusReceiver;
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
+import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.DeckViewPager;
 
@@ -22,6 +25,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ExamActivity extends AppCompatActivity {
+
+    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.deckName)
     public TextView deckName;
@@ -60,6 +65,7 @@ public class ExamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+
         //------For testing------
         questions.add(new Card("Pytanie", "Dobra podpowiedz", "Odpowiedz"));
         questions.add(new Card("What gets wet with drying?", "", "http://animaliaz-life.com/data_images/horse/horse6.jpg"));
@@ -72,8 +78,22 @@ public class ExamActivity extends AppCompatActivity {
         questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://fishfair2000.files.wordpress.com/2015/01/rabbits.jpg"));
         deck = new Deck(3, "Biologia", 7, questions);
         //------For testing------
+
         setVariables();
         initView();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 
     public void setVariables(){
