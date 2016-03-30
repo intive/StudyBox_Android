@@ -2,6 +2,7 @@ package com.blstream.studybox;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -14,23 +15,22 @@ import android.view.View;
 
 public class SnackbarManager {
     private Snackbar snackbar;
-    private static boolean isSnackbarDismissed = false;
 
     public SnackbarManager(Context context) {
         snackbar = createSnackbar(context);
     }
 
-    private Snackbar createSnackbar(Context context) {
+    private Snackbar createSnackbar(final Context context) {
 
         View rootView = ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
         View view = useCoordinatorLayoutIfPossible(rootView);
 
         return Snackbar
-                .make(view, "No internet connection.", Snackbar.LENGTH_INDEFINITE)
-                .setAction("DISMISS", new View.OnClickListener() {
+                .make(view, R.string.no_internet_connection, Snackbar.LENGTH_LONG)
+                .setAction(R.string.open_options, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        isSnackbarDismissed = true;
+                        ((Activity) context).startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                     }
                 });
     }
@@ -46,18 +46,13 @@ public class SnackbarManager {
     }
 
     public void networkAvailable() {
-        dismissIfSnackbarIsShownOrQueued(snackbar);
-        isSnackbarDismissed = false;
-    }
-
-    private void dismissIfSnackbarIsShownOrQueued(Snackbar snackbar) {
         if (snackbar.isShownOrQueued()) {
             snackbar.dismiss();
         }
     }
 
     public void networkUnavailable() {
-        if (!isSnackbarDismissed && !(snackbar.isShown()))
+        if (!(snackbar.isShown()))
             snackbar.show();
     }
 }
