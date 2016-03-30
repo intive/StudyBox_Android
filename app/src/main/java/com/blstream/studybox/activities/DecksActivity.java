@@ -1,6 +1,7 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.blstream.studybox.ConnectionStatusReceiver;
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.R;
 import com.blstream.studybox.decks_view.DecksAdapter;
@@ -27,6 +30,8 @@ import butterknife.ButterKnife;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
+
+    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.decks_recycler_view)
     RecyclerView recyclerView;
@@ -56,6 +61,19 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decks);
         initView();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 
     private void initView() {
