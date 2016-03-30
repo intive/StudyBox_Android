@@ -2,6 +2,7 @@ package com.blstream.studybox.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
@@ -73,6 +74,19 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 
     @Override
@@ -192,17 +206,5 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @Override
     public Context getContext() {
         return LoginActivity.this;
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
     }
 }
