@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <!-- StudyBox theme colors -->
+    <color name="colorDarkBlue">#0068B4</color>
+    <color name="colorRaspberry">#EA0061</color>
+    <color name="colorGraphite">#424242</color>
+    <color name="colorGrey">#FAFAFA</color>
+
+
+    <color name="colorRaspberryDark">#af0049</color>
+    <color name="colorRaspberryLight">#f23c88</color>
+    <color name="colorGraphiteLight">#686868</color>
+
+    <!-- Exam colors -->
+    <color name="white">#FFFFFF</color>
+
 </resources>
