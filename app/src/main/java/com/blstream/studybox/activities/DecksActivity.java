@@ -15,13 +15,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.blstream.studybox.Constants;
+
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.components.DrawerAdapter;
+
 import com.blstream.studybox.R;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
-import com.blstream.studybox.model.DecksList;
+import com.blstream.studybox.model.database.DecksList;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 
 import butterknife.Bind;
@@ -68,15 +70,22 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        setUpNavigationDrawer();
+        setUpSwipeToRefresh();
+        setUpRecyclerView();
+
+        onViewPrepared();
+    }
+
+    private void setUpNavigationDrawer() {
         Context context = getApplicationContext();      //only For testing
         drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
         drawerAdapter.attachDrawer();
-        setUpRecyclerView();
+    }
+
+    private void setUpSwipeToRefresh() {
         swipeRefreshLayout.setOnRefreshListener(this);
-
-        setUpRecyclerView();
-        loadData(false);
-
     }
 
     private void setUpRecyclerView() {
@@ -88,11 +97,25 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         recyclerView.setHasFixedSize(true);
     }
 
+    private void onViewPrepared() {
+        presenter.onViewPrepared();
+    }
+
     @Override
     public void onItemClick(int position, View v) {
         Intent intent = new Intent(this, ExamActivity.class);
         intent.putExtra(Constants.DECK_DATA_KEY, decksList.getDecks().get(position));
         startActivity(intent);
+    }
+
+//    @Override
+//    public void onItemClick(int position, View view) {
+//        presenter.onDeckClicked(position, view);
+//    }
+
+    public void onRefresh() {
+        loadData(true);
+
     }
 
     @Override
@@ -104,18 +127,13 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     public void setData(DecksList data) {
         decksList = data;
         adapter.setDecks(data);
-        adapter.notifyDataSetChanged();
+        loadingView.setVisibility(View.GONE);
     }
 
     @Override
     public void showContent() {
         super.showContent();
         contentView.setRefreshing(false);
-    }
-
-    @Override
-    protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
-        return null;
     }
 
     @Override
@@ -127,18 +145,13 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
-    public void onRefresh() {
-        loadData(true);
+    protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
+        return null;
     }
 
     @Override
     public void showLoading(boolean pullToRefresh) {
         super.showLoading(pullToRefresh);
-    }
-
-    @Override
-    public DecksPresenter createPresenter() {
-        return new DecksPresenter();
     }
 
     @Override
@@ -160,5 +173,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     protected void onPause() {
         super.onPause();
         unregisterReceiver(connectionStatusReceiver);
+    }
+
+    public DecksPresenter createPresenter() {
+        return new DecksPresenter();
     }
 }

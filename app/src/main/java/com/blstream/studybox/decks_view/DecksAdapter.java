@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.model.DecksList;
+import com.blstream.studybox.model.database.DecksList;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +55,7 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
     public DecksAdapter() {
         decksList = new DecksList();
     }
-    
+
     public DecksAdapter(DecksList decksList) {
         this.decksList = decksList;
     }
@@ -85,5 +86,6 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
 
     public void setDecks(DecksList data) {
         decksList = data;
+        notifyDataSetChanged();
     }
 }

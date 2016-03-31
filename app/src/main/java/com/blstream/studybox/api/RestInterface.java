@@ -1,6 +1,6 @@
 package com.blstream.studybox.api;
 
-import com.blstream.studybox.model.DecksList;
+import com.blstream.studybox.model.database.DecksList;
 
 import retrofit.Callback;
 import retrofit.client.Response;
