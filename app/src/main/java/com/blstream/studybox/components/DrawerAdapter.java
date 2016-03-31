@@ -1,42 +1,49 @@
 package com.blstream.studybox.components;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.LoginActivity;
+import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.login.LoginUtils;
 
-public class DrawerAdapter extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener {
 
     //TODO
-    //Delete Toast messages and contexts after providing better tests for drawer
+    //Delete Toast messages after providing better tests for drawer
 
-    NavigationView navigationView;
-    DrawerLayout drawerLayout;
-    Toolbar toolbar;
-    Context context;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private Context context;
+    private Activity application;
 
     public DrawerAdapter(NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar, Context context) {
         this.navigationView = navigationView;
         this.drawerLayout = drawerLayout;
         this.toolbar = toolbar;
         this.context = context;
+        try {
+            this.application = (Activity)context;
+        } catch(ClassCastException e){
+            DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
+        }
     }
 
     public void attachDrawer() {
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
+                application, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
