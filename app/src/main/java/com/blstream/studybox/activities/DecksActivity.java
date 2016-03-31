@@ -13,11 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.blstream.studybox.Constants;
 import com.blstream.studybox.ConnectionStatusReceiver;
-import com.blstream.studybox.Constants;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.R;
 import com.blstream.studybox.decks_view.DecksAdapter;
@@ -65,19 +63,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decks);
         initView();
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
     }
 
     private void initView() {
@@ -162,5 +147,18 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         getMenuInflater().inflate(R.menu.search_toolbar_menu, menu);
 
         return true;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 }

@@ -21,10 +21,10 @@ public class CardsProvider {
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
         prompt = deck.getCards().get(0).getPrompt();
-        setFirstImgs();
+        setFirstImages();
     }
 
-    private void setFirstImgs(){
+    private void setFirstImages(){
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
         Card card;
@@ -81,7 +81,7 @@ public class CardsProvider {
 
     public void changeCard(){
         updatePosition();
-        if(deck.getNoOfQuestions() > position ) {
+        if (deck.getNoOfQuestions() > position ) {
             setCards();
         }
     }

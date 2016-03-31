@@ -71,19 +71,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         initView();
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
-    }
-
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -129,7 +116,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void displayResult(){
         ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
                 correctAnswersCounter, deck.getNoOfQuestions());
-        resultDialog.show(getSupportFragmentManager(), "result");
+        resultDialog.show(getSupportFragmentManager(), Constants.RESULT_KEY);
     }
 
     private void restartExam() {
@@ -185,5 +172,18 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         for (Card card : deck.getCards()) {
             questions.add(card);
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
     }
 }

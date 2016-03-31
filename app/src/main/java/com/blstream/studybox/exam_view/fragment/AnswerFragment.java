@@ -52,10 +52,11 @@ public class AnswerFragment extends Fragment {
 
     @OnClick({R.id.correct_ans_btn, R.id.incorrect_ans_btn})
     public void onClick(View view) {
-        if(view.getId() == R.id.correct_ans_btn)
-            ((OnMoveToNextCard)activity).onMoveToNextCard(true);
-        else
-            ((OnMoveToNextCard)activity).onMoveToNextCard(false);
+        if(view.getId() == R.id.correct_ans_btn) {
+            ((OnMoveToNextCard) activity).onMoveToNextCard(true);
+        } else {
+            ((OnMoveToNextCard) activity).onMoveToNextCard(false);
+        }
     }
 
     public interface OnMoveToNextCard {

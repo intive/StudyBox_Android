@@ -21,10 +21,10 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     private int preloadImageCount;
 
     public DeckPagerAdapter(FragmentManager fragmentManager, Deck deck,
-                            int preImagCount, Activity activity) {
+                            int preImageCount, Activity activity) {
         super(fragmentManager);
         this.deck = deck;
-        setPreloadImageCount(preImagCount);
+        setPreloadImageCount(preImageCount);
         imgTxtDisplay = new ImageTextDisplay(preloadImageCount, activity);
         cardsProvider = new CardsProvider(deck, preloadImageCount);
 
@@ -52,25 +52,27 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private void setPreloadImageCount(int preImgCount) {
-        if(preImgCount > MAX_PRELOAD_IMAGE_COUNT)
+        if (preImgCount > MAX_PRELOAD_IMAGE_COUNT) {
             preloadImageCount = MAX_PRELOAD_IMAGE_COUNT;
-        else
+        } else {
             preloadImageCount = preImgCount;
+        }
 
-        if(preloadImageCount > deck.getNoOfQuestions())
+        if (preloadImageCount > deck.getNoOfQuestions()) {
             preloadImageCount = deck.getNoOfQuestions();
-        else if(preloadImageCount == 0)
+        } else if(preloadImageCount == 0) {
             preloadImageCount = 1;
+        }
     }
 
-    public void changeData(){
+    public void changeData() {
         cardsProvider.changeCard();
         imgTxtDisplay.setImgIndexes(cardsProvider.getPosition());
         answerFragment.changeData();
         questionFragment.changeData();
     }
 
-    public void onResultDisplay(){
+    public void onResultDisplay() {
         cardsProvider.initOnRestart();
         imgTxtDisplay.setImgIndexes(cardsProvider.getPosition());
         answerFragment.initOnRestart();
