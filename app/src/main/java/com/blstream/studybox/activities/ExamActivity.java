@@ -14,21 +14,22 @@ import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.Constants;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.R;
+import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
-import com.blstream.studybox.model.Card;
-import com.blstream.studybox.model.Deck;
+import com.blstream.studybox.model.database.Deck;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
 
+    public static final int PRE_LOAD_IMAGE_COUNT = 3;
     public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private DataHelper dataHelper = new DataHelper();
 
     @Bind(R.id.deckName)
     public TextView deckName;
@@ -56,7 +57,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int correctAnswersCounter;
     private Integer noOfQuestions;
     DrawerAdapter drawerAdapter;
-    private final List<Card> questions = new ArrayList<>();
     private Deck deck;
 
 
@@ -66,7 +66,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setContentView(R.layout.activity_exam);
 
         populateDeck();
-
         setVariables();
         initView();
     }
@@ -83,7 +82,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         adapterViewPager =
-                new DeckPagerAdapter(getSupportFragmentManager(), deck, 10, this);
+                new DeckPagerAdapter(getSupportFragmentManager(), deck, PRE_LOAD_IMAGE_COUNT, this);
         viewPager.setAdapter(adapterViewPager);
     }
 
@@ -169,9 +168,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
             return;
         }
 
-        for (Card card : deck.getCards()) {
-            questions.add(card);
-        }
+        deck.setCardsList(dataHelper.getAllCards(deck.getDeckNo()));
     }
 
     @Override

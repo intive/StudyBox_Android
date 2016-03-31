@@ -1,8 +1,8 @@
 package com.blstream.studybox.exam_view;
 
 
-import com.blstream.studybox.model.Card;
-import com.blstream.studybox.model.Deck;
+import com.blstream.studybox.model.database.Card;
+import com.blstream.studybox.model.database.Deck;
 
 public class CardsProvider {
 
@@ -20,7 +20,7 @@ public class CardsProvider {
         this.preloadImageCount = preloadImageCount;
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
-        prompt = deck.getCards().get(0).getPrompt();
+        prompt = deck.getCardsList().get(0).getPrompt();
         setFirstImages();
     }
 
@@ -29,7 +29,7 @@ public class CardsProvider {
         questions = new String[preloadImageCount];
         Card card;
         for (int i = 0; i < preloadImageCount; i++) {
-            card = deck.getCards().get(i);
+            card = deck.getCardsList().get(i);
             answers[i] = card.getAnswer();
             questions[i] = card.getQuestion();
         }
@@ -93,9 +93,9 @@ public class CardsProvider {
     }
 
     private void setCards() {
-        currentCard = deck.getCards().get(position);
+        currentCard = deck.getCardsList().get(position);
         if (deck.getNoOfQuestions() > position + preloadImageCount - 1) {
-            laterCard = deck.getCards().get(position + preloadImageCount - 1);
+            laterCard = deck.getCardsList().get(position + preloadImageCount - 1);
         }
     }
 }

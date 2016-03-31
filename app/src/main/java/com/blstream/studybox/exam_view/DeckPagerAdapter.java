@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.QuestionFragment;
-import com.blstream.studybox.model.Deck;
+import com.blstream.studybox.model.database.Deck;
 
 public class DeckPagerAdapter extends FragmentStatePagerAdapter {
 

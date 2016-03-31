@@ -25,7 +25,7 @@
             android:value="com.blstream.studybox.model.database.DeckDB, com.blstream.studybox.model.database.CardDB" />
 
         <activity android:name=".activities.SplashScreenActivity"
-            android:theme="@style/SplashScreenTheme">
+                  android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
