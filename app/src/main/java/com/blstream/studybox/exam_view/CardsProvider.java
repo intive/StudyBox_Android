@@ -15,7 +15,7 @@ public class CardsProvider {
     private String[] questions;
     private final String prompt;
 
-    public CardsProvider (Deck deck, int preloadImageCount) {
+    public CardsProvider(Deck deck, int preloadImageCount) {
         this.deck = deck;
         this.preloadImageCount = preloadImageCount;
         answers = new String[preloadImageCount];
@@ -24,22 +24,22 @@ public class CardsProvider {
         setFirstImages();
     }
 
-    private void setFirstImages(){
+    private void setFirstImages() {
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
         Card card;
-        for(int i = 0; i < preloadImageCount; i++) {
+        for (int i = 0; i < preloadImageCount; i++) {
             card = deck.getCards().get(i);
             answers[i] = card.getAnswer();
             questions[i] = card.getQuestion();
         }
     }
 
-    public String[] getFirstAnswers(){
+    public String[] getFirstAnswers() {
         return answers;
     }
 
-    public String[] getFirstQuestions(){
+    public String[] getFirstQuestions() {
         return questions;
     }
 
@@ -47,27 +47,33 @@ public class CardsProvider {
         return prompt;
     }
 
-    private void updatePosition(){
+    private void updatePosition() {
         position++;
     }
 
-    public String getNextQuestion(){
+    public String getNextQuestion() {
         return currentCard.getQuestion();
     }
 
-    public String getNextPrompt(){
+    public String getNextPrompt() {
         return currentCard.getPrompt();
     }
 
-    public String getNextAnswer(){
+    public String getNextAnswer() {
         return currentCard.getAnswer();
     }
 
     public String getLaterQuestion() {
+        if (laterCard == null) {
+            return null;
+        }
         return laterCard.getQuestion();
     }
 
-    public String getLaterAnswer(){
+    public String getLaterAnswer() {
+        if (laterCard == null) {
+            return null;
+        }
         return laterCard.getAnswer();
     }
 
@@ -75,18 +81,18 @@ public class CardsProvider {
         position = 0;
     }
 
-    public int getPosition(){
+    public int getPosition() {
         return position;
     }
 
-    public void changeCard(){
+    public void changeCard() {
         updatePosition();
-        if (deck.getNoOfQuestions() > position ) {
+        if (deck.getNoOfQuestions() > position) {
             setCards();
         }
     }
 
-    private void setCards(){
+    private void setCards() {
         currentCard = deck.getCards().get(position);
         if (deck.getNoOfQuestions() > position + preloadImageCount - 1) {
             laterCard = deck.getCards().get(position + preloadImageCount - 1);

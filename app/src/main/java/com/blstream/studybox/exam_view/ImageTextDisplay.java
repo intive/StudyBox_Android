@@ -98,6 +98,9 @@ public class ImageTextDisplay {
     }
 
     private void preloadImage(String dataToPreload, ImageView image){
+        if (dataToPreload == null) {
+            return;
+        }
         if (Patterns.WEB_URL.matcher(dataToPreload).matches()) {
             Picasso.with(activity).load(dataToPreload).resize(width, height).centerInside()
                     .placeholder(R.drawable.camera).into(image);

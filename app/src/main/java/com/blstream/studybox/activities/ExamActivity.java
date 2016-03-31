@@ -83,7 +83,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         adapterViewPager =
-                new DeckPagerAdapter(getSupportFragmentManager(), deck, 0, this);
+                new DeckPagerAdapter(getSupportFragmentManager(), deck, 10, this);
         viewPager.setAdapter(adapterViewPager);
     }
 
