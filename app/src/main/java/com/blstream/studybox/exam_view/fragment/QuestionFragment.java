@@ -27,7 +27,6 @@ public class QuestionFragment extends Fragment {
     @Bind(R.id.prompt)
     public TextView tvPrompt;
 
-    private static final String PROMPT = "Podpowiedz";
     private ImageView[] questionImageTab;
     private ImageTextDisplay imgTxtDisplay;
     private CardsProvider cardsProvider;
@@ -71,7 +70,7 @@ public class QuestionFragment extends Fragment {
             tvPrompt.setClickable(true);
             tvPrompt.setTextColor(Color.WHITE);
         }
-        tvPrompt.setText(PROMPT);
+        tvPrompt.setText(R.string.prompt);
     }
 
     @OnClick (R.id.prompt)

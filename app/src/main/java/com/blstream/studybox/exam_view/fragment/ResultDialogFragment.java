@@ -21,6 +21,9 @@ import butterknife.OnClick;
 
 public class ResultDialogFragment extends DialogFragment implements DialogInterface.OnShowListener{
 
+    private static final String TAG_CORRECT_ANSWERS = "correctAnswers";
+    private static final String TAG_NUMBER_OF_QUESTIONS = "noOfQuestions";
+
     @Bind(R.id.total_score)
     public TextView totalScore;
 
@@ -30,8 +33,8 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
         Bundle args = new Bundle();
-        args.putInt("correctAnswers", correctAnswers);
-        args.putInt("noOfQuestions", noOfQuestions);
+        args.putInt(TAG_CORRECT_ANSWERS, correctAnswers);
+        args.putInt(TAG_NUMBER_OF_QUESTIONS, noOfQuestions);
         resultFragment.setArguments(args);
         return resultFragment;
     }
@@ -39,8 +42,8 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        correctAnswers = getArguments().getInt("correctAnswers");
-        noOfQuestions = getArguments().getInt("noOfQuestions");
+        correctAnswers = getArguments().getInt(TAG_CORRECT_ANSWERS);
+        noOfQuestions = getArguments().getInt(TAG_NUMBER_OF_QUESTIONS);
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Light);
     }
 

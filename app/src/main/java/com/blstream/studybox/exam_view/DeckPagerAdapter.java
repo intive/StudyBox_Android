@@ -60,7 +60,7 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
 
         if (preloadImageCount > deck.getNoOfQuestions()) {
             preloadImageCount = deck.getNoOfQuestions();
-        } else if(preloadImageCount == 0) {
+        } else if (preloadImageCount == 0) {
             preloadImageCount = 1;
         }
     }
