@@ -4,7 +4,7 @@ import com.blstream.studybox.debugger.DebugHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-public class Application extends android.app.Application {
+public class Application extends com.activeandroid.app.Application {
 
     @Override
     public void onCreate() {

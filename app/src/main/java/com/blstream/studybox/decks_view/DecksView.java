@@ -1,6 +1,6 @@
 package com.blstream.studybox.decks_view;
 
-import com.blstream.studybox.model.DecksList;
+import com.blstream.studybox.model.database.DecksList;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 
 /**
@@ -11,14 +11,14 @@ public interface DecksView extends MvpLceView<DecksList> {
     void showLoading(boolean pullToRefresh);
 
     @Override
-    void showContent();
+    void showError(Throwable e, boolean pullToRefresh);
 
     @Override
-    void showError(Throwable e, boolean pullToRefresh);
+    void loadData(boolean pullToRefresh);
 
     @Override
     void setData(DecksList data);
 
     @Override
-    void loadData(boolean pullToRefresh);
+    void showContent();
 }
