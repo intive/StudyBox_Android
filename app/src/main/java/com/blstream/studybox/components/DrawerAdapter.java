@@ -27,11 +27,11 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Context context;
     private Activity application;
 
-    public DrawerAdapter(NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar, Context context) {
+    public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
+        this.context = context;
         this.navigationView = navigationView;
         this.drawerLayout = drawerLayout;
         this.toolbar = toolbar;
-        this.context = context;
         try {
             this.application = (Activity)context;
         } catch(ClassCastException e){
