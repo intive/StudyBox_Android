@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.database.DataHelper;
+import com.blstream.studybox.model.database.DecksList;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
@@ -27,7 +28,12 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
 
         if (!pullToRefresh) {
             if (isViewAttached()) {
-                getView().setData(dataHelper.getAllDecks());
+                DecksList decksList = dataHelper.getAllDecks();
+                if (decksList != null) {
+                    dataHelper.downloadData(this);
+                } else {
+                    getView().setData(dataHelper.getAllDecks());
+                }
             }
         }
     }
