@@ -26,17 +26,8 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
         this.pullToRefresh = pullToRefresh;
         if (pullToRefresh) {
             dataHelper.downloadData(this);
-        }
-
-        if (!pullToRefresh) {
-            if (isViewAttached()) {
-                DecksList decksList = dataHelper.getAllDecks();
-                if (decksList != null) {
-                    dataHelper.downloadData(this);
-                } else {
-                    getView().setData(dataHelper.getAllDecks());
-                }
-            }
+        } else {
+            setDecks();
         }
     }
 
@@ -66,5 +57,16 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
     @Override
     public void detachView(boolean retainInstance) {
         super.detachView(retainInstance);
+    }
+
+    private void setDecks() {
+        if (isViewAttached()) {
+            DecksList decksList = dataHelper.getAllDecks();
+            if (decksList.isEmpty()) {
+                dataHelper.downloadData(this);
+            } else {
+                getView().setData(decksList);
+            }
+        }
     }
 }

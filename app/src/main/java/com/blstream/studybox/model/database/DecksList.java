@@ -37,4 +37,7 @@ public class DecksList {
         this.decks = decks;
     }
 
+    public Boolean isEmpty() {
+        return  decks == null || decks.isEmpty();
+    }
 }
