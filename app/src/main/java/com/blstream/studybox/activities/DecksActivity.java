@@ -102,20 +102,12 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
-    public void onItemClick(int position, View v) {
-        Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra(Constants.DECK_DATA_KEY, decksList.getDecks().get(position));
-        startActivity(intent);
+    public void onItemClick(int position, View view) {
+        presenter.onDeckClicked(position, view);
     }
-
-//    @Override
-//    public void onItemClick(int position, View view) {
-//        presenter.onDeckClicked(position, view);
-//    }
 
     public void onRefresh() {
         loadData(true);
-
     }
 
     @Override
