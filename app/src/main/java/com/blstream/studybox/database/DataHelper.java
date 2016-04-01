@@ -87,7 +87,7 @@ public class DataHelper implements DataProvider {
 
             @Override
             public void onFailure(RetrofitError error) {
-
+                listener.onFailure(error);
             }
         }));
     }

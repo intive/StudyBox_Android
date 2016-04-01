@@ -16,12 +16,14 @@ import retrofit.RetrofitError;
 public class DecksPresenter extends MvpBasePresenter<DecksView> implements RequestListener<String> {
 
     private DataHelper dataHelper = new DataHelper();
+    private boolean pullToRefresh;
 
     public void onViewPrepared() {
         loadDecks(false);
     }
 
     public void loadDecks(boolean pullToRefresh) {
+        this.pullToRefresh = pullToRefresh;
         if (pullToRefresh) {
             dataHelper.downloadData(this);
         }
@@ -49,7 +51,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
 
     @Override
     public void onFailure(RetrofitError error) {
-
+        getView().showError(error, pullToRefresh);
     }
 
     public void onDeckClicked(int position, View view) {
