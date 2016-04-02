@@ -25,7 +25,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private Context context;
-    private Activity application;
+    private Activity activity;
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -33,7 +33,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         this.drawerLayout = drawerLayout;
         this.toolbar = toolbar;
         try {
-            this.application = (Activity)context;
+            this.activity = (Activity)context;
         } catch(ClassCastException e){
             DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
         }
@@ -43,7 +43,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                application, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
+                activity, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
