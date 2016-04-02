@@ -1,12 +1,11 @@
 package com.blstream.studybox.activities;
 
-import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
@@ -89,8 +88,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        Context context = getApplicationContext();      //only For testing
-        drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
+        drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
 
         deckName.setText(deck.deckName);
