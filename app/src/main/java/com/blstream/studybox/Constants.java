@@ -13,5 +13,4 @@ public class Constants {
     public static final String LOGIN_EMAIL = "LoginEmail";
     public static final String LOGIN_PASSWORD = "LoginPassword";
     public static final String DECK_DATA_KEY = "DECK";
-    public static final String RESULT_KEY = "result";
 }

@@ -27,21 +27,23 @@ import butterknife.ButterKnife;
 
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
 
-    public static final int PRE_LOAD_IMAGE_COUNT = 3;
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private static final String TAG_RESULT = "result";
+    private static final int PRE_LOAD_IMAGE_COUNT = 3;
+
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
     private DataHelper dataHelper = new DataHelper();
 
     @Bind(R.id.deckName)
-    public TextView deckName;
+    TextView deckName;
 
     @Bind(R.id.questionNo)
-    public TextView questionNo;
+    TextView questionNo;
 
     @Bind(R.id.correctAnswers)
-    public TextView correctAnswers;
+    TextView correctAnswers;
 
     @Bind(R.id.vpPager)
-    public ViewPager viewPager;
+    ViewPager viewPager;
 
     @Bind(R.id.toolbar_exam)
     Toolbar toolbar;
@@ -56,7 +58,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int cardCounter;
     private int correctAnswersCounter;
     private Integer noOfQuestions;
-    DrawerAdapter drawerAdapter;
     private Deck deck;
 
 
@@ -73,8 +74,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        Context context = getApplicationContext();      //only For testing
-        drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
+        Context context = getApplicationContext();
+        DrawerAdapter drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
         drawerAdapter.attachDrawer();
 
         deckName.setText(deck.getDeckName());
@@ -115,7 +116,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void displayResult(){
         ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
                 correctAnswersCounter, deck.getNoOfQuestions());
-        resultDialog.show(getSupportFragmentManager(), Constants.RESULT_KEY);
+        resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
     }
 
     private void restartExam() {

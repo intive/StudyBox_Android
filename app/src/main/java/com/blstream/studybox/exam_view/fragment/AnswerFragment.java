@@ -22,7 +22,7 @@ import butterknife.OnClick;
 public class AnswerFragment extends Fragment {
 
     @Bind(R.id.answer)
-    public TextView tvAnswer;
+    TextView tvAnswer;
 
     private ImageView[] answerImageTab;
     private ImageTextDisplay imageTextDisplay;

@@ -2,7 +2,6 @@ package com.blstream.studybox.activities;
 
 import android.content.Context;
 import android.content.IntentFilter;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -33,7 +32,7 @@ import butterknife.ButterKnife;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.decks_recycler_view)
     RecyclerView recyclerView;
@@ -58,8 +57,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     @Bind(R.id.loadingView)
     ProgressBar loadingView;
 
-    private DecksList decksList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +76,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     private void setUpNavigationDrawer() {
-        Context context = getApplicationContext();      //only For testing
+        Context context = getApplicationContext();
         drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
         drawerAdapter.attachDrawer();
     }
@@ -117,7 +114,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void setData(DecksList data) {
-        decksList = data;
         adapter.setDecks(data);
         loadingView.setVisibility(View.GONE);
     }
@@ -130,7 +126,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void showError(Throwable e, boolean pullToRefresh) {
-        //super.showError(e, pullToRefresh);
         super.showLightError(e.getMessage());
         contentView.setRefreshing(false);
         loadingView.setVisibility(View.GONE);
