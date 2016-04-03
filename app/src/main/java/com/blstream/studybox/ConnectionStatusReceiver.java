@@ -3,6 +3,7 @@ package com.blstream.studybox;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -14,8 +15,7 @@ import java.util.List;
  * In every activity should be:
  *  public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
  * and
- *  IntentFilter filter = new IntentFilter(Constants.ACTION);
- *  registerReceiver(connectionStatusReceiver, filter);
+ *  registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
  * in OnResume() method, and
  *  unregisterReceiver(connectionStatusReceiver);
  * in OnPause() method.
@@ -24,10 +24,14 @@ import java.util.List;
  * - networkAvailable()
  * - networkUnavailable()
  * To use this you need to implement "ConnectionStatusReceiver.ConnectionStatusReceiverListener" in
- * your activity and call "connectionStatusReceiver.addListener(this);" in e.g. .
+ * your activity and call "connectionStatusReceiver.addListener(this);", and
+ * "connectionStatusReceiver.removeListener(this);".
  */
 
 public class ConnectionStatusReceiver extends BroadcastReceiver {
+    private final static  String ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
+    public final static IntentFilter filter = new IntentFilter(ACTION);
+
     private SnackbarManager snackbarManager = null;
 
     private ConnectivityManager connectivityManager;

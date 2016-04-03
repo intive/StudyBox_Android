@@ -75,8 +75,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void onResume(){
         super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
+        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     @Override
