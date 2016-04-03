@@ -112,4 +112,8 @@ public class ConnectionStatusReceiver extends BroadcastReceiver {
 
         void networkUnavailable();
     }
+
+    public boolean isConnected(){
+        return connected;
+    }
 }
