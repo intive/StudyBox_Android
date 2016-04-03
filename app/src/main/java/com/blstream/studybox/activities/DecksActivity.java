@@ -13,12 +13,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.blstream.studybox.Constants;
-
 import com.blstream.studybox.ConnectionStatusReceiver;
-import com.blstream.studybox.components.DrawerAdapter;
-
+import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
+import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
@@ -64,6 +62,19 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
+    }
+
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -76,8 +87,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     private void setUpNavigationDrawer() {
-        Context context = getApplicationContext();
-        drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
+        drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
     }
 
@@ -99,10 +109,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
-    public void onItemClick(int position, View view) {
-        presenter.onDeckClicked(position, view);
-    }
-
     public void onRefresh() {
         loadData(true);
     }
@@ -142,6 +148,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
+    public void onItemClick(int position, View view) {
+        presenter.onDeckClicked(position, view);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search_toolbar_menu, menu);
@@ -150,19 +161,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
-    }
-
     public DecksPresenter createPresenter() {
         return new DecksPresenter();
     }
+
 }

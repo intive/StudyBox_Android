@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.Constants;
+import com.blstream.studybox.R;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.R;
 import com.blstream.studybox.database.DataHelper;
@@ -20,7 +22,8 @@ import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Deck;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -74,8 +77,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        Context context = getApplicationContext();
-        DrawerAdapter drawerAdapter = new DrawerAdapter(navigationView, drawerLayout, toolbar, context);
+        drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
 
         deckName.setText(deck.getDeckName());
