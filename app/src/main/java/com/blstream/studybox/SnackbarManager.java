@@ -8,8 +8,7 @@ import android.view.View;
 
 /**
  * If device loses network connection for unspecified reason user will be warned in form of snackbar
- * showing him proper message and enable him/her to perform action ("DISMISS" for now - when this
- * action is perform snackbar won't show again, unless device connect and disconnect again).
+ * showing him proper message and enable him/her to perform action (open android settings).
  * If network connection return by the time snackbar is shown, it (snackbar) will dismiss itself.
  */
 
@@ -26,7 +25,7 @@ public class SnackbarManager {
         View view = useCoordinatorLayoutIfPossible(rootView);
 
         return Snackbar
-                .make(view, R.string.no_internet_connection, Snackbar.LENGTH_LONG)
+                .make(view, R.string.no_internet_connection, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.open_options, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
