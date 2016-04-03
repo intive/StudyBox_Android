@@ -29,7 +29,11 @@ import butterknife.OnClick;
 
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
     implements LoginView {
+
     public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+
+    private final static float ENABLED_BUTTON_ALPHA = 1.0f;
+    private final static float DISABLED_BUTTON_ALPHA = 0.5f;
     
     @Bind(R.id.input_email)
     TextInputEditText emailInput;
@@ -212,9 +216,9 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         signUpLink.setEnabled(enabled);
 
         if (enabled) {
-            loginButton.setAlpha(1f);
+            loginButton.setAlpha(ENABLED_BUTTON_ALPHA);
         } else {
-            loginButton.setAlpha(0.5f);
+            loginButton.setAlpha(DISABLED_BUTTON_ALPHA);
         }
     }
 
