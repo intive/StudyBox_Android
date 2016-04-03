@@ -21,7 +21,8 @@ public class SnackbarManager {
 
     private Snackbar createSnackbar(final Context context) {
 
-        View rootView = ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
+        final Activity activity = (Activity) context;
+        View rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         View view = useCoordinatorLayoutIfPossible(rootView);
 
         return Snackbar
@@ -29,7 +30,7 @@ public class SnackbarManager {
                 .setAction(R.string.open_options, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((Activity) context).startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                        activity.startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                     }
                 });
     }
