@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.decks_recycler_view)
     RecyclerView recyclerView;

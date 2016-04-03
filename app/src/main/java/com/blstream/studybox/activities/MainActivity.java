@@ -23,7 +23,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;

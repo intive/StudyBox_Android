@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
     implements LoginView {
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
     
     @Bind(R.id.input_email)
     TextInputEditText emailInput;

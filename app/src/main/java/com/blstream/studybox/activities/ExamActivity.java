@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
 
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.deckName)
     public TextView deckName;
