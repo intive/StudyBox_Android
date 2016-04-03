@@ -67,10 +67,12 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
             case R.id.statistics:
                 break;
             case R.id.logout:
-                LoginUtils.deleteUser(context);
-                Intent intent = new Intent(context, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                context.startActivity(intent);
+                if (LoginUtils.isUserLoggedIn(context)) {
+                    LoginUtils.deleteUser(context);
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    activity.startActivity(intent);
+                    activity.finish();
+                }
                 break;
         }
 
