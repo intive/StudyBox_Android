@@ -22,10 +22,10 @@ import butterknife.OnClick;
 public class QuestionFragment extends Fragment {
 
     @Bind(R.id.question)
-    public TextView tvQuestion;
+    TextView questionView;
 
     @Bind(R.id.prompt)
-    public TextView tvPrompt;
+    TextView promptView;
 
     private ImageView[] questionImageTab;
     private ImageTextDisplay imgTxtDisplay;
@@ -46,12 +46,12 @@ public class QuestionFragment extends Fragment {
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.questionContainer);
 
         prompt = cardsProvider.getFirstPrompt();
-        questionImageTab = imgTxtDisplay.init(frameLayout, tvQuestion, cardsProvider.getFirstQuestions());
+        questionImageTab = imgTxtDisplay.init(frameLayout, questionView, cardsProvider.getFirstQuestions());
     }
 
     public void initOnRestart(){
         this.prompt = cardsProvider.getFirstPrompt();
-        imgTxtDisplay.initOnRestart(questionImageTab, tvQuestion, cardsProvider.getFirstQuestions());
+        imgTxtDisplay.initOnRestart(questionImageTab, questionView, cardsProvider.getFirstQuestions());
         setPromptView();
     }
 
@@ -59,24 +59,24 @@ public class QuestionFragment extends Fragment {
         this.prompt = cardsProvider.getNextPrompt();
         setPromptView();
         imgTxtDisplay.changeData(cardsProvider.getNextQuestion(),
-                cardsProvider.getLaterQuestion(), tvQuestion, questionImageTab);
+                cardsProvider.getLaterQuestion(), questionView, questionImageTab);
     }
 
     private void setPromptView() {
         if(prompt.equals("")) {
-            tvPrompt.setTextColor(Color.GRAY);
-            tvPrompt.setClickable(false);
+            promptView.setTextColor(Color.GRAY);
+            promptView.setClickable(false);
         } else {
-            tvPrompt.setClickable(true);
-            tvPrompt.setTextColor(Color.WHITE);
+            promptView.setClickable(true);
+            promptView.setTextColor(Color.WHITE);
         }
-        tvPrompt.setText(R.string.prompt);
+        promptView.setText(R.string.prompt);
     }
 
     @OnClick (R.id.prompt)
     public void onClick(View view) {
-        tvPrompt.setText(prompt);
-        tvPrompt.setClickable(false);
+        promptView.setText(prompt);
+        promptView.setClickable(false);
     }
 
     public void setVariables(ImageTextDisplay imgTxtDisp, CardsProvider cardsProv) {

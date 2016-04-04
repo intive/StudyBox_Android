@@ -53,7 +53,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
         Context context = view.getContext();
         Intent intent = new Intent(context, ExamActivity.class);
         intent.putExtra(context.getString(R.string.deck_data_key),
-                dataHelper.getSingleDeck(position));
+                dataHelper.getSingleDeck(position + 1));
         context.startActivity(intent);
     }
 
