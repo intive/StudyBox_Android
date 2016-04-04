@@ -30,7 +30,7 @@ import butterknife.OnClick;
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
     implements LoginView {
 
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver;
 
     private final static float ENABLED_BUTTON_ALPHA = 1.0f;
     private final static float DISABLED_BUTTON_ALPHA = 0.5f;
@@ -61,6 +61,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        connectionStatusReceiver = new ConnectionStatusReceiver();
         setRetainInstance(true);
         ButterKnife.bind(this);
     }

@@ -9,17 +9,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.LoginActivity;
 import com.blstream.studybox.debugger.DebugHelper;
-import com.blstream.studybox.login.LoginUtils;
+import com.blstream.studybox.login.LoginManager;
 
 public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener {
 
     //TODO
     //Delete Toast messages after providing better tests for drawer
+
+    private static final int HEADER_INDEX = 0;
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -41,6 +44,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
 
     public void attachDrawer() {
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.getMenu().findItem(R.id.logout).setVisible(LoginManager.isUserLoggedIn(context));
+        TextView userEmail = (TextView) navigationView.getHeaderView(HEADER_INDEX).findViewById(R.id.user_email);
+        userEmail.setText(LoginManager.getUserEmail(context));
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 activity, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
@@ -67,12 +74,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
             case R.id.statistics:
                 break;
             case R.id.logout:
-                if (LoginUtils.isUserLoggedIn(context)) {
-                    LoginUtils.deleteUser(context);
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    activity.startActivity(intent);
-                    activity.finish();
-                }
+                LoginManager.deleteUser(context);
+                Intent intent = new Intent(context, LoginActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
                 break;
         }
 

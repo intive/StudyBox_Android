@@ -1,7 +1,7 @@
 package com.blstream.studybox.login_view;
 
 import com.blstream.studybox.login.CredentialValidator;
-import com.blstream.studybox.login.LoginUtils;
+import com.blstream.studybox.login.LoginManager;
 import com.blstream.studybox.login.ValidatorListener;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
@@ -68,7 +68,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     public void onSuccess(Response response) {
                         if (isViewAttached()) {
                             getView().loginSuccessful();
-                            LoginUtils.saveUser(credentials, getView().getContext());
+                            LoginManager.saveUser(credentials, getView().getContext());
                         }
                     }
 
