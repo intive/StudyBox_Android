@@ -23,7 +23,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         if (splashRunnable == null) {
-            if (LoginManager.isUserLoggedIn(SplashScreenActivity.this)){
+            LoginManager login = new LoginManager(SplashScreenActivity.this);
+            if (login.isUserLoggedIn()){
                 splashRunnable = initializeSplashRunnable(DecksActivity.class);
             } else {
                 splashRunnable = initializeSplashRunnable(LoginActivity.class);

@@ -29,6 +29,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Toolbar toolbar;
     private Context context;
     private Activity activity;
+    private LoginManager login;
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -40,14 +41,15 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         } catch(ClassCastException e){
             DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
         }
+        this.login = new LoginManager(context);
     }
 
     public void attachDrawer() {
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().findItem(R.id.logout).setVisible(LoginManager.isUserLoggedIn(context));
+        navigationView.getMenu().findItem(R.id.logout).setVisible(login.isUserLoggedIn());
         TextView userEmail = (TextView) navigationView.getHeaderView(HEADER_INDEX).findViewById(R.id.user_email);
-        userEmail.setText(LoginManager.getUserEmail(context));
+        userEmail.setText(login.getUserEmail());
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 activity, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
@@ -74,7 +76,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
             case R.id.statistics:
                 break;
             case R.id.logout:
-                LoginManager.deleteUser(context);
+                login.deleteUser();
                 Intent intent = new Intent(context, LoginActivity.class);
                 activity.startActivity(intent);
                 activity.finish();

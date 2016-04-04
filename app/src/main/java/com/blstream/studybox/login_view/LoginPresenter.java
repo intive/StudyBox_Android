@@ -68,7 +68,8 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     public void onSuccess(Response response) {
                         if (isViewAttached()) {
                             getView().loginSuccessful();
-                            LoginManager.saveUser(credentials, getView().getContext());
+                            LoginManager login = new LoginManager(getView().getContext());
+                            login.saveUser(credentials);
                         }
                     }
 

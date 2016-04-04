@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.blstream.studybox.model.AuthCredentials;
 
-public class LoginManager {
+public class LoginManager implements LoginInterface {
 
     private static final String LOGIN_PREF_FILE = "com.blstream.studybox.LoginPreference";
     private static final String LOGIN_STATUS = "LoginStatus";
@@ -14,36 +14,42 @@ public class LoginManager {
     private static final String DEFAULT_EMAIL = "";
     private static final String DEFAULT_PASSWORD = "";
 
-    public static void saveUser(AuthCredentials credentials, Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(LOGIN_PREF_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+    private SharedPreferences preferences;
+
+    public LoginManager(Context context) {
+        preferences = context.getSharedPreferences(LOGIN_PREF_FILE, Context.MODE_PRIVATE);
+    }
+
+    @Override
+    public void saveUser(AuthCredentials credentials) {
+        SharedPreferences.Editor editor = preferences.edit();
         editor.putString(LOGIN_EMAIL, credentials.getEmail());
         editor.putString(LOGIN_PASSWORD, credentials.getPassword());
         editor.putBoolean(LOGIN_STATUS, true);
         editor.apply();
     }
 
-    public static void deleteUser(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(LOGIN_PREF_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+    @Override
+    public void deleteUser() {
+        SharedPreferences.Editor editor = preferences.edit();
         editor.remove(LOGIN_EMAIL);
         editor.remove(LOGIN_PASSWORD);
         editor.putBoolean(LOGIN_STATUS, false);
         editor.apply();
     }
 
-    public static boolean isUserLoggedIn(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(LOGIN_PREF_FILE, Context.MODE_PRIVATE);
-        return prefs.getBoolean(LOGIN_STATUS, false);
+    @Override
+    public boolean isUserLoggedIn() {
+        return preferences.getBoolean(LOGIN_STATUS, false);
     }
 
-    public static String getUserEmail(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(LOGIN_PREF_FILE, Context.MODE_PRIVATE);
-        return prefs.getString(LOGIN_EMAIL, DEFAULT_EMAIL);
+    @Override
+    public String getUserEmail() {
+        return preferences.getString(LOGIN_EMAIL, DEFAULT_EMAIL);
     }
 
-    public static String getUserPassword(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(LOGIN_PREF_FILE, Context.MODE_PRIVATE);
-        return prefs.getString(LOGIN_PASSWORD, DEFAULT_PASSWORD);
+    @Override
+    public String getUserPassword() {
+        return preferences.getString(LOGIN_PASSWORD, DEFAULT_PASSWORD);
     }
 }
