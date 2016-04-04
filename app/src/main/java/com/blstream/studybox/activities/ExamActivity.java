@@ -159,7 +159,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
             return;
         }
 
-        deck = data.getParcelable(Constants.DECK_DATA_KEY);
+        deck = data.getParcelable(getString(R.string.deck_data_key));
         if (deck == null) {
             return;
         }

@@ -3,17 +3,14 @@ package com.blstream.studybox.decks_view;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
-import com.blstream.studybox.Constants;
+import com.blstream.studybox.R;
 import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.model.database.Deck;
 import com.blstream.studybox.model.database.DecksList;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
-import java.util.List;
 
 import retrofit.RetrofitError;
 
@@ -55,7 +52,8 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
     public void onDeckClicked(int position, View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, ExamActivity.class);
-        intent.putExtra(Constants.DECK_DATA_KEY, dataHelper.getAllDecks().getDecks().get(position));
+        intent.putExtra(context.getString(R.string.deck_data_key),
+                dataHelper.getSingleDeck(position));
         context.startActivity(intent);
     }
 
