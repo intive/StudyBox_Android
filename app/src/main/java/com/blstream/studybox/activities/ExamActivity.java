@@ -7,38 +7,40 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
 import com.blstream.studybox.components.DrawerAdapter;
+import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.blstream.studybox.model.database.Deck;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
 
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private static final String TAG_RESULT = "result";
+    private static final int PRE_LOAD_IMAGE_COUNT = 3;
+
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private DataHelper dataHelper = new DataHelper();
 
     @Bind(R.id.deckName)
-    public TextView deckName;
+    TextView deckName;
 
     @Bind(R.id.questionNo)
-    public TextView questionNo;
+    TextView questionNo;
 
     @Bind(R.id.correctAnswers)
-    public TextView correctAnswers;
+    TextView correctAnswers;
 
     @Bind(R.id.vpPager)
-    public ViewPager viewPager;
+    ViewPager viewPager;
 
     @Bind(R.id.toolbar_exam)
     Toolbar toolbar;
@@ -53,68 +55,49 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int cardCounter;
     private int correctAnswersCounter;
     private Integer noOfQuestions;
-    DrawerAdapter drawerAdapter;
-
-    //------For testing------
-    private final List<Card> questions = new ArrayList<>();
     private Deck deck;
-    //------For testing------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
 
-        //------For testing------
         populateDeck();
-        //------For testing------
-
         setVariables();
         initView();
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
     }
 
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
+        DrawerAdapter drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
 
-        deckName.setText(deck.deckName);
+        deckName.setText(deck.getDeckName());
         questionNo.setText(getString(R.string.question_no, cardCounter));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         adapterViewPager =
-                new DeckPagerAdapter(getSupportFragmentManager(), deck, 4, this);
+                new DeckPagerAdapter(getSupportFragmentManager(), deck, PRE_LOAD_IMAGE_COUNT, this);
         viewPager.setAdapter(adapterViewPager);
     }
 
-    private void setVariables(){
-        noOfQuestions = deck.numberOfQuestions;
+    private void setVariables() {
+        noOfQuestions = deck.getNoOfQuestions();
         cardCounter = 1;
     }
 
-    private void updateCard(boolean addCorrectAnswer){
+    private void updateCard(boolean addCorrectAnswer) {
         updateCounters(addCorrectAnswer);
         setCard();
     }
 
-    private void setCard(){
-        if(cardCounter - 1  == noOfQuestions)
+    private void setCard() {
+        if (cardCounter - 1  == noOfQuestions) {
             displayResult();
-        else
+        } else {
             displayNextCard();
+        }
     }
 
     private void displayNextCard() {
@@ -127,11 +110,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void displayResult(){
         ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
-                correctAnswersCounter, deck.numberOfQuestions);
-        resultDialog.show(getSupportFragmentManager(), "result");
+                correctAnswersCounter, deck.getNoOfQuestions());
+        resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
     }
 
-    private void restarExam(){
+    private void restartExam() {
         setInitialValues();
         adapterViewPager.onResultDisplay();
         setFirstCard();
@@ -143,11 +126,12 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void updateCorrectAnswersCounter(boolean addCorrectAnswer){
-        if(addCorrectAnswer)
+        if (addCorrectAnswer) {
             correctAnswersCounter++;
+        }
     }
 
-    private void setInitialValues(){
+    private void setInitialValues() {
         cardCounter = 1;
         correctAnswersCounter = 0;
     }
@@ -158,7 +142,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         viewPager.setCurrentItem(0, false);
     }
-    //---------------------------
 
     @Override
     public void onMoveToNextCard(boolean addCorrectAnswer) {
@@ -166,55 +149,34 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    public void onResultShow(){
-        restarExam();
-    }
-
-    //------For testing------
-    public class Card{
-        public final String question;
-        public final String answer;
-        public final String prompt;
-
-        public Card(String que, String prmt, String ans){
-            question = que;
-            answer = ans;
-            prompt = prmt;
-        }
-    }
-
-    public class Deck{
-        public final Integer deckNumber;
-        public final String deckName;
-        public final int numberOfQuestions;
-        public final List<Card> cards;
-
-        public Deck(int dNo, String dName, Integer nOfQue, List<Card> crds){
-            deckNumber = dNo;
-            deckName = dName;
-            numberOfQuestions = nOfQue;
-            cards = crds;
-        }
+    public void onResultShow() {
+        restartExam();
     }
 
     private void populateDeck() {
-        questions.add(new Card("Pytanie", "Dobra podpowiedz", "Odpowiedz"));
-        questions.add(new Card("What gets wet with drying?", "", "http://animaliaz-life.com/data_images/horse/horse6.jpg"));
-        questions.add(new Card("http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg", "Dobra podpowiedź", "http://i.telegraph.co.uk/multimedia/archive/02540/qi_2540330c.jpg"));
-        questions.add(new Card("What gets wet with drying?", "Bug? That's not a bug, that's a feature.", "A towel"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://upload.wikimedia.org/wikipedia/commons/a/a5/" +
-                "European_Rabbit,_Lake_District,_UK_-_August_2011.jpg"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://encrypted-tbn2.gstatic.com/" +
-                "images?q=tbn:ANd9GcSQsyEbYgkjylaK0Mym8I7ER295ecK3QXIWtHVba6pI43QFUjLf"));
-        questions.add(new Card("Nastepne pytanie", "Podpowiedz 1", "https://fishfair2000.files.wordpress.com/2015/01/rabbits.jpg"));
-        deck = new Deck(3, "Biologia", 7, questions);
+        Bundle data = getIntent().getExtras();
+        if (data == null) {
+            return;
+        }
+
+        deck = data.getParcelable(getString(R.string.deck_data_key));
+        if (deck == null) {
+            return;
+        }
+
+        deck.setCardsList(dataHelper.getAllCards(deck.getDeckNo()));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_toolbar_menu, menu);
-        return true;
+    protected void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constants.ACTION);
+        registerReceiver(connectionStatusReceiver, filter);
     }
-    //------For testing------
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectionStatusReceiver);
+    }
 }

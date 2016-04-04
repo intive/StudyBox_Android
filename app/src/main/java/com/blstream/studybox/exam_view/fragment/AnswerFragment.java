@@ -22,10 +22,10 @@ import butterknife.OnClick;
 public class AnswerFragment extends Fragment {
 
     @Bind(R.id.answer)
-    public TextView tvAnswer;
+    TextView tvAnswer;
 
     private ImageView[] answerImageTab;
-    private ImageTextDisplay imgTxtDisplay;
+    private ImageTextDisplay imageTextDisplay;
     private CardsProvider cardsProvider;
     private Activity activity;
 
@@ -47,15 +47,16 @@ public class AnswerFragment extends Fragment {
     private void initView(View view){
         ButterKnife.bind(this, view);
         FrameLayout frameLayout = (FrameLayout)view.findViewById(R.id.answerContainer);
-        answerImageTab = imgTxtDisplay.init(frameLayout, tvAnswer, cardsProvider.getFirstAnswers());
+        answerImageTab = imageTextDisplay.init(frameLayout, tvAnswer, cardsProvider.getFirstAnswers());
     }
 
     @OnClick({R.id.correct_ans_btn, R.id.incorrect_ans_btn})
     public void onClick(View view) {
-        if(view.getId() == R.id.correct_ans_btn)
-            ((OnMoveToNextCard)activity).onMoveToNextCard(true);
-        else
-            ((OnMoveToNextCard)activity).onMoveToNextCard(false);
+        if(view.getId() == R.id.correct_ans_btn) {
+            ((OnMoveToNextCard) activity).onMoveToNextCard(true);
+        } else {
+            ((OnMoveToNextCard) activity).onMoveToNextCard(false);
+        }
     }
 
     public interface OnMoveToNextCard {
@@ -63,16 +64,16 @@ public class AnswerFragment extends Fragment {
     }
 
     public void initOnRestart() {
-        imgTxtDisplay.initOnRestart(answerImageTab, tvAnswer, cardsProvider.getFirstAnswers());
+        imageTextDisplay.initOnRestart(answerImageTab, tvAnswer, cardsProvider.getFirstAnswers());
     }
 
     public void changeData() {
-        imgTxtDisplay.changeData(cardsProvider.getNextAnswer(),
+        imageTextDisplay.changeData(cardsProvider.getNextAnswer(),
                 cardsProvider.getLaterAnswer(), tvAnswer, answerImageTab);
     }
 
-    public void setVariables(ImageTextDisplay imgTxtDisp, CardsProvider cardsProv) {
-        imgTxtDisplay = imgTxtDisp;
-        cardsProvider = cardsProv;
+    public void setVariables(ImageTextDisplay imageTextDisplay, CardsProvider cardsProvider) {
+        this.imageTextDisplay = imageTextDisplay;
+        this.cardsProvider = cardsProvider;
     }
 }

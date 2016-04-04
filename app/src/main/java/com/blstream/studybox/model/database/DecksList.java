@@ -1,5 +1,5 @@
-
 package com.blstream.studybox.model.database;
+
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -37,4 +37,7 @@ public class DecksList {
         this.decks = decks;
     }
 
+    public Boolean isEmpty() {
+        return  decks == null || decks.isEmpty();
+    }
 }

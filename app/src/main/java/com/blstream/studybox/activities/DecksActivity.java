@@ -1,5 +1,6 @@
 package com.blstream.studybox.activities;
 
+import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.decks_recycler_view)
     RecyclerView recyclerView;
@@ -86,7 +87,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     private void setUpNavigationDrawer() {
-
         drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
     }
@@ -132,7 +132,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void showError(Throwable e, boolean pullToRefresh) {
-        //super.showError(e, pullToRefresh);
         super.showLightError(e.getMessage());
         contentView.setRefreshing(false);
         loadingView.setVisibility(View.GONE);
