@@ -1,6 +1,5 @@
 package com.blstream.studybox.activities;
 
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
@@ -10,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
-import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.database.DataHelper;
@@ -18,9 +16,6 @@ import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Deck;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,11 +63,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         populateDeck();
         setVariables();
         initView();
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     private void initView() {
@@ -178,8 +168,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void onResume(){
         super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
+        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     @Override
