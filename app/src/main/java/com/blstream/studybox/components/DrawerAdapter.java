@@ -9,23 +9,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.LoginActivity;
 import com.blstream.studybox.debugger.DebugHelper;
-import com.blstream.studybox.login.LoginUtils;
+import com.blstream.studybox.login.LoginManager;
 
 public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener {
 
     //TODO
     //Delete Toast messages after providing better tests for drawer
 
+    private static final int HEADER_INDEX = 0;
+
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private Context context;
     private Activity activity;
+    private LoginManager login;
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -37,10 +41,15 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         } catch(ClassCastException e){
             DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
         }
+        this.login = new LoginManager(context);
     }
 
     public void attachDrawer() {
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.getMenu().findItem(R.id.logout).setVisible(login.isUserLoggedIn());
+        TextView userEmail = (TextView) navigationView.getHeaderView(HEADER_INDEX).findViewById(R.id.user_email);
+        userEmail.setText(login.getUserEmail());
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 activity, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
@@ -67,10 +76,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
             case R.id.statistics:
                 break;
             case R.id.logout:
-                LoginUtils.deleteUser(context);
+                login.deleteUser();
                 Intent intent = new Intent(context, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                context.startActivity(intent);
+                activity.startActivity(intent);
+                activity.finish();
                 break;
         }
 

@@ -1,8 +1,7 @@
 package com.blstream.studybox.login_view;
 
-import com.blstream.studybox.Constants;
 import com.blstream.studybox.login.CredentialValidator;
-import com.blstream.studybox.login.LoginUtils;
+import com.blstream.studybox.login.LoginManager;
 import com.blstream.studybox.login.ValidatorListener;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
@@ -15,6 +14,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
+
+    private static final String AUTH_URL = "http://gibkiezuczki.azurewebsites.net/";
 
     public void validateCredential(AuthCredentials credentials) {
 
@@ -61,20 +62,31 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     }
 
     protected void authenticate(final AuthCredentials credentials) {
-        RestClientManager.authenticate(Constants.AUTH_URL, new AuthRequestInterceptor(credentials),
+        RestClientManager.authenticate(AUTH_URL, new AuthRequestInterceptor(credentials),
                 new RequestCallback<>(new RequestListener<Response>() {
                     @Override
                     public void onSuccess(Response response) {
                         if (isViewAttached()) {
                             getView().loginSuccessful();
-                            LoginUtils.saveUser(credentials, getView().getContext());
+                            LoginManager login = new LoginManager(getView().getContext());
+                            login.saveUser(credentials);
                         }
                     }
 
                     @Override
                     public void onFailure(RetrofitError error) {
-                        if (isViewAttached()) {
-                            getView().showAuthError();
+                        if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                            if (isViewAttached()) {
+                                getView().showNetworkError();
+                            }
+                        } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
+                            if (isViewAttached()) {
+                                getView().showAuthError();
+                            }
+                        } else {
+                            if (isViewAttached()) {
+                                getView().showUnexpectedError();
+                            }
                         }
                     }
                 })
