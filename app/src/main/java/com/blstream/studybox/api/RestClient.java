@@ -8,9 +8,9 @@ public class RestClient {
     private static final String URL = "http://78.133.154.70:2000/";
     private RestInterface restInterface;
 
-    public RestClient(String url){
+    public RestClient(){
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(url)
+                .setEndpoint(URL)
                 .build();
 
         restInterface = restAdapter.create(RestInterface.class);
