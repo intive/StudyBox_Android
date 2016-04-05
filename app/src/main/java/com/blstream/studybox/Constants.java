@@ -6,5 +6,4 @@ package com.blstream.studybox;
 public class Constants {
     public static final String BASE_URL = "http://private-5f2e4b-studybox2.apiary-mock.com/";
     public static final String API_KEY = "json";
-    public static final String ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 }

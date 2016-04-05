@@ -1,6 +1,5 @@
 package com.blstream.studybox.activities;
 
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
@@ -10,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
-import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.database.DataHelper;
@@ -170,8 +168,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void onResume(){
         super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
+        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     @Override
