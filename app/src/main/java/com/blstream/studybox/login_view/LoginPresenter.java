@@ -15,7 +15,7 @@ import retrofit.client.Response;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
-    private static final String AUTH_URL = "http://gibkiezuczki.azurewebsites.net/";
+    private static final String AUTH_URL = "http://78.133.154.70:2000/";
 
     public void validateCredential(AuthCredentials credentials) {
 

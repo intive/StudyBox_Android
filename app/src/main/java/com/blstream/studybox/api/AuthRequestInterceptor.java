@@ -18,6 +18,5 @@ public class AuthRequestInterceptor implements RequestInterceptor {
     @Override
     public void intercept(RequestFacade request) {
         request.addHeader("Authorization", basicCredentials);
-        request.addHeader("Cache-Control", "no-cache"); // required by our mock server
     }
 }
