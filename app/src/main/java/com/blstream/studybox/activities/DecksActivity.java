@@ -1,5 +1,6 @@
 package com.blstream.studybox.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -7,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -78,8 +80,17 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
         setUpRecyclerView();
+        setUpExitTransition();
 
         onViewPrepared();
+    }
+
+    private void setUpExitTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade transition = new Fade();
+            transition.setDuration(1000);
+            getWindow().setExitTransition(transition);
+        }
     }
 
     private void setUpNavigationDrawer() {

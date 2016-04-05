@@ -1,11 +1,19 @@
 package com.blstream.studybox.activities;
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
@@ -49,6 +57,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Bind(R.id.drawer_layout_exam)
     DrawerLayout drawerLayout;
 
+    @Bind(R.id.content_exam)
+    ViewGroup rootLayout;
+
     private DeckPagerAdapter adapterViewPager;
     private int cardCounter;
     private int correctAnswersCounter;
@@ -63,6 +74,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         populateDeck();
         setVariables();
         initView();
+
+        setUpEnterAnimation(savedInstanceState);
     }
 
     private void initView() {
@@ -78,6 +91,16 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         adapterViewPager =
                 new DeckPagerAdapter(getSupportFragmentManager(), deck, PRE_LOAD_IMAGE_COUNT, this);
         viewPager.setAdapter(adapterViewPager);
+
+        setUpEnterTransition();
+    }
+
+    private void setUpEnterTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Explode transition = new Explode();
+            transition.setDuration(500);
+            getWindow().setEnterTransition(transition);
+        }
     }
 
     private void setVariables() {
@@ -163,6 +186,33 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         }
 
         deck.setCardsList(dataHelper.getAllCards(deck.getDeckNo()));
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setUpEnterAnimation(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            return;
+        }
+
+        ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    int cx = (rootLayout.getLeft() + rootLayout.getRight()) / 2;
+                    int cy = rootLayout.getTop();
+                    int finalRadius = Math.max(rootLayout.getWidth(), rootLayout.getHeight());
+
+                    Animator animator = ViewAnimationUtils.createCircularReveal(rootLayout, cx, cy, 0, finalRadius);
+                    rootLayout.setBackgroundColor(ContextCompat.getColor(rootLayout.getContext(), R.color.white));
+                    animator.setDuration(1500);
+                    animator.start();
+
+                    rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
     }
 
     @Override
