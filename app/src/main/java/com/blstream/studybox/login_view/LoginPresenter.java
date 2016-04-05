@@ -14,8 +14,6 @@ import retrofit.RetrofitError;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
-    private static final String AUTH_URL = "http://78.133.154.70:2000/";
-
     public void validateCredential(AuthCredentials credentials) {
 
         if (isViewAttached()) {
@@ -61,7 +59,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     }
 
     protected void authenticate(final AuthCredentials credentials) {
-        RestClientManager.authenticate(AUTH_URL, new AuthRequestInterceptor(credentials),
+        RestClientManager.authenticate(new AuthRequestInterceptor(credentials),
                 new RequestCallback<>(new RequestListener<AuthCredentials>() {
                     @Override
                     public void onSuccess(AuthCredentials response) {

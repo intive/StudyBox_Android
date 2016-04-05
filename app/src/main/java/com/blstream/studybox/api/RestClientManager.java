@@ -22,8 +22,8 @@ public class RestClientManager {
         restInterface.getAllDecks(json, callback);
     }
 
-    public static void authenticate(String url, RequestInterceptor interceptor, Callback<AuthCredentials> callback) {
-        RestInterface restInterface = new RestClient(url, interceptor).getService();
+    public static void authenticate(RequestInterceptor interceptor, Callback<AuthCredentials> callback) {
+        RestInterface restInterface = new RestClient(interceptor).getService();
         restInterface.authenticate(callback);
     }
 }

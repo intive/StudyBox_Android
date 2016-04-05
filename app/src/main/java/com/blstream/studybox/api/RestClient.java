@@ -4,6 +4,8 @@ import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
 public class RestClient {
+
+    private static final String URL = "http://78.133.154.70:2000/";
     private RestInterface restInterface;
 
     public RestClient(String url){
@@ -14,9 +16,9 @@ public class RestClient {
         restInterface = restAdapter.create(RestInterface.class);
     }
 
-    public RestClient(String url, RequestInterceptor interceptor){
+    public RestClient(RequestInterceptor interceptor){
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(url)
+                .setEndpoint(URL)
                 .setRequestInterceptor(interceptor)
                 .build();
 
