@@ -2,7 +2,6 @@ package com.blstream.studybox.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
-import com.blstream.studybox.Constants;
 import com.blstream.studybox.R;
 import com.blstream.studybox.login_view.LoginPresenter;
 import com.blstream.studybox.login_view.LoginView;
@@ -69,8 +67,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @Override
     protected void onResume(){
         super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
+        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     @Override

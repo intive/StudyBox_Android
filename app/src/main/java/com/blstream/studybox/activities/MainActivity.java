@@ -23,7 +23,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -46,15 +46,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
-        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
+        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     @Override

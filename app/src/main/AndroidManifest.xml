@@ -24,7 +24,7 @@
             android:value="com.blstream.studybox.model.database.DeckDB, com.blstream.studybox.model.database.CardDB" />
 
         <activity android:name=".activities.SplashScreenActivity"
-            android:theme="@style/SplashScreenTheme">
+                  android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,7 +49,7 @@
         <activity
             android:name=".activities.ExamActivity"
             android:label="@string/title_activity_exam"
-            android:theme="@style/NoDrawerTheme"
+            android:theme="@style/StudyBoxTheme"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
     </application>
