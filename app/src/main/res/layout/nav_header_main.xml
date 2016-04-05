@@ -20,20 +20,20 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"/>
 
     <TextView
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/nav_text_user"
+        android:text="@string/default_username"
         android:textSize="14sp"
         android:textColor="@color/colorGrey"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/user_email"
         android:textSize="14sp"
         android:textColor="@color/colorGrey"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/nav_text_email" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

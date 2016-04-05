@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.blstream.studybox.login.LoginUtils;
+import com.blstream.studybox.login.LoginManager;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -23,7 +23,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         if (splashRunnable == null) {
-            if (LoginUtils.isUserLoggedIn(SplashScreenActivity.this)){
+            LoginManager login = new LoginManager(SplashScreenActivity.this);
+            if (login.isUserLoggedIn()){
                 splashRunnable = initializeSplashRunnable(DecksActivity.class);
             } else {
                 splashRunnable = initializeSplashRunnable(LoginActivity.class);

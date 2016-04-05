@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.Constants;
@@ -22,11 +24,16 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
     implements LoginView {
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+
+    private ConnectionStatusReceiver connectionStatusReceiver;
+
+    private final static float ENABLED_BUTTON_ALPHA = 1.0f;
+    private final static float DISABLED_BUTTON_ALPHA = 0.5f;
     
     @Bind(R.id.input_email)
     TextInputEditText emailInput;
@@ -54,26 +61,9 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        connectionStatusReceiver = new ConnectionStatusReceiver();
         setRetainInstance(true);
         ButterKnife.bind(this);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = emailInput.getText().toString();
-                String password = passwordInput.getText().toString();
-
-                presenter.validateCredential(new AuthCredentials(email, password));
-            }
-        });
-
-        unlicensedUserLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DecksActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -89,12 +79,25 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         unregisterReceiver(connectionStatusReceiver);
     }
 
-    @Override
+    @OnClick(R.id.btn_login)
+    public void onLoginClick() {
+        String email = emailInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        presenter.validateCredential(new AuthCredentials(email, password));
+    }
+
+    @OnClick(R.id.link_unlicensed_user)
+    public void onUnlicensedClick() {
+        Intent intent = new Intent(LoginActivity.this, DecksActivity.class);
+        startActivity(intent);
+    }
+
+    @Override @NonNull
     public LoginPresenter createPresenter() {
         return new LoginPresenter();
     }
 
-    @Override
+    @Override @NonNull
     public ViewState<LoginView> createViewState() {
         return new LoginViewState();
     }
@@ -121,6 +124,30 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
         setLoginFormEnabled(true);
         authErrorView.setVisibility(View.VISIBLE);
+        loginProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showNetworkError() {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
+
+        Toast.makeText(LoginActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+
+        setLoginFormEnabled(true);
+        authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showUnexpectedError() {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
+
+        Toast.makeText(LoginActivity.this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
+
+        setLoginFormEnabled(true);
+        authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.GONE);
     }
 
@@ -190,15 +217,15 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         signUpLink.setEnabled(enabled);
 
         if (enabled) {
-            loginButton.setAlpha(1f);
+            loginButton.setAlpha(ENABLED_BUTTON_ALPHA);
         } else {
-            loginButton.setAlpha(0.5f);
+            loginButton.setAlpha(DISABLED_BUTTON_ALPHA);
         }
     }
 
     @Override
     public void loginSuccessful() {
-        Intent intent = new Intent(getApplicationContext(), DecksActivity.class);
+        Intent intent = new Intent(LoginActivity.this, DecksActivity.class);
         startActivity(intent);
         finish();
     }
