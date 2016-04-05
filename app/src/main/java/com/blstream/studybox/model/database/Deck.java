@@ -1,5 +1,8 @@
 package com.blstream.studybox.model.database;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -7,29 +10,30 @@ import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Łukasz on 2016-03-16.
  */
 @Table(name = "Decks")
-public class Deck extends Model {
+public class Deck extends Model implements Parcelable{
 
     @Expose
     @Column(name = "DeckNo", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    public Integer deckNo;
+    private Integer deckNo;
 
     @Expose
     @Column(name = "DeckName")
-    public String deckName;
+    private String deckName;
 
     @Expose
     @Column(name = "NoOfQuestions")
-    public Integer noOfQuestions;
+    private Integer noOfQuestions;
 
     @Expose
     @SerializedName("cards")
-    public List<Card> cards;
+    private List<Card> cards;
 
     public Deck() {
         super();
@@ -39,6 +43,14 @@ public class Deck extends Model {
         this.deckNo = deckNo;
         this.deckName = deckName;
         this.noOfQuestions = noOfQuestions;
+    }
+
+    public List<Card> getCardsList() {
+        return cards;
+    }
+
+    public void setCardsList(List<Card> cardsList) {
+        cards = cardsList;
     }
 
     public List<Card> getCards() {
@@ -73,4 +85,37 @@ public class Deck extends Model {
         this.noOfQuestions = noOfQuestions;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(deckNo);
+        dest.writeString(deckName);
+        dest.writeInt(noOfQuestions);
+        dest.writeTypedList(cards);
+    }
+
+    public static final Creator<Deck> CREATOR = new Creator<Deck>() {
+        @Override
+        public Deck createFromParcel(Parcel source) {
+            return new Deck(source);
+        }
+
+        @Override
+        public Deck[] newArray(int size) {
+            return new Deck[size];
+        }
+    };
+
+    private Deck(Parcel source) {
+        deckNo = source.readInt();
+        deckName = source.readString();
+        noOfQuestions = source.readInt();
+
+        cards = new ArrayList<>();
+        source.readTypedList(cards, Card.CREATOR);
+    }
 }

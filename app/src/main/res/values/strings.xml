@@ -51,5 +51,7 @@
 
     <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="open_options">USTAWIENIA</string>
+    <string name="promt">Podpowiedz</string>
+    <string name="deck_data_key">DECK</string>
 
 </resources>

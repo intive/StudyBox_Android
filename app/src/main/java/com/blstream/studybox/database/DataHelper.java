@@ -87,7 +87,7 @@ public class DataHelper implements DataProvider {
 
             @Override
             public void onFailure(RetrofitError error) {
-
+                listener.onFailure(error);
             }
         }));
     }
@@ -98,7 +98,7 @@ public class DataHelper implements DataProvider {
 
             deck.save();
 
-            for (Card card : deck.cards) {
+            for (Card card : deck.getCardsList()) {
                 card.deck = deck;
                 card.save();
             }

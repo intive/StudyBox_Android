@@ -1,5 +1,6 @@
 package com.blstream.studybox.activities;
 
+import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -85,7 +86,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     private void setUpNavigationDrawer() {
-
         drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
     }
@@ -131,7 +131,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void showError(Throwable e, boolean pullToRefresh) {
-        //super.showError(e, pullToRefresh);
         super.showLightError(e.getMessage());
         contentView.setRefreshing(false);
         loadingView.setVisibility(View.GONE);

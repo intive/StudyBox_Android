@@ -1,44 +1,45 @@
 package com.blstream.studybox.exam_view;
 
 
-import com.blstream.studybox.activities.ExamActivity;
+import com.blstream.studybox.model.database.Card;
+import com.blstream.studybox.model.database.Deck;
 
 public class CardsProvider {
 
-    private final ExamActivity.Deck deck;
-    private ExamActivity.Card currentCard;
-    private ExamActivity.Card laterCard;
+    private final Deck deck;
+    private Card currentCard;
+    private Card laterCard;
     private final int preloadImageCount;
     private int position;
     private String[] answers;
     private String[] questions;
     private final String prompt;
 
-    public CardsProvider (ExamActivity.Deck deck, int preloadImageCount) {
+    public CardsProvider(Deck deck, int preloadImageCount) {
         this.deck = deck;
         this.preloadImageCount = preloadImageCount;
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
-        prompt = deck.cards.get(0).prompt;
-        setFirstImgs();
+        prompt = deck.getCardsList().get(0).getPrompt();
+        setFirstImages();
     }
 
-    private void setFirstImgs(){
+    private void setFirstImages() {
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
-        ExamActivity.Card card;
-        for(int i = 0; i < preloadImageCount; i++) {
-            card = deck.cards.get(i);
-            answers[i] = card.answer;
-            questions[i] = card.question;
+        Card card;
+        for (int i = 0; i < preloadImageCount; i++) {
+            card = deck.getCardsList().get(i);
+            answers[i] = card.getAnswer();
+            questions[i] = card.getQuestion();
         }
     }
 
-    public String[] getFirstAnswers(){
+    public String[] getFirstAnswers() {
         return answers;
     }
 
-    public String[] getFirstQuestions(){
+    public String[] getFirstQuestions() {
         return questions;
     }
 
@@ -46,49 +47,55 @@ public class CardsProvider {
         return prompt;
     }
 
-    private void updatePosition(){
+    private void updatePosition() {
         position++;
     }
 
-    public String getNextQuestion(){
-        return currentCard.question;
+    public String getNextQuestion() {
+        return currentCard.getQuestion();
     }
 
-    public String getNextPrompt(){
-        return currentCard.prompt;
+    public String getNextPrompt() {
+        return currentCard.getPrompt();
     }
 
-    public String getNextAnswer(){
-        return currentCard.answer;
+    public String getNextAnswer() {
+        return currentCard.getAnswer();
     }
 
     public String getLaterQuestion() {
-        return laterCard.question;
+        if (laterCard == null) {
+            return null;
+        }
+        return laterCard.getQuestion();
     }
 
-    public String getLaterAnswer(){
-        return laterCard.answer;
+    public String getLaterAnswer() {
+        if (laterCard == null) {
+            return null;
+        }
+        return laterCard.getAnswer();
     }
 
     public void initOnRestart() {
         position = 0;
     }
 
-    public int getPosition(){
+    public int getPosition() {
         return position;
     }
 
-    public void changeCard(){
+    public void changeCard() {
         updatePosition();
-        if(deck.numberOfQuestions > position ) {
+        if (deck.getNoOfQuestions() > position) {
             setCards();
         }
     }
 
-    private void setCards(){
-        currentCard = deck.cards.get(position);
-        if (deck.numberOfQuestions > position + preloadImageCount - 1) {
-            laterCard = deck.cards.get(position + preloadImageCount - 1);
+    private void setCards() {
+        currentCard = deck.getCardsList().get(position);
+        if (deck.getNoOfQuestions() > position + preloadImageCount - 1) {
+            laterCard = deck.getCardsList().get(position + preloadImageCount - 1);
         }
     }
 }

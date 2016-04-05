@@ -56,15 +56,16 @@ public class ImageTextDisplay {
 
     private void setView(ImageView image, TextView tv, String textToDisplay){
         String text = "";
-        if (Patterns.WEB_URL.matcher(textToDisplay).matches()){
+        if (Patterns.WEB_URL.matcher(textToDisplay).matches()) {
             image.setVisibility(View.VISIBLE);
-        } else
+        } else {
             text = textToDisplay;
+        }
         tv.setText(text);
     }
 
     public void initPreloadImages(String[] imgToLoad, ImageView[] imageTab){
-        for(int i = 0; i < preloadImageCount; i++){
+        for (int i = 0; i < preloadImageCount; i++) {
             imageTab[i].setVisibility(View.INVISIBLE);
             preloadImage(imgToLoad[i], imageTab[i]);
         }
@@ -74,9 +75,9 @@ public class ImageTextDisplay {
                            TextView tv, ImageView[] imageTab) {
         if (Patterns.WEB_URL.matcher(currentData).matches()) {
             showImage(tv, imageTab);
-        }
-        else
+        } else {
             showText(currentData, tv, imageTab);
+        }
         preloadImage(dataToPreload, imageTab[prevIndex]);
     }
 
@@ -97,7 +98,10 @@ public class ImageTextDisplay {
     }
 
     private void preloadImage(String dataToPreload, ImageView image){
-        if(Patterns.WEB_URL.matcher(dataToPreload).matches()){
+        if (dataToPreload == null) {
+            return;
+        }
+        if (Patterns.WEB_URL.matcher(dataToPreload).matches()) {
             Picasso.with(activity).load(dataToPreload).resize(width, height).centerInside()
                     .placeholder(R.drawable.camera).into(image);
         }
