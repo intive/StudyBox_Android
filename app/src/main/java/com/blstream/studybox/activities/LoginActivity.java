@@ -78,9 +78,11 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
-        String email = emailInput.getText().toString();
-        String password = passwordInput.getText().toString();
-        presenter.validateCredential(new AuthCredentials(email, password));
+        if (connectionStatusReceiver.isConnected()) {
+            String email = emailInput.getText().toString();
+            String password = passwordInput.getText().toString();
+            presenter.validateCredential(new AuthCredentials(email, password));
+        }
     }
 
     @OnClick(R.id.link_unlicensed_user)
