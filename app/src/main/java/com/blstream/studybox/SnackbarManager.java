@@ -8,8 +8,7 @@ import android.view.View;
 
 /**
  * If device loses network connection for unspecified reason user will be warned in form of snackbar
- * showing him proper message and enable him/her to perform action ("DISMISS" for now - when this
- * action is perform snackbar won't show again, unless device connect and disconnect again).
+ * showing him proper message and enable him/her to perform action (open android settings).
  * If network connection return by the time snackbar is shown, it (snackbar) will dismiss itself.
  */
 
@@ -22,17 +21,22 @@ public class SnackbarManager {
 
     private Snackbar createSnackbar(final Context context) {
 
-        View rootView = ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
-        View view = useCoordinatorLayoutIfPossible(rootView);
+        if(context instanceof Activity) {
+            final Activity activity = (Activity) context;
 
-        return Snackbar
-                .make(view, R.string.no_internet_connection, Snackbar.LENGTH_LONG)
-                .setAction(R.string.open_options, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((Activity) context).startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
-                    }
-                });
+            View rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+            View view = useCoordinatorLayoutIfPossible(rootView);
+
+            return Snackbar
+                    .make(view, R.string.no_internet_connection, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.open_options, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            activity.startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                        }
+                    });
+        }
+        return null;
     }
 
     private View useCoordinatorLayoutIfPossible(View rootView) {
@@ -46,13 +50,13 @@ public class SnackbarManager {
     }
 
     public void networkAvailable() {
-        if (snackbar.isShownOrQueued()) {
+        if (snackbar != null && snackbar.isShownOrQueued()) {
             snackbar.dismiss();
         }
     }
 
     public void networkUnavailable() {
-        if (!(snackbar.isShown()))
+        if (snackbar != null && !(snackbar.isShown()))
             snackbar.show();
     }
 }

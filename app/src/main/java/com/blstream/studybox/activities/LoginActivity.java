@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
     implements LoginView {
-    public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
     
     @Bind(R.id.input_email)
     TextInputEditText emailInput;
@@ -79,8 +79,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @Override
     protected void onResume(){
         super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
+        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     @Override

@@ -65,8 +65,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     @Override
     protected void onResume() {
         super.onResume();
-        IntentFilter filter = new IntentFilter(Constants.ACTION);
-        registerReceiver(connectionStatusReceiver, filter);
+        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
     @Override
