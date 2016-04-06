@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
@@ -20,7 +21,9 @@ import com.blstream.studybox.model.database.Deck;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
+public class ExamActivity extends AppCompatActivity implements
+        AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow,
+        ResultDialogFragment.OnResultHide {
 
     private static final String TAG_RESULT = "result";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
@@ -65,19 +68,18 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         initView();
     }
 
-    private void initView() {
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        DrawerAdapter drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
-        drawerAdapter.attachDrawer();
+    private void populateDeck() {
+        Bundle data = getIntent().getExtras();
+        if (data == null) {
+            return;
+        }
 
-        deckName.setText(deck.getDeckName());
-        questionNo.setText(getString(R.string.question_no, cardCounter));
-        correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
-        adapterViewPager =
-                new DeckPagerAdapter(getSupportFragmentManager(), deck, PRE_LOAD_IMAGE_COUNT, this);
-        viewPager.setAdapter(adapterViewPager);
+        deck = data.getParcelable(getString(R.string.deck_data_key));
+        if (deck == null) {
+            return;
+        }
+
+        deck.setCardsList(dataHelper.getAllCards(deck.getDeckNo()));
     }
 
     private void setVariables() {
@@ -85,37 +87,29 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         cardCounter = 1;
     }
 
+    private void initView() {
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        DrawerAdapter drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
+        drawerAdapter.attachDrawer();
+
+        deckName.setText(deck.getDeckName());
+        questionNo.setText(getString(R.string.question_no_format, cardCounter));
+        correctAnswers.setText(getString(
+                R.string.correct_answers_format, correctAnswersCounter, noOfQuestions));
+        adapterViewPager =
+                new DeckPagerAdapter(getSupportFragmentManager(), deck, PRE_LOAD_IMAGE_COUNT, this);
+        viewPager.setAdapter(adapterViewPager);
+    }
+
+    @Override
+    public void onMoveToNextCard(boolean addCorrectAnswer) {
+        updateCard(addCorrectAnswer);
+    }
+
     private void updateCard(boolean addCorrectAnswer) {
         updateCounters(addCorrectAnswer);
         setCard();
-    }
-
-    private void setCard() {
-        if (cardCounter - 1  == noOfQuestions) {
-            displayResult();
-        } else {
-            displayNextCard();
-        }
-    }
-
-    private void displayNextCard() {
-        viewPager.setCurrentItem(0, false);
-        adapterViewPager.changeData();
-        questionNo.setText(getString(R.string.question_no, cardCounter));
-        correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
-    }
-
-    private void displayResult(){
-        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
-                correctAnswersCounter, deck.getNoOfQuestions());
-        resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
-    }
-
-    private void restartExam() {
-        setInitialValues();
-        adapterViewPager.onResultDisplay();
-        setFirstCard();
     }
 
     private void updateCounters(boolean addCorrectAnswer){
@@ -129,40 +123,61 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         }
     }
 
+    private void setCard() {
+        if (cardCounter - 1  == noOfQuestions) {
+            displayResult();
+        } else {
+            displayNextCard();
+        }
+    }
+
+    private void displayResult(){
+        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
+                correctAnswersCounter, deck.getNoOfQuestions());
+        resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
+    }
+
+    private void displayNextCard() {
+        viewPager.setCurrentItem(0, false);
+        adapterViewPager.changeData();
+        questionNo.setText(getString(R.string.question_no_format, cardCounter));
+        correctAnswers.setText(getString(
+                R.string.correct_answers_format, correctAnswersCounter, noOfQuestions));
+    }
+
+    @Override
+    public void onResultShow() {
+        setViewVisibility(View.INVISIBLE);
+        restartExam();
+    }
+
+    private void setViewVisibility(int visibility){
+        deckName.setVisibility(visibility);
+        questionNo.setVisibility(visibility);
+        correctAnswers.setVisibility(visibility);
+    }
+
+    private void restartExam() {
+        setInitialValues();
+        adapterViewPager.onResultDisplay();
+        setFirstCard();
+    }
+
     private void setInitialValues() {
         cardCounter = 1;
         correctAnswersCounter = 0;
     }
 
     private void setFirstCard() {
-        questionNo.setText(getString(R.string.question_no, 1));
+        questionNo.setText(getString(R.string.question_no_format, 1));
         correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+                R.string.correct_answers_format, correctAnswersCounter, noOfQuestions));
         viewPager.setCurrentItem(0, false);
     }
 
     @Override
-    public void onMoveToNextCard(boolean addCorrectAnswer) {
-        updateCard(addCorrectAnswer);
-    }
-
-    @Override
-    public void onResultShow() {
-        restartExam();
-    }
-
-    private void populateDeck() {
-        Bundle data = getIntent().getExtras();
-        if (data == null) {
-            return;
-        }
-
-        deck = data.getParcelable(getString(R.string.deck_data_key));
-        if (deck == null) {
-            return;
-        }
-
-        deck.setCardsList(dataHelper.getAllCards(deck.getDeckNo()));
+    public void onResultHide() {
+        setViewVisibility(View.VISIBLE);
     }
 
     @Override
