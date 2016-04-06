@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+    private static final int TRANSITION_DURATION = 1000;
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
 
     @Bind(R.id.decks_recycler_view)
@@ -88,7 +89,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     private void setUpExitTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Fade transition = new Fade();
-            transition.setDuration(1000);
+            transition.setDuration(TRANSITION_DURATION);
             getWindow().setExitTransition(transition);
         }
     }

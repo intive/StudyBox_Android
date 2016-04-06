@@ -1,10 +1,10 @@
 package com.blstream.studybox.decks_view;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
 import com.blstream.studybox.R;
@@ -59,7 +59,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
                 dataHelper.getSingleDeck(position + 1));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
-                    ActivityOptions.makeSceneTransitionAnimation((Activity)view.getContext()).toBundle());
+                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context).toBundle());
         } else {
             context.startActivity(intent);
         }

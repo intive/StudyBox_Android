@@ -32,6 +32,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private static final String TAG_RESULT = "result";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
+    private static final int ANIMATION_DURATION = 1000;
+    private static final int TRANSITION_DURATION = 500;
 
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
     private DataHelper dataHelper = new DataHelper();
@@ -72,38 +74,53 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setContentView(R.layout.activity_exam);
 
         populateDeck();
-        setVariables();
+        setUpVariables();
         initView();
 
-        setUpEnterAnimation(savedInstanceState);
+        if (savedInstanceState == null) {
+            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                setUpEnterAnimation();
+            }
+        }
     }
 
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        DrawerAdapter drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
-        drawerAdapter.attachDrawer();
 
+        setUpEnterTransition();
+        setUpNavigationDrawer();
+        setUpTextToViews();
+        setUpPagerAdapter();
+    }
+
+    private void setUpTextToViews() {
         deckName.setText(deck.getDeckName());
         questionNo.setText(getString(R.string.question_no, cardCounter));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+    }
+
+    private void setUpPagerAdapter() {
         adapterViewPager =
                 new DeckPagerAdapter(getSupportFragmentManager(), deck, PRE_LOAD_IMAGE_COUNT, this);
         viewPager.setAdapter(adapterViewPager);
-
-        setUpEnterTransition();
     }
 
     private void setUpEnterTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Explode transition = new Explode();
-            transition.setDuration(500);
+            transition.setDuration(TRANSITION_DURATION);
             getWindow().setEnterTransition(transition);
         }
     }
 
-    private void setVariables() {
+    private void setUpNavigationDrawer() {
+        DrawerAdapter drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
+        drawerAdapter.attachDrawer();
+    }
+
+    private void setUpVariables() {
         noOfQuestions = deck.getNoOfQuestions();
         cardCounter = 1;
     }
@@ -188,25 +205,21 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         deck.setCardsList(dataHelper.getAllCards(deck.getDeckNo()));
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setUpEnterAnimation(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            return;
-        }
-
+    private void setUpEnterAnimation() {
         ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
             viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onGlobalLayout() {
-                    int cx = (rootLayout.getLeft() + rootLayout.getRight()) / 2;
-                    int cy = rootLayout.getTop();
-                    int finalRadius = Math.max(rootLayout.getWidth(), rootLayout.getHeight());
+                    int centerX = (rootLayout.getLeft() + rootLayout.getRight()) / 2;
+                    int centerY = rootLayout.getTop();
+                    int endRadius = Math.max(rootLayout.getWidth(), rootLayout.getHeight());
 
-                    Animator animator = ViewAnimationUtils.createCircularReveal(rootLayout, cx, cy, 0, finalRadius);
+                    Animator animator = ViewAnimationUtils.createCircularReveal(rootLayout, centerX, centerY, 0, endRadius);
                     rootLayout.setBackgroundColor(ContextCompat.getColor(rootLayout.getContext(), R.color.white));
-                    animator.setDuration(1500);
+                    animator.setDuration(ANIMATION_DURATION);
                     animator.start();
 
                     rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
