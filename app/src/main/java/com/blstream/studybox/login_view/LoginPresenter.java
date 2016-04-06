@@ -11,11 +11,8 @@ import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
-
-    private static final String AUTH_URL = "http://gibkiezuczki.azurewebsites.net/";
 
     public void validateCredential(AuthCredentials credentials) {
 
@@ -62,14 +59,16 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     }
 
     protected void authenticate(final AuthCredentials credentials) {
-        RestClientManager.authenticate(AUTH_URL, new AuthRequestInterceptor(credentials),
-                new RequestCallback<>(new RequestListener<Response>() {
+        RestClientManager.authenticate(new AuthRequestInterceptor(credentials),
+                new RequestCallback<>(new RequestListener<AuthCredentials>() {
                     @Override
-                    public void onSuccess(Response response) {
+                    public void onSuccess(AuthCredentials response) {
                         if (isViewAttached()) {
                             getView().loginSuccessful();
+
+                            response.setPassword(credentials.getPassword());
                             LoginManager login = new LoginManager(getView().getContext());
-                            login.saveUser(credentials);
+                            login.saveUser(response);
                         }
                     }
 

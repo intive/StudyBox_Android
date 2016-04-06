@@ -48,8 +48,14 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.getMenu().findItem(R.id.logout).setVisible(login.isUserLoggedIn());
+        TextView userName = (TextView) navigationView.getHeaderView(HEADER_INDEX).findViewById(R.id.user_name);
         TextView userEmail = (TextView) navigationView.getHeaderView(HEADER_INDEX).findViewById(R.id.user_email);
-        userEmail.setText(login.getUserEmail());
+        if (userName != null) {
+            userName.setText(login.getUserName());
+        }
+        if (userEmail != null) {
+            userEmail.setText(login.getUserEmail());
+        }
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 activity, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);

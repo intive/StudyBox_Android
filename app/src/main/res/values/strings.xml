@@ -20,7 +20,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="default_username">StudyBox User</string>
+    <string name="default_username">Niezalogowany</string>
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="email">E-MAIL</string>
