@@ -70,4 +70,9 @@ public class LoginManager implements LoginInterface {
     public String getUserId() {
         return preferences.getString(USER_ID, DEFAULT_ID);
     }
+
+    @Override
+    public AuthCredentials getCredentials() {
+        return new AuthCredentials(getUserId(), getUserName(), getUserEmail(), getUserPassword());
+    }
 }

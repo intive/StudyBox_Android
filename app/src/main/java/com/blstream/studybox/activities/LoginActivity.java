@@ -9,7 +9,6 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
@@ -79,7 +78,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
         if (connectionStatusReceiver.isConnected()) {
-            String email = emailInput.getText().toString();
+            String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString();
             presenter.validateCredential(new AuthCredentials(email, password));
         }
@@ -118,84 +117,42 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
     @Override
     public void showAuthError() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowAuthError();
-
-        setLoginFormEnabled(true);
-        authErrorView.setVisibility(View.VISIBLE);
-        loginProgressBar.setVisibility(View.GONE);
+        setError(getString(R.string.auth_error));
     }
 
     @Override
     public void showNetworkError() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
-
-        Toast.makeText(LoginActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
-
-        setLoginFormEnabled(true);
-        authErrorView.setVisibility(View.GONE);
-        loginProgressBar.setVisibility(View.GONE);
+        setError(getString(R.string.network_error));
     }
 
     @Override
     public void showUnexpectedError() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
-
-        Toast.makeText(LoginActivity.this, R.string.unexpected_error, Toast.LENGTH_SHORT).show();
-
-        setLoginFormEnabled(true);
-        authErrorView.setVisibility(View.GONE);
-        loginProgressBar.setVisibility(View.GONE);
+        setError(getString(R.string.unexpected_error));
     }
 
     @Override
     public void showEmptyEmailError() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
-
-        setLoginFormEnabled(true);
-        emailInput.setError(getString(R.string.empty_field));
-        emailInput.requestFocus();
-        authErrorView.setVisibility(View.GONE);
-        loginProgressBar.setVisibility(View.GONE);
+        setFieldError(emailInput, getString(R.string.empty_field));
     }
 
     @Override
     public void showEmptyPasswordError() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
-
-        setLoginFormEnabled(true);
-        passwordInput.setError(getString(R.string.empty_field));
-        passwordInput.requestFocus();
-        authErrorView.setVisibility(View.GONE);
-        loginProgressBar.setVisibility(View.GONE);
+        setFieldError(passwordInput, getString(R.string.empty_field));
     }
 
     @Override
     public void showInvalidEmailError() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
-
-        setLoginFormEnabled(true);
-        emailInput.setError(getString(R.string.invalid_email));
-        emailInput.requestFocus();
-        authErrorView.setVisibility(View.GONE);
-        loginProgressBar.setVisibility(View.GONE);
+        setFieldError(emailInput, getString(R.string.invalid_email));
     }
 
     @Override
     public void showInvalidPasswordError() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
+        setFieldError(passwordInput, getString(R.string.invalid_password));
+    }
 
-        setLoginFormEnabled(true);
-        passwordInput.setError(getString(R.string.invalid_password));
-        passwordInput.requestFocus();
-        authErrorView.setVisibility(View.GONE);
-        loginProgressBar.setVisibility(View.GONE);
+    @Override
+    public void showTooShortPasswordError() {
+        setFieldError(passwordInput, getString(R.string.too_short_password));
     }
 
     @Override
@@ -206,6 +163,27 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         setLoginFormEnabled(false);
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void setError(String message) {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowError();
+
+        setLoginFormEnabled(true);
+        authErrorView.setText(message);
+        authErrorView.setVisibility(View.VISIBLE);
+        loginProgressBar.setVisibility(View.GONE);
+    }
+
+    private void setFieldError(TextInputEditText field, String message) {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
+
+        setLoginFormEnabled(true);
+        field.setError(message);
+        field.requestFocus();
+        authErrorView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
     }
 
     private void setLoginFormEnabled(boolean enabled) {

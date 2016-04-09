@@ -11,4 +11,5 @@ public interface LoginInterface {
     String getUserPassword();
     String getUserName();
     String getUserId();
+    AuthCredentials getCredentials();
 }
