@@ -6,7 +6,7 @@ public class LoginViewState implements ViewState<LoginView> {
 
     private final int STATE_SHOW_LOGIN_FORM = 0;
     private final int STATE_SHOW_LOADING = 1;
-    private final int STATE_SHOW_AUTH_ERROR = 2;
+    private final int STATE_SHOW_ERROR = 2;
 
     private int state = STATE_SHOW_LOGIN_FORM;
 
@@ -18,8 +18,8 @@ public class LoginViewState implements ViewState<LoginView> {
         state = STATE_SHOW_LOADING;
     }
 
-    public void setShowAuthError() {
-        state = STATE_SHOW_AUTH_ERROR;
+    public void setShowError() {
+        state = STATE_SHOW_ERROR;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class LoginViewState implements ViewState<LoginView> {
                 view.showLoading();
                 break;
 
-            case STATE_SHOW_AUTH_ERROR:
+            case STATE_SHOW_ERROR:
                 view.showAuthError();
                 break;
         }

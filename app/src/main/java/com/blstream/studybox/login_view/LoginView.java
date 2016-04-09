@@ -14,6 +14,7 @@ public interface LoginView extends MvpView {
     void showEmptyPasswordError();
     void showInvalidEmailError();
     void showInvalidPasswordError();
+    void showTooShortPasswordError();
     void showLoading();
     void loginSuccessful();
     Context getContext();

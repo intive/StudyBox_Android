@@ -7,8 +7,9 @@ import java.util.regex.Pattern;
 
 public class CredentialValidator {
 
-    protected ValidatorListener listener;
-    protected AuthCredentials credentials;
+    private final static int MIN_PASSWORD_LENGTH = 8;
+    private ValidatorListener listener;
+    private AuthCredentials credentials;
 
     public CredentialValidator(AuthCredentials credentials, ValidatorListener listener) {
         this.credentials = credentials;
@@ -16,7 +17,7 @@ public class CredentialValidator {
     }
 
     public void validate() {
-        final String PASSWORD_PATTERN = "^(?=\\S+$).{8,}$"; // min 8 characters, no whitespace
+        final String PASSWORD_PATTERN = "^(?=\\S+$).{" + MIN_PASSWORD_LENGTH + ",}$"; // min X characters, no whitespace
         Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
         Matcher matcher = pattern.matcher(credentials.getPassword());
 
@@ -25,6 +26,8 @@ public class CredentialValidator {
 
         if (credentials.getPassword().isEmpty()) {
             listener.onPasswordFieldEmpty();
+        } else if (credentials.getPassword().length() < MIN_PASSWORD_LENGTH) {
+            listener.onPasswordTooShort();
         } else if (!isPasswordValid) {
             listener.onPasswordValidationFailure();
         }

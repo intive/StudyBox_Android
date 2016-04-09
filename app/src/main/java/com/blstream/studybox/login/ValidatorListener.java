@@ -8,6 +8,7 @@ public interface ValidatorListener {
 
     void onEmailFieldEmpty();
     void onPasswordFieldEmpty();
+    void onPasswordTooShort();
     void onEmailValidationFailure();
     void onPasswordValidationFailure();
 }
