@@ -35,6 +35,7 @@
     <string name="empty_field">Wypełnij pole!</string>
     <string name="network_error">Serwer niedostępny</string>
     <string name="unexpected_error">Nieoczekiwany błąd</string>
+    <string name="too_short_password">Hasło jest zbyt krótkie</string>
 
     <string name="title_activity_exam">ExamActivity</string>
     <string name="deck_name">Matematyka</string>
