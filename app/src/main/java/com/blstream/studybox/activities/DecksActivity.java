@@ -1,5 +1,6 @@
 package com.blstream.studybox.activities;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -180,4 +182,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         drawerAdapter.detachDrawer();
     }
 
+    /**
+     * Applies custom font to every activity that overrides this method
+     */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

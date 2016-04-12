@@ -2,6 +2,7 @@ package com.blstream.studybox.activities;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -27,6 +28,7 @@ import com.blstream.studybox.model.database.Deck;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow {
 
@@ -245,5 +247,13 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     protected void onDestroy() {
         super.onDestroy();
         drawerAdapter.detachDrawer();
+    }
+
+    /**
+     * Applies custom font to every activity that overrides this method
+     */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

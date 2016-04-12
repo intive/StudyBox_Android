@@ -22,6 +22,7 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
@@ -210,5 +211,13 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @Override
     public Context getContext() {
         return LoginActivity.this;
+    }
+
+    /**
+     * Applies custom font to every activity that overrides this method
+     */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
