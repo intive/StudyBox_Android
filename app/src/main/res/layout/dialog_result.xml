@@ -10,63 +10,70 @@
         android:fitsSystemWindows="true">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-        <TextView
-            android:id="@+id/congrats"
-            android:text="@string/congrats"
-            android:textSize="@dimen/exam_large_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/exam_element_bottom_margin"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/your_score"
-            android:text="@string/your_score"
-            android:textSize="@dimen/exam_medium_text"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/exam_element_margin" />
+            <TextView
+                android:id="@+id/congrats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/exam_element_bottom_margin"
+                android:gravity="center"
+                android:text="@string/congrats"
+                android:textSize="@dimen/exam_large_text" />
 
-        <TextView
-            android:id="@+id/total_score"
-            android:text="@string/correct_answers"
-            android:textSize="@dimen/exam_large_text"
-            android:gravity="center"
-            android:layout_weight="0.2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/exam_element_bottom_margin" />
 
-        <Button
-            android:id="@+id/my_decks"
-            android:text="@string/my_decks"
-            android:textAllCaps="true"
-            android:textSize="@dimen/exam_medium_text"
-            android:textColor="@color/white"
-            android:layout_height="@dimen/result_button_height"
-            android:layout_width="@dimen/result_button_width"
-            android:layout_gravity="center"
-            android:background="@color/colorDarkBlue"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/your_score_bottom_margin"/>
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"/>
 
-        <Button
-            android:id="@+id/improve_result"
-            android:text="@string/improve_result"
-            android:textAllCaps="true"
-            android:textSize="@dimen/exam_medium_text"
-            android:textColor="@color/white"
-            android:layout_height="@dimen/result_button_height"
-            android:layout_width="@dimen/result_button_width"
-            android:layout_gravity="center"
-            android:background="@color/colorGraphite"
-            android:gravity="center" />
+            <TextView
+                android:id="@+id/your_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/exam_element_margin"
+                android:gravity="center"
+                android:text="@string/your_score"
+                android:textSize="@dimen/exam_medium_text" />
+
+            <TextView
+                android:id="@+id/total_score"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/exam_element_bottom_margin"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:text="@string/correct_answers"
+                android:textSize="@dimen/exam_large_text" />
+
+            <Button
+                android:id="@+id/my_decks"
+                android:layout_width="@dimen/result_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/your_score_bottom_margin"
+                android:background="@color/colorRaspberry"
+                android:gravity="center"
+                android:text="@string/my_decks"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/exam_medium_text" />
+
+            <Button
+                android:id="@+id/improve_result"
+                android:layout_width="@dimen/result_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/colorGraphite"
+                android:gravity="center"
+                android:text="@string/improve_result"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/exam_medium_text" />
 
         </LinearLayout>
     </ScrollView>

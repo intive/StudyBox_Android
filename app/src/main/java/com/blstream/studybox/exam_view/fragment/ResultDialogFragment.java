@@ -4,16 +4,26 @@ package com.blstream.studybox.exam_view.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.DecksActivity;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,8 +37,16 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     @Bind(R.id.total_score)
     public TextView totalScore;
 
+    @Bind(R.id.pieChart)
+    PieChart pieChart;
+
+    @Bind(R.id.improve_result)
+    Button improve;
+
     private int correctAnswers;
     private int noOfQuestions;
+
+
 
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
@@ -51,13 +69,22 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_result, container, false);
+
         initView(view);
+
+
         return view;
     }
 
     private void initView(View view){
         ButterKnife.bind(this, view);
+        if(correctAnswers==noOfQuestions) {
+            improve.setEnabled(false);
+            improve.setBackgroundColor(getResources().getColor(R.color.colorGrey));
+        }
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
+        customizePieChart();
+        addPieChartData(correctAnswers, noOfQuestions);
     }
 
     @OnClick(R.id.improve_result)
@@ -78,6 +105,77 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     public interface OnResultShow {
         void onResultShow();
     }
+
+    private void customizePieChart() {
+        pieChart.setUsePercentValues(true);
+        pieChart.setDescription(" ");
+
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColor(Color.TRANSPARENT);
+        pieChart.setHoleRadius(15);
+        pieChart.setTransparentCircleRadius(20);
+
+        pieChart.setRotationAngle(0);
+        pieChart.setRotationEnabled(true);
+        pieChart.animateY(2000);
+
+        pieChart.setCenterTextSize(12);
+        pieChart.setCenterTextColor(getResources().getColor(R.color.colorGraphite));
+
+        pieChart.setDrawSliceText(false);
+
+        Legend l = pieChart.getLegend();
+        l.setEnabled(false);
+    }
+
+    private void addPieChartData(int correctAnswer, int noOfQuestion) {
+
+        float[] yData;
+        String[] xData = {"Dobrych", "Złych"};
+
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(getResources().getColor(R.color.colorRaspberry));
+        colors.add(getResources().getColor(R.color.colorGraphite));
+
+        if(correctAnswer == noOfQuestion) {
+            yData = new float[]{100};
+        } else if(correctAnswer == 0) {
+            yData= new float[]{100};
+            colors.remove(0);
+        } else {
+            float good = (float) correctAnswer * 100 / noOfQuestion;
+            yData = new float[]{good, 100 - good}; }
+
+        ArrayList<Entry> yValues = new ArrayList<>();
+
+        for(int i = 0; i<yData.length; i++)
+        { yValues.add(new Entry(yData[i], i));}
+
+        ArrayList<String> xValues = new ArrayList<>();
+
+        for(int i=0; i<xData.length; i++) {
+            xValues.add(xData[i]);
+        }
+
+        //create Pie Data Set
+        PieDataSet dataSet = new PieDataSet(yValues, "Wynik");
+        dataSet.setSliceSpace(5);
+        dataSet.setSelectionShift(10);
+
+        PieData data = new PieData(xValues, dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextColor(Color.WHITE);
+        data.setValueTextSize(16);
+
+        pieChart.setData(data);
+
+        pieChart.highlightValues(null);
+        pieChart.invalidate();
+
+    }
+
+
+
 
     @NonNull
     @Override
