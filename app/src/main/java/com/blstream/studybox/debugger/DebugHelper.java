@@ -6,6 +6,9 @@ import android.os.StrictMode;
 
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.squareup.leakcanary.AndroidExcludedRefs;
+import com.squareup.leakcanary.DisplayLeakService;
+import com.squareup.leakcanary.ExcludedRefs;
 import com.squareup.leakcanary.LeakCanary;
 
 import static android.os.Build.VERSION.SDK_INT;
@@ -172,7 +175,11 @@ public class DebugHelper {
     }
     private static void initializeLeakCanary(Application application) {
         if( leakCanaryInitialized == false) {
-            LeakCanary.install(application);
+            ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
+                    // ignore memory leak on LG devices with Android 4.4.2
+                    .instanceField("android.view.View$ScrollabilityCache", "host")
+                    .build();
+            LeakCanary.install(application, DisplayLeakService.class, excludedRefs);
             leakCanaryInitialized = true;
         }
     }
