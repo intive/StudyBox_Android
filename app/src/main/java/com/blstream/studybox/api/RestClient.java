@@ -1,7 +1,12 @@
 package com.blstream.studybox.api;
 
+import com.google.gson.GsonBuilder;
+
+import java.lang.reflect.Modifier;
+
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 public class RestClient {
 
@@ -11,6 +16,10 @@ public class RestClient {
 
     public RestClient(){
         RestAdapter restAdapter = new RestAdapter.Builder()
+                .setConverter(new GsonConverter(new GsonBuilder()
+                        .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+                        .serializeNulls()
+                        .create()))
                 .setEndpoint(BASE_URL)
                 .build();
 
@@ -19,6 +28,10 @@ public class RestClient {
 
     public RestClient(RequestInterceptor interceptor){
         RestAdapter restAdapter = new RestAdapter.Builder()
+                .setConverter(new GsonConverter(new GsonBuilder()
+                        .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+                        .serializeNulls()
+                        .create()))
                 .setEndpoint(URL)
                 .setRequestInterceptor(interceptor)
                 .build();

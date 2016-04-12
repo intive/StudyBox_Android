@@ -41,6 +41,13 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
             }
 
             @Override
+            public void onPasswordTooShort() {
+                if (isViewAttached()) {
+                    getView().showTooShortPasswordError();
+                }
+            }
+
+            @Override
             public void onEmailValidationFailure() {
                 if (isViewAttached()) {
                     getView().showInvalidEmailError();
