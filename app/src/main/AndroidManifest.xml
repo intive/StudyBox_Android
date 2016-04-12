@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -12,7 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/StudyBoxTheme">
-
         <meta-data
             android:name="AA_DB_NAME"
             android:value="StudyBox.db" />
@@ -23,15 +22,17 @@
             android:name="AA_MODELS"
             android:value="com.blstream.studybox.model.database.DeckDB, com.blstream.studybox.model.database.CardDB" />
 
-        <activity android:name=".activities.SplashScreenActivity"
-                  android:theme="@style/SplashScreenTheme">
+        <activity
+            android:name=".activities.SplashScreenActivity"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity"
+        <activity
+            android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/NoDrawerTheme">
             <intent-filter>
@@ -40,15 +41,26 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DecksActivity"
+        <activity
+            android:name=".activities.DecksActivity"
             android:label="@string/title_activity_decks"
             android:theme="@style/StudyBoxTheme">
         </activity>
         <activity
             android:name=".activities.ExamActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_exam"
-            android:theme="@style/StudyBoxTheme"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:theme="@style/StudyBoxTheme">
+        </activity>
+        <activity
+            android:name=".activities.RegistrationActivity"
+            android:label="@string/title_activity_registration"
+            android:theme="@style/NoDrawerTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

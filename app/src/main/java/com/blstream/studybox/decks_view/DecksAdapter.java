@@ -32,10 +32,6 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         @Bind(R.id.questions_quantity)
         public TextView questionsQuantity;
 
-        @Nullable
-        @Bind(R.id.quantity_icon)
-        public ImageView quantityIcon;
-
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -72,7 +68,6 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.deckTitle.setText(decksList.getDecks().get(position).getDeckName());
         holder.questionsQuantity.setText(String.valueOf(decksList.getDecks().get(position).getNoOfQuestions()));
-        holder.quantityIcon.setImageResource(R.drawable.ic_questions);
     }
 
     @Override
