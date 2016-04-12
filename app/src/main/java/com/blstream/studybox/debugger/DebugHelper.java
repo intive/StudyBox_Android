@@ -175,11 +175,15 @@ public class DebugHelper {
     }
     private static void initializeLeakCanary(Application application) {
         if( leakCanaryInitialized == false) {
-            ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
-                    // ignore memory leak on LG devices with Android 4.4.2
-                    .instanceField("android.view.View$ScrollabilityCache", "host")
-                    .build();
-            LeakCanary.install(application, DisplayLeakService.class, excludedRefs);
+            if (com.blstream.studybox.BuildConfig.DEBUG) {
+                ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
+                        // ignore memory leak on LG devices with Android 4.4.2
+                        .instanceField("android.view.View$ScrollabilityCache", "host")
+                        .build();
+                LeakCanary.install(application, DisplayLeakService.class, excludedRefs);
+            } else {
+                LeakCanary.install(application);
+            }
             leakCanaryInitialized = true;
         }
     }
