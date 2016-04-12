@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,6 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     private int correctAnswers;
     private int noOfQuestions;
 
-
-
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
         Bundle args = new Bundle();
@@ -69,10 +68,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_result, container, false);
-
         initView(view);
-
-
         return view;
     }
 
@@ -121,7 +117,6 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
         pieChart.setCenterTextSize(12);
         pieChart.setCenterTextColor(getResources().getColor(R.color.colorGraphite));
-
         pieChart.setDrawSliceText(false);
 
         Legend l = pieChart.getLegend();
@@ -129,13 +124,12 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     }
 
     private void addPieChartData(int correctAnswer, int noOfQuestion) {
-
         float[] yData;
-        String[] xData = {"Dobrych", "Złych"};
+        String[] xData = {getString(R.string.correct_quantity), getString(R.string.incorrect_quantity)};
 
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(getResources().getColor(R.color.colorRaspberry));
-        colors.add(getResources().getColor(R.color.colorGraphite));
+        colors.add(ContextCompat.getColor(getContext(), R.color.colorRaspberry));
+        colors.add(ContextCompat.getColor(getContext(), R.color.colorGraphite));
 
         if(correctAnswer == noOfQuestion) {
             yData = new float[]{100};
@@ -144,38 +138,30 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
             colors.remove(0);
         } else {
             float good = (float) correctAnswer * 100 / noOfQuestion;
-            yData = new float[]{good, 100 - good}; }
-
-        ArrayList<Entry> yValues = new ArrayList<>();
-
-        for(int i = 0; i<yData.length; i++)
-        { yValues.add(new Entry(yData[i], i));}
-
-        ArrayList<String> xValues = new ArrayList<>();
-
-        for(int i=0; i<xData.length; i++) {
-            xValues.add(xData[i]);
+            yData = new float[]{good, 100 - good};
         }
 
-        //create Pie Data Set
-        PieDataSet dataSet = new PieDataSet(yValues, "Wynik");
+        ArrayList<Entry> yValues = new ArrayList<>();
+        for(int i = 0; i<yData.length; i++)
+            yValues.add(new Entry(yData[i], i));
+
+        ArrayList<String> xValues = new ArrayList<>();
+        for(int i=0; i<xData.length; i++)
+            xValues.add(xData[i]);
+
+        PieDataSet dataSet = new PieDataSet(yValues, getString(R.string.your_score));
         dataSet.setSliceSpace(5);
         dataSet.setSelectionShift(10);
 
         PieData data = new PieData(xValues, dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
         data.setValueTextSize(16);
 
         pieChart.setData(data);
-
         pieChart.highlightValues(null);
         pieChart.invalidate();
-
     }
-
-
-
 
     @NonNull
     @Override
