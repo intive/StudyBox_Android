@@ -30,6 +30,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Context context;
     private Activity activity;
     private LoginManager login;
+    private ActionBarDrawerToggle drawerToggle;
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -57,10 +58,14 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
             userEmail.setText(login.getUserEmail());
         }
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+        drawerToggle = new ActionBarDrawerToggle(
                 activity, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+    }
+
+    public void detachDrawer() {
+        drawerLayout.removeDrawerListener(drawerToggle);
     }
 
     @Override

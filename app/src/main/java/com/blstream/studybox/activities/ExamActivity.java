@@ -67,6 +67,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int correctAnswersCounter;
     private Integer noOfQuestions;
     private Deck deck;
+    private DrawerAdapter drawerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setUpNavigationDrawer() {
-        DrawerAdapter drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
+        drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
     }
 
@@ -238,5 +239,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     protected void onPause() {
         super.onPause();
         unregisterReceiver(connectionStatusReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        drawerAdapter.detachDrawer();
     }
 }

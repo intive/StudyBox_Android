@@ -2,6 +2,7 @@ package com.blstream.studybox.activities;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -168,9 +169,15 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         return true;
     }
 
-    @Override
+    @Override @NonNull
     public DecksPresenter createPresenter() {
         return new DecksPresenter();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        drawerAdapter.detachDrawer();
     }
 
 }
