@@ -25,9 +25,11 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="email">E-MAIL</string>
     <string name="password">HASŁO</string>
+    <string name="repeat_password">POWTÓRZ HASŁO</string>
     <string name="login">ZALOGUJ</string>
     <string name="unlicensed_user">Wejdź jako niezarejestrowany użytkownik</string>
     <string name="sign_up">Utwórz nowego użytkownika</string>
+    <string name="sign_up_button">Zarejestruj</string>
     <string name="image_description">Studybox Logo</string>
     <string name="auth_error">Błędne hasło bądź nazwa użytkownika</string>
     <string name="invalid_email">Niepoprawny e-mail!</string>
@@ -55,5 +57,7 @@
     <string name="open_options">USTAWIENIA</string>
     <string name="promt">Podpowiedz</string>
     <string name="deck_data_key">DECK</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="cancel">ANULUJ</string>
 
 </resources>
