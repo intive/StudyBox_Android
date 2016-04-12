@@ -1,74 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_result"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fitsSystemWindows="true">
+    <include
+        layout="@layout/app_bar_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view_result"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/nav_menu"
+        app:itemIconTint="@drawable/navigation_view_icon_tint_selector"
+        app:itemTextColor="@drawable/navigation_view_text_color_selector"/>
 
-        <TextView
-            android:id="@+id/congrats"
-            android:text="@string/congrats"
-            android:textSize="@dimen/exam_large_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/exam_element_bottom_margin"/>
-
-        <TextView
-            android:id="@+id/your_score"
-            android:text="@string/your_score"
-            android:textSize="@dimen/exam_medium_text"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/exam_element_margin" />
-
-        <TextView
-            android:id="@+id/total_score"
-            android:text="@string/correct_answers"
-            android:textSize="@dimen/exam_large_text"
-            android:gravity="center"
-            android:layout_weight="0.2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/exam_element_bottom_margin" />
-
-        <Button
-            android:id="@+id/my_decks"
-            android:text="@string/my_decks"
-            android:textAllCaps="true"
-            android:textSize="@dimen/exam_medium_text"
-            android:textColor="@color/white"
-            android:layout_height="@dimen/result_button_height"
-            android:layout_width="@dimen/result_button_width"
-            android:layout_gravity="center"
-            android:background="@color/colorDarkBlue"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/your_score_bottom_margin"/>
-
-        <Button
-            android:id="@+id/improve_result"
-            android:text="@string/improve_result"
-            android:textAllCaps="true"
-            android:textSize="@dimen/exam_medium_text"
-            android:textColor="@color/white"
-            android:layout_height="@dimen/result_button_height"
-            android:layout_width="@dimen/result_button_width"
-            android:layout_gravity="center"
-            android:background="@color/colorGraphite"
-            android:gravity="center" />
-
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

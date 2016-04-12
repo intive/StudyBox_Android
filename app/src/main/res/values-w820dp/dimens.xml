@@ -8,6 +8,6 @@
     <!-- Exam dimentions -->
     <dimen name="exam_small_text">20sp</dimen>
     <dimen name="exam_medium_text">21sp</dimen>
-    <dimen name="exam_large_text">34sp</dimen>
+    <dimen name="exam_large_text">33sp</dimen>
 
 </resources>

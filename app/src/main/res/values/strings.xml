@@ -41,8 +41,8 @@
 
     <string name="title_activity_exam">ExamActivity</string>
     <string name="deck_name">Matematyka</string>
-    <string name="question_no">#%1$d</string>
-    <string name="correct_answers">%1$d/%2$d</string>
+    <string name="question_no_format">#%1$d</string>
+    <string name="correct_answers_format">%1$d/%2$d</string>
     <string name="answer">Odpowiedź</string>
     <string name="incorrect">Zła odpowiedź</string>
     <string name="correct">Dobra odpowiedź</string>

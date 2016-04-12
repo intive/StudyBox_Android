@@ -6,7 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.DecksActivity;
+import com.blstream.studybox.components.DrawerAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,7 +30,16 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     private static final String TAG_NUMBER_OF_QUESTIONS = "noOfQuestions";
 
     @Bind(R.id.total_score)
-    public TextView totalScore;
+    TextView totalScore;
+
+    @Bind(R.id.toolbar_result)
+    Toolbar toolbar;
+
+    @Bind(R.id.nav_view_result)
+    NavigationView navigationView;
+
+    @Bind(R.id.drawer_layout_result)
+    DrawerLayout drawerLayout;
 
     private int correctAnswers;
     private int noOfQuestions;
@@ -44,7 +58,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         super.onCreate(savedInstanceState);
         correctAnswers = getArguments().getInt(TAG_CORRECT_ANSWERS);
         noOfQuestions = getArguments().getInt(TAG_NUMBER_OF_QUESTIONS);
-        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Light);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.StudyBoxTheme);
     }
 
     @Override
@@ -57,11 +71,16 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     private void initView(View view){
         ButterKnife.bind(this, view);
-        totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        DrawerAdapter drawerAdapter = new DrawerAdapter(getContext(), navigationView, drawerLayout, toolbar);
+        drawerAdapter.attachDrawer();
+
+        totalScore.setText(getString(R.string.correct_answers_format, correctAnswers, noOfQuestions));
     }
 
     @OnClick(R.id.improve_result)
     public void onClick(View view) {
+        ((OnResultHide) getActivity()).onResultHide();
         dismiss();
     }
 
@@ -77,6 +96,10 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     public interface OnResultShow {
         void onResultShow();
+    }
+
+    public interface OnResultHide {
+        void onResultHide();
     }
 
     @NonNull
