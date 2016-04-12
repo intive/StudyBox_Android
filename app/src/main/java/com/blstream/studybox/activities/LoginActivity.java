@@ -91,7 +91,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     }
 
     @OnClick(R.id.link_sign_up)
-    public void onSiggnUpLinkClick(){
+    public void onSignUpLinkClick(){
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivity(intent);
     }
