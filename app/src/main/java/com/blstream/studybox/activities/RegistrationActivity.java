@@ -63,7 +63,7 @@ public class RegistrationActivity
         setContentView(R.layout.activity_registration);
 
         connectionStatusReceiver = new ConnectionStatusReceiver();
-
+        setRetainInstance(true);
         ButterKnife.bind(this);
 
     }
@@ -107,7 +107,7 @@ public class RegistrationActivity
 
     @Override
     public void showPasswordInconsistent() {
-
+        setFieldError(inputRepeatPassword, getString(R.string.inconsistent_passwords));
     }
 
     @Override

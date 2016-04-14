@@ -6,7 +6,6 @@ import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.login.CredentialValidator;
-import com.blstream.studybox.login.ValidatorListener;
 import com.blstream.studybox.login_view.LoginPresenter;
 import com.blstream.studybox.model.AuthCredentials;
 
@@ -24,10 +23,15 @@ public class RegistrationPresenter extends LoginPresenter {
             getView().showLoading();
         }
 
-        CredentialValidator validator = new CredentialValidator(credentials, new ValidatorListener() {
+        CredentialValidator validator = new CredentialValidator(credentials, new RegistrationValidatorListener() {
             @Override
             public void onSuccess(AuthCredentials credentials) {
                 signUp(credentials);
+            }
+
+            @Override
+            public void onPasswordsInconsistent() {
+              //  getView().showPasswordInconsistent();
             }
 
             @Override
@@ -36,7 +40,6 @@ public class RegistrationPresenter extends LoginPresenter {
                     getView().showEmptyEmailError();
                 }
             }
-
             @Override
             public void onPasswordFieldEmpty() {
                 if (isViewAttached()) {

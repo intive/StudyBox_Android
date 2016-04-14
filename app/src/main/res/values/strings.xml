@@ -59,5 +59,6 @@
     <string name="deck_data_key">DECK</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="cancel">ANULUJ</string>
+    <string name="inconsistent_passwords">Hasła nie są takie same</string>
 
 </resources>
