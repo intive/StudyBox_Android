@@ -7,16 +7,17 @@ import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.login.CredentialValidator;
 import com.blstream.studybox.login.ValidatorListener;
+import com.blstream.studybox.login_view.LoginPresenter;
 import com.blstream.studybox.model.AuthCredentials;
-import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
 
 /**
  * Created by Marek Macko on 12.04.2016.
  */
-public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
+public class RegistrationPresenter extends LoginPresenter {
 
+    @Override
     public void validateCredential(AuthCredentials credentials) {
 
         if (isViewAttached()) {
@@ -74,6 +75,7 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
                     @Override
                     public void onSuccess(AuthCredentials response) {
                         Log.e("SIGNUP", "user registered :)");
+                        authenticate(credentials);
                     }
 
                     @Override
