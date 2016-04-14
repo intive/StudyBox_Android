@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,17 +32,11 @@ public class RegistrationActivity
 
     private ConnectionStatusReceiver connectionStatusReceiver;
 
+    private final static float ENABLED_BUTTON_ALPHA = 1.0f;
+    private final static float DISABLED_BUTTON_ALPHA = 0.5f;
+
     @Bind(R.id.text_view_failure)
     TextView textViewFailure;
-
-    @Bind(R.id.input_layout_email)
-    TextInputLayout inputLayoutEmail;
-
-    @Bind(R.id.input_layout_password)
-    TextInputLayout inputLayoutPassword;
-
-    @Bind(R.id.input_layout_repeat_password)
-    TextInputLayout inputLayoutRepeatPassword;
 
     @Bind(R.id.input_email)
     TextInputEditText inputEmail;
@@ -52,9 +46,6 @@ public class RegistrationActivity
 
     @Bind(R.id.input_repeat_password)
     TextInputEditText inputRepeatPassword;
-
-    @Bind(R.id.text_view_failure)
-    TextView viewError;
 
     @Bind(R.id.progress_bar_sign_up)
     ProgressBar signUpProgressBar;
@@ -111,7 +102,7 @@ public class RegistrationActivity
 
     @Override
     public void onNewViewStateInstance() {
-
+        showLoginForm();
     }
 
     @Override
@@ -121,22 +112,27 @@ public class RegistrationActivity
 
     @Override
     public void showLoginForm() {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowLoginForm();
 
+        setSignUpFormEnabled(true);
+        textViewFailure.setVisibility(View.GONE);
+        signUpProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showAuthError() {
-
+        setError(getString(R.string.auth_error));
     }
 
     @Override
     public void showNetworkError() {
-
+        setError(getString(R.string.network_error));
     }
 
     @Override
     public void showUnexpectedError() {
-
+        setError(getString(R.string.unexpected_error));
     }
 
     @Override
@@ -156,7 +152,7 @@ public class RegistrationActivity
 
     @Override
     public void showInvalidPasswordError() {
-
+        setFieldError(inputPassword, getString(R.string.invalid_password));
     }
 
     @Override
@@ -168,6 +164,10 @@ public class RegistrationActivity
     public void showLoading() {
         LoginViewState vs = (LoginViewState) viewState;
         vs.setShowLoading();
+
+        setSignUpFormEnabled(false);
+        textViewFailure.setVisibility(View.GONE);
+        signUpProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -188,13 +188,39 @@ public class RegistrationActivity
         return new LoginViewState();
     }
 
+    private void setError(String message) {
+        LoginViewState vs = (LoginViewState) viewState;
+        vs.setShowError();
+
+        setSignUpFormEnabled(true);
+        textViewFailure.setText(message);
+        textViewFailure.setVisibility(View.VISIBLE);
+        signUpProgressBar.setVisibility(View.GONE);
+    }
+
     private void setFieldError(TextInputEditText field, String message) {
         LoginViewState vs = (LoginViewState) viewState;
         vs.setShowLoginForm();
 
+        setSignUpFormEnabled(true);
         field.setError(message);
         field.requestFocus();
+        textViewFailure.setVisibility(View.GONE);
+        signUpProgressBar.setVisibility(View.GONE);
+    }
 
+    private void  setSignUpFormEnabled(boolean enabled) {
+        inputEmail.setEnabled(enabled);
+        inputPassword.setEnabled(enabled);
+        inputRepeatPassword.setEnabled(enabled);
+        buttonSignUp.setEnabled(enabled);
+        linkCancel.setEnabled(enabled);
+
+        if (enabled) {
+            buttonSignUp.setAlpha(ENABLED_BUTTON_ALPHA);
+        } else {
+            buttonSignUp.setAlpha(DISABLED_BUTTON_ALPHA);
+        }
     }
 
     /**
