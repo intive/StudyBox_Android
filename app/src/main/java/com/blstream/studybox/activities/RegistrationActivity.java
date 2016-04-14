@@ -136,17 +136,17 @@ public class RegistrationActivity
 
     @Override
     public void showEmptyEmailError() {
-        setFieldError(inputPassword, getString(R.string.empty_field));
-    }
-
-    @Override
-    public void showEmptyPasswordError() {
         setFieldError(inputEmail, getString(R.string.empty_field));
     }
 
     @Override
-    public void showInvalidEmailError() {
+    public void showEmptyPasswordError() {
+        setFieldError(inputPassword, getString(R.string.empty_field));
+    }
 
+    @Override
+    public void showInvalidEmailError() {
+        setFieldError(inputEmail, getString(R.string.invalid_email));
     }
 
     @Override
@@ -156,7 +156,7 @@ public class RegistrationActivity
 
     @Override
     public void showTooShortPasswordError() {
-
+        setFieldError(inputPassword, getString(R.string.too_short_password));
     }
 
     @Override

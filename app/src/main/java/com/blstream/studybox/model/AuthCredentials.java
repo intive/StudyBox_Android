@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 public class AuthCredentials {
 
-    @Expose
+    @Expose(serialize = false)
     private String id;
 
     @Expose
@@ -13,11 +13,13 @@ public class AuthCredentials {
     @Expose
     private String email;
 
+    @Expose(deserialize = false)
     private String password;
 
     public AuthCredentials(String email, String password)  {
         this.email = email;
         this.password = password;
+        this.name = "";
     }
 
     public AuthCredentials(String id, String name, String email, String password) {

@@ -20,4 +20,9 @@ public class RestClientManager {
         RestInterface restInterface = new RestClient(interceptor).getService();
         restInterface.authenticate(callback);
     }
+
+    public static void signUp(AuthCredentials credentials, Callback<AuthCredentials> callback) {
+        RestInterface restInterface = new RestClient().getService();
+        restInterface.signUp(credentials, callback);
+    }
 }
