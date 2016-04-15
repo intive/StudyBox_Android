@@ -10,18 +10,20 @@
     card_view:cardCornerRadius="@dimen/card_corner_radius"
     card_view:cardElevation="@dimen/card_elevation"
     card_view:contentPadding="@dimen/card_padding"
+    card_view:cardBackgroundColor="@color/colorGrey"
     tools:showIn="@layout/content_decks">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorGrey">
 
         <TextView
             android:id="@+id/deck_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/colorDarkBlue"
+            android:textColor="@color/colorGraphite"
             android:textSize="@dimen/card_title_text_size" />
 
 
@@ -32,7 +34,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorGraphite"
+            android:textColor="@color/colorRaspberry"
             android:textSize="@dimen/card_small_text_size" />
 
 
