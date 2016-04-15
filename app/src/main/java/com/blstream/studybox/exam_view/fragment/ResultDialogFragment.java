@@ -1,9 +1,10 @@
 package com.blstream.studybox.exam_view.fragment;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.activities.DecksActivity;
+
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -46,6 +48,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     private int correctAnswers;
     private int noOfQuestions;
+    private Activity activity;
 
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
@@ -61,6 +64,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         super.onCreate(savedInstanceState);
         correctAnswers = getArguments().getInt(TAG_CORRECT_ANSWERS);
         noOfQuestions = getArguments().getInt(TAG_NUMBER_OF_QUESTIONS);
+        activity = getActivity();
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Light);
     }
 
@@ -84,18 +88,18 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     }
 
     @OnClick(R.id.improve_result)
-    public void onClick(View view) {
+    public void improveResult(View view) {
         dismiss();
     }
 
     @OnClick(R.id.my_decks)
     public void backToMyDecks(View view) {
-        startActivity(new Intent(getContext(), DecksActivity.class));
+        activity.finish();
     }
 
     @Override
     public void onShow(DialogInterface dialog) {
-        ((OnResultShow) getActivity()).onResultShow();
+        ((OnResultShow) activity).onResultShow();
     }
 
     public interface OnResultShow {
@@ -167,11 +171,11 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        Dialog result = new Dialog(getActivity(), getTheme()) {
+        Dialog result = new Dialog(activity, getTheme()) {
             @Override
             public void onBackPressed() {
+                activity.finish();
                 dismiss();
-                getActivity().finish();
             }
         };
         result.setOnShowListener(this);
