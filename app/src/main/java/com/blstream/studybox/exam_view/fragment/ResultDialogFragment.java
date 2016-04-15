@@ -154,6 +154,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
             xValues.add(xData[i]);
 
         PieDataSet dataSet = new PieDataSet(yValues, getString(R.string.your_score));
+        dataSet.setColors(colors);
         dataSet.setSliceSpace(5);
         dataSet.setSelectionShift(10);
 
