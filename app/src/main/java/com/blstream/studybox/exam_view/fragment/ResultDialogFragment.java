@@ -80,7 +80,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     private void initView(View view){
         ButterKnife.bind(this, view);
         if(correctAnswers==noOfQuestions)
-            improve.setVisibility(View.INVISIBLE);
+            improve.setVisibility(View.GONE);
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
         customizePieChart();
         addPieChartData(correctAnswers, noOfQuestions);
