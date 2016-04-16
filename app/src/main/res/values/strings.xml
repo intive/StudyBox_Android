@@ -22,7 +22,6 @@
     <string name="action_settings">Settings</string>
     <string name="default_username">Niezalogowany</string>
 
-    <string name="title_activity_login">LoginActivity</string>
     <string name="email">E-MAIL</string>
     <string name="password">HASŁO</string>
     <string name="repeat_password">POWTÓRZ HASŁO</string>
