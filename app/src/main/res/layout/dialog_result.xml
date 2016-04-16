@@ -26,7 +26,7 @@
                 android:layout_marginBottom="@dimen/exam_element_bottom_margin"
                 android:gravity="center"
                 android:text="@string/congrats"
-                android:textSize="@dimen/exam_large_text" />
+                android:textSize="@dimen/exam_title_text" />
 
 
                 <com.github.mikephil.charting.charts.PieChart
@@ -39,6 +39,7 @@
                 android:id="@+id/your_score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="@dimen/exam_element_margin"
                 android:gravity="center"
                 android:text="@string/your_score"
@@ -48,6 +49,7 @@
                 android:id="@+id/total_score"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:padding="5dp"
                 android:layout_marginBottom="@dimen/exam_element_bottom_margin"
                 android:layout_weight="0.2"
                 android:gravity="center"
