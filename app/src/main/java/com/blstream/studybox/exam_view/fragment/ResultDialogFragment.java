@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,10 +79,8 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     private void initView(View view){
         ButterKnife.bind(this, view);
-        if(correctAnswers==noOfQuestions) {
-            improve.setEnabled(false);
-            improve.setBackgroundColor(getResources().getColor(R.color.colorGrey));
-        }
+        if(correctAnswers==noOfQuestions)
+            improve.setVisibility(View.INVISIBLE);
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
         customizePieChart();
         addPieChartData(correctAnswers, noOfQuestions);
@@ -132,8 +131,8 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         String[] xData = {getString(R.string.correct_quantity), getString(R.string.incorrect_quantity)};
 
         ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(ContextCompat.getColor(getContext(), R.color.colorDarkBlue));
         colors.add(ContextCompat.getColor(getContext(), R.color.colorRaspberry));
-        colors.add(ContextCompat.getColor(getContext(), R.color.colorGraphite));
 
         if(correctAnswer == noOfQuestion) {
             yData = new float[]{100};
@@ -150,8 +149,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
             yValues.add(new Entry(yData[i], i));
 
         ArrayList<String> xValues = new ArrayList<>();
-        for(int i=0; i<xData.length; i++)
-            xValues.add(xData[i]);
+        Collections.addAll(xValues, xData);
 
         PieDataSet dataSet = new PieDataSet(yValues, getString(R.string.your_score));
         dataSet.setColors(colors);
