@@ -47,6 +47,8 @@
     <string name="incorrect">Zła odpowiedź</string>
     <string name="correct">Dobra odpowiedź</string>
     <string name="question">Pytanie</string>
+    <string name="correct_quantity">Dobrych</string>
+    <string name="incorrect_quantity">Złych</string>
     <string name="prompt">Podpowiedź</string>
     <string name="congrats">Gratulacje!</string>
     <string name="your_score">Twój wynik</string>

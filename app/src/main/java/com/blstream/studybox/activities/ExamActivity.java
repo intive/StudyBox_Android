@@ -146,7 +146,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         adapterViewPager.changeData();
         questionNo.setText(getString(R.string.question_no, cardCounter));
         correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+                R.string.correct_answers, (cardCounter-1), noOfQuestions));
     }
 
     private void displayResult(){

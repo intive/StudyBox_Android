@@ -36,5 +36,6 @@
     <dimen name="result_button_height">60dp</dimen>
     <dimen name="sign_up_layout_margin_top">40dp</dimen>
     <dimen name="sign_up_cancel_link_text_size">16sp</dimen>
+    <dimen name="exam_title_text">26sp</dimen>
 
 </resources>
