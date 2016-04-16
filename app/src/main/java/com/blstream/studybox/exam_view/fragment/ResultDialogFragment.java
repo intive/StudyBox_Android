@@ -120,7 +120,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         pieChart.animateY(2000);
 
         pieChart.setCenterTextSize(12);
-        pieChart.setCenterTextColor(getResources().getColor(R.color.colorGraphite));
+        pieChart.setCenterTextColor(ContextCompat.getColor(getContext(), R.color.colorGraphite));
         pieChart.setDrawSliceText(false);
 
         Legend l = pieChart.getLegend();
