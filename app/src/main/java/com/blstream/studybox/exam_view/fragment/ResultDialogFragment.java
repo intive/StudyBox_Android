@@ -159,7 +159,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         PieData data = new PieData(xValues, dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
-        data.setValueTextSize(16);
+        data.setValueTextSize(20);
 
         pieChart.setData(data);
         pieChart.highlightValues(null);
