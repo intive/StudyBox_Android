@@ -1,7 +1,11 @@
 package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.AuthCredentials;
+import com.blstream.studybox.model.database.Card;
+import com.blstream.studybox.model.database.Decks;
 import com.blstream.studybox.model.database.DecksList;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
@@ -11,9 +15,14 @@ import retrofit.RequestInterceptor;
  */
 public class RestClientManager {
 
-    public static void getAllDecks(String json, Callback<DecksList> callback) {
-        RestInterface restInterface = new RestClient().getService();
-        restInterface.getAllDecks(json, callback);
+    public static void getDecks(String key, RequestInterceptor interceptor, RequestCallback<List<Decks>> callback) {
+        RestInterface restInterface = new RestClient(interceptor).getService();
+        restInterface.getDecks(key, callback);
+    }
+
+    public static void getFlashcards(String key, RequestInterceptor interceptor, RequestCallback<List<Card>> callback) {
+        RestInterface restInterface = new RestClient(interceptor).getService();
+        restInterface.getFlashcards(key, callback);
     }
 
     public static void authenticate(RequestInterceptor interceptor, Callback<AuthCredentials> callback) {

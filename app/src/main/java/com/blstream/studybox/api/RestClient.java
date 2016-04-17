@@ -20,7 +20,7 @@ public class RestClient {
                         .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
                         .serializeNulls()
                         .create()))
-                .setEndpoint(BASE_URL)
+                .setEndpoint(URL)
                 .build();
 
         restInterface = restAdapter.create(RestInterface.class);

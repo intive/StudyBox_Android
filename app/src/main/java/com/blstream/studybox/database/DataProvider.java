@@ -2,6 +2,7 @@ package com.blstream.studybox.database;
 
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Deck;
+import com.blstream.studybox.model.database.Decks;
 import com.blstream.studybox.model.database.DecksList;
 
 import java.util.List;
@@ -11,16 +12,7 @@ import java.util.List;
  */
 public interface DataProvider {
 
-    DecksList getAllDecks();
-
-    Deck getSingleDeck(int deckNumber);
-
-    Deck getSingleDeck(String deckName);
-
-    List<Card> getAllCards(int deckNumber);
-
-    List<Card> getAllCards(String deckName);
-
-    Card getSingleCard(int deckNumber, int questionNumber);
+    List<Decks> getDecks();
+    List<Card> getFlashcards();
 
 }

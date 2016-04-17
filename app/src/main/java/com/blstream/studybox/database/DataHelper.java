@@ -1,13 +1,19 @@
 package com.blstream.studybox.database;
 
+import android.content.Context;
+
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.blstream.studybox.Constants;
+import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
+import com.blstream.studybox.login.LoginManager;
+import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Deck;
+import com.blstream.studybox.model.database.Decks;
 import com.blstream.studybox.model.database.DecksList;
 
 import java.util.List;
@@ -18,70 +24,43 @@ import retrofit.RetrofitError;
  * Created by Łukasz on 2016-03-26.
  */
 public class DataHelper implements DataProvider {
+    private List<Card> downloadedCards;
+    private static final String DECKS_KEY = "decks";
+
     @Override
-    public DecksList getAllDecks() {
-        return new DecksList(Deck.all());
+    public List<Decks> getDecks() {
+        return Decks.getAll();
+    }
+    public List<Card> getFlashcards() {
+        return downloadedCards;
     }
 
-    @Override
-    public Deck getSingleDeck(int deckNumber) {
-        Deck deck = new Select()
-                .from(Deck.class)
-                .where("DeckNO = ?", deckNumber)
-                .executeSingle();
+    public void downloadFlashcard(String deckId, final RequestListener<String> listener, Context context) {
+        LoginManager loginManager = new LoginManager(context);
+        RestClientManager.getFlashcards(deckId, new AuthRequestInterceptor(loginManager.getCredentials()), new RequestCallback<>(new RequestListener<List<Card>>() {
+            @Override
+            public void onSuccess(List<Card> response) {
+                downloadedCards = response;
+                listener.onSuccess("Flashcards downloaded successfully");
+            }
 
-        return deck;
-    }
-
-    @Override
-    public Deck getSingleDeck(String deckName) {
-        Deck deck = new Select()
-                .from(Deck.class)
-                .where("DeckName = ?", deckName)
-                .executeSingle();
-
-        return deck;
-    }
-
-    @Override
-    public List<Card> getAllCards(int deckNumber) throws NullPointerException {
-        Deck deck = new Select()
-                .from(Deck.class)
-                .where("DeckNO = ?", deckNumber)
-                .executeSingle();
-
-        return deck.getCards();
-    }
-
-    @Override
-    public List<Card> getAllCards(String deckName) throws NullPointerException {
-        Deck deck = new Select()
-                .from(Deck.class)
-                .where("DeckName = ?", deckName)
-                .executeSingle();
-
-        return deck.getCards();
-    }
-
-    @Override
-    public Card getSingleCard(int deckNumber, int questionNumber) throws NullPointerException {
-        Deck deck = new Select()
-                .from(Deck.class)
-                .where("DeckNO = ?", deckNumber)
-                .executeSingle();
-
-        return deck.getCards().get(questionNumber + 1);
+            @Override
+            public void onFailure(RetrofitError error) {
+                listener.onFailure(error);
+            }
+        }));
     }
 
     public void deleteAllDecks() {
         new Delete().from(Deck.class).execute();
     }
 
-    public void downloadData(final RequestListener<String> listener) {
-        RestClientManager.getAllDecks(Constants.API_KEY, new RequestCallback<>(new RequestListener<DecksList>() {
+    public void downloadUserDecks(final RequestListener<String> listener, Context context) {
+        LoginManager loginManager = new LoginManager(context);
+        RestClientManager.getDecks(DECKS_KEY, new AuthRequestInterceptor(loginManager.getCredentials()), new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
-            public void onSuccess(DecksList response) {
-                saveToDataBase(response);
+            public void onSuccess(List<Decks> response) {
+                saveDecksToDataBase(response);
                 listener.onSuccess("New decks or nothing new");
             }
 
@@ -92,16 +71,10 @@ public class DataHelper implements DataProvider {
         }));
     }
 
-    private void saveToDataBase(DecksList decksList) {
-        List<Deck> deckList = decksList.getDecks();
-        for (Deck deck : deckList) {
-
+    private void saveDecksToDataBase(List<Decks> decks) {
+        List<Decks> deckList = decks;
+        for (Decks deck : deckList) {
             deck.save();
-
-            for (Card card : deck.getCardsList()) {
-                card.deck = deck;
-                card.save();
-            }
         }
     }
 }

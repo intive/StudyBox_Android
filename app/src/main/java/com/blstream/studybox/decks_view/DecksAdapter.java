@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.model.database.Decks;
 import com.blstream.studybox.model.database.DecksList;
 
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,7 +23,7 @@ import butterknife.ButterKnife;
 public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> {
 
     private ClickListener clickListener;
-    private DecksList decksList;
+    private List<Decks> decksList;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Nullable
@@ -48,11 +50,8 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         this.clickListener = clickListener;
     }
 
-    public DecksAdapter() {
-        decksList = new DecksList();
-    }
-
-    public DecksAdapter(DecksList decksList) {
+    public DecksAdapter() { }
+    public DecksAdapter(List<Decks> decksList) {
         this.decksList = decksList;
     }
 
@@ -66,20 +65,24 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.deckTitle.setText(decksList.getDecks().get(position).getDeckName());
-        holder.questionsQuantity.setText(String.valueOf(decksList.getDecks().get(position).getNoOfQuestions()));
+        holder.deckTitle.setText(decksList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return decksList.getDecks().size();
+        try{
+            return decksList.size();
+        }catch (NullPointerException e){
+
+        }
+        return 0;
     }
 
     public interface ClickListener {
         void onItemClick(int position, View v);
     }
 
-    public void setDecks(DecksList data) {
+    public void setDecks(List<Decks> data) {
         decksList = data;
         notifyDataSetChanged();
     }
