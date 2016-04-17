@@ -88,7 +88,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
-
+        initPreDownloadView();
         Intent i = getIntent();
         deckTitle = i.getStringExtra("deckName");
         deckId = i.getStringExtra("deckId");
@@ -96,12 +96,15 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         downloadFlashcards();
     }
 
-    private void initView() {
+    private void initPreDownloadView(){
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
         setUpEnterTransition();
         setUpNavigationDrawer();
+        emptyDeck.setVisibility(View.GONE);
+    }
+
+    private void initView() {
         if (flashcards.size() != 0) {
             emptyDeck.setVisibility(View.GONE);
             setUpTextToViews();
@@ -109,7 +112,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         } else {
             emptyDeck.setVisibility(View.VISIBLE);
         }
-
     }
 
     private void setUpTextToViews() {
@@ -139,11 +141,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setUpVariables() {
-        if (flashcards.size() != 0) {
-            noOfQuestions = flashcards.size();
-        } else {
-            noOfQuestions = 0;
-        }
+        noOfQuestions = flashcards.size();
         cardCounter = 1;
     }
 

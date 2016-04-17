@@ -5,9 +5,6 @@ import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 
 import java.util.List;
 
-/**
- * Created by Łukasz on 2016-03-03.
- */
 public interface DecksView extends MvpLceView<List<Decks>> {
     @Override
     void showLoading(boolean pullToRefresh);

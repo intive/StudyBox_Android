@@ -10,9 +10,6 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-/**
- * Created by Oldzi on 06.04.2016.
- */
 public class Tip extends Model implements Parcelable {
 
     @Expose

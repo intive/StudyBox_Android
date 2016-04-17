@@ -18,9 +18,6 @@ import java.util.List;
 
 import retrofit.RetrofitError;
 
-/**
- * Created by Łukasz on 2016-03-03.
- */
 public class DecksPresenter extends MvpBasePresenter<DecksView> implements RequestListener<String> {
     private DataHelper dataHelper = new DataHelper();
     private boolean pullToRefresh;

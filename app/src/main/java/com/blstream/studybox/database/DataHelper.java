@@ -15,9 +15,6 @@ import java.util.List;
 
 import retrofit.RetrofitError;
 
-/**
- * Created by Łukasz on 2016-03-26.
- */
 public class DataHelper implements DataProvider {
     private List<Card> downloadedCards;
     private List<Decks> publicDecks;

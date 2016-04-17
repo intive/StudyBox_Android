@@ -5,9 +5,6 @@ import com.blstream.studybox.model.database.Decks;
 
 import java.util.List;
 
-/**
- * Created by Łukasz on 2016-03-18.
- */
 public interface DataProvider {
 
     List<Decks> getDecks();

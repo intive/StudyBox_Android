@@ -8,9 +8,6 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-/**
- * Created by Bartosz Kozajda on 03.04.2016.
- */
 @Table(name = "Decks")
 public class Decks extends Model {
     @Expose

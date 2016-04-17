@@ -15,9 +15,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Łukasz on 2016-03-01.
- */
 public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> {
 
     private ClickListener clickListener;

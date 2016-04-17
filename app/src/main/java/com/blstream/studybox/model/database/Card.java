@@ -11,10 +11,6 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-/**
- * Created by Łukasz on 2016-03-17.
- */
-
 @Table(name = "Cards")
 public class Card extends Model implements Parcelable{
 

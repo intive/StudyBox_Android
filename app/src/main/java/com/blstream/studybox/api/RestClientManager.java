@@ -9,9 +9,6 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 
-/**
- * Created by Bartosz Kozajda on 09.03.2016.
- */
 public class RestClientManager {
 
     public static void getDecks(String key, RequestInterceptor interceptor, RequestCallback<List<Decks>> callback) {
