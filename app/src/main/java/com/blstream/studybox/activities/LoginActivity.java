@@ -10,28 +10,20 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.BaseAuthViewState;
 import com.blstream.studybox.login_view.LoginPresenter;
 import com.blstream.studybox.login_view.LoginView;
-import com.blstream.studybox.login_view.LoginViewState;
 import com.blstream.studybox.model.AuthCredentials;
-import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter>
+public class LoginActivity extends BaseAuthActivity<LoginView, LoginPresenter>
     implements LoginView {
-
-    private ConnectionStatusReceiver connectionStatusReceiver;
-
-    private final static float ENABLED_BUTTON_ALPHA = 1.0f;
-    private final static float DISABLED_BUTTON_ALPHA = 0.5f;
     
     @Bind(R.id.input_email)
     TextInputEditText emailInput;
@@ -58,22 +50,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        connectionStatusReceiver = new ConnectionStatusReceiver();
-        setRetainInstance(true);
         ButterKnife.bind(this);
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
     }
 
     @OnClick(R.id.btn_login)
@@ -104,20 +81,20 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
     @Override @NonNull
     public ViewState<LoginView> createViewState() {
-        return new LoginViewState();
+        return new BaseAuthViewState<>();
     }
 
     @Override
     public void onNewViewStateInstance() {
-        showLoginForm();
+        showForm();
     }
 
     @Override
-    public void showLoginForm() {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
+    public void showForm() {
+        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
+        vs.setShowForm();
 
-        setLoginFormEnabled(true);
+        setFormEnabled(true);
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.GONE);
     }
@@ -164,36 +141,39 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
     @Override
     public void showLoading() {
-        LoginViewState vs = (LoginViewState) viewState;
+        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
         vs.setShowLoading();
 
-        setLoginFormEnabled(false);
+        setFormEnabled(false);
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void setError(String message) {
-        LoginViewState vs = (LoginViewState) viewState;
+    @Override
+    protected void setError(String message) {
+        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
         vs.setShowError();
 
-        setLoginFormEnabled(true);
+        setFormEnabled(true);
         authErrorView.setText(message);
         authErrorView.setVisibility(View.VISIBLE);
         loginProgressBar.setVisibility(View.GONE);
     }
 
-    private void setFieldError(TextInputEditText field, String message) {
-        LoginViewState vs = (LoginViewState) viewState;
-        vs.setShowLoginForm();
+    @Override
+    protected void setFieldError(TextInputEditText field, String message) {
+        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
+        vs.setShowForm();
 
-        setLoginFormEnabled(true);
+        setFormEnabled(true);
         field.setError(message);
         field.requestFocus();
         authErrorView.setVisibility(View.GONE);
         loginProgressBar.setVisibility(View.GONE);
     }
 
-    private void setLoginFormEnabled(boolean enabled) {
+    @Override
+    protected void setFormEnabled(boolean enabled) {
         emailInput.setEnabled(enabled);
         passwordInput.setEnabled(enabled);
         loginButton.setEnabled(enabled);
@@ -217,13 +197,5 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @Override
     public Context getContext() {
         return LoginActivity.this;
-    }
-
-    /**
-     * Applies custom font to every activity that overrides this method
-     */
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

@@ -102,7 +102,7 @@ public class RegistrationActivity
 
     @Override
     public void onNewViewStateInstance() {
-        showLoginForm();
+        showForm();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class RegistrationActivity
     }
 
     @Override
-    public void showLoginForm() {
+    public void showForm() {
         LoginViewState vs = (LoginViewState) viewState;
         vs.setShowLoginForm();
 

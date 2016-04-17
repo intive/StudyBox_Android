@@ -31,7 +31,7 @@ public class RegistrationViewState implements ViewState<RegistrationView> {
 
         switch (state) {
             case STATE_SHOW_LOGIN_FORM:
-                view.showLoginForm();
+                view.showForm();
                 break;
 
             case STATE_SHOW_LOADING:

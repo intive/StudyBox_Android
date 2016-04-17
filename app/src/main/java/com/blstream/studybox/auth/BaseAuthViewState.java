@@ -1,17 +1,17 @@
-package com.blstream.studybox.login_view;
+package com.blstream.studybox.auth;
 
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
-public class LoginViewState implements ViewState<LoginView> {
+public class BaseAuthViewState<V extends BaseAuthView> implements ViewState<V> {
 
-    private final int STATE_SHOW_LOGIN_FORM = 0;
-    private final int STATE_SHOW_LOADING = 1;
-    private final int STATE_SHOW_ERROR = 2;
+    protected final int STATE_SHOW_FORM = 0;
+    protected final int STATE_SHOW_LOADING = 1;
+    protected final int STATE_SHOW_ERROR = 2;
 
-    private int state = STATE_SHOW_LOGIN_FORM;
+    protected int state = STATE_SHOW_FORM;
 
-    public void setShowLoginForm() {
-        state = STATE_SHOW_LOGIN_FORM;
+    public void setShowForm() {
+        state = STATE_SHOW_FORM;
     }
 
     public void setShowLoading() {
@@ -23,10 +23,9 @@ public class LoginViewState implements ViewState<LoginView> {
     }
 
     @Override
-    public void apply(LoginView view, boolean retained) {
-
+    public void apply(V view, boolean retained) {
         switch (state) {
-            case STATE_SHOW_LOGIN_FORM:
+            case STATE_SHOW_FORM:
                 view.showForm();
                 break;
 
