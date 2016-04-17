@@ -13,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
@@ -21,15 +23,17 @@ import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
-import com.blstream.studybox.model.database.DecksList;
+import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
+public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int TRANSITION_DURATION = 1000;
@@ -58,6 +62,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     @Bind(R.id.loadingView)
     ProgressBar loadingView;
 
+    @Bind(R.id.no_decks)
+    LinearLayout noDecks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,13 +87,13 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     private void initView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
         setUpRecyclerView();
         setUpExitTransition();
-
         onViewPrepared();
+
+        noDecks.setVisibility(View.GONE);
     }
 
     private void setUpExitTransition() {
@@ -130,9 +137,14 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
-    public void setData(DecksList data) {
-        adapter.setDecks(data);
+    public void setData(List<Decks> data) {
+        int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
+        if (size != 0) {
+            adapter.setDecks(data);
+        } else {
+            noDecks.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -160,7 +172,14 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override
     public void onItemClick(int position, View view) {
-        presenter.onDeckClicked(position, view);
+        if (connectionStatusReceiver.isConnected()) {
+            presenter.onDeckClicked(position, view);
+        } else {
+            //TODO
+            //Delete Toast messages after providing better tests
+            Toast.makeText(this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -171,9 +190,10 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
         return true;
     }
 
-    @Override @NonNull
+    @Override
+    @NonNull
     public DecksPresenter createPresenter() {
-        return new DecksPresenter();
+        return new DecksPresenter(this);
     }
 
     @Override

@@ -11,7 +11,6 @@ import retrofit.converter.GsonConverter;
 public class RestClient {
 
     private static final String URL = "http://78.133.154.70:2000/";
-    private static final String BASE_URL = "http://private-5f2e4b-studybox2.apiary-mock.com/";
     private RestInterface restInterface;
 
     public RestClient(){
@@ -20,7 +19,7 @@ public class RestClient {
                         .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
                         .serializeNulls()
                         .create()))
-                .setEndpoint(BASE_URL)
+                .setEndpoint(URL)
                 .build();
 
         restInterface = restAdapter.create(RestInterface.class);

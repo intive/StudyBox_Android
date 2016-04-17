@@ -7,23 +7,27 @@ import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
-import com.blstream.studybox.R;
 import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.model.database.DecksList;
+import com.blstream.studybox.login.LoginManager;
+import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import java.util.List;
 
 import retrofit.RetrofitError;
 
-/**
- * Created by Łukasz on 2016-03-03.
- */
 public class DecksPresenter extends MvpBasePresenter<DecksView> implements RequestListener<String> {
-
     private DataHelper dataHelper = new DataHelper();
     private boolean pullToRefresh;
+    private Context context;
+    private LoginManager loginManager;
+
+    public DecksPresenter(Context context) {
+        this.context = context;
+        loginManager = new LoginManager(context);
+    }
 
     public void onViewPrepared() {
         loadDecks(false);
@@ -32,7 +36,12 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
     public void loadDecks(boolean pullToRefresh) {
         this.pullToRefresh = pullToRefresh;
         if (pullToRefresh) {
-            dataHelper.downloadData(this);
+            dataHelper.deleteAllDecks();
+            if (loginManager.isUserLoggedIn()) {
+                dataHelper.downloadUserDecks(this, context);
+            } else {
+                dataHelper.downloadPublicDecks(this);
+            }
         } else {
             setDecks();
         }
@@ -41,7 +50,11 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
     @Override
     public void onSuccess(String response) {
         if (isViewAttached()) {
-            getView().setData(dataHelper.getAllDecks());
+            if (loginManager.isUserLoggedIn()) {
+                getView().setData(dataHelper.getDecks());
+            } else {
+                getView().setData(dataHelper.getPublicDecks());
+            }
             getView().showLoading(false);
             getView().showContent();
         }
@@ -53,13 +66,26 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
     }
 
     public void onDeckClicked(int position, View view) {
+        String deckId;
+        String deckName;
+
+        if (loginManager.isUserLoggedIn()) {
+            deckId = dataHelper.getDecks().get(position).getDeckId();
+            deckName = dataHelper.getDecks().get(position).getName();
+        } else {
+            deckId = dataHelper.getPublicDecks().get(position).getDeckId();
+            deckName = dataHelper.getPublicDecks().get(position).getName();
+        }
+
+
         Context context = view.getContext();
         Intent intent = new Intent(context, ExamActivity.class);
-        intent.putExtra(context.getString(R.string.deck_data_key),
-                dataHelper.getSingleDeck(position + 1));
+        intent.putExtra("deckId", deckId);
+        intent.putExtra("deckName", deckName);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context).toBundle());
+                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
         } else {
             context.startActivity(intent);
         }
@@ -77,10 +103,16 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
 
     private void setDecks() {
         if (isViewAttached()) {
-            DecksList decksList = dataHelper.getAllDecks();
-            if (decksList.isEmpty()) {
-                dataHelper.downloadData(this);
+            if (loginManager.isUserLoggedIn()) {
+                List<Decks> decksList = dataHelper.getDecks();
+                if (decksList.isEmpty()) {
+                    dataHelper.downloadUserDecks(this, context);
+                } else {
+                    getView().setData(decksList);
+                }
             } else {
+                List<Decks> decksList = dataHelper.getPublicDecks();
+                dataHelper.downloadPublicDecks(this);
                 getView().setData(decksList);
             }
         }
