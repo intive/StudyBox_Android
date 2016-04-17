@@ -27,10 +27,14 @@ public class DataHelper implements DataProvider {
     public List<Decks> getDecks() {
         return Decks.getAll();
     }
+
     public List<Card> getFlashcards() {
         return downloadedCards;
     }
-    public List<Decks> getPublicDecks(){ return publicDecks; }
+
+    public List<Decks> getPublicDecks() {
+        return publicDecks;
+    }
 
     public void downloadFlashcard(String deckId, final RequestListener<String> listener) {
         RestClientManager.getFlashcards(deckId, new RequestCallback<>(new RequestListener<List<Card>>() {

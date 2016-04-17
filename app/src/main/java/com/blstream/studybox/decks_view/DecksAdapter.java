@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.model.database.Decks;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -47,7 +48,9 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         this.clickListener = clickListener;
     }
 
-    public DecksAdapter() { }
+    public DecksAdapter() {
+    }
+
     public DecksAdapter(List<Decks> decksList) {
         this.decksList = decksList;
     }
@@ -67,12 +70,8 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        try{
-            return decksList.size();
-        }catch (NullPointerException e){
-
-        }
-        return 0;
+        int size = (decksList == null) ? 0 : decksList.size();
+        return size;
     }
 
     public interface ClickListener {

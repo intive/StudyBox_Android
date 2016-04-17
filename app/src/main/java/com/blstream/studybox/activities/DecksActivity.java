@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
@@ -25,7 +26,6 @@ import com.blstream.studybox.decks_view.DecksView;
 import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -138,17 +138,14 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public void setData(List<Decks> data) {
-        try {
-            if (data.size() != 0) {
-                noDecks.setVisibility(View.GONE);
-                adapter.setDecks(data);
-                loadingView.setVisibility(View.GONE);
-            } else {
-                loadingView.setVisibility(View.GONE);
-                noDecks.setVisibility(View.VISIBLE);
-            }
-        }catch (NullPointerException e){
-
+        int size = (data == null) ? 0 : data.size();
+        if (size != 0) {
+            noDecks.setVisibility(View.INVISIBLE);
+            adapter.setDecks(data);
+            loadingView.setVisibility(View.GONE);
+        } else {
+            loadingView.setVisibility(View.GONE);
+            noDecks.setVisibility(View.VISIBLE);
         }
     }
 
@@ -177,7 +174,12 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public void onItemClick(int position, View view) {
-        presenter.onDeckClicked(position, view);
+        if (connectionStatusReceiver.isConnected()) {
+            presenter.onDeckClicked(position, view);
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -188,7 +190,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         return true;
     }
 
-    @Override @NonNull
+    @Override
+    @NonNull
     public DecksPresenter createPresenter() {
         return new DecksPresenter(this);
     }

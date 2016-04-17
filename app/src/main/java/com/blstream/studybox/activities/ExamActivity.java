@@ -102,11 +102,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
         setUpEnterTransition();
         setUpNavigationDrawer();
-        if(flashcards.size() != 0){
+        if (flashcards.size() != 0) {
             emptyDeck.setVisibility(View.GONE);
             setUpTextToViews();
             setUpPagerAdapter();
-        }else{
+        } else {
             emptyDeck.setVisibility(View.VISIBLE);
         }
 
@@ -139,9 +139,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setUpVariables() {
-        if(flashcards.size() != 0){
+        if (flashcards.size() != 0) {
             noOfQuestions = flashcards.size();
-        }else{
+        } else {
             noOfQuestions = 0;
         }
         cardCounter = 1;
@@ -153,7 +153,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setCard() {
-        if (cardCounter - 1  == noOfQuestions) {
+        if (cardCounter - 1 == noOfQuestions) {
             displayResult();
         } else {
             displayNextCard();
@@ -165,10 +165,10 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         adapterViewPager.changeData();
         questionNo.setText(getString(R.string.question_no, cardCounter));
         correctAnswers.setText(getString(
-                R.string.correct_answers, (cardCounter-1), noOfQuestions));
+                R.string.correct_answers, (cardCounter - 1), noOfQuestions));
     }
 
-    private void displayResult(){
+    private void displayResult() {
         ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
                 correctAnswersCounter, flashcards.size());
         resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
@@ -180,12 +180,12 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setFirstCard();
     }
 
-    private void updateCounters(boolean addCorrectAnswer){
+    private void updateCounters(boolean addCorrectAnswer) {
         updateCorrectAnswersCounter(addCorrectAnswer);
         cardCounter++;
     }
 
-    private void updateCorrectAnswersCounter(boolean addCorrectAnswer){
+    private void updateCorrectAnswersCounter(boolean addCorrectAnswer) {
         if (addCorrectAnswer) {
             correctAnswersCounter++;
         }
@@ -258,7 +258,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
