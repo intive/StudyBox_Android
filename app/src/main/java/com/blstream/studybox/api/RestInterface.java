@@ -3,7 +3,6 @@ package com.blstream.studybox.api;
 import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
-import com.blstream.studybox.model.database.DecksList;
 import com.blstream.studybox.model.database.Tip;
 
 import java.util.List;

@@ -53,7 +53,6 @@
                 android:layout_marginBottom="@dimen/exam_element_bottom_margin"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/correct_answers"
                 android:textSize="@dimen/exam_large_text" />
 
             <Button

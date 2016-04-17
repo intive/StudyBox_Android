@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
@@ -21,15 +22,18 @@ import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
-import com.blstream.studybox.model.database.DecksList;
+import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
+
+import java.util.Collections;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList, DecksView, DecksPresenter>
+public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int TRANSITION_DURATION = 1000;
@@ -57,6 +61,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Bind(R.id.loadingView)
     ProgressBar loadingView;
+
+    @Bind(R.id.no_decks)
+    LinearLayout noDecks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,9 +137,19 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
     }
 
     @Override
-    public void setData(DecksList data) {
-        adapter.setDecks(data);
-        loadingView.setVisibility(View.GONE);
+    public void setData(List<Decks> data) {
+        try {
+            if (data.size() != 0) {
+                noDecks.setVisibility(View.GONE);
+                adapter.setDecks(data);
+                loadingView.setVisibility(View.GONE);
+            } else {
+                loadingView.setVisibility(View.GONE);
+                noDecks.setVisibility(View.VISIBLE);
+            }
+        }catch (NullPointerException e){
+
+        }
     }
 
     @Override
@@ -173,7 +190,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, DecksList,
 
     @Override @NonNull
     public DecksPresenter createPresenter() {
-        return new DecksPresenter();
+        return new DecksPresenter(this);
     }
 
     @Override

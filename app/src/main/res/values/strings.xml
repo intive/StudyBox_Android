@@ -54,6 +54,8 @@
     <string name="your_score">Twój wynik</string>
     <string name="my_decks">Moje talie</string>
     <string name="improve_result">Popraw wynik</string>
+    <string name="empty_deck">Pusta talia</string>
+    <string name="no_decks">Brak talii</string>
 
     <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="open_options">USTAWIENIA</string>
@@ -61,5 +63,7 @@
     <string name="deck_data_key">DECK</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="cancel">ANULUJ</string>
+
+
 
 </resources>

@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.model.database.Decks;
-import com.blstream.studybox.model.database.DecksList;
-
-
 import java.util.List;
 
 import butterknife.Bind;

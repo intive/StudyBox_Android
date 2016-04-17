@@ -3,7 +3,6 @@ package com.blstream.studybox.api;
 import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
-import com.blstream.studybox.model.database.DecksList;
 
 import java.util.List;
 
@@ -20,8 +19,13 @@ public class RestClientManager {
         restInterface.getDecks(key, callback);
     }
 
-    public static void getFlashcards(String key, RequestInterceptor interceptor, RequestCallback<List<Card>> callback) {
-        RestInterface restInterface = new RestClient(interceptor).getService();
+    public static void getPublicDecks(String key, RequestCallback<List<Decks>> callback){
+        RestInterface restInterface = new RestClient().getService();
+        restInterface.getDecks(key, callback);
+    }
+
+    public static void getFlashcards(String key, RequestCallback<List<Card>> callback) {
+        RestInterface restInterface = new RestClient().getService();
         restInterface.getFlashcards(key, callback);
     }
 
