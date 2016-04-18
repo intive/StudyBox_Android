@@ -13,19 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <include
+        layout="@layout/empty_deck"
         android:id="@+id/empty_deck"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/empty_deck"
-            android:textSize="@dimen/card_title_text_size"/>
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view_exam"

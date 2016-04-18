@@ -34,6 +34,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -106,7 +107,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void initView() {
         if (flashcards.size() != 0) {
-            emptyDeck.setVisibility(View.GONE);
             setUpTextToViews();
             setUpPagerAdapter();
         } else {
@@ -238,6 +238,17 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         }
     }
 
+    @OnClick(R.id.add_flashcards_button)
+    public void addFlashcards(View view) {
+        //we'll navigate to class for adding flashcards later
+        finish();
+    }
+
+    @OnClick(R.id.my_decks_button)
+    public void backToMyDecks(View view) {
+        finish();
+    }
+
     @Override
     public void onSuccess(String response) {
         flashcards = dataHelper.getFlashcards();
@@ -267,11 +278,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         unregisterReceiver(connectionStatusReceiver);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        drawerAdapter.detachDrawer();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        drawerAdapter.detachDrawer();
+//    }
 
     /**
      * Applies custom font to every activity that overrides this method
