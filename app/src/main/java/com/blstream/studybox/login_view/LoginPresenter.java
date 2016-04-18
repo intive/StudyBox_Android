@@ -1,6 +1,5 @@
 package com.blstream.studybox.login_view;
 
-import com.blstream.studybox.auth.BaseAuthPresenter;
 import com.blstream.studybox.login.CredentialValidator;
 import com.blstream.studybox.login.LoginManager;
 import com.blstream.studybox.login.ValidatorListener;
@@ -9,10 +8,11 @@ import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.model.AuthCredentials;
+import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
 
-public class LoginPresenter extends BaseAuthPresenter<LoginView> {
+public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
     public void validateCredential(AuthCredentials credentials) {
 

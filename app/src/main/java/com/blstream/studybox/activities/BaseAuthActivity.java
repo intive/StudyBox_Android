@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
-import com.blstream.studybox.auth.BaseAuthPresenter;
 import com.blstream.studybox.auth.BaseAuthView;
+import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class BaseAuthActivity<V extends BaseAuthView, P extends BaseAuthPresenter<V>>
+public abstract class BaseAuthActivity<V extends BaseAuthView, P extends MvpBasePresenter<V>>
         extends MvpViewStateActivity<V, P> {
 
     protected final static float ENABLED_BUTTON_ALPHA = 1.0f;
