@@ -27,8 +27,8 @@
                 android:layout_marginBottom="@dimen/exam_element_bottom_margin"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/empty_box_size"
+                android:layout_height="@dimen/empty_box_size"
                 android:src="@drawable/empty_box"
                 android:padding="@dimen/fab_margin"/>
 
