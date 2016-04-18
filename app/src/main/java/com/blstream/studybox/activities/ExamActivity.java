@@ -240,7 +240,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     @OnClick(R.id.add_flashcards_button)
     public void addFlashcards(View view) {
-        //we'll navigate to class for adding flashcards later
+        //we'll navigate to class responsible for adding flashcards from here
         finish();
     }
 
@@ -278,11 +278,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         unregisterReceiver(connectionStatusReceiver);
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        drawerAdapter.detachDrawer();
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        drawerAdapter.detachDrawer();
+    }
 
     /**
      * Applies custom font to every activity that overrides this method
