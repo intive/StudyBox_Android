@@ -33,7 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ResultDialogFragment extends DialogFragment implements DialogInterface.OnShowListener{
+public class ResultDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
     private static final String TAG_CORRECT_ANSWERS = "correctAnswers";
     private static final String TAG_NUMBER_OF_QUESTIONS = "noOfQuestions";
@@ -46,6 +46,9 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     @Bind(R.id.improve_result)
     Button improve;
+
+    @Bind(R.id.improve_only_wrong)
+    Button improve_only_wrong;
 
     private int correctAnswers;
     private int noOfQuestions;
@@ -77,13 +80,20 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         return view;
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         ButterKnife.bind(this, view);
-        if(correctAnswers==noOfQuestions)
+        if (correctAnswers == noOfQuestions) {
             improve.setVisibility(View.GONE);
+            improve_only_wrong.setVisibility(View.GONE);
+        }
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
         customizePieChart();
         addPieChartData(correctAnswers, noOfQuestions);
+    }
+
+    @OnClick(R.id.my_decks)
+    public void backToMyDecks(View view) {
+        activity.finish();
     }
 
     @OnClick(R.id.improve_result)
@@ -91,9 +101,12 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         dismiss();
     }
 
-    @OnClick(R.id.my_decks)
-    public void backToMyDecks(View view) {
-        activity.finish();
+    @OnClick(R.id.improve_only_wrong)
+    public void improveOnlyWrong(View view) {
+        // create new exam with list
+
+        // activity.finish();
+        dismiss();
     }
 
     @Override
@@ -134,10 +147,10 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         colors.add(ContextCompat.getColor(getContext(), R.color.colorDarkBlue));
         colors.add(ContextCompat.getColor(getContext(), R.color.colorRaspberry));
 
-        if(correctAnswer == noOfQuestion) {
+        if (correctAnswer == noOfQuestion) {
             yData = new float[]{100};
-        } else if(correctAnswer == 0) {
-            yData= new float[]{100};
+        } else if (correctAnswer == 0) {
+            yData = new float[]{100};
             colors.remove(0);
         } else {
             float good = (float) correctAnswer * 100 / noOfQuestion;
@@ -145,7 +158,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         }
 
         ArrayList<Entry> yValues = new ArrayList<>();
-        for(int i = 0; i<yData.length; i++)
+        for (int i = 0; i < yData.length; i++)
             yValues.add(new Entry(yData[i], i));
 
         ArrayList<String> xValues = new ArrayList<>();

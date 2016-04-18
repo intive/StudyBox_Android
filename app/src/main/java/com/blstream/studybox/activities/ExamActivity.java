@@ -93,8 +93,15 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         Intent i = getIntent();
         deckTitle = i.getStringExtra("deckName");
         deckId = i.getStringExtra("deckId");
+        // tu moze byc kolejnosc zla
         savedState = savedInstanceState;
-        downloadFlashcards();
+
+        if(i.hasExtra("flashcardsOnlyWrong")) {
+            flashcards = i.getParcelableArrayListExtra("flashcardsOnlyWrong");
+        } else {
+            // normal start
+            downloadFlashcards();
+        }
     }
 
     private void initPreDownloadView(){

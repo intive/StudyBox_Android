@@ -66,6 +66,7 @@
     <string name="empty_deck_info">Pusta talia!</string>
     <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
     <string name="add_flashcard">Dodaj fiszki</string>
+    <string name="improve_only_wrong">Popraw tylko złe</string>
 
 
 </resources>
