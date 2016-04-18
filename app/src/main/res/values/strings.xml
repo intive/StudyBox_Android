@@ -63,7 +63,9 @@
     <string name="deck_data_key">DECK</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="cancel">ANULUJ</string>
-
+    <string name="empty_deck_info">Pusta talia!</string>
+    <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
+    <string name="add_flashcard">Dodaj fiszki</string>
 
 
 </resources>

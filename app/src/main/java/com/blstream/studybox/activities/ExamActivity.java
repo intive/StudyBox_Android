@@ -34,6 +34,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -106,7 +107,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void initView() {
         if (flashcards.size() != 0) {
-            emptyDeck.setVisibility(View.GONE);
             setUpTextToViews();
             setUpPagerAdapter();
         } else {
@@ -236,6 +236,17 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
                 }
             });
         }
+    }
+
+    @OnClick(R.id.add_flashcards_button)
+    public void addFlashcards(View view) {
+        //we'll navigate to class responsible for adding flashcards from here
+        finish();
+    }
+
+    @OnClick(R.id.my_decks_button)
+    public void backToMyDecks(View view) {
+        finish();
     }
 
     @Override
