@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
@@ -30,6 +31,7 @@ import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Card;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -38,7 +40,7 @@ import butterknife.OnClick;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String> {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.MyDialogCloseListener {
 
     private static final String TAG_RESULT = "result";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
@@ -93,18 +95,18 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         Intent i = getIntent();
         deckTitle = i.getStringExtra("deckName");
         deckId = i.getStringExtra("deckId");
-        // tu moze byc kolejnosc zla
         savedState = savedInstanceState;
 
-        if(i.hasExtra("flashcardsOnlyWrong")) {
-            flashcards = i.getParcelableArrayListExtra("flashcardsOnlyWrong");
-        } else {
-            // normal start
-            downloadFlashcards();
-        }
+        //if (i.hasExtra("flashcardsOnlyWrong")) {
+            //flashcards = i.getParcelableExtra("flashcardsOnlyWrong");
+        //    Toast.makeText(this, "przekazano talie", Toast.LENGTH_LONG).show();
+        //}
+        Toast.makeText(this, "wczytano fiszki od nowa", Toast.LENGTH_SHORT).show();
+
+        downloadFlashcards();
     }
 
-    private void initPreDownloadView(){
+    private void initPreDownloadView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setUpEnterTransition();
@@ -174,8 +176,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void displayResult() {
-        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
-                correctAnswersCounter, flashcards.size());
+        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswersCounter, flashcards.size());
         resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
     }
 
@@ -297,5 +298,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void handleDialogClose(String newName) {
+        deckName.setText(newName);
+        Toast.makeText(this, "przeladowanie tytulu", Toast.LENGTH_SHORT).show();
     }
 }

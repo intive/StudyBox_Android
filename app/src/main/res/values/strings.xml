@@ -54,6 +54,7 @@
     <string name="your_score">Twój wynik</string>
     <string name="my_decks">Moje talie</string>
     <string name="improve_result">Popraw wynik</string>
+    <string name="improve_only_wrong">Popraw tylko złe</string>
     <string name="empty_deck">Pusta talia</string>
     <string name="no_decks">Brak talii</string>
 
@@ -66,7 +67,6 @@
     <string name="empty_deck_info">Pusta talia!</string>
     <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
     <string name="add_flashcard">Dodaj fiszki</string>
-    <string name="improve_only_wrong">Popraw tylko złe</string>
 
 
 </resources>
