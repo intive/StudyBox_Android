@@ -16,6 +16,8 @@ public class AuthCredentials {
     @Expose(deserialize = false)
     private String password;
 
+    private String repeatPassword;
+
     public AuthCredentials(String email, String password)  {
         this.email = email;
         this.password = password;
@@ -45,7 +47,15 @@ public class AuthCredentials {
         return password;
     }
 
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 }

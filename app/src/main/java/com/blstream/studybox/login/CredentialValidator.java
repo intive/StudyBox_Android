@@ -1,6 +1,7 @@
 package com.blstream.studybox.login;
 
 import com.blstream.studybox.model.AuthCredentials;
+import com.blstream.studybox.registration_view.RegistrationValidatorListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +11,9 @@ public class CredentialValidator {
     private final static int MIN_PASSWORD_LENGTH = 8;
     private ValidatorListener listener;
     private AuthCredentials credentials;
+    private boolean isPasswordValid;
+    private boolean isRepeatPasswordValid;
+    private boolean isEmailValid;
 
     public CredentialValidator(AuthCredentials credentials, ValidatorListener listener) {
         this.credentials = credentials;
@@ -21,9 +25,17 @@ public class CredentialValidator {
         Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
         Matcher matcher = pattern.matcher(credentials.getPassword());
 
-        boolean isPasswordValid = matcher.matches();
-        boolean isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(credentials.getEmail()).matches();
+        isPasswordValid = matcher.matches();
+        isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(credentials.getEmail()).matches();
 
+        validatePassword();
+        validateRepeatPassword();
+        validateMail();
+
+        isAllValid();
+    }
+
+    private void validatePassword() {
         if (credentials.getPassword().isEmpty()) {
             listener.onPasswordFieldEmpty();
         } else if (credentials.getPassword().length() < MIN_PASSWORD_LENGTH) {
@@ -31,15 +43,35 @@ public class CredentialValidator {
         } else if (!isPasswordValid) {
             listener.onPasswordValidationFailure();
         }
+    }
 
+    private void validateMail() {
         if (credentials.getEmail().isEmpty()) {
             listener.onEmailFieldEmpty();
         } else if (!isEmailValid) {
             listener.onEmailValidationFailure();
         }
+    }
 
-        if (isEmailValid && isPasswordValid) {
-            listener.onSuccess(credentials);
+    private void validateRepeatPassword() {
+        if (listener instanceof RegistrationValidatorListener) {
+            if (credentials.getPassword().equals(credentials.getRepeatPassword())) {
+                isRepeatPasswordValid = true;
+            } else {
+                ((RegistrationValidatorListener) listener).onPasswordsInconsistent();
+            }
+        }
+    }
+
+    private void isAllValid() {
+        if (listener instanceof RegistrationValidatorListener) {
+            if (isEmailValid && isPasswordValid && isRepeatPasswordValid) {
+                listener.onSuccess(credentials);
+            }
+        } else {
+            if (isEmailValid && isPasswordValid) {
+                listener.onSuccess(credentials);
+            }
         }
     }
 }

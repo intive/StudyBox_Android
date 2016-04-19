@@ -1,6 +1,5 @@
 package com.blstream.studybox.registration_view;
 
-import com.blstream.studybox.login_view.LoginView;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 /**

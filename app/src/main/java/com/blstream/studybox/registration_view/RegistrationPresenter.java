@@ -1,22 +1,21 @@
 package com.blstream.studybox.registration_view;
 
-import android.util.Log;
-
+import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.login.CredentialValidator;
-import com.blstream.studybox.login_view.LoginPresenter;
+import com.blstream.studybox.login.LoginManager;
 import com.blstream.studybox.model.AuthCredentials;
+import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
 
 /**
  * Created by Marek Macko on 12.04.2016.
  */
-public class RegistrationPresenter extends LoginPresenter {
+public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 
-    @Override
     public void validateCredential(AuthCredentials credentials) {
 
         if (isViewAttached()) {
@@ -31,7 +30,9 @@ public class RegistrationPresenter extends LoginPresenter {
 
             @Override
             public void onPasswordsInconsistent() {
-              //  getView().showPasswordInconsistent();
+                if (isViewAttached()) {
+                    getView().showPasswordInconsistent();
+                }
             }
 
             @Override
@@ -77,14 +78,51 @@ public class RegistrationPresenter extends LoginPresenter {
                 new RequestCallback<>(new RequestListener<AuthCredentials>() {
                     @Override
                     public void onSuccess(AuthCredentials response) {
-                        Log.e("SIGNUP", "user registered :)");
                         authenticate(credentials);
                     }
 
                     @Override
                     public void onFailure(RetrofitError error) {
-                        Log.e("SIGNUP", "failure :(");
+                        showError(error);
                     }
                 }));
+    }
+
+    private void authenticate(final AuthCredentials credentials) {
+        RestClientManager.authenticate(new AuthRequestInterceptor(credentials),
+                new RequestCallback<>(new RequestListener<AuthCredentials>() {
+                    @Override
+                    public void onSuccess(AuthCredentials response) {
+                        if (isViewAttached()) {
+                            getView().loginSuccessful();
+
+                            response.setPassword(credentials.getPassword());
+                            LoginManager login = new LoginManager(getView().getContext());
+                            login.saveUser(response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(RetrofitError error) {
+                        showError(error);
+                    }
+                })
+        );
+    }
+
+    private void showError(RetrofitError error) {
+        if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+            if (isViewAttached()) {
+                getView().showNetworkError();
+            }
+        } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
+            if (isViewAttached()) {
+                getView().showAuthError();
+            }
+        } else {
+            if (isViewAttached()) {
+                getView().showUnexpectedError();
+            }
+        }
     }
 }

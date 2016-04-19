@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
-import com.blstream.studybox.login_view.LoginView;
-import com.blstream.studybox.login_view.LoginViewState;
 import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.registration_view.RegistrationPresenter;
 import com.blstream.studybox.registration_view.RegistrationView;
+import com.blstream.studybox.registration_view.RegistrationViewState;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -27,7 +26,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class RegistrationActivity
-        extends MvpViewStateActivity<LoginView, RegistrationPresenter>
+        extends MvpViewStateActivity<RegistrationView, RegistrationPresenter>
         implements RegistrationView {
 
     private ConnectionStatusReceiver connectionStatusReceiver;
@@ -65,25 +64,28 @@ public class RegistrationActivity
         connectionStatusReceiver = new ConnectionStatusReceiver();
         setRetainInstance(true);
         ButterKnife.bind(this);
-
     }
 
     @OnClick(R.id.btn_sign_up)
-    public void OnSignUpClick() {
+    public void onSignUpClick() {
         if (connectionStatusReceiver.isConnected()) {
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString();
-            presenter.validateCredential(new AuthCredentials(email, password));
+            String repeatPassword = inputRepeatPassword.getText().toString();
+
+            AuthCredentials registrationCredentials = new AuthCredentials(email, password);
+            registrationCredentials.setRepeatPassword(repeatPassword);
+            presenter.validateCredential(registrationCredentials);
         }
     }
 
     @OnClick(R.id.link_cancel)
-    public void OnCancelClick() {
-
+    public void onCancelClick() {
+        finish();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
@@ -112,7 +114,7 @@ public class RegistrationActivity
 
     @Override
     public void showForm() {
-        LoginViewState vs = (LoginViewState) viewState;
+        RegistrationViewState vs = (RegistrationViewState) viewState;
         vs.setShowLoginForm();
 
         setSignUpFormEnabled(true);
@@ -162,7 +164,7 @@ public class RegistrationActivity
 
     @Override
     public void showLoading() {
-        LoginViewState vs = (LoginViewState) viewState;
+        RegistrationViewState vs = (RegistrationViewState) viewState;
         vs.setShowLoading();
 
         setSignUpFormEnabled(false);
@@ -184,12 +186,12 @@ public class RegistrationActivity
 
     @NonNull
     @Override
-    public ViewState<LoginView> createViewState() {
-        return new LoginViewState();
+    public ViewState<RegistrationView> createViewState() {
+        return new RegistrationViewState();
     }
 
     private void setError(String message) {
-        LoginViewState vs = (LoginViewState) viewState;
+        RegistrationViewState vs = (RegistrationViewState) viewState;
         vs.setShowError();
 
         setSignUpFormEnabled(true);
@@ -199,7 +201,7 @@ public class RegistrationActivity
     }
 
     private void setFieldError(TextInputEditText field, String message) {
-        LoginViewState vs = (LoginViewState) viewState;
+        RegistrationViewState vs = (RegistrationViewState) viewState;
         vs.setShowLoginForm();
 
         setSignUpFormEnabled(true);
