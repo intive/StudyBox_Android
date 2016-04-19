@@ -1,4 +1,4 @@
-package com.blstream.studybox.login;
+package com.blstream.studybox.auth.login;
 
 import com.blstream.studybox.model.AuthCredentials;
 

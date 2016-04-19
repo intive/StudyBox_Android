@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.LoginActivity;
 import com.blstream.studybox.debugger.DebugHelper;
-import com.blstream.studybox.login.LoginManager;
+import com.blstream.studybox.auth.login.LoginManager;
 
 public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener {
 

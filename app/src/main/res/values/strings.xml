@@ -31,12 +31,16 @@
     <string name="sign_up_button">Zarejestruj</string>
     <string name="image_description">Studybox Logo</string>
     <string name="auth_error">Błędne hasło bądź nazwa użytkownika</string>
+    <string name="account_exist">Konto już istnieje</string>
     <string name="invalid_email">Niepoprawny e-mail!</string>
     <string name="invalid_password">Niepoprawne hasło!</string>
+    <string name="invalid_password_whitespaces">Niepoprawne hasło. Nie można użyć w haśle białych znaków!</string>
     <string name="empty_field">Wypełnij pole!</string>
     <string name="network_error">Serwer niedostępny</string>
     <string name="unexpected_error">Nieoczekiwany błąd</string>
     <string name="too_short_password">Hasło jest zbyt krótkie</string>
+    <string name="inconsistent_passwords">Hasła nie są jednakowe</string>
+    <string name="set_obligatory_field">Wypełnij obligatoryjne pole!</string>
 
     <string name="title_activity_exam">ExamActivity</string>
     <string name="deck_name">Matematyka</string>
@@ -66,6 +70,5 @@
     <string name="empty_deck_info">Pusta talia!</string>
     <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
     <string name="add_flashcard">Dodaj fiszki</string>
-
 
 </resources>

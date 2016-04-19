@@ -10,7 +10,7 @@ import android.view.View;
 import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.login.LoginManager;
+import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
