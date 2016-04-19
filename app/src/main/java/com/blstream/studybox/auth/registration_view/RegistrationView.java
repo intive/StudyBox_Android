@@ -7,5 +7,6 @@ import com.blstream.studybox.auth.login_view.LoginView;
  */
 public interface RegistrationView extends LoginView {
 
+    void showEmptyRepeatPasswordError();
     void showPasswordInconsistent();
 }

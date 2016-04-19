@@ -24,6 +24,13 @@ public class AuthCredentials {
         this.name = "";
     }
 
+    public AuthCredentials(String email, String password, String repeatPassword)  {
+        this.email = email;
+        this.password = password;
+        this.repeatPassword = repeatPassword;
+        this.name = "";
+    }
+
     public AuthCredentials(String id, String name, String email, String password) {
         this.id = id;
         this.name = name;
@@ -53,9 +60,5 @@ public class AuthCredentials {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
     }
 }

@@ -29,6 +29,13 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
             }
 
             @Override
+            public void onShowEmptyRepeatPasswordError() {
+                if (isViewAttached()) {
+                    getView().showEmptyRepeatPasswordError();
+                }
+            }
+
+            @Override
             public void onPasswordsInconsistent() {
                 if (isViewAttached()) {
                     getView().showPasswordInconsistent();

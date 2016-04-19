@@ -62,9 +62,7 @@ public class RegistrationActivity
             String password = inputPassword.getText().toString();
             String repeatPassword = inputRepeatPassword.getText().toString();
 
-            AuthCredentials registrationCredentials = new AuthCredentials(email, password);
-            registrationCredentials.setRepeatPassword(repeatPassword);
-            presenter.validateCredential(registrationCredentials);
+            presenter.validateCredential(new AuthCredentials(email, password, repeatPassword));
         }
     }
 
@@ -82,6 +80,11 @@ public class RegistrationActivity
     @Override
     public void onNewViewStateInstance() {
         showForm();
+    }
+
+    @Override
+    public void showEmptyRepeatPasswordError() {
+        setFieldError(inputRepeatPassword, getString(R.string.set_obligatory_field));
     }
 
     @Override
@@ -116,12 +119,12 @@ public class RegistrationActivity
 
     @Override
     public void showEmptyEmailError() {
-        setFieldError(inputEmail, getString(R.string.empty_field));
+        setFieldError(inputEmail, getString(R.string.set_obligatory_field));
     }
 
     @Override
     public void showEmptyPasswordError() {
-        setFieldError(inputPassword, getString(R.string.empty_field));
+        setFieldError(inputPassword, getString(R.string.set_obligatory_field));
     }
 
     @Override
@@ -131,7 +134,7 @@ public class RegistrationActivity
 
     @Override
     public void showInvalidPasswordError() {
-        setFieldError(inputPassword, getString(R.string.invalid_password));
+        setFieldError(inputPassword, getString(R.string.invalid_password_whitespaces));
     }
 
     @Override

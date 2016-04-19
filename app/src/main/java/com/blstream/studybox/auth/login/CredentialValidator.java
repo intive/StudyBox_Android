@@ -28,8 +28,8 @@ public class CredentialValidator {
         isPasswordValid = matcher.matches();
         isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(credentials.getEmail()).matches();
 
-        validatePassword();
         validateRepeatPassword();
+        validatePassword();
         validateMail();
 
         isAllValid();
@@ -55,10 +55,12 @@ public class CredentialValidator {
 
     private void validateRepeatPassword() {
         if (listener instanceof RegistrationValidatorListener) {
-            if (credentials.getPassword().equals(credentials.getRepeatPassword())) {
-                isRepeatPasswordValid = true;
-            } else {
+            if (credentials.getRepeatPassword().isEmpty()) {
+                ((RegistrationValidatorListener) listener).onShowEmptyRepeatPasswordError();
+            } else  if (!credentials.getPassword().equals(credentials.getRepeatPassword())) {
                 ((RegistrationValidatorListener) listener).onPasswordsInconsistent();
+            } else {
+                isRepeatPasswordValid = true;
             }
         }
     }

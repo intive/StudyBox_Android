@@ -7,5 +7,6 @@ import com.blstream.studybox.auth.login.ValidatorListener;
  */
 public interface RegistrationValidatorListener extends ValidatorListener {
 
+    void onShowEmptyRepeatPasswordError();
     void onPasswordsInconsistent();
 }
