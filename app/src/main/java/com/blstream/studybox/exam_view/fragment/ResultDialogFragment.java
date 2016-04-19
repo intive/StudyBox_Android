@@ -64,7 +64,6 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     private int correctAnswers;
     private int noOfQuestions;
-    private List<Card> flashcardsOnlyWrong;
     private Activity activity;
 
 
@@ -135,15 +134,12 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         dismiss();
     }
 
-    private String doPrzekazania = "Moja nazwa talii";
-
     public interface MyDialogCloseListener {
-        public void handleDialogClose(String newName);
+        void handleDialogClose();
     }
     public void onDismiss() {
-        //Activity activity = getActivity();
         if (activity instanceof MyDialogCloseListener)
-            ((MyDialogCloseListener) activity).handleDialogClose(doPrzekazania);
+            ((MyDialogCloseListener) activity).handleDialogClose();
     }
 
     @Override

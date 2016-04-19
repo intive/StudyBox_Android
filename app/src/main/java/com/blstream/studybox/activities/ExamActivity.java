@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -31,7 +32,11 @@ import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Card;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -87,6 +92,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private Bundle savedState;
 
     private List<Card> flashcardsOnlyWrong;
+    private Card card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +105,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         savedState = savedInstanceState;
 
         downloadFlashcards();
+        flashcardsOnlyWrong = new ArrayList<>();
     }
 
     private void initPreDownloadView() {
@@ -189,6 +196,16 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void updateCorrectAnswersCounter(boolean addCorrectAnswer) {
         if (addCorrectAnswer) {
             correctAnswersCounter++;
+        } else {
+
+            /*
+            card = adapterViewPager.getCurrentCard();
+            if(card != null)
+                Toast.makeText(this, "dziala pobranie karty", Toast.LENGTH_SHORT).show();
+            */
+            card = flashcards.get(cardCounter-1);
+
+            flashcardsOnlyWrong.add(card);
         }
     }
 
@@ -296,9 +313,10 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    public void handleDialogClose(String newName) {
-        deckName.setText(newName);
-        //flashcards = flashcardsOnlyWrong;
-        Toast.makeText(this, "przeladowanie tytulu i fiszek", Toast.LENGTH_SHORT).show();
+    public void handleDialogClose() {
+        flashcards = new ArrayList<>(flashcardsOnlyWrong);
+        flashcardsOnlyWrong.clear();
+        setUpVariables();
+        initView();
     }
 }

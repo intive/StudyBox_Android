@@ -99,4 +99,8 @@ public class CardsProvider {
             laterCard = flashcards.get(position + preloadImageCount - 1);
         }
     }
+
+    public Card getCurrentCard(){
+        return flashcards.get(position);
+    }
 }
