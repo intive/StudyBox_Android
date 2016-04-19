@@ -10,29 +10,21 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.BaseAuthViewState;
 import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.registration_view.RegistrationPresenter;
 import com.blstream.studybox.registration_view.RegistrationView;
-import com.blstream.studybox.registration_view.RegistrationViewState;
-import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class RegistrationActivity
-        extends MvpViewStateActivity<RegistrationView, RegistrationPresenter>
+        extends BaseAuthActivity<RegistrationView, RegistrationPresenter>
         implements RegistrationView {
-
-    private ConnectionStatusReceiver connectionStatusReceiver;
-
-    private final static float ENABLED_BUTTON_ALPHA = 1.0f;
-    private final static float DISABLED_BUTTON_ALPHA = 0.5f;
 
     @Bind(R.id.text_view_failure)
     TextView textViewFailure;
@@ -57,12 +49,9 @@ public class RegistrationActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-
-        connectionStatusReceiver = new ConnectionStatusReceiver();
-        setRetainInstance(true);
         ButterKnife.bind(this);
     }
 
@@ -84,22 +73,10 @@ public class RegistrationActivity
         finish();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
-    }
-
     @NonNull
     @Override
     public RegistrationPresenter createPresenter() {
         return new RegistrationPresenter();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
     }
 
     @Override
@@ -114,10 +91,10 @@ public class RegistrationActivity
 
     @Override
     public void showForm() {
-        RegistrationViewState vs = (RegistrationViewState) viewState;
-        vs.setShowLoginForm();
+        BaseAuthViewState vs = (BaseAuthViewState<RegistrationView>) viewState;
+        vs.setShowForm();
 
-        setSignUpFormEnabled(true);
+        setFormEnabled(true);
         textViewFailure.setVisibility(View.GONE);
         signUpProgressBar.setVisibility(View.GONE);
     }
@@ -164,10 +141,10 @@ public class RegistrationActivity
 
     @Override
     public void showLoading() {
-        RegistrationViewState vs = (RegistrationViewState) viewState;
+        BaseAuthViewState vs = (BaseAuthViewState<RegistrationView>) viewState;
         vs.setShowLoading();
 
-        setSignUpFormEnabled(false);
+        setFormEnabled(false);
         textViewFailure.setVisibility(View.GONE);
         signUpProgressBar.setVisibility(View.VISIBLE);
     }
@@ -187,31 +164,32 @@ public class RegistrationActivity
     @NonNull
     @Override
     public ViewState<RegistrationView> createViewState() {
-        return new RegistrationViewState();
+        return new BaseAuthViewState<>();
     }
 
-    private void setError(String message) {
-        RegistrationViewState vs = (RegistrationViewState) viewState;
+    protected void setError(String message) {
+        BaseAuthViewState vs = (BaseAuthViewState<RegistrationView>) viewState;
         vs.setShowError();
 
-        setSignUpFormEnabled(true);
+        setFormEnabled(true);
         textViewFailure.setText(message);
         textViewFailure.setVisibility(View.VISIBLE);
         signUpProgressBar.setVisibility(View.GONE);
     }
 
-    private void setFieldError(TextInputEditText field, String message) {
-        RegistrationViewState vs = (RegistrationViewState) viewState;
-        vs.setShowLoginForm();
+    protected void setFieldError(TextInputEditText field, String message) {
+        BaseAuthViewState vs = (BaseAuthViewState<RegistrationView>) viewState;
+        vs.setShowForm();
 
-        setSignUpFormEnabled(true);
+        setFormEnabled(true);
         field.setError(message);
         field.requestFocus();
         textViewFailure.setVisibility(View.GONE);
         signUpProgressBar.setVisibility(View.GONE);
     }
 
-    private void  setSignUpFormEnabled(boolean enabled) {
+    @Override
+    protected void setFormEnabled(boolean enabled) {
         inputEmail.setEnabled(enabled);
         inputPassword.setEnabled(enabled);
         inputRepeatPassword.setEnabled(enabled);
@@ -223,13 +201,5 @@ public class RegistrationActivity
         } else {
             buttonSignUp.setAlpha(DISABLED_BUTTON_ALPHA);
         }
-    }
-
-    /**
-     * Applies custom font to every activity that overrides this method
-     */
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
