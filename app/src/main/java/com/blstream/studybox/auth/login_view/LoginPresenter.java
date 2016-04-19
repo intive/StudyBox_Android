@@ -1,20 +1,18 @@
-package com.blstream.studybox.registration_view;
+package com.blstream.studybox.auth.login_view;
 
+import com.blstream.studybox.auth.login.CredentialValidator;
+import com.blstream.studybox.auth.login.LoginManager;
+import com.blstream.studybox.auth.login.ValidatorListener;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
-import com.blstream.studybox.login.CredentialValidator;
-import com.blstream.studybox.login.LoginManager;
 import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
 
-/**
- * Created by Marek Macko on 12.04.2016.
- */
-public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
+public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
     public void validateCredential(AuthCredentials credentials) {
 
@@ -22,17 +20,10 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
             getView().showLoading();
         }
 
-        CredentialValidator validator = new CredentialValidator(credentials, new RegistrationValidatorListener() {
+        CredentialValidator validator = new CredentialValidator(credentials, new ValidatorListener() {
             @Override
             public void onSuccess(AuthCredentials credentials) {
-                signUp(credentials);
-            }
-
-            @Override
-            public void onPasswordsInconsistent() {
-                if (isViewAttached()) {
-                    getView().showPasswordInconsistent();
-                }
+                authenticate(credentials);
             }
 
             @Override
@@ -41,6 +32,7 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
                     getView().showEmptyEmailError();
                 }
             }
+
             @Override
             public void onPasswordFieldEmpty() {
                 if (isViewAttached()) {
@@ -73,22 +65,7 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
         validator.validate();
     }
 
-    private void signUp(final AuthCredentials credentials) {
-        RestClientManager.signUp(credentials,
-                new RequestCallback<>(new RequestListener<AuthCredentials>() {
-                    @Override
-                    public void onSuccess(AuthCredentials response) {
-                        authenticate(credentials);
-                    }
-
-                    @Override
-                    public void onFailure(RetrofitError error) {
-                        showError(error);
-                    }
-                }));
-    }
-
-    private void authenticate(final AuthCredentials credentials) {
+    protected void authenticate(final AuthCredentials credentials) {
         RestClientManager.authenticate(new AuthRequestInterceptor(credentials),
                 new RequestCallback<>(new RequestListener<AuthCredentials>() {
                     @Override
@@ -104,25 +81,21 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 
                     @Override
                     public void onFailure(RetrofitError error) {
-                        showError(error);
+                        if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                            if (isViewAttached()) {
+                                getView().showNetworkError();
+                            }
+                        } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
+                            if (isViewAttached()) {
+                                getView().showAuthError();
+                            }
+                        } else {
+                            if (isViewAttached()) {
+                                getView().showUnexpectedError();
+                            }
+                        }
                     }
                 })
         );
-    }
-
-    private void showError(RetrofitError error) {
-        if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-            if (isViewAttached()) {
-                getView().showNetworkError();
-            }
-        } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
-            if (isViewAttached()) {
-                getView().showAuthError();
-            }
-        } else {
-            if (isViewAttached()) {
-                getView().showUnexpectedError();
-            }
-        }
     }
 }

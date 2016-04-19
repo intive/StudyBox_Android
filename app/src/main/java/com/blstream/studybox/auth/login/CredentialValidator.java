@@ -1,7 +1,7 @@
-package com.blstream.studybox.login;
+package com.blstream.studybox.auth.login;
 
 import com.blstream.studybox.model.AuthCredentials;
-import com.blstream.studybox.registration_view.RegistrationValidatorListener;
+import com.blstream.studybox.auth.registration_view.RegistrationValidatorListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

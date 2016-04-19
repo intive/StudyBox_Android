@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.auth.BaseAuthViewState;
-import com.blstream.studybox.login_view.LoginPresenter;
-import com.blstream.studybox.login_view.LoginView;
+import com.blstream.studybox.auth.login_view.LoginPresenter;
+import com.blstream.studybox.auth.login_view.LoginView;
 import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 

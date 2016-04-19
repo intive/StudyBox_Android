@@ -1,7 +1,6 @@
-package com.blstream.studybox.registration_view;
+package com.blstream.studybox.auth.registration_view;
 
-import com.blstream.studybox.login.ValidatorListener;
-import com.blstream.studybox.model.AuthCredentials;
+import com.blstream.studybox.auth.login.ValidatorListener;
 
 /**
  * Created by Marek Macko on 14.04.2016.

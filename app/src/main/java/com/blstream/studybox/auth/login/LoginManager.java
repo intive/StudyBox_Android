@@ -1,4 +1,4 @@
-package com.blstream.studybox.login;
+package com.blstream.studybox.auth.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;

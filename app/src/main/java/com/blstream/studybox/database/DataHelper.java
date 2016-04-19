@@ -7,7 +7,7 @@ import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
-import com.blstream.studybox.login.LoginManager;
+import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
 

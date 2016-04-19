@@ -1,4 +1,4 @@
-package com.blstream.studybox.login_view;
+package com.blstream.studybox.auth.login_view;
 
 import com.blstream.studybox.auth.BaseAuthView;
 

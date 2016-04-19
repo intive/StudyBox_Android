@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 import com.blstream.studybox.auth.BaseAuthViewState;
 import com.blstream.studybox.model.AuthCredentials;
-import com.blstream.studybox.registration_view.RegistrationPresenter;
-import com.blstream.studybox.registration_view.RegistrationView;
+import com.blstream.studybox.auth.registration_view.RegistrationPresenter;
+import com.blstream.studybox.auth.registration_view.RegistrationView;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
