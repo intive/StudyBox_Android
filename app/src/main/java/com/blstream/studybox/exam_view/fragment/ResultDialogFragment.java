@@ -3,16 +3,11 @@ package com.blstream.studybox.exam_view.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -24,8 +19,6 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 
 
-import com.blstream.studybox.activities.ExamActivity;
-import com.blstream.studybox.model.database.Card;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -35,7 +28,6 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,10 +37,6 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     private static final String TAG_CORRECT_ANSWERS = "correctAnswers";
     private static final String TAG_NUMBER_OF_QUESTIONS = "noOfQuestions";
-
-    private static final String TAG_DECK_ID = "deckId";
-    private static final String TAG_DECK_TITLE = "deckName";
-    private static final String TAG_FLASHCARDS_ONLY_WRONG = "flashcardsOnlyWrong";
 
     @Bind(R.id.total_score)
     public TextView totalScore;
@@ -66,18 +54,11 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     private int noOfQuestions;
     private Activity activity;
 
-
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
         Bundle args = new Bundle();
         args.putInt(TAG_CORRECT_ANSWERS, correctAnswers);
         args.putInt(TAG_NUMBER_OF_QUESTIONS, noOfQuestions);
-
-        // deckId deckName flashcardsList
-        //args.putString(TAG_DECK_ID, deckId);
-        //args.putString(TAG_DECK_TITLE, deckTitle);
-        //args.putParcelable(TAG_FLASHCARDS_ONLY_WRONG, (Parcelable) flashcardsOnlyWrong);
-
         resultFragment.setArguments(args);
         return resultFragment;
     }
@@ -87,14 +68,6 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         super.onCreate(savedInstanceState);
         correctAnswers = getArguments().getInt(TAG_CORRECT_ANSWERS);
         noOfQuestions = getArguments().getInt(TAG_NUMBER_OF_QUESTIONS);
-
-        /*
-        // deckId deckName flashcardsList
-        deckId = getArguments().getString(TAG_DECK_ID);
-        deckName = getArguments().getString(TAG_DECK_TITLE);
-        // tutaj trzeba bedzie zrobic cast
-        flashcardsOnlyWrong = getArguments().getParcelable(TAG_FLASHCARDS_ONLY_WRONG);
-*/
         activity = getActivity();
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Light);
     }
@@ -125,21 +98,30 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     @OnClick(R.id.improve_result)
     public void improveResult(View view) {
+        onDismissImproveAll();
         dismiss();
     }
 
     @OnClick(R.id.improve_only_wrong)
     public void improveOnlyWrong(View view) {
-        onDismiss();
+        onDismissImproveOnlyWrong();
         dismiss();
     }
 
-    public interface MyDialogCloseListener {
-        void handleDialogClose();
+    public interface CloseResultDialogFragmentListener {
+        void handleImproveOnlyWrong();
+
+        void handleImproveAll();
     }
-    public void onDismiss() {
-        if (activity instanceof MyDialogCloseListener)
-            ((MyDialogCloseListener) activity).handleDialogClose();
+
+    public void onDismissImproveOnlyWrong() {
+        if (activity instanceof CloseResultDialogFragmentListener)
+            ((CloseResultDialogFragmentListener) activity).handleImproveOnlyWrong();
+    }
+
+    public void onDismissImproveAll() {
+        if (activity instanceof CloseResultDialogFragmentListener)
+            ((CloseResultDialogFragmentListener) activity).handleImproveAll();
     }
 
     @Override

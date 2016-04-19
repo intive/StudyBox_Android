@@ -80,9 +80,4 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
         answerFragment.initOnRestart();
         questionFragment.initOnRestart();
     }
-
-    //add method to return current card
-    public Card getCurrentCard(){
-        return cardsProvider.getCurrentCard();
-    }
 }

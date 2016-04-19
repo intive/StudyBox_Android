@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
@@ -33,10 +31,7 @@ import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Card;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +39,7 @@ import butterknife.OnClick;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.MyDialogCloseListener {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
 
     private static final String TAG_RESULT = "result";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
@@ -86,13 +81,13 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int correctAnswersCounter;
     private Integer noOfQuestions;
     private List<Card> flashcards;
+    private List<Card> flashcardsAll;
+    private List<Card> flashcardsOnlyWrong;
     private DrawerAdapter drawerAdapter;
     private String deckTitle;
     private String deckId;
     private Bundle savedState;
 
-    private List<Card> flashcardsOnlyWrong;
-    private Card card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +99,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         deckId = i.getStringExtra("deckId");
         savedState = savedInstanceState;
 
-        downloadFlashcards();
         flashcardsOnlyWrong = new ArrayList<>();
+        flashcardsAll = new ArrayList<>();
+        downloadFlashcards();
     }
 
     private void initPreDownloadView() {
@@ -178,7 +174,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void displayResult() {
-        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswersCounter, flashcards.size());
+        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(
+                correctAnswersCounter, flashcards.size());
         resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
     }
 
@@ -197,15 +194,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         if (addCorrectAnswer) {
             correctAnswersCounter++;
         } else {
-
-            /*
-            card = adapterViewPager.getCurrentCard();
-            if(card != null)
-                Toast.makeText(this, "dziala pobranie karty", Toast.LENGTH_SHORT).show();
-            */
-            card = flashcards.get(cardCounter-1);
-
-            flashcardsOnlyWrong.add(card);
+            flashcardsOnlyWrong.add(flashcards.get(cardCounter - 1));
         }
     }
 
@@ -272,6 +261,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     public void onSuccess(String response) {
         flashcards = dataHelper.getFlashcards();
+        flashcardsAll = new ArrayList<>(flashcards);
         setUpVariables();
         initView();
         if (savedState == null) {
@@ -313,8 +303,17 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    public void handleDialogClose() {
-        flashcards = new ArrayList<>(flashcardsOnlyWrong);
+    public void handleImproveOnlyWrong() {
+        reloadFlashcardsFromList(flashcardsOnlyWrong);
+    }
+
+    @Override
+    public void handleImproveAll() {
+        reloadFlashcardsFromList(flashcardsAll);
+    }
+
+    private void reloadFlashcardsFromList(List<Card> reloadedFlashcards){
+        flashcards = new ArrayList<>(reloadedFlashcards);
         flashcardsOnlyWrong.clear();
         setUpVariables();
         initView();
