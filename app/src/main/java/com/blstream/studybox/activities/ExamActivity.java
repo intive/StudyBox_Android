@@ -30,6 +30,7 @@ import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Card;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -38,7 +39,7 @@ import butterknife.OnClick;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String> {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
 
     private static final String TAG_RESULT = "result";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
@@ -80,10 +81,13 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int correctAnswersCounter;
     private Integer noOfQuestions;
     private List<Card> flashcards;
+    private List<Card> flashcardsAll;
+    private List<Card> flashcardsOnlyWrong;
     private DrawerAdapter drawerAdapter;
     private String deckTitle;
     private String deckId;
     private Bundle savedState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,10 +98,13 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         deckTitle = i.getStringExtra("deckName");
         deckId = i.getStringExtra("deckId");
         savedState = savedInstanceState;
+
+        flashcardsOnlyWrong = new ArrayList<>();
+        flashcardsAll = new ArrayList<>();
         downloadFlashcards();
     }
 
-    private void initPreDownloadView(){
+    private void initPreDownloadView() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setUpEnterTransition();
@@ -186,6 +193,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void updateCorrectAnswersCounter(boolean addCorrectAnswer) {
         if (addCorrectAnswer) {
             correctAnswersCounter++;
+        } else {
+            flashcardsOnlyWrong.add(flashcards.get(cardCounter - 1));
         }
     }
 
@@ -252,6 +261,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     public void onSuccess(String response) {
         flashcards = dataHelper.getFlashcards();
+        flashcardsAll = new ArrayList<>(flashcards);
         setUpVariables();
         initView();
         if (savedState == null) {
@@ -290,5 +300,22 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void handleImproveOnlyWrong() {
+        reloadFlashcardsFromList(flashcardsOnlyWrong);
+    }
+
+    @Override
+    public void handleImproveAll() {
+        reloadFlashcardsFromList(flashcardsAll);
+    }
+
+    private void reloadFlashcardsFromList(List<Card> reloadedFlashcards){
+        flashcards = new ArrayList<>(reloadedFlashcards);
+        flashcardsOnlyWrong.clear();
+        setUpVariables();
+        initView();
     }
 }

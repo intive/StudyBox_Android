@@ -53,6 +53,7 @@
     <string name="your_score">Twój wynik</string>
     <string name="my_decks">Moje talie</string>
     <string name="improve_result">Popraw wynik</string>
+    <string name="improve_only_wrong">Test z najgorszych</string>
     <string name="empty_deck">Pusta talia</string>
     <string name="no_decks">Brak talii</string>
 
