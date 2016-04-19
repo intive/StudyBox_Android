@@ -35,6 +35,18 @@ public class CredentialValidator {
         isAllValid();
     }
 
+    private void validateRepeatPassword() {
+        if (listener instanceof RegistrationValidatorListener) {
+            if (credentials.getRepeatPassword().isEmpty()) {
+                ((RegistrationValidatorListener) listener).onShowEmptyRepeatPasswordError();
+            } else  if (!credentials.getPassword().equals(credentials.getRepeatPassword())) {
+                ((RegistrationValidatorListener) listener).onPasswordsInconsistent();
+            } else {
+                isRepeatPasswordValid = true;
+            }
+        }
+    }
+
     private void validatePassword() {
         if (credentials.getPassword().isEmpty()) {
             listener.onPasswordFieldEmpty();
@@ -50,18 +62,6 @@ public class CredentialValidator {
             listener.onEmailFieldEmpty();
         } else if (!isEmailValid) {
             listener.onEmailValidationFailure();
-        }
-    }
-
-    private void validateRepeatPassword() {
-        if (listener instanceof RegistrationValidatorListener) {
-            if (credentials.getRepeatPassword().isEmpty()) {
-                ((RegistrationValidatorListener) listener).onShowEmptyRepeatPasswordError();
-            } else  if (!credentials.getPassword().equals(credentials.getRepeatPassword())) {
-                ((RegistrationValidatorListener) listener).onPasswordsInconsistent();
-            } else {
-                isRepeatPasswordValid = true;
-            }
         }
     }
 

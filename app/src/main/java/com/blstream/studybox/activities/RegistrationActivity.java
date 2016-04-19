@@ -104,7 +104,7 @@ public class RegistrationActivity
 
     @Override
     public void showAuthError() {
-        setError(getString(R.string.auth_error));
+        setError(getString(R.string.account_exist));
     }
 
     @Override

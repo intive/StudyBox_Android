@@ -31,6 +31,7 @@
     <string name="sign_up_button">Zarejestruj</string>
     <string name="image_description">Studybox Logo</string>
     <string name="auth_error">Błędne hasło bądź nazwa użytkownika</string>
+    <string name="account_exist">Konto już istnieje</string>
     <string name="invalid_email">Niepoprawny e-mail!</string>
     <string name="invalid_password">Niepoprawne hasło!</string>
     <string name="invalid_password_whitespaces">Niepoprawne hasło. Nie można użyć w haśle białych znaków!</string>
