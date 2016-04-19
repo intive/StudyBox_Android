@@ -37,6 +37,7 @@
     <string name="network_error">Serwer niedostępny</string>
     <string name="unexpected_error">Nieoczekiwany błąd</string>
     <string name="too_short_password">Hasło jest zbyt krótkie</string>
+    <string name="inconsistent_passwords">Hasła nie są jednakowe</string>
 
     <string name="title_activity_exam">ExamActivity</string>
     <string name="deck_name">Matematyka</string>
@@ -66,6 +67,5 @@
     <string name="empty_deck_info">Pusta talia!</string>
     <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
     <string name="add_flashcard">Dodaj fiszki</string>
-    <string name="inconsistent_passwords">Hasła nie są takie same</string>
 
 </resources>
