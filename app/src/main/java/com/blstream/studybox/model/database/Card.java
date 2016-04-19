@@ -11,66 +11,54 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-/**
- * Created by Łukasz on 2016-03-17.
- */
-
 @Table(name = "Cards")
 public class Card extends Model implements Parcelable{
 
     @Expose
-    @Column(name = "QuestionNo")
-    public Integer questionNo;
+    @Column(name = "flashcardId")
+    public String id;
 
     @Expose
-    @Column(name = "Question")
+    @Column(name = "question")
     public String question;
 
     @Expose
-    @Column(name = "Prompt")
-    public String prompt;
-
-    @Expose
-    @Column(name = "Answer")
+    @Column(name = "answer")
     public String answer;
 
-    @Column(name = "Deck", onDelete = Column.ForeignKeyAction.CASCADE)
-    public Deck deck;
+    @Expose
+    @Column(name = "deckId")
+    public String deckId;
 
     public Card() {
         super();
     }
 
-    public Card(Integer questionNo, String question, String prompt, String answer, Deck deck) {
-        this.questionNo = questionNo;
+    public Card(String id, String question, String answer, String deckId) {
+        this.id = id;
         this.question = question;
-        this.prompt = prompt;
         this.answer = answer;
-        this.deck = deck;
+        this.deckId = deckId;
     }
 
     public static List<Card> all() {
         return new Select().from(Card.class).execute();
     }
 
-    public Integer getQuestionNo() {
-        return questionNo;
+    public String getDeckId() {
+        return deckId;
+    }
+
+    public String getCardId() {
+        return id;
     }
 
     public String getQuestion() {
         return question;
     }
 
-    public String getPrompt() {
-        return prompt;
-    }
-
     public String getAnswer() {
         return answer;
-    }
-
-    public Deck getDeck() {
-        return deck;
     }
 
     @Override
@@ -80,10 +68,10 @@ public class Card extends Model implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(questionNo);
+        dest.writeString(id);
         dest.writeString(question);
-        dest.writeString(prompt);
         dest.writeString(answer);
+        dest.writeString(deckId);
     }
 
     public static final Creator<Card> CREATOR = new Creator<Card>() {
@@ -99,9 +87,9 @@ public class Card extends Model implements Parcelable{
     };
 
     private Card(Parcel source) {
-        questionNo = source.readInt();
+        id = source.readString();
         question = source.readString();
-        prompt = source.readString();
         answer = source.readString();
+        deckId = source.readString();
     }
 }

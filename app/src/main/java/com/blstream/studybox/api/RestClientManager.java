@@ -1,19 +1,29 @@
 package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.AuthCredentials;
-import com.blstream.studybox.model.database.DecksList;
+import com.blstream.studybox.model.database.Card;
+import com.blstream.studybox.model.database.Decks;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 
-/**
- * Created by Bartosz Kozajda on 09.03.2016.
- */
 public class RestClientManager {
 
-    public static void getAllDecks(String json, Callback<DecksList> callback) {
+    public static void getDecks(String key, RequestInterceptor interceptor, RequestCallback<List<Decks>> callback) {
+        RestInterface restInterface = new RestClient(interceptor).getService();
+        restInterface.getDecks(key, callback);
+    }
+
+    public static void getPublicDecks(String key, RequestCallback<List<Decks>> callback){
         RestInterface restInterface = new RestClient().getService();
-        restInterface.getAllDecks(json, callback);
+        restInterface.getDecks(key, callback);
+    }
+
+    public static void getFlashcards(String key, RequestCallback<List<Card>> callback) {
+        RestInterface restInterface = new RestClient().getService();
+        restInterface.getFlashcards(key, callback);
     }
 
     public static void authenticate(RequestInterceptor interceptor, Callback<AuthCredentials> callback) {

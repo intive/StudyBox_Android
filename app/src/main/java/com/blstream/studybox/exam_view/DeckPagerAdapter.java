@@ -8,25 +8,27 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.QuestionFragment;
-import com.blstream.studybox.model.database.Deck;
+import com.blstream.studybox.model.database.Card;
+
+import java.util.List;
 
 public class DeckPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int MAX_PRELOAD_IMAGE_COUNT = 4;
-    private final Deck deck;
+    private final List<Card> flashcards;
     private final QuestionFragment questionFragment;
     private final AnswerFragment answerFragment;
     private final ImageTextDisplay imgTxtDisplay;
     private final CardsProvider cardsProvider;
     private int preloadImageCount;
 
-    public DeckPagerAdapter(FragmentManager fragmentManager, Deck deck,
+    public DeckPagerAdapter(FragmentManager fragmentManager, List<Card> flashcards,
                             int preImageCount, Activity activity) {
         super(fragmentManager);
-        this.deck = deck;
+        this.flashcards = flashcards;
         setPreloadImageCount(preImageCount);
         imgTxtDisplay = new ImageTextDisplay(preloadImageCount, activity);
-        cardsProvider = new CardsProvider(deck, preloadImageCount);
+        cardsProvider = new CardsProvider(flashcards, preloadImageCount);
 
         questionFragment = new QuestionFragment();
         answerFragment = new AnswerFragment();
@@ -58,8 +60,8 @@ public class DeckPagerAdapter extends FragmentStatePagerAdapter {
             preloadImageCount = preImgCount;
         }
 
-        if (preloadImageCount > deck.getNoOfQuestions()) {
-            preloadImageCount = deck.getNoOfQuestions();
+        if (preloadImageCount > flashcards.size()) {
+            preloadImageCount = flashcards.size();
         } else if (preloadImageCount == 0) {
             preloadImageCount = 1;
         }

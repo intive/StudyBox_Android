@@ -2,11 +2,12 @@ package com.blstream.studybox.exam_view;
 
 
 import com.blstream.studybox.model.database.Card;
-import com.blstream.studybox.model.database.Deck;
+
+import java.util.List;
 
 public class CardsProvider {
 
-    private final Deck deck;
+    private final List<Card> flashcards;
     private Card currentCard;
     private Card laterCard;
     private final int preloadImageCount;
@@ -15,12 +16,12 @@ public class CardsProvider {
     private String[] questions;
     private final String prompt;
 
-    public CardsProvider(Deck deck, int preloadImageCount) {
-        this.deck = deck;
+    public CardsProvider(List<Card> flashcards, int preloadImageCount) {
+        this.flashcards = flashcards;
         this.preloadImageCount = preloadImageCount;
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
-        prompt = deck.getCardsList().get(0).getPrompt();
+        prompt = "PROMPT";
         setFirstImages();
     }
 
@@ -29,7 +30,7 @@ public class CardsProvider {
         questions = new String[preloadImageCount];
         Card card;
         for (int i = 0; i < preloadImageCount; i++) {
-            card = deck.getCardsList().get(i);
+            card = flashcards.get(i);
             answers[i] = card.getAnswer();
             questions[i] = card.getQuestion();
         }
@@ -56,7 +57,7 @@ public class CardsProvider {
     }
 
     public String getNextPrompt() {
-        return currentCard.getPrompt();
+        return prompt;
     }
 
     public String getNextAnswer() {
@@ -87,15 +88,15 @@ public class CardsProvider {
 
     public void changeCard() {
         updatePosition();
-        if (deck.getNoOfQuestions() > position) {
+        if (flashcards.size() > position) {
             setCards();
         }
     }
 
     private void setCards() {
-        currentCard = deck.getCardsList().get(position);
-        if (deck.getNoOfQuestions() > position + preloadImageCount - 1) {
-            laterCard = deck.getCardsList().get(position + preloadImageCount - 1);
+        currentCard = flashcards.get(position);
+        if (flashcards.size() > position + preloadImageCount - 1) {
+            laterCard = flashcards.get(position + preloadImageCount - 1);
         }
     }
 }

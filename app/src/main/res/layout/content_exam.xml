@@ -20,7 +20,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/deck_name"
             android:id="@+id/deckName"
             android:gravity="center"
             android:layout_margin="@dimen/exam_element_margin" />
@@ -28,7 +27,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/question_no"
             android:id="@+id/questionNo"
             android:gravity="center" />
 
@@ -42,7 +40,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/correct_answers"
             android:id="@+id/correctAnswers"
             android:gravity="center"
             android:layout_margin="@dimen/exam_element_margin"/>

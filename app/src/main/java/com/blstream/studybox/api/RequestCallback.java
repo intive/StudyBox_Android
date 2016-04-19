@@ -4,9 +4,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by Bartosz Kozajda on 01.03.2016.
- */
 public class RequestCallback<T> implements Callback<T> {
 
     protected RequestListener<T> listener;
