@@ -31,7 +31,6 @@ import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Card;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -87,6 +86,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private String deckId;
     private Bundle savedState;
 
+    private List<Card> flashcardsOnlyWrong;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,12 +97,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         deckTitle = i.getStringExtra("deckName");
         deckId = i.getStringExtra("deckId");
         savedState = savedInstanceState;
-
-        //if (i.hasExtra("flashcardsOnlyWrong")) {
-            //flashcards = i.getParcelableExtra("flashcardsOnlyWrong");
-        //    Toast.makeText(this, "przekazano talie", Toast.LENGTH_LONG).show();
-        //}
-        Toast.makeText(this, "wczytano fiszki od nowa", Toast.LENGTH_SHORT).show();
 
         downloadFlashcards();
     }
@@ -303,6 +298,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     public void handleDialogClose(String newName) {
         deckName.setText(newName);
-        Toast.makeText(this, "przeladowanie tytulu", Toast.LENGTH_SHORT).show();
+        //flashcards = flashcardsOnlyWrong;
+        Toast.makeText(this, "przeladowanie tytulu i fiszek", Toast.LENGTH_SHORT).show();
     }
 }

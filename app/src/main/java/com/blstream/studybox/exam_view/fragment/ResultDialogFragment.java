@@ -64,12 +64,10 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     private int correctAnswers;
     private int noOfQuestions;
-    //private String deckId;
-    //private String deckName;
-    //private List<Card> flashcardsOnlyWrong;
+    private List<Card> flashcardsOnlyWrong;
     private Activity activity;
 
-    //TODO zamianst noOfQuestion to mozna pobrac z flashcardsOnlyWrong
+
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
         Bundle args = new Bundle();
