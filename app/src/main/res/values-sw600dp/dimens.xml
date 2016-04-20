@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Exam dimentions -->
+    <dimen name="exam_small_text">25sp</dimen>
+    <dimen name="exam_medium_text">27sp</dimen>
+    <dimen name="exam_large_text">34sp</dimen>
+    <dimen name="result_button_width">400dp</dimen>
+    <dimen name="result_button_height">100dp</dimen>
+    <dimen name="empty_box_size">256dp</dimen>
+</resources>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrey"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/congrats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/exam_element_bottom_margin"
+                android:gravity="center"
+                android:text="@string/congrats"
+                android:textSize="@dimen/exam_title_text" />
+
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/your_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/exam_element_margin"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/your_score"
+                android:textSize="@dimen/exam_medium_text" />
+
+            <TextView
+                android:id="@+id/total_score"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/exam_element_bottom_margin"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="@dimen/exam_large_text" />
+
+            <Button
+                android:id="@+id/my_decks"
+                android:layout_width="@dimen/result_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/your_score_bottom_margin"
+                android:background="@color/colorGraphiteVeryLight"
+                android:gravity="center"
+                android:text="@string/my_decks"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                android:textSize="@dimen/exam_medium_text" />
+
+            <Button
+                android:id="@+id/improve_result"
+                android:layout_width="@dimen/result_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/your_score_bottom_margin"
+                android:background="@color/colorGraphiteVeryLight"
+                android:gravity="center"
+                android:text="@string/improve_result"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                android:textSize="@dimen/exam_medium_text" />
+
+            <Button
+                android:id="@+id/improve_only_wrong"
+                android:layout_width="@dimen/result_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/colorGraphiteVeryLight"
+                android:gravity="center"
+                android:text="@string/improve_only_wrong"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey"
+                android:textSize="@dimen/exam_medium_text" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
