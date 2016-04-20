@@ -10,21 +10,22 @@ import java.util.List;
 
 public class CardsProvider implements Parcelable {
 
-    private final List<Card> flashcards;
+    private static final String TAG_PROMPT = "PROMPT";
+    private List<Card> flashcards;
     private Card currentCard;
     private Card laterCard;
-    private final int preloadImageCount;
+    private int preloadImageCount;
     private int position;
     private String[] answers;
     private String[] questions;
-    private final String prompt;
+    private String prompt;
 
     public CardsProvider(List<Card> flashcards, int preloadImageCount) {
         this.flashcards = flashcards;
         this.preloadImageCount = preloadImageCount;
         answers = new String[preloadImageCount];
         questions = new String[preloadImageCount];
-        prompt = "PROMPT";
+        prompt = TAG_PROMPT;
         setFirstImages();
     }
 
@@ -60,6 +61,13 @@ public class CardsProvider implements Parcelable {
             answers[i] = card.getAnswer();
             questions[i] = card.getQuestion();
         }
+    }
+
+    public void changeFlashcards(List<Card> flashcards, int preloadImageCount){
+        this.flashcards = flashcards;
+        this.preloadImageCount = preloadImageCount;
+        setFirstImages();
+        prompt = TAG_PROMPT;
     }
 
     public String[] getFirstAnswers() {

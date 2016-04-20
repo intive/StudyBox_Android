@@ -21,7 +21,7 @@ public class DeckPagerAdapter extends FragmentPagerAdapter {
     private static final String TAG_IMAGE_TEXT_DISPLAY = "imageTextDisplay";
     private static final String TAG_INSTANCE_STATE = "instanceState";
     private static final int MAX_PRELOAD_IMAGE_COUNT = 4;
-    private final List<Card> flashcards;
+    private List<Card> flashcards;
     private QuestionFragment questionFragment;
     private AnswerFragment answerFragment;
     private ImageTextDisplay imgTxtDisplay;
@@ -88,6 +88,13 @@ public class DeckPagerAdapter extends FragmentPagerAdapter {
         imgTxtDisplay.setImgIndexes(cardsProvider.getPosition());
         answerFragment.initOnRestart();
         questionFragment.initOnRestart();
+    }
+
+    public void changeFlashcards(List<Card> flashcards){
+        this.flashcards = flashcards;
+        setPreloadImageCount(preloadImageCount);
+        cardsProvider.changeFlashcards(flashcards, preloadImageCount);
+        imgTxtDisplay.setPreloadImageCount(preloadImageCount);
     }
 
     @Override

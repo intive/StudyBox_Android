@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 public class ImageTextDisplay implements Parcelable {
 
-    private final int preloadImageCount;
+    private int preloadImageCount;
     private int prevIndex;
     private int index;
     private final int height;
@@ -105,6 +105,10 @@ public class ImageTextDisplay implements Parcelable {
     public void setImgIndexes(int position){
         index = (position) % preloadImageCount;
         prevIndex = (position - 1) % preloadImageCount;
+    }
+
+    public void setPreloadImageCount(int preloadImageCount){
+        this.preloadImageCount = preloadImageCount;
     }
 
     private void showText(String currentData, TextView tv, ImageView[] imageTab){
