@@ -17,6 +17,7 @@ public class RestClient {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setConverter(new GsonConverter(new GsonBuilder()
                         .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+                        .excludeFieldsWithoutExposeAnnotation()
                         .serializeNulls()
                         .create()))
                 .setEndpoint(URL)

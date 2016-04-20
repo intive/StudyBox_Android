@@ -22,7 +22,6 @@
     <string name="action_settings">Settings</string>
     <string name="default_username">Niezalogowany</string>
 
-    <string name="title_activity_login">LoginActivity</string>
     <string name="email">E-MAIL</string>
     <string name="password">HASŁO</string>
     <string name="repeat_password">POWTÓRZ HASŁO</string>
@@ -32,12 +31,16 @@
     <string name="sign_up_button">Zarejestruj</string>
     <string name="image_description">Studybox Logo</string>
     <string name="auth_error">Błędne hasło bądź nazwa użytkownika</string>
+    <string name="account_exist">Konto już istnieje</string>
     <string name="invalid_email">Niepoprawny e-mail!</string>
     <string name="invalid_password">Niepoprawne hasło!</string>
+    <string name="invalid_password_whitespaces">Niepoprawne hasło. Nie można użyć w haśle białych znaków!</string>
     <string name="empty_field">Wypełnij pole!</string>
     <string name="network_error">Serwer niedostępny</string>
     <string name="unexpected_error">Nieoczekiwany błąd</string>
     <string name="too_short_password">Hasło jest zbyt krótkie</string>
+    <string name="inconsistent_passwords">Hasła nie są jednakowe</string>
+    <string name="set_obligatory_field">Wypełnij obligatoryjne pole!</string>
 
     <string name="title_activity_exam">ExamActivity</string>
     <string name="deck_name">Matematyka</string>
@@ -54,6 +57,7 @@
     <string name="your_score">Twój wynik</string>
     <string name="my_decks">Moje talie</string>
     <string name="improve_result">Popraw wynik</string>
+    <string name="improve_only_wrong">Test z najgorszych</string>
     <string name="empty_deck">Pusta talia</string>
     <string name="no_decks">Brak talii</string>
 
@@ -63,7 +67,8 @@
     <string name="deck_data_key">DECK</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="cancel">ANULUJ</string>
-
-
+    <string name="empty_deck_info">Pusta talia!</string>
+    <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
+    <string name="add_flashcard">Dodaj fiszki</string>
 
 </resources>

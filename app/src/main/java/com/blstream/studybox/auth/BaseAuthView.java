@@ -1,12 +1,13 @@
-package com.blstream.studybox.login_view;
+package com.blstream.studybox.auth;
 
 import android.content.Context;
 
 import com.hannesdorfmann.mosby.mvp.MvpView;
 
-public interface LoginView extends MvpView {
+public interface BaseAuthView extends MvpView {
 
-    void showLoginForm();
+    Context getContext();
+    void showForm();
     void showAuthError();
     void showNetworkError();
     void showUnexpectedError();
@@ -16,6 +17,4 @@ public interface LoginView extends MvpView {
     void showInvalidPasswordError();
     void showTooShortPasswordError();
     void showLoading();
-    void loginSuccessful();
-    Context getContext();
 }

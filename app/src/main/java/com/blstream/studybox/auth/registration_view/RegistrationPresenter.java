@@ -1,18 +1,20 @@
-package com.blstream.studybox.login_view;
+package com.blstream.studybox.auth.registration_view;
 
-import com.blstream.studybox.login.CredentialValidator;
-import com.blstream.studybox.login.LoginManager;
-import com.blstream.studybox.login.ValidatorListener;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
+import com.blstream.studybox.auth.login.CredentialValidator;
+import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
 
-public class LoginPresenter extends MvpBasePresenter<LoginView> {
+/**
+ * Created by Marek Macko on 12.04.2016.
+ */
+public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 
     public void validateCredential(AuthCredentials credentials) {
 
@@ -20,10 +22,24 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
             getView().showLoading();
         }
 
-        CredentialValidator validator = new CredentialValidator(credentials, new ValidatorListener() {
+        CredentialValidator validator = new CredentialValidator(credentials, new RegistrationValidatorListener() {
             @Override
             public void onSuccess(AuthCredentials credentials) {
-                authenticate(credentials);
+                signUp(credentials);
+            }
+
+            @Override
+            public void onShowEmptyRepeatPasswordError() {
+                if (isViewAttached()) {
+                    getView().showEmptyRepeatPasswordError();
+                }
+            }
+
+            @Override
+            public void onPasswordsInconsistent() {
+                if (isViewAttached()) {
+                    getView().showPasswordInconsistent();
+                }
             }
 
             @Override
@@ -32,7 +48,6 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     getView().showEmptyEmailError();
                 }
             }
-
             @Override
             public void onPasswordFieldEmpty() {
                 if (isViewAttached()) {
@@ -65,7 +80,22 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         validator.validate();
     }
 
-    protected void authenticate(final AuthCredentials credentials) {
+    private void signUp(final AuthCredentials credentials) {
+        RestClientManager.signUp(credentials,
+                new RequestCallback<>(new RequestListener<AuthCredentials>() {
+                    @Override
+                    public void onSuccess(AuthCredentials response) {
+                        authenticate(credentials);
+                    }
+
+                    @Override
+                    public void onFailure(RetrofitError error) {
+                        showError(error);
+                    }
+                }));
+    }
+
+    private void authenticate(final AuthCredentials credentials) {
         RestClientManager.authenticate(new AuthRequestInterceptor(credentials),
                 new RequestCallback<>(new RequestListener<AuthCredentials>() {
                     @Override
@@ -81,21 +111,25 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
                     @Override
                     public void onFailure(RetrofitError error) {
-                        if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                            if (isViewAttached()) {
-                                getView().showNetworkError();
-                            }
-                        } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
-                            if (isViewAttached()) {
-                                getView().showAuthError();
-                            }
-                        } else {
-                            if (isViewAttached()) {
-                                getView().showUnexpectedError();
-                            }
-                        }
+                        showError(error);
                     }
                 })
         );
+    }
+
+    private void showError(RetrofitError error) {
+        if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+            if (isViewAttached()) {
+                getView().showNetworkError();
+            }
+        } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
+            if (isViewAttached()) {
+                getView().showAuthError();
+            }
+        } else {
+            if (isViewAttached()) {
+                getView().showUnexpectedError();
+            }
+        }
     }
 }

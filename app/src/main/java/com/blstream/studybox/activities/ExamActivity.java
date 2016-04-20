@@ -34,10 +34,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String> {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
 
     private static final String TAG_RESULT = "result";
     private static final String TAG_DECK_NAME = "deckName";
@@ -46,6 +47,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private static final String TAG_CARDS_COUNTER = "cardsCounter";
     private static final String TAG_NO_OF_QUESTIONS = "noOfQuestions";
     private static final String TAG_FLASHCARDS = "flashcards";
+    private static final String TAG_FLASHCARDS_ALL = "flashcardsAll";
+    private static final String TAG_FLASHCARDS_ONLY_WRONG = "flashcardsOnlyWrong";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
@@ -85,10 +88,13 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private int correctAnswersCounter;
     private Integer noOfQuestions;
     private List<Card> flashcards;
+    private List<Card> flashcardsAll;
+    private List<Card> flashcardsOnlyWrong;
     private DrawerAdapter drawerAdapter;
     private String deckTitle;
     private String deckId;
     private Bundle savedState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +103,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         initPreDownloadView();
         savedState = savedInstanceState;
         checkSavedState();
+
+
+     //   downloadFlashcards();
     }
 
     private void checkSavedState(){
@@ -104,6 +113,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
             Bundle extras = getIntent().getExtras();
             deckTitle = extras.getString(TAG_DECK_NAME);
             deckId = extras.getString(TAG_DECK_ID);
+            flashcardsOnlyWrong = new ArrayList<>();
+            flashcardsAll = new ArrayList<>();
 
             downloadFlashcards();
         } else {
@@ -113,6 +124,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
             cardsCounter = savedState.getInt(TAG_CARDS_COUNTER);
             noOfQuestions = savedState.getInt(TAG_NO_OF_QUESTIONS);
             flashcards = savedState.getParcelableArrayList(TAG_FLASHCARDS);
+            flashcardsAll = savedState.getParcelableArrayList(TAG_FLASHCARDS_ALL);
+            flashcardsOnlyWrong = savedState.getParcelableArrayList(TAG_FLASHCARDS_ONLY_WRONG);
 
             initView();
         }
@@ -134,12 +147,13 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         savedInstanceState.putInt(TAG_CARDS_COUNTER, cardsCounter);
         savedInstanceState.putInt(TAG_NO_OF_QUESTIONS, noOfQuestions);
         savedInstanceState.putParcelableArrayList(TAG_FLASHCARDS, (ArrayList<Card>) flashcards);
+        savedInstanceState.putParcelableArrayList(TAG_FLASHCARDS_ALL, (ArrayList<Card>) flashcardsAll);
+        savedInstanceState.putParcelableArrayList(TAG_FLASHCARDS_ONLY_WRONG, (ArrayList<Card>) flashcardsOnlyWrong);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     private void initView() {
         if (flashcards.size() != 0) {
-            emptyDeck.setVisibility(View.GONE);
             setUpTextToViews();
             setUpPagerAdapter();
         } else {
@@ -157,7 +171,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void setUpPagerAdapter() {
         adapterViewPager =
                 new DeckPagerAdapter(getSupportFragmentManager(), flashcards, PRE_LOAD_IMAGE_COUNT, this);
-            viewPager.setAdapter(adapterViewPager);
+        viewPager.setAdapter(adapterViewPager);
     }
 
     private void setUpEnterTransition() {
@@ -219,12 +233,15 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void updateCorrectAnswersCounter(boolean addCorrectAnswer) {
         if (addCorrectAnswer) {
             correctAnswersCounter++;
+        } else {
+            flashcardsOnlyWrong.add(flashcards.get(cardsCounter - 1));
         }
     }
 
     private void setInitialValues() {
         cardsCounter = 1;
         correctAnswersCounter = 0;
+        noOfQuestions = flashcards.size();
     }
 
     private void setFirstCard() {
@@ -271,9 +288,21 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         }
     }
 
+    @OnClick(R.id.add_flashcards_button)
+    public void addFlashcards(View view) {
+        //we'll navigate to class responsible for adding flashcards from here
+        finish();
+    }
+
+    @OnClick(R.id.my_decks_button)
+    public void backToMyDecks(View view) {
+        finish();
+    }
+
     @Override
     public void onSuccess(String response) {
         flashcards = dataHelper.getFlashcards();
+        flashcardsAll = new ArrayList<>(flashcards);
         setUpVariables();
         initView();
         if (savedState == null) {
@@ -318,5 +347,21 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-}
 
+    @Override
+    public void handleImproveOnlyWrong() {
+        reloadFlashcardsFromList(flashcardsOnlyWrong);
+    }
+
+    @Override
+    public void handleImproveAll() {
+        reloadFlashcardsFromList(flashcardsAll);
+    }
+
+    private void reloadFlashcardsFromList(List<Card> reloadedFlashcards){
+        flashcards = new ArrayList<>(reloadedFlashcards);
+        flashcardsOnlyWrong.clear();
+        adapterViewPager.changeFlashcards(flashcards);
+        restartExam();
+    }
+}
