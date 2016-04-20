@@ -114,12 +114,12 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
         void handleImproveAll();
     }
 
-    public void onDismissImproveOnlyWrong() {
+    private void onDismissImproveOnlyWrong() {
         if (activity instanceof CloseResultDialogFragmentListener)
             ((CloseResultDialogFragmentListener) activity).handleImproveOnlyWrong();
     }
 
-    public void onDismissImproveAll() {
+    private void onDismissImproveAll() {
         if (activity instanceof CloseResultDialogFragmentListener)
             ((CloseResultDialogFragmentListener) activity).handleImproveAll();
     }

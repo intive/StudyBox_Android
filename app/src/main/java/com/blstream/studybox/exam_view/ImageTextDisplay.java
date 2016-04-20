@@ -30,7 +30,7 @@ public class ImageTextDisplay implements Parcelable {
         width = displaymetrics.widthPixels;
     }
 
-    protected ImageTextDisplay(Parcel in) {
+    private ImageTextDisplay(Parcel in) {
         preloadImageCount = in.readInt();
         prevIndex = in.readInt();
         index = in.readInt();
@@ -84,7 +84,7 @@ public class ImageTextDisplay implements Parcelable {
         tv.setText(text);
     }
 
-    public void initPreloadImages(
+    private void initPreloadImages(
             String[] imgToLoad, ImageView[] imageTab, Activity activity){
         for (int i = 0; i < preloadImageCount; i++) {
             imageTab[i].setVisibility(View.INVISIBLE);
