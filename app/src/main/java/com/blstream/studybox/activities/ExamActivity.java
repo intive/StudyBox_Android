@@ -3,7 +3,6 @@ package com.blstream.studybox.activities;
 import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -30,6 +29,7 @@ import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Card;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -40,6 +40,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String> {
 
     private static final String TAG_RESULT = "result";
+    private static final String TAG_DECK_NAME = "deckName";
+    private static final String TAG_DECK_ID = "deckId";
+    private static final String TAG_CORRECT_ANSWERS_COUNTER = "correctAnswersCounter";
+    private static final String TAG_CARDS_COUNTER = "cardsCounter";
+    private static final String TAG_NO_OF_QUESTIONS = "noOfQuestions";
+    private static final String TAG_FLASHCARDS = "flashcards";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
@@ -75,7 +81,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     LinearLayout emptyDeck;
 
     private DeckPagerAdapter adapterViewPager;
-    private int cardCounter;
+    private int cardsCounter;
     private int correctAnswersCounter;
     private Integer noOfQuestions;
     private List<Card> flashcards;
@@ -89,11 +95,27 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
         initPreDownloadView();
-        Intent i = getIntent();
-        deckTitle = i.getStringExtra("deckName");
-        deckId = i.getStringExtra("deckId");
         savedState = savedInstanceState;
-        downloadFlashcards();
+        checkSavedState();
+    }
+
+    private void checkSavedState(){
+        if (savedState == null) {
+            Bundle extras = getIntent().getExtras();
+            deckTitle = extras.getString(TAG_DECK_NAME);
+            deckId = extras.getString(TAG_DECK_ID);
+
+            downloadFlashcards();
+        } else {
+            deckTitle = (String) savedState.getSerializable(TAG_DECK_NAME);
+            deckId = (String) savedState.getSerializable(TAG_DECK_ID);
+            correctAnswersCounter = savedState.getInt(TAG_CORRECT_ANSWERS_COUNTER);
+            cardsCounter = savedState.getInt(TAG_CARDS_COUNTER);
+            noOfQuestions = savedState.getInt(TAG_NO_OF_QUESTIONS);
+            flashcards = savedState.getParcelableArrayList(TAG_FLASHCARDS);
+
+            initView();
+        }
     }
 
     private void initPreDownloadView(){
@@ -102,6 +124,17 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setUpEnterTransition();
         setUpNavigationDrawer();
         emptyDeck.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(TAG_DECK_NAME, deckTitle);
+        savedInstanceState.putString(TAG_DECK_ID, deckId);
+        savedInstanceState.putInt(TAG_CORRECT_ANSWERS_COUNTER, correctAnswersCounter);
+        savedInstanceState.putInt(TAG_CARDS_COUNTER, cardsCounter);
+        savedInstanceState.putInt(TAG_NO_OF_QUESTIONS, noOfQuestions);
+        savedInstanceState.putParcelableArrayList(TAG_FLASHCARDS, (ArrayList<Card>) flashcards);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     private void initView() {
@@ -116,7 +149,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void setUpTextToViews() {
         deckName.setText(deckTitle);
-        questionNo.setText(getString(R.string.question_no, cardCounter));
+        questionNo.setText(getString(R.string.question_no, cardsCounter));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
     }
@@ -124,7 +157,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void setUpPagerAdapter() {
         adapterViewPager =
                 new DeckPagerAdapter(getSupportFragmentManager(), flashcards, PRE_LOAD_IMAGE_COUNT, this);
-        viewPager.setAdapter(adapterViewPager);
+            viewPager.setAdapter(adapterViewPager);
     }
 
     private void setUpEnterTransition() {
@@ -142,7 +175,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void setUpVariables() {
         noOfQuestions = flashcards.size();
-        cardCounter = 1;
+        cardsCounter = 1;
     }
 
     private void updateCard(boolean addCorrectAnswer) {
@@ -151,7 +184,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setCard() {
-        if (cardCounter - 1 == noOfQuestions) {
+        if (cardsCounter - 1 == noOfQuestions) {
             displayResult();
         } else {
             displayNextCard();
@@ -161,9 +194,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void displayNextCard() {
         viewPager.setCurrentItem(0, false);
         adapterViewPager.changeData();
-        questionNo.setText(getString(R.string.question_no, cardCounter));
+        questionNo.setText(getString(R.string.question_no, cardsCounter));
         correctAnswers.setText(getString(
-                R.string.correct_answers, (cardCounter - 1), noOfQuestions));
+                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
     }
 
     private void displayResult() {
@@ -180,7 +213,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void updateCounters(boolean addCorrectAnswer) {
         updateCorrectAnswersCounter(addCorrectAnswer);
-        cardCounter++;
+        cardsCounter++;
     }
 
     private void updateCorrectAnswersCounter(boolean addCorrectAnswer) {
@@ -190,7 +223,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setInitialValues() {
-        cardCounter = 1;
+        cardsCounter = 1;
         correctAnswersCounter = 0;
     }
 
@@ -256,6 +289,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
@@ -281,3 +319,4 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
+
