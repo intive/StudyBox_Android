@@ -3,7 +3,6 @@ package com.blstream.studybox.activities;
 import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -42,13 +41,21 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
 
     private static final String TAG_RESULT = "result";
+    private static final String TAG_DECK_NAME = "deckName";
+    private static final String TAG_DECK_ID = "deckId";
+    private static final String TAG_CORRECT_ANSWERS_COUNTER = "correctAnswersCounter";
+    private static final String TAG_CARDS_COUNTER = "cardsCounter";
+    private static final String TAG_NO_OF_QUESTIONS = "noOfQuestions";
+    private static final String TAG_FLASHCARDS = "flashcards";
+    private static final String TAG_FLASHCARDS_ALL = "flashcardsAll";
+    private static final String TAG_FLASHCARDS_ONLY_WRONG = "flashcardsOnlyWrong";
     private static final int PRE_LOAD_IMAGE_COUNT = 3;
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
 
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
     private DataHelper dataHelper = new DataHelper();
-
+    
 
     @Bind(R.id.correctAnswers)
     TextView correctAnswers;
@@ -72,7 +79,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     LinearLayout emptyDeck;
 
     private DeckPagerAdapter adapterViewPager;
-    private int cardCounter;
+    private int cardsCounter;
     private int correctAnswersCounter;
     private Integer noOfQuestions;
     private List<Card> flashcards;
@@ -88,17 +95,34 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
-        Intent i = getIntent();
-        deckTitle = i.getStringExtra("deckName");
-        deckId = i.getStringExtra("deckId");
         savedState = savedInstanceState;
-        initPreDownloadView();
-        flashcardsOnlyWrong = new ArrayList<>();
-        flashcardsAll = new ArrayList<>();
-        downloadFlashcards();
+        checkSavedState();
     }
 
-    private void initPreDownloadView() {
+    private void checkSavedState(){
+        if (savedState == null) {
+            Bundle extras = getIntent().getExtras();
+            deckTitle = extras.getString(TAG_DECK_NAME);
+            deckId = extras.getString(TAG_DECK_ID);
+            flashcardsOnlyWrong = new ArrayList<>();
+            flashcardsAll = new ArrayList<>();
+            initView();
+            downloadFlashcards();
+        } else {
+            deckTitle = (String) savedState.getSerializable(TAG_DECK_NAME);
+            deckId = (String) savedState.getSerializable(TAG_DECK_ID);
+            correctAnswersCounter = savedState.getInt(TAG_CORRECT_ANSWERS_COUNTER);
+            cardsCounter = savedState.getInt(TAG_CARDS_COUNTER);
+            noOfQuestions = savedState.getInt(TAG_NO_OF_QUESTIONS);
+            flashcards = savedState.getParcelableArrayList(TAG_FLASHCARDS);
+            flashcardsAll = savedState.getParcelableArrayList(TAG_FLASHCARDS_ALL);
+            flashcardsOnlyWrong = savedState.getParcelableArrayList(TAG_FLASHCARDS_ONLY_WRONG);
+            initView();
+            initFlashcardsView();
+        }
+    }
+
+    private void initView() {
         ButterKnife.bind(this);
         toolbar.setTitle(deckTitle);
         setSupportActionBar(toolbar);
@@ -107,7 +131,20 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         emptyDeck.setVisibility(View.GONE);
     }
 
-    private void initView() {
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(TAG_DECK_NAME, deckTitle);
+        savedInstanceState.putString(TAG_DECK_ID, deckId);
+        savedInstanceState.putInt(TAG_CORRECT_ANSWERS_COUNTER, correctAnswersCounter);
+        savedInstanceState.putInt(TAG_CARDS_COUNTER, cardsCounter);
+        savedInstanceState.putInt(TAG_NO_OF_QUESTIONS, noOfQuestions);
+        savedInstanceState.putParcelableArrayList(TAG_FLASHCARDS, (ArrayList<Card>) flashcards);
+        savedInstanceState.putParcelableArrayList(TAG_FLASHCARDS_ALL, (ArrayList<Card>) flashcardsAll);
+        savedInstanceState.putParcelableArrayList(TAG_FLASHCARDS_ONLY_WRONG, (ArrayList<Card>) flashcardsOnlyWrong);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    private void initFlashcardsView() {
         if (flashcards.size() != 0) {
             setUpTextToViews();
             setUpPagerAdapter();
@@ -118,7 +155,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void setUpTextToViews() {
         correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+                R.string.correct_answers, cardsCounter, noOfQuestions));
     }
 
     private void setUpPagerAdapter() {
@@ -142,7 +179,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void setUpVariables() {
         noOfQuestions = flashcards.size();
-        cardCounter = 1;
+        cardsCounter = 1;
     }
 
     private void updateCard(boolean addCorrectAnswer) {
@@ -151,7 +188,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setCard() {
-        if (cardCounter - 1 == noOfQuestions) {
+        if (cardsCounter - 1 == noOfQuestions) {
             displayResult();
         } else {
             displayNextCard();
@@ -162,7 +199,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         viewPager.setCurrentItem(0, false);
         adapterViewPager.changeData();
         correctAnswers.setText(getString(
-                R.string.correct_answers, (cardCounter - 1), noOfQuestions));
+                R.string.correct_answers, (cardsCounter), noOfQuestions));
     }
 
     private void displayResult() {
@@ -179,25 +216,26 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void updateCounters(boolean addCorrectAnswer) {
         updateCorrectAnswersCounter(addCorrectAnswer);
-        cardCounter++;
+        cardsCounter++;
     }
 
     private void updateCorrectAnswersCounter(boolean addCorrectAnswer) {
         if (addCorrectAnswer) {
             correctAnswersCounter++;
         } else {
-            flashcardsOnlyWrong.add(flashcards.get(cardCounter - 1));
+            flashcardsOnlyWrong.add(flashcards.get(cardsCounter - 1));
         }
     }
 
     private void setInitialValues() {
-        cardCounter = 1;
+        cardsCounter = 1;
         correctAnswersCounter = 0;
+        noOfQuestions = flashcards.size();
     }
 
     private void setFirstCard() {
         correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+                R.string.correct_answers, (cardsCounter), noOfQuestions));
         viewPager.setCurrentItem(0, false);
     }
 
@@ -254,7 +292,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         flashcards = dataHelper.getFlashcards();
         flashcardsAll = new ArrayList<>(flashcards);
         setUpVariables();
-        initView();
+        initFlashcardsView();
         if (savedState == null) {
             if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 setUpEnterAnimation();
@@ -265,6 +303,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     public void onFailure(RetrofitError error) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 
     @Override
@@ -306,7 +349,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void reloadFlashcardsFromList(List<Card> reloadedFlashcards){
         flashcards = new ArrayList<>(reloadedFlashcards);
         flashcardsOnlyWrong.clear();
-        setUpVariables();
-        initView();
+        adapterViewPager.changeFlashcards(flashcards);
+        restartExam();
     }
 }

@@ -47,7 +47,6 @@
         </activity>
         <activity
             android:name=".activities.ExamActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_exam"
             android:theme="@style/StudyBoxTheme">
         </activity>
