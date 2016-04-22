@@ -56,11 +56,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
     private DataHelper dataHelper = new DataHelper();
 
-    @Bind(R.id.deckName)
-    TextView deckName;
-
-    @Bind(R.id.questionNo)
-    TextView questionNo;
 
     @Bind(R.id.correctAnswers)
     TextView correctAnswers;
@@ -130,6 +125,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void initPreDownloadView(){
         ButterKnife.bind(this);
+        toolbar.setTitle(deckTitle);
         setSupportActionBar(toolbar);
         setUpEnterTransition();
         setUpNavigationDrawer();
@@ -159,8 +155,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setUpTextToViews() {
-        deckName.setText(deckTitle);
-        questionNo.setText(getString(R.string.question_no, cardsCounter));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
     }
@@ -205,7 +199,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private void displayNextCard() {
         viewPager.setCurrentItem(0, false);
         adapterViewPager.changeData();
-        questionNo.setText(getString(R.string.question_no, cardsCounter));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
     }
@@ -242,7 +235,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void setFirstCard() {
-        questionNo.setText(getString(R.string.question_no, 1));
         correctAnswers.setText(getString(
                 R.string.correct_answers, correctAnswersCounter, noOfQuestions));
         viewPager.setCurrentItem(0, false);

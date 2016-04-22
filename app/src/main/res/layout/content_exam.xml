@@ -17,19 +17,6 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/deckName"
-            android:gravity="center"
-            android:layout_margin="@dimen/exam_element_margin" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/questionNo"
-            android:gravity="center" />
-
         <android.support.v4.view.ViewPager
             android:id="@+id/vpPager"
             android:layout_width="wrap_content"
