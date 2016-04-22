@@ -63,13 +63,13 @@ public class AnswerFragment extends Fragment {
     private void checkSavedState(Bundle savedInstanceState, FrameLayout frameLayout){
         if (savedInstanceState == null) {
             answerImageTab = imageTextDisplay.init(frameLayout, tvAnswer,
-                    cardsProvider.getFirstAnswers(), activity);
+                    cardsProvider.getAnswersForPreload(), activity);
         } else {
             cardsProvider = savedInstanceState.getParcelable(TAG_CARDS_PROVIDER);
             imageTextDisplay = savedInstanceState.getParcelable(TAG_IMAGE_TEXT_DISPLAY);
             assert imageTextDisplay != null;
             answerImageTab = imageTextDisplay.init(frameLayout, tvAnswer,
-                    cardsProvider.getCurrentFewAnswers(), activity);
+                    cardsProvider.getAnswersForPreload(), activity);
         }
     }
 
@@ -88,7 +88,7 @@ public class AnswerFragment extends Fragment {
 
     public void initOnRestart() {
         imageTextDisplay.initOnRestart(answerImageTab, tvAnswer,
-                cardsProvider.getFirstAnswers(), activity);
+                cardsProvider.getAnswersForPreload(), activity);
     }
 
     public void changeData() {

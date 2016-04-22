@@ -7,8 +7,8 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
-import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.QuestionFragment;
 import com.blstream.studybox.model.database.Card;
@@ -110,15 +110,25 @@ public class DeckPagerAdapter extends FragmentPagerAdapter {
     public void restoreState(Parcelable state, ClassLoader classLoader) {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
-            answerFragment = (AnswerFragment) fragmentManager.findFragmentByTag(
-                    "android:switcher:" + R.id.vpPager + ":" + 1);
-            questionFragment = (QuestionFragment) fragmentManager.findFragmentByTag(
-                    "android:switcher:" + R.id.vpPager + ":" + 0);
             cardsProvider = bundle.getParcelable(TAG_CARDS_PROVIDER);
             imgTxtDisplay = bundle.getParcelable(TAG_IMAGE_TEXT_DISPLAY);
             super.restoreState(bundle.getParcelable(TAG_INSTANCE_STATE), classLoader);
             return;
         }
         super.restoreState(state, classLoader);
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        switch (position) {
+            case 0:
+                questionFragment = (QuestionFragment) fragment;
+                break;
+            case 1:
+                answerFragment = (AnswerFragment) fragment;
+                break;
+        }
+        return fragment;
     }
 }

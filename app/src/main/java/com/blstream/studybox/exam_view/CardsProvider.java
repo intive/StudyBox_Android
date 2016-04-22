@@ -16,17 +16,10 @@ public class CardsProvider implements Parcelable {
     private Card laterCard;
     private int preloadImageCount;
     private int position;
-    private String[] answers;
-    private String[] questions;
-    private String prompt;
 
     public CardsProvider(List<Card> flashcards, int preloadImageCount) {
         this.flashcards = flashcards;
         this.preloadImageCount = preloadImageCount;
-        answers = new String[preloadImageCount];
-        questions = new String[preloadImageCount];
-        prompt = TAG_PROMPT;
-        setFirstImages();
     }
 
     protected CardsProvider(Parcel in) {
@@ -35,9 +28,6 @@ public class CardsProvider implements Parcelable {
         laterCard = in.readParcelable(Card.class.getClassLoader());
         preloadImageCount = in.readInt();
         position = in.readInt();
-        answers = in.createStringArray();
-        questions = in.createStringArray();
-        prompt = in.readString();
     }
 
     public static final Creator<CardsProvider> CREATOR = new Creator<CardsProvider>() {
@@ -52,54 +42,33 @@ public class CardsProvider implements Parcelable {
         }
     };
 
-    private void setFirstImages() {
-        answers = new String[preloadImageCount];
-        questions = new String[preloadImageCount];
-        Card card;
-        for (int i = 0; i < preloadImageCount; i++) {
-            card = flashcards.get(i);
-            answers[i] = card.getAnswer();
-            questions[i] = card.getQuestion();
-        }
-    }
-
     public void changeFlashcards(List<Card> flashcards, int preloadImageCount){
         this.flashcards = flashcards;
         this.preloadImageCount = preloadImageCount;
-        setFirstImages();
-        prompt = TAG_PROMPT;
     }
 
-    public String[] getFirstAnswers() {
-        return answers;
-    }
-
-    public String[] getCurrentFewAnswers() {
-        String[] currentFewAnswers = new String[preloadImageCount];
+    public String[] getAnswersForPreload() {
+        String[] answersForPreload = new String[preloadImageCount];
         for (int i = 0; i < preloadImageCount; i++) {
             if (flashcards.size() > position + i) {
-                currentFewAnswers[i] = flashcards.get(position + i).getAnswer();
+                answersForPreload[i] = flashcards.get(position + i).getAnswer();
             }
         }
-        return currentFewAnswers;
+        return answersForPreload;
     }
 
-    public String[] getCurrentFewQuestions() {
-        String[] currentFewQuestions = new String[preloadImageCount];
+    public String[] getQuestionsForPreload() {
+        String[] questionsForPreload = new String[preloadImageCount];
         for (int i = 0; i < preloadImageCount; i++) {
             if (flashcards.size() > position + i) {
-                currentFewQuestions[i] = flashcards.get(position + i).getQuestion();
+                questionsForPreload[i] = flashcards.get(position + i).getQuestion();
             }
         }
-        return currentFewQuestions;
-    }
-
-    public String[] getFirstQuestions() {
-        return questions;
+        return questionsForPreload;
     }
 
     public String getFirstPrompt() {
-        return prompt;
+        return TAG_PROMPT;
     }
 
     private void updatePosition() {
@@ -111,7 +80,7 @@ public class CardsProvider implements Parcelable {
     }
 
     public String getNextPrompt() {
-        return prompt;
+        return TAG_PROMPT;
     }
 
     public String getNextAnswer() {
@@ -166,8 +135,5 @@ public class CardsProvider implements Parcelable {
         dest.writeParcelable(laterCard, flags);
         dest.writeInt(preloadImageCount);
         dest.writeInt(position);
-        dest.writeStringArray(answers);
-        dest.writeStringArray(questions);
-        dest.writeString(prompt);
     }
 }

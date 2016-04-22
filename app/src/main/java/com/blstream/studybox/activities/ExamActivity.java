@@ -103,9 +103,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         initPreDownloadView();
         savedState = savedInstanceState;
         checkSavedState();
-
-
-     //   downloadFlashcards();
     }
 
     private void checkSavedState(){

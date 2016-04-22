@@ -69,21 +69,21 @@ public class QuestionFragment extends Fragment {
         if (savedInstanceState == null) {
             prompt = cardsProvider.getFirstPrompt();
             questionImageTab = imgTxtDisplay.init(frameLayout, questionView,
-                    cardsProvider.getFirstQuestions(), activity);
+                    cardsProvider.getQuestionsForPreload(), activity);
         } else {
             cardsProvider = savedInstanceState.getParcelable(TAG_CARDS_PROVIDER);
             imgTxtDisplay = savedInstanceState.getParcelable(TAG_IMAGE_TEXT_DISPLAY);
             prompt = cardsProvider.getNextPrompt();
             assert imgTxtDisplay != null;
             questionImageTab = imgTxtDisplay.init(frameLayout, questionView,
-                    cardsProvider.getCurrentFewQuestions(), activity);
+                    cardsProvider.getQuestionsForPreload(), activity);
         }
     }
 
     public void initOnRestart(){
         this.prompt = cardsProvider.getFirstPrompt();
         imgTxtDisplay.initOnRestart(questionImageTab, questionView,
-                cardsProvider.getFirstQuestions(), activity);
+                cardsProvider.getQuestionsForPreload(), activity);
         setPromptView();
     }
 
