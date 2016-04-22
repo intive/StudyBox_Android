@@ -155,7 +155,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void setUpTextToViews() {
         correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+                R.string.correct_answers, cardsCounter, noOfQuestions));
     }
 
     private void setUpPagerAdapter() {
@@ -199,7 +199,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         viewPager.setCurrentItem(0, false);
         adapterViewPager.changeData();
         correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+                R.string.correct_answers, (cardsCounter), noOfQuestions));
     }
 
     private void displayResult() {
@@ -235,7 +235,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     private void setFirstCard() {
         correctAnswers.setText(getString(
-                R.string.correct_answers, correctAnswersCounter, noOfQuestions));
+                R.string.correct_answers, (cardsCounter), noOfQuestions));
         viewPager.setCurrentItem(0, false);
     }
 
