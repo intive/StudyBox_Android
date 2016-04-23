@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.activities.base.BaseAuthActivity;
 import com.blstream.studybox.auth.BaseAuthViewState;
 import com.blstream.studybox.auth.login_view.LoginPresenter;
 import com.blstream.studybox.auth.login_view.LoginView;

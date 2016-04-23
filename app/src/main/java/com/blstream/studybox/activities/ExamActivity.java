@@ -2,14 +2,12 @@ package com.blstream.studybox.activities;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.view.View;
@@ -19,8 +17,8 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
+import com.blstream.studybox.activities.base.BaseBasicActivity;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.database.DataHelper;
@@ -36,9 +34,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.RetrofitError;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
+public class ExamActivity extends BaseBasicActivity
+        implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
 
     private static final String TAG_RESULT = "result";
     private static final String TAG_DECK_NAME = "deckName";
@@ -53,7 +51,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
 
-    private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
     private DataHelper dataHelper = new DataHelper();
     
 
@@ -89,7 +86,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private String deckTitle;
     private String deckId;
     private Bundle savedState;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -311,29 +307,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(connectionStatusReceiver);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         drawerAdapter.detachDrawer();
-    }
-
-    /**
-     * Applies custom font to every activity that overrides this method
-     */
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override
