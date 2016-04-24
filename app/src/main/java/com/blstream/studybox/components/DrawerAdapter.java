@@ -31,6 +31,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Activity activity;
     private LoginManager login;
     private ActionBarDrawerToggle drawerToggle;
+    private Intent intent;
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -48,7 +49,11 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     public void attachDrawer() {
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.getMenu().findItem(R.id.login).setVisible(!login.isUserLoggedIn());
         navigationView.getMenu().findItem(R.id.logout).setVisible(login.isUserLoggedIn());
+        navigationView.getMenu().findItem(R.id.my_account).setVisible(login.isUserLoggedIn());
+        navigationView.getMenu().findItem(R.id.my_decks).setVisible(login.isUserLoggedIn());
+
         TextView userName = (TextView) navigationView.getHeaderView(HEADER_INDEX).findViewById(R.id.user_name);
         TextView userEmail = (TextView) navigationView.getHeaderView(HEADER_INDEX).findViewById(R.id.user_email);
         if (userName != null) {
@@ -76,11 +81,17 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         drawerLayout.closeDrawer(GravityCompat.START);
 
         switch (id) {
+            case R.id.login:
+                intent = new Intent(context, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(intent);
+                activity.finish();
+                break;
             case R.id.my_account:
                 break;
             case R.id.my_decks:
                 break;
-            case R.id.create_flashcard:
+            case R.id.create_deck:
                 break;
             case R.id.show_deck:
                 break;
@@ -88,7 +99,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
                 break;
             case R.id.logout:
                 login.deleteUser();
-                Intent intent = new Intent(context, LoginActivity.class);
+                intent = new Intent(context, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 activity.startActivity(intent);
                 activity.finish();

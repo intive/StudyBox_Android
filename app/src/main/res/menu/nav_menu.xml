@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/login"
+            android:icon="@drawable/ic_circle"
+            android:title="@string/nav_login" />
+        <item
             android:id="@+id/my_account"
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_my_account" />
@@ -11,9 +15,9 @@
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_my_decks" />
         <item
-            android:id="@+id/create_flashcard"
+            android:id="@+id/create_deck"
             android:icon="@drawable/ic_circle"
-            android:title="@string/nav_create_flashcard" />
+            android:title="@string/nav_create_deck" />
         <item
             android:id="@+id/show_deck"
             android:icon="@drawable/ic_circle"
@@ -26,6 +30,5 @@
             android:id="@+id/logout"
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_logout" />
-
     </group>
 </menu>
