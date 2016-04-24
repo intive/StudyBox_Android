@@ -11,6 +11,7 @@ import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
 
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -18,7 +19,9 @@ import retrofit.RetrofitError;
 public class DataHelper implements DataProvider {
     private List<Card> downloadedCards;
     private List<Decks> publicDecks;
+    private Decks randomDeck;
     private static final String DECKS_KEY = "decks";
+    private static final String RANDOM_DECK_KEY = "decks?random=true";
 
     @Override
     public List<Decks> getDecks() {
@@ -31,6 +34,10 @@ public class DataHelper implements DataProvider {
 
     public List<Decks> getPublicDecks() {
         return publicDecks;
+    }
+
+    public Decks getRandomDeck() {
+        return randomDeck;
     }
 
     public void downloadFlashcard(String deckId, final RequestListener<String> listener) {
@@ -73,6 +80,21 @@ public class DataHelper implements DataProvider {
             @Override
             public void onSuccess(List<Decks> response) {
                 publicDecks = response;
+                listener.onSuccess("New decks or nothing new");
+            }
+
+            @Override
+            public void onFailure(RetrofitError error) {
+                listener.onFailure(error);
+            }
+        }));
+    }
+
+    public void downloadRandomDeck(final RequestListener<String> listener) {
+        RestClientManager.getRandomDeck(RANDOM_DECK_KEY, new RequestCallback<>(new RequestListener<Decks>() {
+            @Override
+            public void onSuccess(Decks response) {
+                randomDeck = response;
                 listener.onSuccess("New decks or nothing new");
             }
 
