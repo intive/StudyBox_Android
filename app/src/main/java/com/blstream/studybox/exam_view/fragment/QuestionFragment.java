@@ -3,7 +3,7 @@ package com.blstream.studybox.exam_view.fragment;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +14,19 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 import com.blstream.studybox.exam_view.CardsProvider;
 import com.blstream.studybox.exam_view.ImageTextDisplay;
+import com.blstream.studybox.exam_view.QuestionPresenter;
+import com.blstream.studybox.exam_view.QuestionView;
+import com.blstream.studybox.exam_view.QuestionViewState;
+import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
+import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class QuestionFragment extends Fragment {
+public class QuestionFragment extends MvpViewStateFragment<QuestionView, QuestionPresenter>
+        implements QuestionView {
 
     private static final String TAG_CARDS_PROVIDER = "cardsProvider";
     private static final String TAG_IMAGE_TEXT_DISPLAY = "imageTextDisplay";
@@ -37,11 +43,25 @@ public class QuestionFragment extends Fragment {
     private String prompt;
     private Activity activity;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+    }
+
+    @Override @NonNull
+    public QuestionPresenter createPresenter() {
+        return new QuestionPresenter();
+    }
+
+    @Override @NonNull
+    public ViewState createViewState() {
+        return new QuestionViewState();
+    }
+
+    @Override
+    public void onNewViewStateInstance() {
+
     }
 
     @Override

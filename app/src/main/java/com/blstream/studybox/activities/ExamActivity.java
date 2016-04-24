@@ -2,6 +2,7 @@ package com.blstream.studybox.activities;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,11 +11,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
-import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
@@ -32,7 +31,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit.RetrofitError;
 
 public class ExamActivity extends BaseBasicActivity
@@ -71,9 +69,6 @@ public class ExamActivity extends BaseBasicActivity
 
     @Bind(R.id.content_exam)
     ViewGroup rootLayout;
-
-    @Bind(R.id.empty_deck)
-    LinearLayout emptyDeck;
 
     private DeckPagerAdapter adapterViewPager;
     private int cardsCounter;
@@ -124,7 +119,6 @@ public class ExamActivity extends BaseBasicActivity
         setSupportActionBar(toolbar);
         setUpEnterTransition();
         setUpNavigationDrawer();
-        emptyDeck.setVisibility(View.GONE);
     }
 
     @Override
@@ -145,7 +139,9 @@ public class ExamActivity extends BaseBasicActivity
             setUpTextToViews();
             setUpPagerAdapter();
         } else {
-            emptyDeck.setVisibility(View.VISIBLE);
+            Intent intent = new Intent(this, EmptyDeckActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -270,17 +266,6 @@ public class ExamActivity extends BaseBasicActivity
                 }
             });
         }
-    }
-
-    @OnClick(R.id.add_flashcards_button)
-    public void addFlashcards(View view) {
-        //we'll navigate to class responsible for adding flashcards from here
-        finish();
-    }
-
-    @OnClick(R.id.my_decks_button)
-    public void backToMyDecks(View view) {
-        finish();
     }
 
     @Override
