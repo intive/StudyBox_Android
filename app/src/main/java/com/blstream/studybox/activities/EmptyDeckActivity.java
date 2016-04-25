@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.activities.base.BaseBasicActivity;
+import com.blstream.studybox.base.BaseBasicActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

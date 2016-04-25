@@ -101,7 +101,7 @@ public class DeckPagerAdapter extends FragmentPagerAdapter {
     public Parcelable saveState() {
         Bundle bundle = new Bundle();
         bundle.putParcelable(TAG_INSTANCE_STATE, super.saveState());
-        bundle.putParcelable(TAG_CARDS_PROVIDER, cardsProvider);
+        //bundle.putParcelable(TAG_CARDS_PROVIDER, cardsProvider);
         bundle.putParcelable(TAG_IMAGE_TEXT_DISPLAY, imgTxtDisplay);
         return bundle;
     }

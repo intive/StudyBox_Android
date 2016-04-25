@@ -16,7 +16,7 @@ import com.blstream.studybox.exam_view.CardsProvider;
 import com.blstream.studybox.exam_view.ImageTextDisplay;
 import com.blstream.studybox.exam_view.QuestionPresenter;
 import com.blstream.studybox.exam_view.QuestionView;
-import com.blstream.studybox.exam_view.QuestionViewState;
+import com.blstream.studybox.exam_view.BaseQuestionViewState;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -31,22 +31,23 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     private static final String TAG_CARDS_PROVIDER = "cardsProvider";
     private static final String TAG_IMAGE_TEXT_DISPLAY = "imageTextDisplay";
 
-    @Bind(R.id.question)
-    TextView questionView;
-
-    @Bind(R.id.prompt)
-    TextView promptView;
-
     private ImageView[] questionImageTab;
     private ImageTextDisplay imgTxtDisplay;
     private CardsProvider cardsProvider;
     private String prompt;
     private Activity activity;
 
+    @Bind(R.id.question)
+    TextView questionView;
+
+    @Bind(R.id.prompt)
+    TextView promptView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+        setRetainInstance(true);
     }
 
     @Override @NonNull
@@ -56,7 +57,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
 
     @Override @NonNull
     public ViewState createViewState() {
-        return new QuestionViewState();
+        return new BaseQuestionViewState();
     }
 
     @Override
@@ -66,7 +67,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putParcelable(TAG_CARDS_PROVIDER,  cardsProvider);
+        //savedInstanceState.putParcelable(TAG_CARDS_PROVIDER,  cardsProvider);
         savedInstanceState.putParcelable(TAG_IMAGE_TEXT_DISPLAY, imgTxtDisplay);
         super.onSaveInstanceState(savedInstanceState);
     }

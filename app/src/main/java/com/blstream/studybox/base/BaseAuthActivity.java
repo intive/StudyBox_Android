@@ -1,4 +1,4 @@
-package com.blstream.studybox.activities.base;
+package com.blstream.studybox.base;
 
 import android.support.design.widget.TextInputEditText;
 

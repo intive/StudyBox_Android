@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/correctAnswers"
+            android:id="@+id/cardsNumber"
             android:gravity="center"
             android:layout_margin="@dimen/exam_element_margin"/>
     </LinearLayout>

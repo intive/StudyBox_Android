@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -17,24 +18,25 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.activities.base.BaseBasicActivity;
-import com.blstream.studybox.api.RequestListener;
+import com.blstream.studybox.base.BaseViewStateActivity;
 import com.blstream.studybox.components.DrawerAdapter;
-import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
+import com.blstream.studybox.exam_view.ExamPresenter;
+import com.blstream.studybox.exam_view.ExamView;
+import com.blstream.studybox.exam_view.ExamViewState;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
 import com.blstream.studybox.model.database.Card;
+import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.RetrofitError;
 
-public class ExamActivity extends BaseBasicActivity
-        implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
+public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
+        implements ExamView, AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, ResultDialogFragment.CloseResultDialogFragmentListener {
 
     private static final String TAG_RESULT = "result";
     private static final String TAG_DECK_NAME = "deckName";
@@ -49,11 +51,8 @@ public class ExamActivity extends BaseBasicActivity
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
 
-    private DataHelper dataHelper = new DataHelper();
-    
-
-    @Bind(R.id.correctAnswers)
-    TextView correctAnswers;
+    @Bind(R.id.cardsNumber)
+    TextView cardsNumber;
 
     @Bind(R.id.vpPager)
     ViewPager viewPager;
@@ -86,6 +85,7 @@ public class ExamActivity extends BaseBasicActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+        setRetainInstance(true);
         savedState = savedInstanceState;
         checkSavedState();
     }
@@ -95,21 +95,21 @@ public class ExamActivity extends BaseBasicActivity
             Bundle extras = getIntent().getExtras();
             deckTitle = extras.getString(TAG_DECK_NAME);
             deckId = extras.getString(TAG_DECK_ID);
-            flashcardsOnlyWrong = new ArrayList<>();
-            flashcardsAll = new ArrayList<>();
+            //flashcardsOnlyWrong = new ArrayList<>();
+            //flashcardsAll = new ArrayList<>();
             initView();
-            downloadFlashcards();
+            //downloadFlashcards();
         } else {
             deckTitle = (String) savedState.getSerializable(TAG_DECK_NAME);
             deckId = (String) savedState.getSerializable(TAG_DECK_ID);
-            correctAnswersCounter = savedState.getInt(TAG_CORRECT_ANSWERS_COUNTER);
-            cardsCounter = savedState.getInt(TAG_CARDS_COUNTER);
-            noOfQuestions = savedState.getInt(TAG_NO_OF_QUESTIONS);
-            flashcards = savedState.getParcelableArrayList(TAG_FLASHCARDS);
-            flashcardsAll = savedState.getParcelableArrayList(TAG_FLASHCARDS_ALL);
-            flashcardsOnlyWrong = savedState.getParcelableArrayList(TAG_FLASHCARDS_ONLY_WRONG);
+            //correctAnswersCounter = savedState.getInt(TAG_CORRECT_ANSWERS_COUNTER);
+            //cardsCounter = savedState.getInt(TAG_CARDS_COUNTER);
+            //noOfQuestions = savedState.getInt(TAG_NO_OF_QUESTIONS);
+            //flashcards = savedState.getParcelableArrayList(TAG_FLASHCARDS);
+            //flashcardsAll = savedState.getParcelableArrayList(TAG_FLASHCARDS_ALL);
+            //flashcardsOnlyWrong = savedState.getParcelableArrayList(TAG_FLASHCARDS_ONLY_WRONG);
             initView();
-            initFlashcardsView();
+            //initFlashcardsView();
         }
     }
 
@@ -134,19 +134,53 @@ public class ExamActivity extends BaseBasicActivity
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    @NonNull
+    @Override
+    public ExamPresenter createPresenter() {
+        return new ExamPresenter();
+    }
+
+    @NonNull
+    @Override
+    public ViewState<ExamView> createViewState() {
+        return new ExamViewState();
+    }
+
+    @Override
+    public void onNewViewStateInstance() {
+        presenter.getFlashcards(deckId);
+        setupAnimation();
+    }
+
+    @Override
+    public void showCardCounter(int currentCard, int totalCards) {
+        cardsNumber.setText(getString(R.string.correct_answers, currentCard, totalCards));
+    }
+
+    @Override
+    public void startEmptyDeckActivity() {
+        Intent intent = new Intent(this, EmptyDeckActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    protected void setupAnimation() {
+        if (!isRestoringViewState()) {
+            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                setUpEnterAnimation();
+            }
+        }
+    }
+
     private void initFlashcardsView() {
         if (flashcards.size() != 0) {
             setUpTextToViews();
             setUpPagerAdapter();
-        } else {
-            Intent intent = new Intent(this, EmptyDeckActivity.class);
-            startActivity(intent);
-            finish();
         }
     }
 
     private void setUpTextToViews() {
-        correctAnswers.setText(getString(
+        cardsNumber.setText(getString(
                 R.string.correct_answers, cardsCounter, noOfQuestions));
     }
 
@@ -190,7 +224,7 @@ public class ExamActivity extends BaseBasicActivity
     private void displayNextCard() {
         viewPager.setCurrentItem(0, false);
         adapterViewPager.changeData();
-        correctAnswers.setText(getString(
+        cardsNumber.setText(getString(
                 R.string.correct_answers, (cardsCounter), noOfQuestions));
     }
 
@@ -226,8 +260,7 @@ public class ExamActivity extends BaseBasicActivity
     }
 
     private void setFirstCard() {
-        correctAnswers.setText(getString(
-                R.string.correct_answers, (cardsCounter), noOfQuestions));
+        //cardsNumber.setText(getString(R.string.correct_answers, (cardsCounter), noOfQuestions));
         viewPager.setCurrentItem(0, false);
     }
 
@@ -239,10 +272,6 @@ public class ExamActivity extends BaseBasicActivity
     @Override
     public void onResultShow() {
         restartExam();
-    }
-
-    private void downloadFlashcards() {
-        dataHelper.downloadFlashcard(deckId, this);
     }
 
     private void setUpEnterAnimation() {
@@ -266,24 +295,6 @@ public class ExamActivity extends BaseBasicActivity
                 }
             });
         }
-    }
-
-    @Override
-    public void onSuccess(String response) {
-        flashcards = dataHelper.getFlashcards();
-        flashcardsAll = new ArrayList<>(flashcards);
-        setUpVariables();
-        initFlashcardsView();
-        if (savedState == null) {
-            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                setUpEnterAnimation();
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(RetrofitError error) {
-
     }
 
     @Override

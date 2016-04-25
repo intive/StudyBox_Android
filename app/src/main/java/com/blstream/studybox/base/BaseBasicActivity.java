@@ -1,25 +1,21 @@
-package com.blstream.studybox.activities.base;
+package com.blstream.studybox.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
-import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import com.hannesdorfmann.mosby.mvp.MvpView;
-import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class BaseViewStateActivity<V extends MvpView, P extends MvpBasePresenter<V>>
-        extends MvpViewStateActivity<V, P> {
+public abstract class BaseBasicActivity extends AppCompatActivity {
 
     protected ConnectionStatusReceiver connectionStatusReceiver;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectionStatusReceiver = new ConnectionStatusReceiver();
-        setRetainInstance(true);
     }
 
     @Override
