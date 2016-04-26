@@ -1,14 +1,14 @@
 package com.blstream.studybox.exam_view;
 
-import com.blstream.studybox.api.RequestListener;
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.debugger.DebugHelper;
+import com.blstream.studybox.events.CorrectAnswerEvent;
+import com.blstream.studybox.events.WrongAnswerEvent;
 import com.blstream.studybox.model.database.Card;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import retrofit.RetrofitError;
+import java.util.List;
 
 public class ExamPresenter extends MvpBasePresenter<ExamView> {
 
@@ -19,36 +19,52 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     protected CardsProvider cardsProvider;
 
     public void getFlashcards(String deckId) {
-
-        final DataHelper dataHelper = new DataHelper();
-        dataHelper.downloadFlashcard(deckId, new RequestListener<String>() {
-            @Override
-            public void onSuccess(String response) {
-                flashcards = dataHelper.getFlashcards();
-                DebugHelper.logString("downloaded flashcards");
-            }
-
-            @Override
-            public void onFailure(RetrofitError error) {
-
-            }
-        });
-
-        cardsProvider = new CardsProvider(flashcards);
+        cardsProvider = new CardsProvider(deckId);
         setCardsNumber(FIRST_CARD_NUMBER);
     }
 
     protected void setCardsNumber(int firstCard) {
-        totalCards = flashcards.size();
+        totalCards = cardsProvider.getTotalCardsNumber();
         if (totalCards <= 0) {
             if (isViewAttached()) {
+                // TODO move this to exam view when number of flashcards will be provided by backend
                 getView().startEmptyDeckActivity();
             }
         } else {
             currentCard = firstCard;
             if (isViewAttached()) {
-                getView().showCardCounter(currentCard, totalCards);
+                getView().setCardCounter(currentCard, totalCards);
             }
         }
+    }
+
+    @Subscribe
+    public void onCorrectAnswerEvent(CorrectAnswerEvent event) {
+        updateCardCounter();
+    }
+
+    @Subscribe
+    public void onWrongAnswerEvent(WrongAnswerEvent event) {
+        updateCardCounter();
+    }
+
+    protected void updateCardCounter() {
+        currentCard = cardsProvider.getCurrentCardNumber();
+        totalCards = cardsProvider.getTotalCardsNumber();
+        if (isViewAttached()) {
+            getView().setCardCounter(currentCard, totalCards);
+        }
+    }
+
+    @Override
+    public void attachView(ExamView view) {
+        super.attachView(view);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void detachView(boolean retainInstance) {
+        super.detachView(retainInstance);
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -1,87 +1,83 @@
 package com.blstream.studybox.exam_view;
 
+import com.blstream.studybox.api.RequestListener;
+import com.blstream.studybox.database.DataHelper;
+import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.model.database.Card;
+import com.blstream.studybox.model.database.Tip;
 
 import java.util.List;
+
+import retrofit.RetrofitError;
 
 public class CardsProvider {
 
     private static final String TAG_PROMPT = "PROMPT";
     private List<Card> flashcards;
+    private List<Tip> prompts;
     private Card currentCard;
-    private Card laterCard;
-    private int preloadImageCount;
     private int position;
+
+    public CardsProvider(String deckId) {
+        downloadCards(deckId);
+        position = 0;
+    }
 
     public CardsProvider(List<Card> flashcards) {
         this.flashcards = flashcards;
+        position = 0;
     }
 
-    public CardsProvider(List<Card> flashcards, int preloadImageCount) {
-        this.flashcards = flashcards;
-        this.preloadImageCount = preloadImageCount;
-    }
-
-    public void changeFlashcards(List<Card> flashcards, int preloadImageCount){
-        this.flashcards = flashcards;
-        this.preloadImageCount = preloadImageCount;
-    }
-
-    public String[] getAnswersForPreload() {
-        String[] answersForPreload = new String[preloadImageCount];
-        for (int i = 0; i < preloadImageCount; i++) {
-            if (flashcards.size() > position + i) {
-                answersForPreload[i] = flashcards.get(position + i).getAnswer();
+    private void downloadCards(String deckId) {
+        final DataHelper dataHelper = new DataHelper();
+        dataHelper.downloadFlashcard(deckId, new RequestListener<String>() {
+            @Override
+            public void onSuccess(String response) {
+                flashcards = dataHelper.getFlashcards();
+                DebugHelper.logString("downloaded flashcards");
             }
-        }
-        return answersForPreload;
-    }
 
-    public String[] getQuestionsForPreload() {
-        String[] questionsForPreload = new String[preloadImageCount];
-        for (int i = 0; i < preloadImageCount; i++) {
-            if (flashcards.size() > position + i) {
-                questionsForPreload[i] = flashcards.get(position + i).getQuestion();
+            @Override
+            public void onFailure(RetrofitError error) {
+
             }
-        }
-        return questionsForPreload;
+        });
     }
 
-    public String getFirstPrompt() {
-        return TAG_PROMPT;
+    private void downloadPrompts(String deckId, String cardId) {
+
     }
 
-    private void updatePosition() {
-        position++;
+    public int getTotalCardsNumber() {
+        return flashcards.size();
     }
 
-    public String getNextQuestion() {
+    public int getCurrentCardNumber() {
+        return position + 1;
+    }
+
+    public Card getCurrentCard() {
+        return currentCard;
+    }
+
+    public String getQuestion() {
         return currentCard.getQuestion();
     }
 
-    public String getNextPrompt() {
+    // TODO only for testing, delete
+    public String getPrompt() {
         return TAG_PROMPT;
     }
 
-    public String getNextAnswer() {
+    public String getAnswer() {
         return currentCard.getAnswer();
     }
 
-    public String getLaterQuestion() {
-        if (laterCard == null) {
-            return null;
-        }
-        return laterCard.getQuestion();
+    public List<Tip> getPrompts() {
+        return prompts;
     }
 
-    public String getLaterAnswer() {
-        if (laterCard == null) {
-            return null;
-        }
-        return laterCard.getAnswer();
-    }
-
-    public void initOnRestart() {
+    public void resetPosition() {
         position = 0;
     }
 
@@ -89,17 +85,10 @@ public class CardsProvider {
         return position;
     }
 
-    public void changeCard() {
-        updatePosition();
-        if (flashcards.size() > position) {
-            setCards();
-        }
-    }
-
-    private void setCards() {
-        currentCard = flashcards.get(position);
-        if (flashcards.size() > position + preloadImageCount - 1) {
-            laterCard = flashcards.get(position + preloadImageCount - 1);
+    public void setNextCard() {
+        position++;
+        if (position < flashcards.size()) {
+            currentCard = flashcards.get(position);
         }
     }
 }

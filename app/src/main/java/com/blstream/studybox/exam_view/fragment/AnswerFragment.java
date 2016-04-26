@@ -39,13 +39,13 @@ public class AnswerFragment extends Fragment {
         activity = getActivity();
     }
 
-    @Override
+
+/*@Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putParcelable(TAG_CARDS_PROVIDER,  cardsProvider);
         savedInstanceState.putParcelable(TAG_IMAGE_TEXT_DISPLAY, imageTextDisplay);
         super.onSaveInstanceState(savedInstanceState);
-    }
-
+    }*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,14 +62,14 @@ public class AnswerFragment extends Fragment {
 
     private void checkSavedState(Bundle savedInstanceState, FrameLayout frameLayout){
         if (savedInstanceState == null) {
-            answerImageTab = imageTextDisplay.init(frameLayout, tvAnswer,
-                    cardsProvider.getAnswersForPreload(), activity);
+            /*answerImageTab = imageTextDisplay.init(frameLayout, tvAnswer,
+                    cardsProvider.getAnswersForPreload(), activity);*/
         } else {
             cardsProvider = savedInstanceState.getParcelable(TAG_CARDS_PROVIDER);
             imageTextDisplay = savedInstanceState.getParcelable(TAG_IMAGE_TEXT_DISPLAY);
             assert imageTextDisplay != null;
-            answerImageTab = imageTextDisplay.init(frameLayout, tvAnswer,
-                    cardsProvider.getAnswersForPreload(), activity);
+            /*answerImageTab = imageTextDisplay.init(frameLayout, tvAnswer,
+                    cardsProvider.getAnswersForPreload(), activity);*/
         }
     }
 
@@ -87,13 +87,13 @@ public class AnswerFragment extends Fragment {
     }
 
     public void initOnRestart() {
-        imageTextDisplay.initOnRestart(answerImageTab, tvAnswer,
-                cardsProvider.getAnswersForPreload(), activity);
+        /*imageTextDisplay.initOnRestart(answerImageTab, tvAnswer,
+                cardsProvider.getAnswersForPreload(), activity);*/
     }
 
     public void changeData() {
-        imageTextDisplay.changeData(cardsProvider.getNextAnswer(),
-                cardsProvider.getLaterAnswer(), tvAnswer, answerImageTab, activity);
+        /*imageTextDisplay.changeData(cardsProvider.getNextAnswer(),
+                cardsProvider.getLaterAnswer(), tvAnswer, answerImageTab, activity);*/
     }
 
     public void setVariables(ImageTextDisplay imageTextDisplay, CardsProvider cardsProvider) {

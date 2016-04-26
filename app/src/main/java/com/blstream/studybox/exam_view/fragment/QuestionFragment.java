@@ -88,31 +88,31 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
 
     private void checkSavedState(Bundle savedInstanceState, FrameLayout frameLayout){
         if (savedInstanceState == null) {
-            prompt = cardsProvider.getFirstPrompt();
+            /*prompt = cardsProvider.getFirstPrompt();
             questionImageTab = imgTxtDisplay.init(frameLayout, questionView,
-                    cardsProvider.getQuestionsForPreload(), activity);
+                    cardsProvider.getQuestionsForPreload(), activity);*/
         } else {
             cardsProvider = savedInstanceState.getParcelable(TAG_CARDS_PROVIDER);
             imgTxtDisplay = savedInstanceState.getParcelable(TAG_IMAGE_TEXT_DISPLAY);
-            prompt = cardsProvider.getNextPrompt();
+            /*prompt = cardsProvider.getNextPrompt();
             assert imgTxtDisplay != null;
             questionImageTab = imgTxtDisplay.init(frameLayout, questionView,
-                    cardsProvider.getQuestionsForPreload(), activity);
+                    cardsProvider.getQuestionsForPreload(), activity);*/
         }
     }
 
     public void initOnRestart(){
-        this.prompt = cardsProvider.getFirstPrompt();
+        /*this.prompt = cardsProvider.getFirstPrompt();
         imgTxtDisplay.initOnRestart(questionImageTab, questionView,
-                cardsProvider.getQuestionsForPreload(), activity);
+                cardsProvider.getQuestionsForPreload(), activity);*/
         setPromptView();
     }
 
     public void changeData() {
-        this.prompt = cardsProvider.getNextPrompt();
+        /*this.prompt = cardsProvider.getNextPrompt();
         setPromptView();
         imgTxtDisplay.changeData(cardsProvider.getNextQuestion(),
-                cardsProvider.getLaterQuestion(), questionView, questionImageTab, activity);
+                cardsProvider.getLaterQuestion(), questionView, questionImageTab, activity);*/
     }
 
     private void setPromptView() {

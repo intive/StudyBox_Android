@@ -37,7 +37,7 @@ public class DeckPagerAdapter extends FragmentPagerAdapter {
         setPreloadImageCount(preImageCount);
         if (questionFragment == null) {
             imgTxtDisplay = new ImageTextDisplay(preloadImageCount, activity);
-            cardsProvider = new CardsProvider(flashcards, preloadImageCount);
+            //cardsProvider = new CardsProvider(flashcards, preloadImageCount);
         }
     }
 
@@ -77,14 +77,14 @@ public class DeckPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void changeData() {
-        cardsProvider.changeCard();
+        //cardsProvider.nextCard();
         imgTxtDisplay.setImgIndexes(cardsProvider.getPosition());
         answerFragment.changeData();
         questionFragment.changeData();
     }
 
     public void onResultDisplay() {
-        cardsProvider.initOnRestart();
+        //cardsProvider.initOnRestart();
         imgTxtDisplay.setImgIndexes(cardsProvider.getPosition());
         answerFragment.initOnRestart();
         questionFragment.initOnRestart();
@@ -93,7 +93,7 @@ public class DeckPagerAdapter extends FragmentPagerAdapter {
     public void changeFlashcards(List<Card> flashcards){
         this.flashcards = flashcards;
         setPreloadImageCount(preloadImageCount);
-        cardsProvider.changeFlashcards(flashcards, preloadImageCount);
+        //cardsProvider.changeFlashcards(flashcards, preloadImageCount);
         imgTxtDisplay.setPreloadImageCount(preloadImageCount);
     }
 
