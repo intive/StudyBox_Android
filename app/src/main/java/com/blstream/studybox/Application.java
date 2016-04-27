@@ -9,7 +9,7 @@ public class Application extends com.activeandroid.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DebugHelper.initialize(this, true, true);
+        DebugHelper.initialize(this);
         customFontInit();
     }
 

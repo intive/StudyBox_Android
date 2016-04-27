@@ -3,6 +3,8 @@ package com.blstream.studybox.debugger;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.os.StrictMode;
+import android.os.StrictMode.ThreadPolicy;
+import android.os.StrictMode.VmPolicy;
 
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -18,32 +20,33 @@ import static android.os.Build.VERSION_CODES.GINGERBREAD;
  */
 public class DebugHelper {
 
-    private static final String TAG           = "STUDYBOXDEV";
-    private static final int    METHOD_COUNT  = 3;
-    private static final int    METHOD_OFFSET = 2;
+    private static final String TAG = "STUDYBOXDEV";
 
-    private static boolean  isDebuggable;
-    private static boolean  loggerInitialized;
-    private static boolean  strictModeInitialized;
-    private static boolean  leakCanaryInitialized;
+    private static final boolean ENABLE_STRICT_MODE        = true;
+    private static final boolean ENABLE_LEAK_CANARY        = true;
+    private static final boolean STRICT_MODE_KILL_ON_ERROR = false;
+    private static final int     METHOD_COUNT              = 3;
+    private static final int     METHOD_OFFSET             = 2;
 
+    private static boolean isDebuggable;
+    private static boolean loggerInitialized;
+    private static boolean strictModeInitialized;
+    private static boolean leakCanaryInitialized;
 
     /**
      * Activates DebugHelper
      * Provides control over StrictMode and LeakCanary initialization.
      * @param application the application which will be debug enhanced
-     * @param activateStrictMode whether or not StrictMode should be used
-     * @param activateLeakCanary whether or not LeakCanary should be used
      */
-    public static void initialize(Application application, boolean activateStrictMode, boolean activateLeakCanary) {
+    public static void initialize(Application application) {
         checkIfIsDebuggable(application.getApplicationInfo());
 
         initializeLogger();
         if (isDebuggable()) {
-            if (activateStrictMode) {
+            if (ENABLE_STRICT_MODE) {
                 initializeStrictMode();
             }
-            if (activateLeakCanary) {
+            if (ENABLE_LEAK_CANARY) {
                 initializeLeakCanary(application);
             }
         }
@@ -82,7 +85,7 @@ public class DebugHelper {
         loggerJson(json, userTag);
     }
     /**
-     * Log catched exception
+     * Log exception
      * @param exception your exception to be logged
      * @param message your additional message to be logged
      */
@@ -90,7 +93,7 @@ public class DebugHelper {
         logException(exception, message, null);
     }
     /**
-     * Log catched exception
+     * Log exception
      * @param exception your exception to be logged
      * @param message your additional message to be logged
      * @param userTag additional tag that should be used for logging
@@ -133,16 +136,11 @@ public class DebugHelper {
     // =============== Initialization methods =====
     private static void checkIfIsDebuggable(ApplicationInfo applicationInfo) {
         if(applicationInfo != null) {
-            if( (applicationInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
-                isDebuggable = true;
-            }
-            else {
-                isDebuggable = false;
-            }
+            isDebuggable = (applicationInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         }
     }
     private static void initializeLogger() {
-        if (loggerInitialized == false) {
+        if (!loggerInitialized) {
             LogLevel level = isDebuggable() ? LogLevel.FULL : LogLevel.NONE;
 
             Logger.init(TAG)                        // default PRETTYLOGGER or use just init()
@@ -154,24 +152,30 @@ public class DebugHelper {
         }
     }
     private static void initializeStrictMode() {
-        if (strictModeInitialized == false) {
+        if (!strictModeInitialized) {
             if (SDK_INT >= GINGERBREAD) {
-                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                        .detectAll()
-                        .penaltyLog()
-                                //.penaltyDeath()
-                        .build());
-                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                        .detectAll()
-                        .penaltyLog()
-                                //.penaltyDeath()
-                        .build());
+                ThreadPolicy.Builder threadPolicy = new ThreadPolicy.Builder();
+                VmPolicy.Builder     vmPolicy     = new VmPolicy.Builder();
+
+                threadPolicy.detectAll()
+                            .penaltyLog();
+                vmPolicy.detectAll()
+                            .penaltyLog();
+
+                if (STRICT_MODE_KILL_ON_ERROR) {
+                    threadPolicy.penaltyDeath();
+                    vmPolicy.penaltyDeath();
+                }
+
+                StrictMode.setThreadPolicy(threadPolicy.build());
+                StrictMode.setVmPolicy(vmPolicy.build());
+
                 strictModeInitialized = true;
             }
         }
     }
     private static void initializeLeakCanary(Application application) {
-        if( leakCanaryInitialized == false) {
+        if (!leakCanaryInitialized) {
             LeakCanary.install(application);
             leakCanaryInitialized = true;
         }

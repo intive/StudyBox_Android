@@ -84,8 +84,7 @@ public class DataHelper implements DataProvider {
     }
 
     private void saveDecksToDataBase(List<Decks> decks) {
-        List<Decks> deckList = decks;
-        for (Decks deck : deckList) {
+        for (Decks deck : decks) {
             deck.save();
         }
     }

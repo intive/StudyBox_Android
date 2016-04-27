@@ -67,8 +67,7 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        int size = (decksList == null) ? 0 : decksList.size();
-        return size;
+        return (decksList == null) ? 0 : decksList.size();
     }
 
     public interface ClickListener {
