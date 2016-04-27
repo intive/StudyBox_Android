@@ -43,6 +43,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private static final String TAG_RESULT = "result";
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
+    private static final String TAG_DECK_AMOUNT = "randomAmount";
     private static final String TAG_CORRECT_ANSWERS_COUNTER = "correctAnswersCounter";
     private static final String TAG_CARDS_COUNTER = "cardsCounter";
     private static final String TAG_NO_OF_QUESTIONS = "noOfQuestions";
@@ -89,7 +90,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private String deckTitle;
     private String deckId;
     private Bundle savedState;
-
+    private String randomAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +105,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
             Bundle extras = getIntent().getExtras();
             deckTitle = extras.getString(TAG_DECK_NAME);
             deckId = extras.getString(TAG_DECK_ID);
+            randomAmount = extras.getString(TAG_DECK_AMOUNT);
             flashcardsOnlyWrong = new ArrayList<>();
             flashcardsAll = new ArrayList<>();
             initView();
@@ -250,7 +252,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void downloadFlashcards() {
-        dataHelper.downloadFlashcards(deckId, this);
+        dataHelper.downloadFlashcards(deckId, randomAmount, this);
     }
 
     private void setUpEnterAnimation() {

@@ -33,8 +33,8 @@ public class DataHelper implements DataProvider {
         return publicDecks;
     }
 
-    public void downloadFlashcards(final String deckId, final RequestListener<String> listener) {
-        RestClientManager.getFlashcards(deckId, new RequestCallback<>(new RequestListener<List<Card>>() {
+    public void downloadFlashcards(final String deckId, final String randomAmount, final RequestListener<String> listener) {
+        RestClientManager.getFlashcards(deckId, randomAmount, new RequestCallback<>(new RequestListener<List<Card>>() {
             @Override
             public void onSuccess(List<Card> response) {
                 downloadedCards = response;
@@ -47,23 +47,6 @@ public class DataHelper implements DataProvider {
             }
         }));
     }
-
-    public void downloadRandomFlashcards(final String deckId, String amount, final RequestListener<String> listener) {
-        RestClientManager.getRandomFlashcards(deckId, amount, new RequestCallback<>(new RequestListener<List<Card>>() {
-            @Override
-            public void onSuccess(List<Card> response) {
-                downloadedCards = response;
-                listener.onSuccess("Flashcards downloaded successfully");
-            }
-
-            @Override
-            public void onFailure(RetrofitError error) {
-                listener.onFailure(error);
-            }
-        }));
-    }
-
-
 
     public void deleteAllDecks() {
         new Delete().from(Decks.class).execute();

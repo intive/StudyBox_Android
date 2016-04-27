@@ -46,17 +46,6 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         return instance;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            deckId = arguments.getString(TAG_DECK_ID);
-            deckName = arguments.getString(TAG_DECK_NAME);
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,24 +59,19 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getDialog().setTitle("Podaj ilość fiszek w teście");
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            deckId = arguments.getString(TAG_DECK_ID);
+            deckName = arguments.getString(TAG_DECK_NAME);
+        }
 
+        getDialog().setTitle(R.string.random_test_dialog_title);
         addTextViews();
     }
 
     @Override
     public void onClick(View v) {
-        Context context = getContext();
-        Intent intent = new Intent(context, ExamActivity.class);
-        intent.putExtra("deckId", deckId);
-        intent.putExtra("deckName", deckName);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
-        } else {
-            context.startActivity(intent);
-        }
+        startExam(v);
     }
 
     private void addTextViews() {
@@ -98,7 +82,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
             mainLayout.addView(textView);
         }
 
-        TextView textView = createTextView("Wszystkie");
+        TextView textView = createTextView(getContext().getString(R.string.all));
         mainLayout.addView(textView);
     }
 
@@ -110,5 +94,44 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         textView.setTextSize(TEXT_SIZE);
 
         return textView;
+    }
+
+    private void startExam(View view) {
+        if (!(view instanceof TextView)) {
+            return;
+        }
+
+        String randomAmount = ((TextView) view).getText().toString();
+        randomAmount = convertToWord(randomAmount);
+
+        Context context = getContext();
+        Intent intent = new Intent(context, ExamActivity.class);
+        intent.putExtra("deckId", deckId);
+        intent.putExtra("deckName", deckName);
+        intent.putExtra("randomAmount", randomAmount);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+        } else {
+            context.startActivity(intent);
+        }
+    }
+
+    private String convertToWord(String number) {
+        switch (number) {
+            case "1":
+                return "one";
+            case "5":
+                return "five";
+            case "10":
+                return "ten";
+            case "15":
+                return "fifteen";
+            case "20":
+                return "twenty";
+            default:
+                return null;
+        }
     }
 }

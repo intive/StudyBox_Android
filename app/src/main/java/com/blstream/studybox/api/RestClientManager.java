@@ -21,14 +21,9 @@ public class RestClientManager {
         restInterface.getDecks(key, callback);
     }
 
-    public static void getFlashcards(String key, RequestCallback<List<Card>> callback) {
+    public static void getFlashcards(final String key, final String randomAmount, RequestCallback<List<Card>> callback) {
         RestInterface restInterface = new RestClient().getService();
-        restInterface.getFlashcards(key, callback);
-    }
-
-    public static void getRandomFlashcards(final String key, final String amount, RequestCallback<List<Card>> callback) {
-        RestInterface restInterface = new RestClient().getService();
-        restInterface.getRandomFlashcards(key, amount, callback);
+        restInterface.getFlashcards(key, randomAmount, callback);
     }
 
     public static void authenticate(RequestInterceptor interceptor, Callback<AuthCredentials> callback) {
