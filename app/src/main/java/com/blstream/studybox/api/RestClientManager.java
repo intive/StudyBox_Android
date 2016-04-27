@@ -26,6 +26,11 @@ public class RestClientManager {
         restInterface.getFlashcards(key, callback);
     }
 
+    public static void getRandomFlashcards(final String key, final String amount, RequestCallback<List<Card>> callback) {
+        RestInterface restInterface = new RestClient().getService();
+        restInterface.getRandomFlashcards(key, amount, callback);
+    }
+
     public static void authenticate(RequestInterceptor interceptor, Callback<AuthCredentials> callback) {
         RestInterface restInterface = new RestClient(interceptor).getService();
         restInterface.authenticate(callback);

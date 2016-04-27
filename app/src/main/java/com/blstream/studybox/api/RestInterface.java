@@ -20,6 +20,9 @@ public interface RestInterface {
     @GET("/decks/{key}/flashcards")
     void getFlashcards(@Path("key") String key, Callback<List<Card>> cb);
 
+    @GET("/decks/{key}/flashcards?random={amount}")
+    void getRandomFlashcards(@Path("key") String key, @Path("amount") String amount, Callback<List<Card>> cb);
+
     @GET("/decks/{keyDeck}/flashcards/{keyFlashcard}/tips")
     void getTips(@Path("keyDeck") String keyDeck, @Path("keyFlashcard") String keyFlashcard, Callback<List<Tip>> cb);
 
