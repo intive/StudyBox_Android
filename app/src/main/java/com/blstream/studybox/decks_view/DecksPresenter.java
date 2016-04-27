@@ -1,12 +1,12 @@
 package com.blstream.studybox.decks_view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import com.blstream.studybox.RandomTestDialog;
 import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.database.DataHelper;
@@ -77,18 +77,21 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
             deckName = dataHelper.getPublicDecks().get(position).getName();
         }
 
-
         Context context = view.getContext();
         Intent intent = new Intent(context, ExamActivity.class);
         intent.putExtra("deckId", deckId);
         intent.putExtra("deckName", deckName);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
-        } else {
-            context.startActivity(intent);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            context.startActivity(intent,
+//                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+//        } else {
+//            context.startActivity(intent);
+//        }
+
+        RandomTestDialog randomTestDialog = new RandomTestDialog();
+        FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+        randomTestDialog.show(fragmentManager, "RandomTestDialog");
     }
 
     @Override

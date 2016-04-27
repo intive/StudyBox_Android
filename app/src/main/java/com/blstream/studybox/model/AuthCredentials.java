@@ -28,7 +28,7 @@ public class AuthCredentials {
         this.email = email;
         this.password = password;
         this.repeatPassword = repeatPassword;
-        this.name = "";
+        this.name = "s";
     }
 
     public AuthCredentials(String id, String name, String email, String password) {
