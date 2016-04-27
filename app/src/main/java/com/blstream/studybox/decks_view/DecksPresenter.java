@@ -77,19 +77,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
             deckName = dataHelper.getPublicDecks().get(position).getName();
         }
 
-        Context context = view.getContext();
-        Intent intent = new Intent(context, ExamActivity.class);
-        intent.putExtra("deckId", deckId);
-        intent.putExtra("deckName", deckName);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            context.startActivity(intent,
-//                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
-//        } else {
-//            context.startActivity(intent);
-//        }
-
-        RandomTestDialog randomTestDialog = new RandomTestDialog();
+        RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName);
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         randomTestDialog.show(fragmentManager, "RandomTestDialog");
     }
