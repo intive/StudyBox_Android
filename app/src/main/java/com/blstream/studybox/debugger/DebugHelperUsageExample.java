@@ -9,6 +9,7 @@ import com.blstream.studybox.R;
 
 
 // TODO: delete for final build
+@SuppressWarnings("ALL")
 public class DebugHelperUsageExample extends AppCompatActivity {
 
 
@@ -57,7 +58,7 @@ public class DebugHelperUsageExample extends AppCompatActivity {
     }
 
 
-    public void startAsyncTask(View v) {
+    public void startAsyncTask() {
         // This async task is an anonymous class and therefore has a hidden reference to the outer
         // class MainActivity. If the activity gets destroyed before the task finishes (e.g. rotation),
         // the activity instance will leak.
@@ -68,6 +69,9 @@ public class DebugHelperUsageExample extends AppCompatActivity {
                 return null;
             }
         }.execute();
+    }
+
+    public void startAsyncTask(View view) {
     }
 }
 

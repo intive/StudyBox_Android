@@ -278,7 +278,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
 
     @OnClick(R.id.add_flashcards_button)
     public void addFlashcards(View view) {
-        //we'll navigate to class responsible for adding flashcards from here
+        // TODO: add navigation to class responsible for adding flashcards
         finish();
     }
 

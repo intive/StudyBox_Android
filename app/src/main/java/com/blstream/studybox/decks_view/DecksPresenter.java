@@ -96,10 +96,6 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements Reque
         super.attachView(view);
     }
 
-    @Override
-    public void detachView(boolean retainInstance) {
-        super.detachView(retainInstance);
-    }
 
     private void setDecks() {
         if (isViewAttached()) {
