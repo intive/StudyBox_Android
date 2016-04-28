@@ -10,5 +10,6 @@ public interface DataProvider {
     List<Decks> getDecks();
     List<Card> getFlashcards();
     List<Decks> getPublicDecks();
+    List<Decks> getRandomDeck();
 
 }

@@ -19,7 +19,7 @@ public interface RestInterface {
     void getDecks(@Path("key") String json, Callback<List<Decks>> cb);
 
     @GET("/{key}")
-    void getRandomDeck(@Path("key") String json, Callback<Decks> cb);
+    void getRandomDeck(@Path("key") String json, Callback<List<Decks>> cb);
 
     @GET("/decks/{key}/flashcards")
     void getFlashcards(@Path("key") String key, Callback<List<Card>> cb);

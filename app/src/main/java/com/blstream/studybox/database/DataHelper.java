@@ -19,9 +19,9 @@ import retrofit.RetrofitError;
 public class DataHelper implements DataProvider {
     private List<Card> downloadedCards;
     private List<Decks> publicDecks;
-    private Decks randomDeck;
+    private List<Decks> randomDeck;
     private static final String DECKS_KEY = "decks";
-    private static final String RANDOM_DECK_KEY = "decks?random=true";
+    private static final String RANDOM_DECK_KEY = "/decks?random=true";
 
     @Override
     public List<Decks> getDecks() {
@@ -36,7 +36,7 @@ public class DataHelper implements DataProvider {
         return publicDecks;
     }
 
-    public Decks getRandomDeck() {
+    public List<Decks> getRandomDeck() {
         return randomDeck;
     }
 
@@ -91,9 +91,9 @@ public class DataHelper implements DataProvider {
     }
 
     public void downloadRandomDeck(final RequestListener<String> listener) {
-        RestClientManager.getRandomDeck(RANDOM_DECK_KEY, new RequestCallback<>(new RequestListener<Decks>() {
+        RestClientManager.getRandomDeck(RANDOM_DECK_KEY, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
-            public void onSuccess(Decks response) {
+            public void onSuccess(List<Decks> response) {
                 randomDeck = response;
                 listener.onSuccess("New decks or nothing new");
             }
