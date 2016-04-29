@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.auth.BaseAuthViewState;
-import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.auth.registration_view.RegistrationPresenter;
 import com.blstream.studybox.auth.registration_view.RegistrationView;
+import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
@@ -104,17 +104,17 @@ public class RegistrationActivity
 
     @Override
     public void showAuthError() {
-        setError(getString(R.string.account_exist));
+        setAuthError(getString(R.string.account_exist));
     }
 
     @Override
     public void showNetworkError() {
-        setError(getString(R.string.network_error));
+        setNetworkError(getString(R.string.network_error));
     }
 
     @Override
     public void showUnexpectedError() {
-        setError(getString(R.string.unexpected_error));
+        setUnexpectedError(getString(R.string.unexpected_error));
     }
 
     @Override
@@ -170,10 +170,29 @@ public class RegistrationActivity
         return new BaseAuthViewState<>();
     }
 
-    protected void setError(String message) {
+    protected void setAuthError(String message) {
         BaseAuthViewState vs = (BaseAuthViewState<RegistrationView>) viewState;
-        vs.setShowError();
+        vs.setShowAuthError();
 
+        setError(message);
+    }
+
+    protected void setNetworkError(String message) {
+        BaseAuthViewState vs = (BaseAuthViewState<RegistrationView>) viewState;
+        vs.setShowNetworkError();
+
+        setError(message);
+    }
+
+    protected void setUnexpectedError(String message) {
+        BaseAuthViewState vs = (BaseAuthViewState<RegistrationView>) viewState;
+        vs.setShowUnexpectedError();
+
+        setError(message);
+    }
+
+    @Override
+    protected void setError(String message) {
         setFormEnabled(true);
         textViewFailure.setText(message);
         textViewFailure.setVisibility(View.VISIBLE);
