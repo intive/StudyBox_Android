@@ -1,7 +1,3 @@
-env:
-  matrix:
-    - DEBUG=true
-    - DEBUG=false
 language: android
 android:
   components:
@@ -25,3 +21,6 @@ script:
 env:
   global:
     secure: mUsQOZvzJDIryev7I3shrYPpJpAo1OcgGXR/ui7YHnbYnpKhnBTA9NYsBpuB93iG+XjmC2qjcS32N/KWox5UurhLB8cL2DiOrsF6swZg/LhlHWDUtsuZVCSYyMittiJe9jUGojVsahtK93NCT7u6vaMS4Rn4BMkPqFMcSO/nC/W8SEGmSPy1RJePluCYT90M0AgJbep7tPsh16VZNCyl3KEpSZKLGn+lzNzlC6fXnJXG9s5YqGf6u+mDH1d20aVF6Ov/48CG7FUayZQt2V+mlQxvr0thddVIUTflJhV9jWjhAZ4EwW8YSk957v7/B+ZPYE+HB8+hbeUFOYU02ZZ5jgmxX8gGpGfLFl6KDnp+TTEmZ9xM+oc+fOJ8Hok/FQiRuAGchT+9s29VxIUzl+/gdDAae2u2jkMbsv3PTP/5EJIQ1LP7L/dRhcGd8LlDBi1fTi01OJxWhOqXFdp0Q0kKYJGuOj+bHC7T7cGpCls8vLrGjVsnfuhX8uHZVx1QuBTRQafYPy29Av5gSmpFHEFnmxIhTsoUttDFRsZJAijcsz3ba/6UE2W/b7EBYVFAq4DRG3r3jV1yHV4yE160khX/ptEVjr4lweVE9nk3YR5AZ4u9WE5eyfxWUjaNpoYKT9bsGG+0UC+5jDQEKtS7DNmtmwJUJ35YZzdks40px8esSm8=
+  matrix:
+    - DEBUG=true
+    - DEBUG=false
