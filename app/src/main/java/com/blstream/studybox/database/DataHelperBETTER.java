@@ -15,7 +15,7 @@ import java.util.List;
 
 import retrofit.RetrofitError;
 
-public class DataHelper implements DataProvider {
+public class DataHelperBETTER implements DataProvider {
     private List<Card> downloadedCards;
     private List<Decks> publicDecks;
     private static final String DECKS_KEY = "decks";
@@ -38,8 +38,6 @@ public class DataHelper implements DataProvider {
             @Override
             public void onSuccess(List<Card> response) {
                 downloadedCards = response;
-                saveCardsToDataBase(response);
-
                 listener.onSuccess("Flashcards downloaded successfully");
             }
 
@@ -88,12 +86,6 @@ public class DataHelper implements DataProvider {
     private void saveDecksToDataBase(List<Decks> decks) {
         for (Decks deck : decks) {
             deck.save();
-        }
-    }
-
-    private void saveCardsToDataBase(List<Card> cards) {
-        for (Card card : cards) {
-            card.save();
         }
     }
 }
