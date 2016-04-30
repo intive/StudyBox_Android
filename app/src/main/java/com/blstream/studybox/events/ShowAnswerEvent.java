@@ -1,4 +1,4 @@
 package com.blstream.studybox.events;
 
-public class RequestAnswerEvent {
+public class ShowAnswerEvent {
 }

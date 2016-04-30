@@ -1,4 +1,4 @@
 package com.blstream.studybox.events;
 
-public class RequestQuestionEvent {
+public class ImproveWrongEvent {
 }

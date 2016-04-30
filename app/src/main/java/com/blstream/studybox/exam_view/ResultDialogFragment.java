@@ -1,9 +1,7 @@
-package com.blstream.studybox.exam_view.fragment;
-
+package com.blstream.studybox.exam_view;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,12 +17,16 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 
 
+import com.blstream.studybox.events.ImproveAllEvent;
+import com.blstream.studybox.events.ImproveWrongEvent;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,13 +35,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ResultDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
+public class ResultDialogFragment extends DialogFragment {
 
     private static final String TAG_CORRECT_ANSWERS = "correctAnswers";
     private static final String TAG_NUMBER_OF_QUESTIONS = "noOfQuestions";
 
+    private int correctAnswers;
+    private int noOfQuestions;
+    private Activity activity;
+
     @Bind(R.id.total_score)
-    public TextView totalScore;
+    TextView totalScore;
 
     @Bind(R.id.pieChart)
     PieChart pieChart;
@@ -49,10 +55,6 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     @Bind(R.id.improve_only_wrong)
     Button improve_only_wrong;
-
-    private int correctAnswers;
-    private int noOfQuestions;
-    private Activity activity;
 
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
@@ -73,8 +75,7 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_result, container, false);
         initView(view);
         return view;
@@ -98,39 +99,14 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
 
     @OnClick(R.id.improve_result)
     public void improveResult(View view) {
-        onDismissImproveAll();
+        EventBus.getDefault().post(new ImproveAllEvent());
         dismiss();
     }
 
     @OnClick(R.id.improve_only_wrong)
     public void improveOnlyWrong(View view) {
-        onDismissImproveOnlyWrong();
+        EventBus.getDefault().post(new ImproveWrongEvent());
         dismiss();
-    }
-
-    public interface CloseResultDialogFragmentListener {
-        void handleImproveOnlyWrong();
-
-        void handleImproveAll();
-    }
-
-    private void onDismissImproveOnlyWrong() {
-        if (activity instanceof CloseResultDialogFragmentListener)
-            ((CloseResultDialogFragmentListener) activity).handleImproveOnlyWrong();
-    }
-
-    private void onDismissImproveAll() {
-        if (activity instanceof CloseResultDialogFragmentListener)
-            ((CloseResultDialogFragmentListener) activity).handleImproveAll();
-    }
-
-    @Override
-    public void onShow(DialogInterface dialog) {
-        ((OnResultShow) activity).onResultShow();
-    }
-
-    public interface OnResultShow {
-        void onResultShow();
     }
 
     private void customizePieChart() {
@@ -205,7 +181,6 @@ public class ResultDialogFragment extends DialogFragment implements DialogInterf
                 dismiss();
             }
         };
-        result.setOnShowListener(this);
         return result;
     }
 }

@@ -24,7 +24,7 @@
     <dimen name="form_margin">40dp</dimen>
     <dimen name="text_view_failure_margin">8dp</dimen>
 
-    <!-- Exam dimentions -->
+    <!-- Exam dimensions -->
     <dimen name="exam_small_text">19sp</dimen>
     <dimen name="exam_medium_text">20sp</dimen>
     <dimen name="exam_large_text">30sp</dimen>
@@ -38,5 +38,6 @@
     <dimen name="sign_up_cancel_link_text_size">16sp</dimen>
     <dimen name="exam_title_text">26sp</dimen>
     <dimen name="empty_box_size">160dp</dimen>
+    <dimen name="question_padding">10dp</dimen>
 
 </resources>
