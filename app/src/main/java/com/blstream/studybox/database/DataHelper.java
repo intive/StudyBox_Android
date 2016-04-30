@@ -16,73 +16,80 @@ import java.util.List;
 import retrofit.RetrofitError;
 
 public class DataHelper implements DataProvider {
-    private List<Card> downloadedCards;
-    private List<Decks> publicDecks;
     private static final String DECKS_KEY = "decks";
 
+    private Context context;
+    private List<Decks> privateDecks;
+    private List<Decks> publicDecks;
+    private List<Card>  downloadedCards;
+
+    public DataHelper(Context context) {
+        this.context = context;
+    }
+
     @Override
-    public List<Decks> getDecks() {
-        return Decks.getAll();
+    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener) {
+        RestClientManager.getDecks(DECKS_KEY,
+                new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
+                new RequestCallback<>(new RequestListener<List<Decks>>() {
+
+            @Override
+            public void onSuccess(List<Decks> response) {
+                privateDecks = response;
+                saveDecksToDataBase(response);
+                listener.OnDecksReceived(response);
+            }
+
+            @Override
+            public void onFailure(RetrofitError error) {
+
+            }
+        }));
+
     }
 
-    public List<Card> getFlashcards() {
-        return downloadedCards;
+    @Override
+    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener listener) {
+        RestClientManager.getPublicDecks(DECKS_KEY, new RequestCallback<>(new RequestListener<List<Decks>>() {
+            @Override
+            public void onSuccess(List<Decks> response) {
+                publicDecks = response;
+                listener.OnDecksReceived(response);
+            }
+
+            @Override
+            public void onFailure(RetrofitError error) {
+
+            }
+        }));
     }
 
-    public List<Decks> getPublicDecks() {
-        return publicDecks;
-    }
-
-    public void downloadFlashcard(String deckId, final RequestListener<String> listener) {
+    @Override
+    public void fetchFlashcards(final DataProvider.OnCardsReceivedListener listener, String deckId) {
         RestClientManager.getFlashcards(deckId, new RequestCallback<>(new RequestListener<List<Card>>() {
             @Override
             public void onSuccess(List<Card> response) {
                 downloadedCards = response;
                 saveCardsToDataBase(response);
-
-                listener.onSuccess("Flashcards downloaded successfully");
+                listener.OnCardsReceived(response);
             }
 
             @Override
             public void onFailure(RetrofitError error) {
-                listener.onFailure(error);
+
             }
         }));
+
     }
 
-    public void deleteAllDecks() {
-        new Delete().from(Decks.class).execute();
+    @Override
+    public List<Decks> getPrivateDecks() {
+        return privateDecks;
     }
 
-    public void downloadUserDecks(final RequestListener<String> listener, Context context) {
-        LoginManager loginManager = new LoginManager(context);
-        RestClientManager.getDecks(DECKS_KEY, new AuthRequestInterceptor(loginManager.getCredentials()), new RequestCallback<>(new RequestListener<List<Decks>>() {
-            @Override
-            public void onSuccess(List<Decks> response) {
-                saveDecksToDataBase(response);
-                listener.onSuccess("New decks or nothing new");
-            }
-
-            @Override
-            public void onFailure(RetrofitError error) {
-                listener.onFailure(error);
-            }
-        }));
-    }
-
-    public void downloadPublicDecks(final RequestListener<String> listener) {
-        RestClientManager.getPublicDecks(DECKS_KEY, new RequestCallback<>(new RequestListener<List<Decks>>() {
-            @Override
-            public void onSuccess(List<Decks> response) {
-                publicDecks = response;
-                listener.onSuccess("New decks or nothing new");
-            }
-
-            @Override
-            public void onFailure(RetrofitError error) {
-                listener.onFailure(error);
-            }
-        }));
+    @Override
+    public List<Decks> getPublicDecks() {
+        return publicDecks;
     }
 
     private void saveDecksToDataBase(List<Decks> decks) {
