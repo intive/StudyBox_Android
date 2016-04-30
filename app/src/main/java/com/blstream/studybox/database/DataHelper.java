@@ -38,6 +38,8 @@ public class DataHelper implements DataProvider {
             @Override
             public void onSuccess(List<Card> response) {
                 downloadedCards = response;
+                saveCardsToDataBase(response);
+
                 listener.onSuccess("Flashcards downloaded successfully");
             }
 
@@ -86,6 +88,12 @@ public class DataHelper implements DataProvider {
     private void saveDecksToDataBase(List<Decks> decks) {
         for (Decks deck : decks) {
             deck.save();
+        }
+    }
+
+    private void saveCardsToDataBase(List<Card> cards) {
+        for (Card card : cards) {
+            card.save();
         }
     }
 }
