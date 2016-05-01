@@ -82,7 +82,6 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        item.setChecked(true);
 
         int id = item.getItemId();
         drawerLayout.closeDrawer(GravityCompat.START);
