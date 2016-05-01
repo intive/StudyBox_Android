@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -148,24 +149,22 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     @Override
     public void showQuestion(String cardId) {
         QuestionFragment questionFragment = new QuestionFragment();
-        Bundle args = new Bundle();
-        args.putString(TAG_CARD_ID, cardId);
-        questionFragment.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, questionFragment)
-                .commit();
+        replaceFragment(questionFragment, cardId);
     }
 
     @Override
     public void showAnswer(String cardId) {
         AnswerFragment answerFragment = new AnswerFragment();
+        replaceFragment(answerFragment, cardId);
+    }
+
+    protected void replaceFragment(Fragment fragment, String cardId) {
         Bundle args = new Bundle();
         args.putString(TAG_CARD_ID, cardId);
-        answerFragment.setArguments(args);
+        fragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, answerFragment)
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 

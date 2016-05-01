@@ -9,30 +9,26 @@ import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
 import com.blstream.studybox.events.ShowAnswerEvent;
 import com.blstream.studybox.events.WrongAnswerEvent;
+import com.blstream.studybox.exam.ExamProvider;
 import com.blstream.studybox.model.database.Card;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExamPresenter extends MvpBasePresenter<ExamView> {
 
-    protected final static int FIRST_CARD_NUMBER = 1;
-    protected List<Card> flashcards;
-    protected List<Card> wrongAnsweredCards;
-    protected int currentCardNumber;
-    protected String currentCardId;
     protected int totalCards;
     protected int correctAnswers;
+    protected int currentCardNumber;
+    protected String currentCardId;
     protected Context context;
+    protected ExamProvider examProvider;
 
     public ExamPresenter(Context context) {
         this.context = context;
-        wrongAnsweredCards = new ArrayList<>();
-        flashcards = new ArrayList<>();
     }
 
     @Override
@@ -52,33 +48,36 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
         dataProvider.fetchFlashcards(deckId, new DataProvider.OnCardsReceivedListener<List<Card>>() {
             @Override
             public void OnCardsReceived(List<Card> cards) {
-                flashcards = cards;
-                initExam();
+                if (!cards.isEmpty()) {
+                    examProvider = new ExamProvider(cards);
+                    initExam();
+                } else {
+                    if (isViewAttached()) {
+                        // TODO move this to decks view when number of flashcards will be provided by backend
+                        //noinspection ConstantConditions
+                        getView().startEmptyDeckActivity();
+                    }
+                }
             }
         });
     }
 
     protected void initExam() {
-        totalCards = flashcards.size();
-        correctAnswers = 0;
-        currentCardNumber = FIRST_CARD_NUMBER;
-        if (totalCards <= 0) {
-            if (isViewAttached()) {
-                // TODO move this to exam view when number of flashcards will be provided by backend
-                getView().startEmptyDeckActivity();
-            }
-        } else {
-            currentCardId = flashcards.get(currentCardNumber - 1).getCardId();
-            if (isViewAttached()) {
-                getView().setCardCounter(currentCardNumber, totalCards);
-                getView().showQuestion(currentCardId);
-            }
+        totalCards = examProvider.getTotalCardsNumber();
+        currentCardNumber = examProvider.getCurrentCardNumber();
+        currentCardId = examProvider.getCurrentCardId();
+        if (isViewAttached()) {
+            //noinspection ConstantConditions
+            getView().setCardCounter(currentCardNumber, totalCards);
+            getView().showQuestion(currentCardId);
         }
     }
 
     protected void updateCardCounter() {
-        totalCards = flashcards.size();
+        totalCards = examProvider.getTotalCardsNumber();
+        currentCardNumber = examProvider.getCurrentCardNumber();
         if (isViewAttached()) {
+            //noinspection ConstantConditions
             getView().setCardCounter(currentCardNumber, totalCards);
         }
     }
@@ -86,45 +85,48 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     @Subscribe
     public void onShowAnswerEvent(ShowAnswerEvent event) {
         if (isViewAttached()) {
+            //noinspection ConstantConditions
             getView().showAnswer(currentCardId);
         }
     }
 
     @Subscribe
     public void onCorrectAnswerEvent(CorrectAnswerEvent event) {
-        correctAnswers++;
+        examProvider.setCurrentCardCorrect();
         moveToNextCard();
     }
 
     @Subscribe
     public void onWrongAnswerEvent(WrongAnswerEvent event) {
-        wrongAnsweredCards.add(flashcards.get(currentCardNumber - 1));
+        examProvider.setCurrentCardWrong();
         moveToNextCard();
     }
 
     @Subscribe
     public void onImproveAllEvent(ImproveAllEvent event) {
+        examProvider.improveAll();
         initExam();
     }
 
     @Subscribe
     public void onImproveWrongEvent(ImproveWrongEvent event) {
-        flashcards = new ArrayList<>(wrongAnsweredCards);
-        wrongAnsweredCards.clear();
+        examProvider.improveWrong();
         initExam();
     }
 
     protected void moveToNextCard() {
-        currentCardNumber++;
-        if (currentCardNumber > totalCards) {
+        if (examProvider.setNextCard()) {
+            currentCardId = examProvider.getCurrentCardId();
             if (isViewAttached()) {
-                getView().showResult(correctAnswers, totalCards);
-            }
-        } else {
-            currentCardId = flashcards.get(currentCardNumber - 1).getCardId();
-            if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showQuestion(currentCardId);
                 updateCardCounter();
+            }
+        } else {
+            if (isViewAttached()) {
+                correctAnswers = examProvider.getCorrectAnswers();
+                //noinspection ConstantConditions
+                getView().showResult(correctAnswers, totalCards);
             }
         }
     }
