@@ -8,10 +8,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.activities.LoginActivity;
@@ -24,8 +26,6 @@ import com.blstream.studybox.model.database.Decks;
 import java.util.List;
 
 public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener,DataProvider.OnDecksReceivedListener<List<Decks>> {
-
-    // TODO: Delete Toast messages after providing better tests for drawer
 
     private static final int HEADER_INDEX = 0;
 
@@ -113,8 +113,6 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
                 break;
         }
 
-        // TODO: delete after testing
-        Toast.makeText(context, "Selected: " + item.getTitle(), Toast.LENGTH_SHORT).show();
         return true;
     }
 
