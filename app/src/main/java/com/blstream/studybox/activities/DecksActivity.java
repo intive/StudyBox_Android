@@ -123,7 +123,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     private void onViewPrepared() {
-        presenter.onViewPrepared();
+        loadData(false);
     }
 
     @Override
