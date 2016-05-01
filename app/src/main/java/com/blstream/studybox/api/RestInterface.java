@@ -12,14 +12,15 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 public interface RestInterface {
 
     @GET("/{key}")
     void getDecks(@Path("key") String json, Callback<List<Decks>> cb);
 
-    @GET("/{key}")
-    void getRandomDeck(@Path("key") String json, Callback<List<Decks>> cb);
+    @GET("/decks/")
+    void getRandomDeck(@Query("random") String json, Callback<List<Decks>> cb);
 
     @GET("/decks/{key}/flashcards")
     void getFlashcards(@Path("key") String key, Callback<List<Card>> cb);

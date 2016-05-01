@@ -8,7 +8,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,17 +15,15 @@ import android.widget.Toast;
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.activities.LoginActivity;
-import com.blstream.studybox.api.RequestListener;
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.auth.login.LoginManager;
+import com.blstream.studybox.database.DataHelper;
+import com.blstream.studybox.database.DataProvider;
+import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.model.database.Decks;
 
 import java.util.List;
 
-import retrofit.RetrofitError;
-
-public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener, RequestListener<String> {
+public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener,DataProvider.OnDecksReceivedListener<List<Decks>> {
 
     // TODO: Delete Toast messages after providing better tests for drawer
 
@@ -40,8 +37,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private LoginManager login;
     private ActionBarDrawerToggle drawerToggle;
     private Intent intent;
-    private List<Decks> randomDeck;
-    private DataHelper dataHelper = new DataHelper();
+    private DataHelper dataHelper = new DataHelper(context);
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -104,7 +100,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
             case R.id.create_deck:
                 break;
             case R.id.show_deck:
-                dataHelper.downloadRandomDeck(this);
+                dataHelper.fetchRandomDeck(this);
                 break;
             case R.id.statistics:
                 break;
@@ -123,13 +119,9 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     }
 
     @Override
-    public void onSuccess(String response) {
-        randomDeck = dataHelper.getRandomDeck();
-        Log.d("TAG", String.valueOf(randomDeck.get(0).getName()));
-    }
-
-    @Override
-    public void onFailure(RetrofitError error) {
-        Log.d("TAG", "ERROR");
+    public void OnDecksReceived(List<Decks> decks) {
+        String deckId = decks.get(0).getDeckId();
+        String deckName = decks.get(0).getName();
+        ExamActivity.start(context, deckId, deckName);
     }
 }

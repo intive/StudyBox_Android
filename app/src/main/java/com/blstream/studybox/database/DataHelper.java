@@ -2,7 +2,6 @@ package com.blstream.studybox.database;
 
 import android.content.Context;
 
-import com.activeandroid.query.Delete;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
@@ -17,7 +16,6 @@ import retrofit.RetrofitError;
 
 public class DataHelper implements DataProvider {
     private static final String DECKS_KEY = "decks";
-    private static final String RANDOM_DECK_KEY = "/decks?random=true";
 
     private Context context;
     private List<Decks> privateDecks;
@@ -82,6 +80,22 @@ public class DataHelper implements DataProvider {
         }));
 
     }
+
+    @Override
+    public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener listener) {
+        RestClientManager.getRandomDeck("true", new RequestCallback<>(new RequestListener<List<Decks>>() {
+            @Override
+            public void onSuccess(List<Decks> response) {
+                listener.OnDecksReceived(response);
+            }
+
+            @Override
+            public void onFailure(RetrofitError error) {
+
+            }
+        }));
+    }
+
 
     @Override
     public List<Decks> getPrivateDecks() {
