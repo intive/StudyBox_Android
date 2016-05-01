@@ -16,9 +16,9 @@ public class RestClientManager {
         restInterface.getDecks(key, callback);
     }
 
-    public static void getRandomDeck(String key, RequestCallback<List<Decks>> callback){
+    public static void getRandomDeck(String randomKey, String flashcardCountKey, RequestCallback<List<Decks>> callback){
         RestInterface restInterface = new RestClient().getService();
-        restInterface.getRandomDeck(key, callback);
+        restInterface.getRandomDeck(randomKey, flashcardCountKey, callback);
     }
 
     public static void getPublicDecks(String key, RequestCallback<List<Decks>> callback){

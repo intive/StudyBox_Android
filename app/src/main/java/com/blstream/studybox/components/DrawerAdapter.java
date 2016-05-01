@@ -72,6 +72,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         drawerToggle.syncState();
     }
 
+    public void randomDeckDrawerItem(boolean state){
+        navigationView.getMenu().findItem(R.id.random_deck).setChecked(state);
+    }
+
     public void detachDrawer() {
         drawerLayout.removeDrawerListener(drawerToggle);
     }
@@ -96,7 +100,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
                 break;
             case R.id.create_deck:
                 break;
-            case R.id.show_deck:
+            case R.id.random_deck:
                 dataHelper.fetchRandomDeck(this);
                 break;
             case R.id.statistics:
@@ -117,6 +121,6 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     public void OnDecksReceived(List<Decks> decks) {
         String deckId = decks.get(0).getDeckId();
         String deckName = decks.get(0).getName();
-        ExamActivity.start(context, deckId, deckName);
+        ExamActivity.start(context, deckId, deckName, true);
     }
 }

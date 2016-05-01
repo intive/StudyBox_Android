@@ -19,7 +19,7 @@
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_create_deck" />
         <item
-            android:id="@+id/show_deck"
+            android:id="@+id/random_deck"
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_show_deck" />
         <item

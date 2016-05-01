@@ -95,11 +95,11 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private String deckId;
     private Bundle savedState;
 
-    public static void start(Context context, String deckId, String deckName) {
+    public static void start(Context context, String deckId, String deckName, boolean isRandomDeckExam) {
         final Intent intent = new Intent(context, ExamActivity.class);
         intent.putExtra("deckId", deckId);
         intent.putExtra("deckName", deckName);
-
+        intent.putExtra("isRandomExam", isRandomDeckExam);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
                     ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
@@ -115,6 +115,14 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setContentView(R.layout.activity_exam);
         savedState = savedInstanceState;
         checkSavedState();
+        setDrawerItemChecked();
+    }
+
+    private void setDrawerItemChecked(){
+        boolean isRandomDeckExam = getIntent().getExtras().getBoolean("isRandomExam");
+        if(isRandomDeckExam){
+            drawerAdapter.randomDeckDrawerItem(true);
+        }
     }
 
     private void checkSavedState() {
@@ -339,6 +347,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        drawerAdapter.randomDeckDrawerItem(false);
         drawerAdapter.detachDrawer();
     }
 
