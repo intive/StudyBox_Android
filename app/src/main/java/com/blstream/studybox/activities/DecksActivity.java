@@ -123,7 +123,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     private void onViewPrepared() {
-        presenter.onViewPrepared();
+        loadData(false);
     }
 
     @Override
@@ -166,17 +166,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     @Override
-    public void showLoading(boolean pullToRefresh) {
-        super.showLoading(pullToRefresh);
-    }
-
-    @Override
     public void onItemClick(int position, View view) {
         if (connectionStatusReceiver.isConnected()) {
             presenter.onDeckClicked(position, view);
         } else {
-            //TODO
-            //Delete Toast messages after providing better tests
+            // TODO: Delete Toast messages after providing better tests
             Toast.makeText(this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
         }
 

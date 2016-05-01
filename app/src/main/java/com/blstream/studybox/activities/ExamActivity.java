@@ -2,11 +2,14 @@ package com.blstream.studybox.activities;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -82,6 +85,19 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         setSupportActionBar(toolbar);
         setUpEnterTransition();
         setUpNavigationDrawer();
+    }
+
+    public static void start(Context context, String deckId, String deckName) {
+        final Intent intent = new Intent(context, ExamActivity.class);
+        intent.putExtra(TAG_DECK_ID, deckId);
+        intent.putExtra(TAG_DECK_NAME, deckName);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     @NonNull
