@@ -15,7 +15,6 @@ import java.util.List;
 import retrofit.RetrofitError;
 
 public class DataHelper implements DataProvider {
-    private static final String DECKS_KEY = "decks";
 
     private Context context;
     private List<Decks> privateDecks;
@@ -28,7 +27,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener) {
-        RestClientManager.getDecks(DECKS_KEY,
+        RestClientManager.getDecks("true",
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Decks>>() {
 
@@ -49,7 +48,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener listener) {
-        RestClientManager.getPublicDecks(DECKS_KEY, new RequestCallback<>(new RequestListener<List<Decks>>() {
+        RestClientManager.getPublicDecks("true", new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
                 publicDecks = response;

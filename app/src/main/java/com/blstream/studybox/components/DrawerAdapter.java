@@ -8,12 +8,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.activities.LoginActivity;

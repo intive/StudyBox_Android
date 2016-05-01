@@ -16,8 +16,8 @@ import retrofit.http.Query;
 
 public interface RestInterface {
 
-    @GET("/{key}")
-    void getDecks(@Path("key") String json, Callback<List<Decks>> cb);
+    @GET("/decks/")
+    void getDecks(@Query("flashcardsCount") String json, Callback<List<Decks>> cb);
 
     @GET("/decks/")
     void getRandomDeck(@Query("random") String json, Callback<List<Decks>> cb);
