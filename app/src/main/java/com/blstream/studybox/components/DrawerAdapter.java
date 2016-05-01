@@ -28,8 +28,7 @@ import retrofit.RetrofitError;
 
 public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener, RequestListener<String> {
 
-    //TODO
-    //Delete Toast messages after providing better tests for drawer
+    // TODO: Delete Toast messages after providing better tests for drawer
 
     private static final int HEADER_INDEX = 0;
 
@@ -118,7 +117,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
                 break;
         }
 
-        // Only for testing
+        // TODO: delete after testing
         Toast.makeText(context, "Selected: " + item.getTitle(), Toast.LENGTH_SHORT).show();
         return true;
     }

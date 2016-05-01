@@ -5,7 +5,7 @@
     <dimen name="activity_horizontal_margin">64dp</dimen>
     <dimen name="card_size">180dp</dimen>
 
-    <!-- Exam dimentions -->
+    <!-- Exam dimensions -->
     <dimen name="exam_small_text">20sp</dimen>
     <dimen name="exam_medium_text">21sp</dimen>
     <dimen name="exam_large_text">34sp</dimen>

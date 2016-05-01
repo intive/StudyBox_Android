@@ -7,9 +7,21 @@ import java.util.List;
 
 public interface DataProvider {
 
-    List<Decks> getDecks();
-    List<Card> getFlashcards();
-    List<Decks> getPublicDecks();
-    List<Decks> getRandomDeck();
+    void fetchPrivateDecks(OnDecksReceivedListener listener);
 
+    void fetchPublicDecks(OnDecksReceivedListener listener);
+
+    void fetchFlashcards(OnCardsReceivedListener listener, String deckId);
+
+    interface OnDecksReceivedListener<T> {
+        void OnDecksReceived(T decks);
+    }
+
+    interface OnCardsReceivedListener<T> {
+        void OnCardsReceived(T cards);
+    }
+
+    List<Decks> getPrivateDecks();
+
+    List<Decks> getPublicDecks();
 }

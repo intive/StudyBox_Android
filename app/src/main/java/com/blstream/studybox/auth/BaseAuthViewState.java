@@ -6,7 +6,9 @@ public class BaseAuthViewState<V extends BaseAuthView> implements ViewState<V> {
 
     protected final int STATE_SHOW_FORM = 0;
     protected final int STATE_SHOW_LOADING = 1;
-    protected final int STATE_SHOW_ERROR = 2;
+    protected final int STATE_SHOW_ERROR_AUTH = 2;
+    protected final int STATE_SHOW_ERROR_NETWORK = 3;
+    protected final int STATE_SHOW_ERROR_UNEXPECTED = 4;
 
     protected int state = STATE_SHOW_FORM;
 
@@ -18,8 +20,16 @@ public class BaseAuthViewState<V extends BaseAuthView> implements ViewState<V> {
         state = STATE_SHOW_LOADING;
     }
 
-    public void setShowError() {
-        state = STATE_SHOW_ERROR;
+    public void setShowAuthError() {
+        state = STATE_SHOW_ERROR_AUTH;
+    }
+
+    public void setShowNetworkError() {
+        state = STATE_SHOW_ERROR_NETWORK;
+    }
+
+    public void setShowUnexpectedError() {
+        state = STATE_SHOW_ERROR_UNEXPECTED;
     }
 
     @Override
@@ -33,8 +43,16 @@ public class BaseAuthViewState<V extends BaseAuthView> implements ViewState<V> {
                 view.showLoading();
                 break;
 
-            case STATE_SHOW_ERROR:
+            case STATE_SHOW_ERROR_AUTH:
                 view.showAuthError();
+                break;
+
+            case STATE_SHOW_ERROR_NETWORK:
+                view.showNetworkError();
+                break;
+
+            case STATE_SHOW_ERROR_UNEXPECTED:
+                view.showUnexpectedError();
                 break;
         }
     }

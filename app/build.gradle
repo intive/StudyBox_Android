@@ -16,6 +16,35 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            if (project.hasProperty("enableDebug")) {
+                debuggable Boolean.valueOf(project['enableDebug'])
+                if (!Boolean.valueOf(project['enableDebug'])) {
+                    applicationVariants.all { variant ->
+                        variant.outputs.each { output ->
+                            def file = output.outputFile
+                            output.outputFile = new File(file.parent, file.name.replace("debug.apk", "QA.apk"))
+                        }
+                    }
+                }
+            } else {
+                debuggable true // default setting
+            }
+
+            // Delete unsigned and unaligned apk's
+            android.applicationVariants.all { variant ->
+                variant.assemble.doLast {
+                    variant.outputs.each { output ->
+                        File unaligned = output.packageApplication.outputFile;
+                        if (!unaligned.getName().equalsIgnoreCase("app-debug.apk") ||
+                                !unaligned.getName().equalsIgnoreCase("app-QA.apk")) {
+                            unaligned.delete()
+                        }
+
+                    }
+                }
+            }
+        }
     }
     
     lintOptions {

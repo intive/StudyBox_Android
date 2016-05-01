@@ -24,7 +24,7 @@
     <dimen name="form_margin">40dp</dimen>
     <dimen name="text_view_failure_margin">8dp</dimen>
 
-    <!-- Exam dimentions -->
+    <!-- Exam dimensions -->
     <dimen name="exam_small_text">19sp</dimen>
     <dimen name="exam_medium_text">20sp</dimen>
     <dimen name="exam_large_text">30sp</dimen>
