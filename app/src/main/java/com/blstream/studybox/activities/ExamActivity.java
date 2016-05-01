@@ -100,6 +100,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         intent.putExtra("deckId", deckId);
         intent.putExtra("deckName", deckName);
         intent.putExtra("isRandomExam", isRandomDeckExam);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
                     ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
