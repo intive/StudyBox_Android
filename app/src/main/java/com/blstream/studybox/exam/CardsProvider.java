@@ -1,7 +1,8 @@
-package com.blstream.studybox.exam_view;
+package com.blstream.studybox.exam;
 
 import com.blstream.studybox.model.database.Card;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardsProvider {
@@ -10,12 +11,8 @@ public class CardsProvider {
     private Card currentCard;
     private int position;
 
-    public CardsProvider() {
-        currentCard = flashcards.get(position);
-    }
-
     public CardsProvider(List<Card> flashcards) {
-        this.flashcards = flashcards;
+        this.flashcards = new ArrayList<>(flashcards);
         position = 0;
     }
 

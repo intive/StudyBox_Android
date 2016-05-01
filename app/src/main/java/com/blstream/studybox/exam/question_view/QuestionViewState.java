@@ -1,4 +1,4 @@
-package com.blstream.studybox.exam_view.question;
+package com.blstream.studybox.exam.question_view;
 
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -15,7 +15,7 @@ public class QuestionViewState<V extends QuestionView> implements ViewState<V> {
     protected String prompt;
 
     protected int questionState = STATE_SHOW_QUESTION_TEXT;
-    protected int promptState = STATE_ENABLE_PROMPT;
+    protected int promptState = STATE_DISABLE_PROMPT;
 
 
     public void setStateShowQuestionText(String question) {

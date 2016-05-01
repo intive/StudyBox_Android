@@ -1,4 +1,4 @@
-package com.blstream.studybox.exam_view.answer;
+package com.blstream.studybox.exam.answer_view;
 
 import android.util.Patterns;
 
@@ -11,14 +11,13 @@ import org.greenrobot.eventbus.EventBus;
 
 public class AnswerPresenter extends MvpBasePresenter<AnswerView> {
 
-    protected Card card;
-
     public void loadAnswer(String cardId) {
-        showAnswer();
+        Card card = Card.getCardById(cardId);
+        showAnswer(card);
     }
 
-    protected void showAnswer() {
-        String answer = "http://i.imgur.com/DvpvklR.png"; //card.getAnswer();
+    protected void showAnswer(Card card) {
+        String answer = card.getAnswer();
 
         if (Patterns.WEB_URL.matcher(answer).matches()) {
             if (isViewAttached()) {

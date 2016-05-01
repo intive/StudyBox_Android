@@ -1,7 +1,6 @@
-package com.blstream.studybox.exam_view.question;
+package com.blstream.studybox.exam.question_view;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -53,7 +52,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     @NonNull
     @Override
     public QuestionPresenter createPresenter() {
-        return new QuestionPresenter();
+        return new QuestionPresenter(getContext());
     }
 
     @NonNull
@@ -80,8 +79,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
         vs.setStateDisablePrompt();
 
-        promptText.setTextColor(Color.GRAY);
-        promptText.setClickable(false);
+        promptText.setVisibility(View.GONE);
     }
 
     @Override
@@ -89,8 +87,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
         vs.setStateEnablePrompt();
 
-        promptText.setClickable(true);
-        promptText.setTextColor(Color.WHITE);
+        promptText.setVisibility(View.VISIBLE);
     }
 
     @OnClick (R.id.prompt)

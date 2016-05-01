@@ -1,4 +1,4 @@
-package com.blstream.studybox.exam_view.answer;
+package com.blstream.studybox.exam.answer_view;
 
 import android.app.Activity;
 import android.os.Bundle;

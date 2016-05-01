@@ -1,4 +1,4 @@
-package com.blstream.studybox.exam_view;
+package com.blstream.studybox.exam;
 
 import android.app.Activity;
 import android.app.Dialog;

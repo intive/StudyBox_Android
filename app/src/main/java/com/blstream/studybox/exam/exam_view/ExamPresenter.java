@@ -1,7 +1,9 @@
-package com.blstream.studybox.exam_view;
+package com.blstream.studybox.exam.exam_view;
 
-import com.blstream.studybox.api.RequestListener;
+import android.content.Context;
+
 import com.blstream.studybox.database.DataHelper;
+import com.blstream.studybox.database.DataProvider;
 import com.blstream.studybox.events.CorrectAnswerEvent;
 import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
@@ -16,8 +18,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.RetrofitError;
-
 public class ExamPresenter extends MvpBasePresenter<ExamView> {
 
     protected final static int FIRST_CARD_NUMBER = 1;
@@ -27,8 +27,10 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     protected String currentCardId;
     protected int totalCards;
     protected int correctAnswers;
+    protected Context context;
 
-    public ExamPresenter() {
+    public ExamPresenter(Context context) {
+        this.context = context;
         wrongAnsweredCards = new ArrayList<>();
         flashcards = new ArrayList<>();
     }
@@ -46,17 +48,12 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     }
 
     public void getFlashcards(String deckId) {
-        final DataHelper dataHelper = new DataHelper();
-        dataHelper.downloadFlashcard(deckId, new RequestListener<String>() {
+        final DataProvider dataProvider = new DataHelper(context);
+        dataProvider.fetchFlashcards(deckId, new DataProvider.OnCardsReceivedListener<List<Card>>() {
             @Override
-            public void onSuccess(String response) {
-                flashcards = dataHelper.getFlashcards();
+            public void OnCardsReceived(List<Card> cards) {
+                flashcards = cards;
                 initExam();
-            }
-
-            @Override
-            public void onFailure(RetrofitError error) {
-
             }
         });
     }

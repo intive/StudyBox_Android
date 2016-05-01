@@ -1,4 +1,4 @@
-package com.blstream.studybox.exam_view.answer;
+package com.blstream.studybox.exam.answer_view;
 
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 

@@ -22,12 +22,12 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 import com.blstream.studybox.base.BaseViewStateActivity;
 import com.blstream.studybox.components.DrawerAdapter;
-import com.blstream.studybox.exam_view.ExamPresenter;
-import com.blstream.studybox.exam_view.ExamView;
-import com.blstream.studybox.exam_view.ExamViewState;
-import com.blstream.studybox.exam_view.answer.AnswerFragment;
-import com.blstream.studybox.exam_view.question.QuestionFragment;
-import com.blstream.studybox.exam_view.ResultDialogFragment;
+import com.blstream.studybox.exam.exam_view.ExamPresenter;
+import com.blstream.studybox.exam.exam_view.ExamView;
+import com.blstream.studybox.exam.exam_view.ExamViewState;
+import com.blstream.studybox.exam.answer_view.AnswerFragment;
+import com.blstream.studybox.exam.question_view.QuestionFragment;
+import com.blstream.studybox.exam.ResultDialogFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
@@ -103,7 +103,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     @NonNull
     @Override
     public ExamPresenter createPresenter() {
-        return new ExamPresenter();
+        return new ExamPresenter(this);
     }
 
     @NonNull

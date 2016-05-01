@@ -3,6 +3,7 @@ package com.blstream.studybox.api;
 import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Tip;
 
 import java.util.List;
 
@@ -34,5 +35,10 @@ public class RestClientManager {
     public static void signUp(AuthCredentials credentials, Callback<AuthCredentials> callback) {
         RestInterface restInterface = new RestClient().getService();
         restInterface.signUp(credentials, callback);
+    }
+
+    public static void getTips(String deckId, String cardId, RequestCallback<List<Tip>> callback) {
+        RestInterface restInterface = new RestClient().getService();
+        restInterface.getTips(deckId, cardId, callback);
     }
 }

@@ -2,7 +2,6 @@ package com.blstream.studybox.database;
 
 import android.content.Context;
 
-import com.activeandroid.query.Delete;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
@@ -10,6 +9,7 @@ import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Tip;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchFlashcards(final DataProvider.OnCardsReceivedListener listener, String deckId) {
+    public void fetchFlashcards(String deckId, final DataProvider.OnCardsReceivedListener listener) {
         RestClientManager.getFlashcards(deckId, new RequestCallback<>(new RequestListener<List<Card>>() {
             @Override
             public void onSuccess(List<Card> response) {
@@ -80,6 +80,21 @@ public class DataHelper implements DataProvider {
             }
         }));
 
+    }
+
+    @Override
+    public void fetchTips(String deckId, String cardId, final OnTipsReceivedListener listener) {
+        RestClientManager.getTips(deckId, cardId, new RequestCallback<>(new RequestListener<List<Tip>>() {
+            @Override
+            public void onSuccess(List<Tip> response) {
+                listener.OnTipsReceived(response);
+            }
+
+            @Override
+            public void onFailure(RetrofitError error) {
+
+            }
+        }));
     }
 
     @Override

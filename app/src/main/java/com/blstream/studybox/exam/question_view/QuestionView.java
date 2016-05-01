@@ -1,4 +1,4 @@
-package com.blstream.studybox.exam_view.question;
+package com.blstream.studybox.exam.question_view;
 
 import com.hannesdorfmann.mosby.mvp.MvpView;
 
