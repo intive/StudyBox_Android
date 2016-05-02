@@ -33,7 +33,6 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Activity activity;
     private LoginManager login;
     private ActionBarDrawerToggle drawerToggle;
-    private Intent intent;
     private DataHelper dataHelper = new DataHelper(context);
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
@@ -82,7 +81,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
+        Intent intent;
         int id = item.getItemId();
         drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -118,8 +117,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
 
     @Override
     public void OnDecksReceived(List<Decks> decks) {
-        String deckId = decks.get(0).getDeckId();
-        String deckName = decks.get(0).getName();
-        ExamActivity.start(context, deckId, deckName, true);
+        if(decks != null){
+            String deckId = decks.get(0).getDeckId();
+            String deckName = decks.get(0).getName();
+            ExamActivity.start(context, deckId, deckName, true);
+        }
     }
 }

@@ -27,7 +27,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener) {
-        RestClientManager.getDecks("true",
+        RestClientManager.getDecks(true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Decks>>() {
 
@@ -48,7 +48,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener listener) {
-        RestClientManager.getPublicDecks("true", new RequestCallback<>(new RequestListener<List<Decks>>() {
+        RestClientManager.getPublicDecks(true, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
                 publicDecks = response;
@@ -81,8 +81,8 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener listener) {
-        RestClientManager.getRandomDeck("true", "true", new RequestCallback<>(new RequestListener<List<Decks>>() {
+    public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener<List<Decks>> listener) {
+        RestClientManager.getRandomDeck(true, true , new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
                 listener.OnDecksReceived(response);

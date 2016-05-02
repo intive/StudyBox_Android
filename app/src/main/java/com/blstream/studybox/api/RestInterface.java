@@ -17,10 +17,10 @@ import retrofit.http.Query;
 public interface RestInterface {
 
     @GET("/decks/")
-    void getDecks(@Query("flashcardsCount") String flashcardCountKey, Callback<List<Decks>> cb);
+    void getDecks(@Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Decks>> cb);
 
     @GET("/decks/")
-    void getRandomDeck(@Query("random") String randomKey, @Query("random") String flashcardCountKey, Callback<List<Decks>> cb);
+    void getRandomDeck(@Query("random") boolean randomKey, @Query("random") boolean flashcardCountKey, Callback<List<Decks>> cb);
 
     @GET("/decks/{key}/flashcards")
     void getFlashcards(@Path("key") String key, Callback<List<Card>> cb);

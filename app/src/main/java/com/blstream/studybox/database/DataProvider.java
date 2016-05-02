@@ -12,7 +12,7 @@ public interface DataProvider {
 
     void fetchFlashcards(OnCardsReceivedListener listener, String deckId);
 
-    void fetchRandomDeck(OnDecksReceivedListener listener);
+    void fetchRandomDeck(OnDecksReceivedListener<List<Decks>> listener);
 
     interface OnDecksReceivedListener<T> {
         void OnDecksReceived(T decks);
