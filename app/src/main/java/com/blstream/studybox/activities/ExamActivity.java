@@ -176,6 +176,11 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     public void showResult(int correctAnswers, int totalCards) {
         ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
         resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
     }
 
     protected void setupAnimation() {
