@@ -17,17 +17,23 @@ public class Decks extends Model {
     @Column(name = "name")
     private String name;
     @Expose
-    @Column(name = "isPublic")
-    private Boolean isPublic;
+    @Column(name = "publicVisible")
+    private Boolean publicVisible;
+    @Expose
+    @Column(name = "creatorEmail")
+    private String creatorEmail;
+    @Expose
+    @Column(name = "flashcardsCount")
+    private int flashcardsCount;
 
     public Decks() {
         super();
     }
 
-    public Decks(String id, String name, Boolean isPublic) {
+    public Decks(String id, String name, Boolean publicVisible) {
         this.id = id;
         this.name = name;
-        this.isPublic = isPublic;
+        this.publicVisible = publicVisible;
     }
 
     public static List<Decks> getAll() {
@@ -52,10 +58,28 @@ public class Decks extends Model {
         this.name = name;
     }
 
-    public Boolean getIsPublic() {
-        return isPublic;
+    public Boolean getPublicVisible() {
+        return publicVisible;
     }
 
-    public void setIsPublic(Boolean isPublic) { this.isPublic = isPublic; }
+    public void setPublicVisible(Boolean publicVisible) {
+        this.publicVisible = publicVisible;
+    }
+
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+
+    public void setCreatorEmail(String creatorEmail) {
+        this.creatorEmail = creatorEmail;
+    }
+
+    public int getFlashcardsCount() {
+        return flashcardsCount;
+    }
+
+    public void setFlashcardsCount(int flashcardsCount) {
+        this.flashcardsCount = flashcardsCount;
+    }
 }
 

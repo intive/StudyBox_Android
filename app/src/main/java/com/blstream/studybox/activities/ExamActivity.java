@@ -41,6 +41,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
     private static final String TAG_CARD_ID = "cardId";
+    private static final String TAG_IS_RANDOM_EXAM = "isRandomExam";
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
 
@@ -86,12 +87,15 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         setSupportActionBar(toolbar);
         setUpEnterTransition();
         setUpNavigationDrawer();
+        setDrawerItemChecked();
     }
 
-    public static void start(Context context, String deckId, String deckName) {
+    public static void start(Context context, String deckId, String deckName, boolean isRandomDeckExam) {
         final Intent intent = new Intent(context, ExamActivity.class);
         intent.putExtra(TAG_DECK_ID, deckId);
         intent.putExtra(TAG_DECK_NAME, deckName);
+        intent.putExtra(TAG_IS_RANDOM_EXAM, isRandomDeckExam);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
@@ -130,6 +134,13 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     private void setUpNavigationDrawer() {
         drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
+    }
+
+    private void setDrawerItemChecked(){
+        boolean isRandomDeckExam = getIntent().getExtras().getBoolean(TAG_IS_RANDOM_EXAM);
+        if(isRandomDeckExam){
+            drawerAdapter.randomDeckDrawerItem(true);
+        }
     }
 
     @Override
@@ -213,6 +224,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        drawerAdapter.randomDeckDrawerItem(false);
         drawerAdapter.detachDrawer();
     }
 }

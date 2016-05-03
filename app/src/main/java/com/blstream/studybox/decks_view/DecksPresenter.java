@@ -52,7 +52,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             deckName = dataProvider.getPublicDecks().get(position).getName();
         }
 
-        ExamActivity.start(view.getContext(), deckId, deckName);
+        ExamActivity.start(view.getContext(), deckId, deckName, false);
     }
 
     @Override
