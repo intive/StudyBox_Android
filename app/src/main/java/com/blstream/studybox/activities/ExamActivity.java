@@ -48,6 +48,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private static final String TAG_RESULT = "result";
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
+    private static final String TAG_IS_RANDOM_EXAM = "isRandomExam";
     private static final String TAG_CORRECT_ANSWERS_COUNTER = "correctAnswersCounter";
     private static final String TAG_CARDS_COUNTER = "cardsCounter";
     private static final String TAG_NO_OF_QUESTIONS = "noOfQuestions";
@@ -95,11 +96,12 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private String deckId;
     private Bundle savedState;
 
-    public static void start(Context context, String deckId, String deckName) {
+    public static void start(Context context, String deckId, String deckName, boolean isRandomDeckExam) {
         final Intent intent = new Intent(context, ExamActivity.class);
-        intent.putExtra("deckId", deckId);
-        intent.putExtra("deckName", deckName);
-
+        intent.putExtra(TAG_DECK_ID, deckId);
+        intent.putExtra(TAG_DECK_NAME, deckName);
+        intent.putExtra(TAG_IS_RANDOM_EXAM, isRandomDeckExam);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
                     ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
@@ -115,6 +117,14 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         setContentView(R.layout.activity_exam);
         savedState = savedInstanceState;
         checkSavedState();
+        setDrawerItemChecked();
+    }
+
+    private void setDrawerItemChecked(){
+        boolean isRandomDeckExam = getIntent().getExtras().getBoolean("isRandomExam");
+        if(isRandomDeckExam){
+            drawerAdapter.randomDeckDrawerItem(true);
+        }
     }
 
     private void checkSavedState() {
@@ -339,6 +349,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        drawerAdapter.randomDeckDrawerItem(false);
         drawerAdapter.detachDrawer();
     }
 
