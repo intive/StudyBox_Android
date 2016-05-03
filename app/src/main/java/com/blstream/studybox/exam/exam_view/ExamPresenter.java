@@ -51,12 +51,6 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
                 if (!cards.isEmpty()) {
                     examManager = new ExamManager(cards);
                     initExam();
-                } else {
-                    if (isViewAttached()) {
-                        // TODO move this to decks view when number of flashcards will be provided by backend
-                        //noinspection ConstantConditions
-                        getView().startEmptyDeckActivity();
-                    }
                 }
             }
         });

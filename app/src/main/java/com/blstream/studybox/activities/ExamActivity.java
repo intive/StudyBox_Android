@@ -151,13 +151,6 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     }
 
     @Override
-    public void startEmptyDeckActivity() {
-        Intent intent = new Intent(this, EmptyDeckActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
     public void showQuestion(String cardId) {
         QuestionFragment questionFragment = new QuestionFragment();
         replaceFragment(questionFragment, cardId);

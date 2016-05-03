@@ -1,5 +1,7 @@
 package com.blstream.studybox.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,6 +18,11 @@ public class EmptyDeckActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_deck);
         ButterKnife.bind(this);
+    }
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, EmptyDeckActivity.class);
+        context.startActivity(intent);
     }
 
     @OnClick(R.id.add_flashcards_button)
