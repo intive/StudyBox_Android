@@ -11,7 +11,7 @@ public interface DataProvider {
 
     void fetchPublicDecks(OnDecksReceivedListener listener);
 
-    void fetchFlashcards(OnCardsReceivedListener<List<Card>> listener, String deckId);
+    void fetchFlashcards(String deckId, String randomAmount, OnCardsReceivedListener<List<Card>> listener);
 
     void fetchRandomDeck(OnDecksReceivedListener<List<Decks>> listener);
 

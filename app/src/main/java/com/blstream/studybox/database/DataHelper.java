@@ -2,7 +2,6 @@ package com.blstream.studybox.database;
 
 import android.content.Context;
 
-import com.activeandroid.query.Delete;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
@@ -64,8 +63,8 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchFlashcards(final DataProvider.OnCardsReceivedListener<List<Card>> listener, String deckId) {
-        RestClientManager.getFlashcards(deckId, null, new RequestCallback<>(new RequestListener<List<Card>>() {
+    public void fetchFlashcards(String deckId, String randomAmount, final DataProvider.OnCardsReceivedListener<List<Card>> listener) {
+        RestClientManager.getFlashcards(deckId, randomAmount, new RequestCallback<>(new RequestListener<List<Card>>() {
             @Override
             public void onSuccess(List<Card> response) {
                 downloadedCards = response;
@@ -83,7 +82,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener<List<Decks>> listener) {
-        RestClientManager.getRandomDeck(true, true , new RequestCallback<>(new RequestListener<List<Decks>>() {
+        RestClientManager.getRandomDeck(true, true, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
                 listener.OnDecksReceived(response);

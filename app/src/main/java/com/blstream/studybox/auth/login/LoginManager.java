@@ -63,7 +63,11 @@ public class LoginManager implements LoginInterface {
 
     @Override
     public String getUserName() {
-        return preferences.getString(USER_NAME, resources.getString(R.string.default_username));
+        if (isUserLoggedIn()) {
+            return preferences.getString(USER_NAME, "");
+        } else {
+            return resources.getString(R.string.default_username);
+        }
     }
 
     @Override

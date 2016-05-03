@@ -13,6 +13,7 @@ import retrofit.RetrofitError;
 
 /**
  * Created by Marek Macko on 12.04.2016.
+ *
  */
 public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 

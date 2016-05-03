@@ -21,14 +21,12 @@ public class AuthCredentials {
     public AuthCredentials(String email, String password)  {
         this.email = email;
         this.password = password;
-        this.name = "";
     }
 
     public AuthCredentials(String email, String password, String repeatPassword)  {
         this.email = email;
         this.password = password;
         this.repeatPassword = repeatPassword;
-        this.name = "s";
     }
 
     public AuthCredentials(String id, String name, String email, String password) {

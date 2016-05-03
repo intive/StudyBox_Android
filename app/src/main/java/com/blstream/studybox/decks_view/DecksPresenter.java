@@ -45,20 +45,22 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     public void onDeckClicked(int position, View view) {
         String deckId;
         String deckName;
+        int cardsAmount;
 
         if (loginManager.isUserLoggedIn()) {
             deckId = dataProvider.getPrivateDecks().get(position).getDeckId();
             deckName = dataProvider.getPrivateDecks().get(position).getName();
+            cardsAmount = dataProvider.getPrivateDecks().get(position).getFlashcardsCount();
         } else {
             deckId = dataProvider.getPublicDecks().get(position).getDeckId();
             deckName = dataProvider.getPublicDecks().get(position).getName();
+            cardsAmount = dataProvider.getPublicDecks().get(position).getFlashcardsCount();
         }
 
         Context context = view.getContext();
-        RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName);
+        RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName, cardsAmount);
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         randomTestDialog.show(fragmentManager, "RandomTestDialog");
-//        ExamActivity.start(view.getContext(), deckId, deckName, false);
     }
 
     @Override

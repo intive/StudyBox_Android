@@ -281,7 +281,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void downloadFlashcards() {
-        dataProvider.fetchFlashcards(this, deckId);
+        dataProvider.fetchFlashcards(deckId, randomAmount, this);
     }
 
     private void setUpEnterAnimation() {
