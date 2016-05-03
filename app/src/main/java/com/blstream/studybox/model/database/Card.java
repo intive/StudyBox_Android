@@ -15,7 +15,7 @@ import java.util.List;
 public class Card extends Model implements Parcelable{
 
     @Expose
-    @Column(name = "flashcardId")
+    @Column(name = "flashcardId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String id;
 
     @Expose

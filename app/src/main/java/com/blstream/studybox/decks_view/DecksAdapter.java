@@ -2,6 +2,7 @@ package com.blstream.studybox.decks_view;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.deckTitle.setText(decksList.get(position).getName());
+        holder.questionsQuantity.setText(String.valueOf(decksList.get(position).getFlashcardsCount()));
     }
 
     @Override

@@ -101,17 +101,17 @@ public class LoginActivity extends BaseAuthActivity<LoginView, LoginPresenter>
 
     @Override
     public void showAuthError() {
-        setError(getString(R.string.auth_error));
+        setAuthError(getString(R.string.auth_error));
     }
 
     @Override
     public void showNetworkError() {
-        setError(getString(R.string.network_error));
+        setNetworkError(getString(R.string.network_error));
     }
 
     @Override
     public void showUnexpectedError() {
-        setError(getString(R.string.unexpected_error));
+        setUnexpectedError(getString(R.string.unexpected_error));
     }
 
     @Override
@@ -149,11 +149,29 @@ public class LoginActivity extends BaseAuthActivity<LoginView, LoginPresenter>
         loginProgressBar.setVisibility(View.VISIBLE);
     }
 
+    protected void setAuthError(String message){
+        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
+        vs.setShowAuthError();
+
+        setError(message);
+    }
+
+    protected void setNetworkError(String message){
+        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
+        vs.setShowNetworkError();
+
+        setError(message);
+    }
+
+    protected void setUnexpectedError(String message){
+        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
+        vs.setShowUnexpectedError();
+
+        setError(message);
+    }
+
     @Override
     protected void setError(String message) {
-        BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
-        vs.setShowError();
-
         setFormEnabled(true);
         authErrorView.setText(message);
         authErrorView.setVisibility(View.VISIBLE);

@@ -75,6 +75,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     @Override
     protected void onResume() {
         super.onResume();
+        drawerAdapter.randomDeckDrawerItem(false);
         registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
@@ -92,7 +93,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         setUpRecyclerView();
         setUpExitTransition();
         onViewPrepared();
-
         noDecks.setVisibility(View.GONE);
     }
 
@@ -123,7 +123,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     private void onViewPrepared() {
-        presenter.onViewPrepared();
+        loadData(false);
     }
 
     @Override

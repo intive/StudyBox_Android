@@ -2,10 +2,13 @@ package com.blstream.studybox.activities;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -21,9 +24,9 @@ import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.R;
-import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.database.DataHelper;
+import com.blstream.studybox.database.DataProvider;
 import com.blstream.studybox.exam_view.DeckPagerAdapter;
 import com.blstream.studybox.exam_view.fragment.AnswerFragment;
 import com.blstream.studybox.exam_view.fragment.ResultDialogFragment;
@@ -35,15 +38,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard, ResultDialogFragment.OnResultShow, RequestListener<String>, ResultDialogFragment.CloseResultDialogFragmentListener {
+public class ExamActivity extends AppCompatActivity implements AnswerFragment.OnMoveToNextCard,
+        ResultDialogFragment.OnResultShow,
+        ResultDialogFragment.CloseResultDialogFragmentListener,
+        DataProvider.OnCardsReceivedListener<List<Card>> {
 
     private static final String TAG_RESULT = "result";
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
     private static final String TAG_DECK_AMOUNT = "randomAmount";
+    private static final String TAG_IS_RANDOM_EXAM = "isRandomExam";
     private static final String TAG_CORRECT_ANSWERS_COUNTER = "correctAnswersCounter";
     private static final String TAG_CARDS_COUNTER = "cardsCounter";
     private static final String TAG_NO_OF_QUESTIONS = "noOfQuestions";
@@ -55,8 +61,8 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private static final int TRANSITION_DURATION = 500;
 
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
-    private DataHelper dataHelper = new DataHelper();
-    
+    private DataProvider dataProvider = new DataHelper(this);
+
 
     @Bind(R.id.correctAnswers)
     TextView correctAnswers;
@@ -92,15 +98,38 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     private Bundle savedState;
     private String randomAmount;
 
+    public static void start(Context context, String deckId, String deckName, boolean isRandomDeckExam) {
+        final Intent intent = new Intent(context, ExamActivity.class);
+        intent.putExtra(TAG_DECK_ID, deckId);
+        intent.putExtra(TAG_DECK_NAME, deckName);
+        intent.putExtra(TAG_IS_RANDOM_EXAM, isRandomDeckExam);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+        } else {
+            context.startActivity(intent);
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
         savedState = savedInstanceState;
         checkSavedState();
+        setDrawerItemChecked();
     }
 
-    private void checkSavedState(){
+    private void setDrawerItemChecked(){
+        boolean isRandomDeckExam = getIntent().getExtras().getBoolean("isRandomExam");
+        if(isRandomDeckExam){
+            drawerAdapter.randomDeckDrawerItem(true);
+        }
+    }
+
+    private void checkSavedState() {
         if (savedState == null) {
             Bundle extras = getIntent().getExtras();
             deckTitle = extras.getString(TAG_DECK_NAME);
@@ -252,7 +281,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     private void downloadFlashcards() {
-        dataHelper.downloadFlashcards(deckId, randomAmount, this);
+        dataProvider.fetchFlashcards(this, deckId);
     }
 
     private void setUpEnterAnimation() {
@@ -290,9 +319,9 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     }
 
     @Override
-    public void onSuccess(String response) {
-        flashcards = dataHelper.getFlashcards();
-        flashcardsAll = new ArrayList<>(flashcards);
+    public void OnCardsReceived(List<Card> cards) {
+        flashcards = cards;
+        flashcardsAll = new ArrayList<>(cards);
         setUpVariables();
         initFlashcardsView();
         if (savedState == null) {
@@ -300,11 +329,6 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
                 setUpEnterAnimation();
             }
         }
-    }
-
-    @Override
-    public void onFailure(RetrofitError error) {
-
     }
 
     @Override
@@ -327,6 +351,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        drawerAdapter.randomDeckDrawerItem(false);
         drawerAdapter.detachDrawer();
     }
 
@@ -348,7 +373,7 @@ public class ExamActivity extends AppCompatActivity implements AnswerFragment.On
         reloadFlashcardsFromList(flashcardsAll);
     }
 
-    private void reloadFlashcardsFromList(List<Card> reloadedFlashcards){
+    private void reloadFlashcardsFromList(List<Card> reloadedFlashcards) {
         flashcards = new ArrayList<>(reloadedFlashcards);
         flashcardsOnlyWrong.clear();
         adapterViewPager.changeFlashcards(flashcards);
