@@ -16,15 +16,17 @@ public class AnswerPresenter extends MvpBasePresenter<AnswerView> {
         showAnswer(card);
     }
 
-    protected void showAnswer(Card card) {
+    private void showAnswer(Card card) {
         String answer = card.getAnswer();
 
         if (Patterns.WEB_URL.matcher(answer).matches()) {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showImageAnswer(answer);
             }
         } else {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showTextAnswer(answer);
             }
         }

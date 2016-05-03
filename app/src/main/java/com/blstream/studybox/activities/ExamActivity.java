@@ -69,12 +69,12 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         setContentView(R.layout.activity_exam);
         setRetainInstance(true);
         if (savedInstanceState == null) {
-            checkSavedState();
+            getIntentExtras();
         }
         initView();
     }
 
-    private void checkSavedState(){
+    private void getIntentExtras(){
         Bundle extras = getIntent().getExtras();
         deckTitle = extras.getString(TAG_DECK_NAME);
         deckId = extras.getString(TAG_DECK_ID);
@@ -104,7 +104,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     @NonNull
     @Override
     public ExamPresenter createPresenter() {
-        return new ExamPresenter(this);
+        return new ExamPresenter(getApplicationContext());
     }
 
     @NonNull
@@ -134,8 +134,8 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
 
     @Override
     public void setCardCounter(int currentCard, int totalCards) {
-        ExamViewState vs = (ExamViewState) viewState;
-        vs.saveCardCounter(currentCard, totalCards);
+        ExamViewState examViewState = (ExamViewState) viewState;
+        examViewState.saveCardCounter(currentCard, totalCards);
         cardsNumber.setText(getString(R.string.correct_answers, currentCard, totalCards));
     }
 

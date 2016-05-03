@@ -54,7 +54,7 @@ public class ResultDialogFragment extends DialogFragment {
     Button improve;
 
     @Bind(R.id.improve_only_wrong)
-    Button improve_only_wrong;
+    Button improveWrong;
 
     public static ResultDialogFragment newInstance(int correctAnswers, int noOfQuestions) {
         ResultDialogFragment resultFragment = new ResultDialogFragment();
@@ -75,7 +75,8 @@ public class ResultDialogFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_result, container, false);
         initView(view);
         return view;
@@ -85,7 +86,7 @@ public class ResultDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
         if (correctAnswers == noOfQuestions) {
             improve.setVisibility(View.GONE);
-            improve_only_wrong.setVisibility(View.GONE);
+            improveWrong.setVisibility(View.GONE);
         }
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
         customizePieChart();

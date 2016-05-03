@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.base.BaseBasicActivity;
+import com.blstream.studybox.base.BaseAppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EmptyDeckActivity extends BaseBasicActivity {
+public class EmptyDeckActivity extends BaseAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

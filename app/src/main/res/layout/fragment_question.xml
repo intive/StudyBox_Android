@@ -17,13 +17,12 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true" >
 
             <TextView
                 android:id="@+id/question"
                 android:text="@string/question"
                 android:textSize="@dimen/exam_medium_text"
-                android:padding="@dimen/question_padding"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -37,7 +36,7 @@
             android:visibility="gone"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 

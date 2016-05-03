@@ -8,7 +8,7 @@ import com.blstream.studybox.ConnectionStatusReceiver;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class BaseBasicActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     protected ConnectionStatusReceiver connectionStatusReceiver;
 

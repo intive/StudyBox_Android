@@ -79,8 +79,8 @@ public class AnswerFragment extends MvpViewStateFragment<AnswerView, AnswerPrese
 
     @Override
     public void showTextAnswer(String answer) {
-        AnswerViewState vs = (AnswerViewState<AnswerView>) viewState;
-        vs.setStateShowAnswerText(answer);
+        AnswerViewState answerViewState = (AnswerViewState<AnswerView>) viewState;
+        answerViewState.setStateShowAnswerText(answer);
 
         answerImage.setVisibility(View.GONE);
         answerText.setVisibility(View.VISIBLE);
@@ -89,8 +89,8 @@ public class AnswerFragment extends MvpViewStateFragment<AnswerView, AnswerPrese
 
     @Override
     public void showImageAnswer(String url) {
-        AnswerViewState vs = (AnswerViewState<AnswerView>) viewState;
-        vs.setStateShowAnswerImage(url);
+        AnswerViewState answerViewState = (AnswerViewState<AnswerView>) viewState;
+        answerViewState.setStateShowAnswerImage(url);
 
         answerText.setVisibility(View.GONE);
         answerImage.setVisibility(View.VISIBLE);
@@ -101,6 +101,8 @@ public class AnswerFragment extends MvpViewStateFragment<AnswerView, AnswerPrese
         Activity activity = getActivity();
         Picasso.with(activity)
                 .load(url)
+                .fit()
+                .centerInside()
                 .placeholder(R.drawable.camera)
                 .into(image);
     }

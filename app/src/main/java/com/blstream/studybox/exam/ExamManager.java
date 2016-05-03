@@ -7,16 +7,16 @@ import com.blstream.studybox.model.database.Card;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExamProvider {
+public class ExamManager {
 
-    protected List<Card> flashcards;
-    protected List<Card> wrongAnsweredCards;
-    protected List<Card> allCards;
-    protected Card currentCard;
-    protected int correctAnswers;
-    protected int position;
+    private List<Card> flashcards;
+    private List<Card> wrongAnsweredCards;
+    private final List<Card> allCards;
+    private Card currentCard;
+    private int correctAnswers;
+    private int position;
 
-    public ExamProvider(@NonNull List<Card> flashcards) {
+    public ExamManager(@NonNull List<Card> flashcards) {
         this.flashcards = new ArrayList<>(flashcards);
         this.allCards = new ArrayList<>(flashcards);
         init();
@@ -75,7 +75,7 @@ public class ExamProvider {
         init();
     }
 
-    protected void init() {
+    private void init() {
         wrongAnsweredCards = new ArrayList<>();
         position = 0;
         correctAnswers = 0;

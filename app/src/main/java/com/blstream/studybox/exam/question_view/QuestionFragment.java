@@ -76,16 +76,16 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
 
     @Override
     public void disablePrompt() {
-        QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
-        vs.setStateDisablePrompt();
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateDisablePrompt();
 
         promptText.setVisibility(View.GONE);
     }
 
     @Override
     public void enablePrompt() {
-        QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
-        vs.setStateEnablePrompt();
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateEnablePrompt();
 
         promptText.setVisibility(View.VISIBLE);
     }
@@ -96,7 +96,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         promptText.setClickable(false);
     }
 
-    @OnClick(R.id.question)
+    @OnClick({R.id.question, R.id.question_image})
     public void onQuestionClick() {
         presenter.showAnswer();
     }
@@ -145,6 +145,8 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         Activity activity = getActivity();
         Picasso.with(activity)
                 .load(url)
+                .fit()
+                .centerInside()
                 .placeholder(R.drawable.camera)
                 .into(image);
     }

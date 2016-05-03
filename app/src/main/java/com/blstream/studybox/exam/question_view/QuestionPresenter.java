@@ -17,9 +17,9 @@ import java.util.List;
 
 public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
 
-    protected Card card;
-    protected List<Tip> prompts;
-    protected Context context;
+    private Card card;
+    private List<Tip> prompts;
+    private Context context;
 
     public QuestionPresenter(Context context) {
         this.context = context;
@@ -46,10 +46,12 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
     protected void initPrompts() {
         if (prompts.isEmpty()) {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().disablePrompt();
             }
         } else {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().enablePrompt();
             }
         }
@@ -60,10 +62,12 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
 
         if (Patterns.WEB_URL.matcher(question).matches()) {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showImageQuestion(question);
             }
         } else {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showTextQuestion(question);
             }
         }
@@ -74,10 +78,12 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
 
         if (Patterns.WEB_URL.matcher(prompt).matches()) {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showImagePrompt(prompt);
             }
         } else {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showTextPrompt(prompt);
             }
         }

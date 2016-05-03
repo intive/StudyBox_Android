@@ -9,7 +9,7 @@ import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
 import com.blstream.studybox.events.ShowAnswerEvent;
 import com.blstream.studybox.events.WrongAnswerEvent;
-import com.blstream.studybox.exam.ExamProvider;
+import com.blstream.studybox.exam.ExamManager;
 import com.blstream.studybox.model.database.Card;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
@@ -24,8 +24,8 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     protected int correctAnswers;
     protected int currentCardNumber;
     protected String currentCardId;
-    protected Context context;
-    protected ExamProvider examProvider;
+    private ExamManager examManager;
+    private final Context context;
 
     public ExamPresenter(Context context) {
         this.context = context;
@@ -49,7 +49,7 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
             @Override
             public void OnCardsReceived(List<Card> cards) {
                 if (!cards.isEmpty()) {
-                    examProvider = new ExamProvider(cards);
+                    examManager = new ExamManager(cards);
                     initExam();
                 } else {
                     if (isViewAttached()) {
@@ -63,9 +63,9 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     }
 
     protected void initExam() {
-        totalCards = examProvider.getTotalCardsNumber();
-        currentCardNumber = examProvider.getCurrentCardNumber();
-        currentCardId = examProvider.getCurrentCardId();
+        totalCards = examManager.getTotalCardsNumber();
+        currentCardNumber = examManager.getCurrentCardNumber();
+        currentCardId = examManager.getCurrentCardId();
         if (isViewAttached()) {
             //noinspection ConstantConditions
             getView().setCardCounter(currentCardNumber, totalCards);
@@ -74,8 +74,8 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     }
 
     protected void updateCardCounter() {
-        totalCards = examProvider.getTotalCardsNumber();
-        currentCardNumber = examProvider.getCurrentCardNumber();
+        totalCards = examManager.getTotalCardsNumber();
+        currentCardNumber = examManager.getCurrentCardNumber();
         if (isViewAttached()) {
             //noinspection ConstantConditions
             getView().setCardCounter(currentCardNumber, totalCards);
@@ -92,31 +92,31 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
 
     @Subscribe
     public void onCorrectAnswerEvent(CorrectAnswerEvent event) {
-        examProvider.setCurrentCardCorrect();
+        examManager.setCurrentCardCorrect();
         moveToNextCard();
     }
 
     @Subscribe
     public void onWrongAnswerEvent(WrongAnswerEvent event) {
-        examProvider.setCurrentCardWrong();
+        examManager.setCurrentCardWrong();
         moveToNextCard();
     }
 
     @Subscribe
     public void onImproveAllEvent(ImproveAllEvent event) {
-        examProvider.improveAll();
+        examManager.improveAll();
         initExam();
     }
 
     @Subscribe
     public void onImproveWrongEvent(ImproveWrongEvent event) {
-        examProvider.improveWrong();
+        examManager.improveWrong();
         initExam();
     }
 
     protected void moveToNextCard() {
-        if (examProvider.setNextCard()) {
-            currentCardId = examProvider.getCurrentCardId();
+        if (examManager.setNextCard()) {
+            currentCardId = examManager.getCurrentCardId();
             if (isViewAttached()) {
                 //noinspection ConstantConditions
                 getView().showQuestion(currentCardId);
@@ -124,7 +124,7 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
             }
         } else {
             if (isViewAttached()) {
-                correctAnswers = examProvider.getCorrectAnswers();
+                correctAnswers = examManager.getCorrectAnswers();
                 //noinspection ConstantConditions
                 getView().showResult(correctAnswers, totalCards);
             }
