@@ -1,9 +1,11 @@
 package com.blstream.studybox.decks_view;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.blstream.studybox.activities.ExamActivity;
+import com.blstream.studybox.RandomTestDialog;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.database.DataProvider;
@@ -52,6 +54,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             deckName = dataProvider.getPublicDecks().get(position).getName();
         }
 
+        Context context = view.getContext();
         RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName);
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         randomTestDialog.show(fragmentManager, "RandomTestDialog");

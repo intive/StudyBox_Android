@@ -64,8 +64,8 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchFlashcards(final DataProvider.OnCardsReceivedListener listener, String deckId) {
-        RestClientManager.getFlashcards(deckId, new RequestCallback<>(new RequestListener<List<Card>>() {
+    public void fetchFlashcards(final DataProvider.OnCardsReceivedListener<List<Card>> listener, String deckId) {
+        RestClientManager.getFlashcards(deckId, null, new RequestCallback<>(new RequestListener<List<Card>>() {
             @Override
             public void onSuccess(List<Card> response) {
                 downloadedCards = response;
