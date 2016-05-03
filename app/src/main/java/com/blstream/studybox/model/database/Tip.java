@@ -17,16 +17,21 @@ public class Tip extends Model implements Parcelable {
     public String idCard;
 
     @Expose
-    @Column(name = "prompt")
-    public String prompt;
+    @Column(name = "essence")
+    public String essence;
+
+    @Expose
+    @Column(name = "difficult")
+    public int difficult;
 
     public Tip() {
         super();
     }
 
-    public Tip(String idCard, String prompt) {
+    public Tip(String idCard, String essence, int difficult) {
         this.idCard = idCard;
-        this.prompt = prompt;
+        this.essence = essence;
+        this.difficult = difficult;
     }
 
     public static List<Tip> all() {
@@ -41,12 +46,20 @@ public class Tip extends Model implements Parcelable {
         this.idCard = idCard;
     }
 
-    public String getPrompt() {
-        return prompt;
+    public String getEssence() {
+        return essence;
     }
 
-    public void setPrompt(String prompt) {
-        this.prompt = prompt;
+    public void setEssence(String essence) {
+        this.essence = essence;
+    }
+
+    public int getDifficult() {
+        return difficult;
+    }
+
+    public void setDifficult(int difficult) {
+        this.difficult = difficult;
     }
 
     @Override
@@ -57,7 +70,8 @@ public class Tip extends Model implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(idCard);
-        dest.writeString(prompt);
+        dest.writeString(essence);
+        dest.writeInt(difficult);
     }
 
     public static final Creator<Tip> CREATOR = new Creator<Tip>() {
@@ -74,6 +88,7 @@ public class Tip extends Model implements Parcelable {
 
     private Tip(Parcel source) {
         idCard = source.readString();
-        prompt = source.readString();
+        essence = source.readString();
+        difficult = source.readInt();
     }
 }

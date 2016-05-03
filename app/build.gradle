@@ -78,6 +78,7 @@ dependencies {
     compile 'com.github.orhanobut:logger:1.12'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'org.greenrobot:eventbus:3.0.0'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'

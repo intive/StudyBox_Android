@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.base.BaseAuthActivity;
 import com.blstream.studybox.auth.BaseAuthViewState;
 import com.blstream.studybox.auth.login_view.LoginPresenter;
 import com.blstream.studybox.auth.login_view.LoginView;
@@ -51,6 +52,7 @@ public class LoginActivity extends BaseAuthActivity<LoginView, LoginPresenter>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        setRetainInstance(true);
     }
 
     @OnClick(R.id.btn_login)

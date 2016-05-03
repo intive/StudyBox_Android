@@ -10,7 +10,9 @@ public interface DataProvider {
 
     void fetchPublicDecks(OnDecksReceivedListener listener);
 
-    void fetchFlashcards(OnCardsReceivedListener listener, String deckId);
+    void fetchFlashcards(String deckId, OnCardsReceivedListener listener);
+
+    void fetchTips(String deckId, String cardId, OnTipsReceivedListener listener);
 
     void fetchRandomDeck(OnDecksReceivedListener<List<Decks>> listener);
 
@@ -20,6 +22,10 @@ public interface DataProvider {
 
     interface OnCardsReceivedListener<T> {
         void OnCardsReceived(T cards);
+    }
+
+    interface OnTipsReceivedListener<T> {
+        void OnTipsReceived(T tips);
     }
 
     List<Decks> getPrivateDecks();
