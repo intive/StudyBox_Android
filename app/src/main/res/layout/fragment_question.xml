@@ -13,22 +13,15 @@
         android:layout_marginBottom="@dimen/exam_element_bottom_margin"
         android:layout_weight="1">
 
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/question"
+            android:text="@string/question"
+            android:textSize="@dimen/exam_medium_text"
+            android:scrollbars="vertical"
+            android:gravity="center"
             android:layout_gravity="center"
-            android:fitsSystemWindows="true" >
-
-            <TextView
-                android:id="@+id/question"
-                android:text="@string/question"
-                android:textSize="@dimen/exam_medium_text"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </ScrollView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <ImageView
             android:id="@+id/question_image"

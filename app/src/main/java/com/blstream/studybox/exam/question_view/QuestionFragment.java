@@ -3,6 +3,7 @@ package com.blstream.studybox.exam.question_view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_question, container, false);
         ButterKnife.bind(this, view);
+        questionText.setMovementMethod(new ScrollingMovementMethod());
         return view;
     }
 
