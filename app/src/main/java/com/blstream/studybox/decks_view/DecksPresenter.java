@@ -5,9 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.blstream.studybox.activities.EmptyDeckActivity;
-import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.RandomTestDialog;
+import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.database.DataProvider;

@@ -110,7 +110,6 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         titleView.setGravity(Gravity.CENTER);
         titleView.setMinimumHeight((int) getResources().getDimension(R.dimen.random_dialog_title_height));
 
-
         return titleView;
     }
 
@@ -154,6 +153,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         intent.putExtra(TAG_DECK_ID, deckId);
         intent.putExtra(TAG_DECK_NAME, deckName);
         intent.putExtra(TAG_RANDOM_AMOUNT, randomAmount);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
