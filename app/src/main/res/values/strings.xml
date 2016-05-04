@@ -71,7 +71,7 @@
     <string name="empty_deck_info">Pusta talia!</string>
     <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
     <string name="add_flashcard">Dodaj fiszki</string>
-    <string name="random_test_dialog_title">Podaj ilość fiszek w teście</string>
+    <string name="random_test_dialog_title">Wybierz ilość fiszek w teście</string>
     <string name="all">Wszystkie</string>
 
 </resources>
