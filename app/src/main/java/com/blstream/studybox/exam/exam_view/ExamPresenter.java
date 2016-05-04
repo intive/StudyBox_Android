@@ -43,9 +43,9 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
         EventBus.getDefault().unregister(this);
     }
 
-    public void getFlashcards(String deckId) {
+    public void getFlashcards(String deckId, String randomAmount) {
         final DataProvider dataProvider = new DataHelper(context);
-        dataProvider.fetchFlashcards(deckId, new DataProvider.OnCardsReceivedListener<List<Card>>() {
+        dataProvider.fetchFlashcards(deckId, randomAmount, new DataProvider.OnCardsReceivedListener<List<Card>>() {
             @Override
             public void OnCardsReceived(List<Card> cards) {
                 if (!cards.isEmpty()) {

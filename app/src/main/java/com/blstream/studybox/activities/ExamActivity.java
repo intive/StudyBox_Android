@@ -41,7 +41,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
     private static final String TAG_CARD_ID = "cardId";
-    private static final String TAG_DECK_AMOUNT = "randomAmount";
+    private static final String TAG_RANDOM_CARDS_AMOUNT = "randomAmount";
     private static final String TAG_IS_RANDOM_EXAM = "isRandomExam";
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
@@ -64,6 +64,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     private DrawerAdapter drawerAdapter;
     private String deckTitle;
     private String deckId;
+    private String randomAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +77,11 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         initView();
     }
 
-    private void getIntentExtras(){
+    private void getIntentExtras() {
         Bundle extras = getIntent().getExtras();
         deckTitle = extras.getString(TAG_DECK_NAME);
         deckId = extras.getString(TAG_DECK_ID);
+        randomAmount = extras.getString(TAG_RANDOM_CARDS_AMOUNT);
     }
 
     private void initView() {
@@ -120,7 +122,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
 
     @Override
     public void onNewViewStateInstance() {
-        presenter.getFlashcards(deckId);
+        presenter.getFlashcards(deckId, randomAmount);
         setupAnimation();
     }
 
@@ -137,9 +139,9 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         drawerAdapter.attachDrawer();
     }
 
-    private void setDrawerItemChecked(){
+    private void setDrawerItemChecked() {
         boolean isRandomDeckExam = getIntent().getExtras().getBoolean(TAG_IS_RANDOM_EXAM);
-        if(isRandomDeckExam){
+        if (isRandomDeckExam) {
             drawerAdapter.randomDeckDrawerItem(true);
         }
     }
