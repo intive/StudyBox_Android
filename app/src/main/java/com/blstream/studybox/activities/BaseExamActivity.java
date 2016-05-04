@@ -24,7 +24,6 @@ import com.blstream.studybox.R;
 import com.blstream.studybox.base.BaseViewStateActivity;
 import com.blstream.studybox.components.Dialogs;
 import com.blstream.studybox.components.DrawerAdapter;
-import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.exam.ResultDialogFragment;
 import com.blstream.studybox.exam.answer_view.AnswerFragment;
 import com.blstream.studybox.exam.answer_view.StudyAnswerFragment;
@@ -33,8 +32,6 @@ import com.blstream.studybox.exam.exam_view.ExamView;
 import com.blstream.studybox.exam.exam_view.ExamViewState;
 import com.blstream.studybox.exam.question_view.QuestionFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -89,48 +86,6 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         }
     }
 
-    public void showAnswer(String cardId) {
-        if(isInExam) {
-            AnswerFragment answerFragment = new AnswerFragment();
-            replaceFragment(answerFragment, cardId);
-        } else {
-            StudyAnswerFragment answerFragment = new StudyAnswerFragment();
-            replaceFragment(answerFragment, cardId);
-        }
-    }
-
-
-    public void showResult(int correctAnswers, int totalCards) {
-        if (isInExam) {
-            ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
-            resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
-        } else {
-            Dialogs dialog = new Dialogs(this);
-            dialog.studyEndDialogInit();
-            dialog.show();
-        }
-    }
-
-    private void dialogInit() {
-        dialog = new SweetAlertDialog(this)
-                .setTitleText("To juz wszystkie fiszki")
-                .setCancelText("Moje talie")
-                .setConfirmText("Powtórz")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        dialog.dismissWithAnimation();
-                        finish();
-                    }
-                })
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        EventBus.getDefault().post(new ImproveAllEvent());
-                        dialog.dismissWithAnimation();
-                    }
-                });
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -211,6 +166,26 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         replaceFragment(questionFragment, cardId);
     }
 
+    public void showAnswer(String cardId) {
+        if(isInExam) {
+            AnswerFragment answerFragment = new AnswerFragment();
+            replaceFragment(answerFragment, cardId);
+        } else {
+            StudyAnswerFragment answerFragment = new StudyAnswerFragment();
+            replaceFragment(answerFragment, cardId);
+        }
+    }
+    
+    public void showResult(int correctAnswers, int totalCards) {
+        if (isInExam) {
+            ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
+            resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
+        } else {
+            Dialogs dialog = new Dialogs(this);
+            dialog.studyEndDialogInit();
+            dialog.show();
+        }
+    }
 
     protected void replaceFragment(Fragment fragment, String cardId) {
         Bundle args = new Bundle();
