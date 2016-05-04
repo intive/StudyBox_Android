@@ -92,12 +92,12 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         setContentView(R.layout.activity_exam);
         setRetainInstance(true);
         if (savedInstanceState == null) {
-            checkSavedState();
+            getIntentExtras();
         }
         initView();
     }
 
-    private void checkSavedState(){
+    private void getIntentExtras(){
         Bundle extras = getIntent().getExtras();
         deckTitle = extras.getString(TAG_DECK_NAME);
         deckId = extras.getString(TAG_DECK_ID);
@@ -124,7 +124,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     @NonNull
     @Override
     public ExamPresenter createPresenter() {
-        return new ExamPresenter(this);
+        return new ExamPresenter(getApplicationContext());
     }
 
     @NonNull
@@ -180,6 +180,10 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         if (isInExam) {
             ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
             resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
         } else {
             Dialogs dialog = new Dialogs(this);
             dialog.studyEndDialogInit();
