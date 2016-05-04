@@ -14,14 +14,11 @@ public class Dialogs extends SweetAlertDialog {
 
     private Context context;
 
-    public Dialogs(Context context, Activity owner) {
+    public Dialogs(Context context) {
         super(context);
         this.context = context;
     }
 
-    public Dialogs(Context context) {
-        super(context);
-    }
     public void modeDialogInit(final String deckId, final String deckName) {
         this.setTitleText("Wybierz tryb")
                 .setCancelText("Nauka")

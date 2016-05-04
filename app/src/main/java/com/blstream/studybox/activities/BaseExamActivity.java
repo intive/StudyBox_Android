@@ -181,7 +181,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
             ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
             resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
         } else {
-            Dialogs dialog = new Dialogs(this, this);
+            Dialogs dialog = new Dialogs(this);
             dialog.studyEndDialogInit();
             dialog.show();
         }
