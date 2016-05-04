@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.blstream.studybox.model.database.Card;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ExamManager {
@@ -56,12 +57,28 @@ public class ExamManager {
     }
 
     public boolean setNextCard() {
-        position++;
         if (position < flashcards.size()) {
             currentCard = flashcards.get(position);
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void setCardPosition(CardPosition cardPosition) {
+        switch (cardPosition) {
+            case INCREMENT:
+                position++;
+                break;
+            case SHUFFLE:
+                Collections.rotate(flashcards.subList(position, flashcards.size()), -1);
+                break;
+            case END:
+                int index = (int) Math.floor(position + ((flashcards.size()-position)/2));
+                Collections.rotate(flashcards.subList(position, index+1), -1);
+                break;
+            default:
+                break;
         }
     }
 

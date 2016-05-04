@@ -16,4 +16,11 @@
     <!-- Exam colors -->
     <color name="white">#FFFFFF</color>
 
+    <!-- SweetDialog Library dialog colors -->
+    <color name="sweet_dialog_bg_color">@color/colorGrey</color>
+    <color name="button_text_color">@color/colorGrey</color>
+    <color name="gray_btn_bg_color">@color/colorDarkBlue</color>
+    <color name="gray_btn_bg_pressed_color">@color/colorGraphite</color>
+    <color name="blue_btn_bg_color">@color/colorDarkBlue</color>
+    <color name="blue_btn_bg_pressed_color">@color/colorGraphite</color>
 </resources>

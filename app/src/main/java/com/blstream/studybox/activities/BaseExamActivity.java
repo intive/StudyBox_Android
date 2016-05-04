@@ -22,22 +22,26 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.base.BaseViewStateActivity;
+import com.blstream.studybox.components.Dialogs;
 import com.blstream.studybox.components.DrawerAdapter;
+import com.blstream.studybox.exam.ResultDialogFragment;
+import com.blstream.studybox.exam.answer_view.AnswerFragment;
+import com.blstream.studybox.exam.answer_view.StudyAnswerFragment;
 import com.blstream.studybox.exam.exam_view.ExamPresenter;
 import com.blstream.studybox.exam.exam_view.ExamView;
 import com.blstream.studybox.exam.exam_view.ExamViewState;
-import com.blstream.studybox.exam.answer_view.AnswerFragment;
 import com.blstream.studybox.exam.question_view.QuestionFragment;
-import com.blstream.studybox.exam.ResultDialogFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
+public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         implements ExamView {
 
     private static final String TAG_RESULT = "result";
+    private static final String TAG_IN_EXAM= "inExam";
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
     private static final String TAG_CARD_ID = "cardId";
@@ -45,6 +49,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     private static final String TAG_IS_RANDOM_EXAM = "isRandomExam";
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
+    private static boolean isInExam;
 
     @Bind(R.id.cardsNumber)
     TextView cardsNumber;
@@ -65,6 +70,24 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     private String deckTitle;
     private String deckId;
     private String randomAmount;
+    private SweetAlertDialog dialog;
+
+    public static void start(Context context, boolean isExam, String deckId, String deckName, boolean isRandomDeckExam) {
+        final Intent intent = new Intent(context, BaseExamActivity.class);
+        intent.putExtra(TAG_DECK_ID, deckId);
+        intent.putExtra(TAG_DECK_NAME, deckName);
+        intent.putExtra(TAG_IS_RANDOM_EXAM, isRandomDeckExam);
+        intent.putExtra(TAG_IN_EXAM, isExam);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+        } else {
+            context.startActivity(intent);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +105,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         deckTitle = extras.getString(TAG_DECK_NAME);
         deckId = extras.getString(TAG_DECK_ID);
         randomAmount = extras.getString(TAG_RANDOM_CARDS_AMOUNT);
+        isInExam = extras.getBoolean(TAG_IN_EXAM);
     }
 
     private void initView() {
@@ -93,18 +117,10 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         setDrawerItemChecked();
     }
 
-    public static void start(Context context, String deckId, String deckName, boolean isRandomDeckExam) {
-        final Intent intent = new Intent(context, ExamActivity.class);
-        intent.putExtra(TAG_DECK_ID, deckId);
-        intent.putExtra(TAG_DECK_NAME, deckName);
-        intent.putExtra(TAG_IS_RANDOM_EXAM, isRandomDeckExam);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
-        } else {
-            context.startActivity(intent);
+    private void setDrawerItemChecked(){
+        boolean isRandomDeckExam = getIntent().getExtras().getBoolean(TAG_IS_RANDOM_EXAM);
+        if(isRandomDeckExam){
+            drawerAdapter.randomDeckDrawerItem(true);
         }
     }
 
@@ -123,6 +139,7 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
     @Override
     public void onNewViewStateInstance() {
         presenter.getFlashcards(deckId, randomAmount);
+        presenter.inExam(isInExam);
         setupAnimation();
     }
 
@@ -139,13 +156,6 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         drawerAdapter.attachDrawer();
     }
 
-    private void setDrawerItemChecked() {
-        boolean isRandomDeckExam = getIntent().getExtras().getBoolean(TAG_IS_RANDOM_EXAM);
-        if (isRandomDeckExam) {
-            drawerAdapter.randomDeckDrawerItem(true);
-        }
-    }
-
     @Override
     public void setCardCounter(int currentCard, int totalCards) {
         ExamViewState examViewState = (ExamViewState) viewState;
@@ -159,10 +169,29 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         replaceFragment(questionFragment, cardId);
     }
 
-    @Override
     public void showAnswer(String cardId) {
-        AnswerFragment answerFragment = new AnswerFragment();
-        replaceFragment(answerFragment, cardId);
+        if(isInExam) {
+            AnswerFragment answerFragment = new AnswerFragment();
+            replaceFragment(answerFragment, cardId);
+        } else {
+            StudyAnswerFragment answerFragment = new StudyAnswerFragment();
+            replaceFragment(answerFragment, cardId);
+        }
+    }
+
+    public void showResult(int correctAnswers, int totalCards) {
+        if (isInExam) {
+            ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
+            resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+        } else {
+            Dialogs dialog = new Dialogs(this);
+            dialog.studyEndDialogInit();
+            dialog.show();
+        }
     }
 
     protected void replaceFragment(Fragment fragment, String cardId) {
@@ -175,16 +204,6 @@ public class ExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
                 .commit();
     }
 
-    @Override
-    public void showResult(int correctAnswers, int totalCards) {
-        ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
-        resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-        }
-    }
 
     protected void setupAnimation() {
         if (!isRestoringViewState()) {

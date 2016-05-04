@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import com.blstream.studybox.components.Dialogs;
 import com.blstream.studybox.RandomTestDialog;
 import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
@@ -37,7 +38,6 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     public void OnDecksReceived(List<Decks> decks) {
         if (isViewAttached()) {
             getView().setData(decks);
-
             getView().showLoading(false);
             getView().showContent();
         }
@@ -62,9 +62,13 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             EmptyDeckActivity.start(view.getContext());
         } else {
             Context context = view.getContext();
-            RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName, cardsAmount);
-            FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-            randomTestDialog.show(fragmentManager, "RandomTestDialog");
+            Dialogs dialog = new Dialogs(context);
+            dialog.modeDialogInit(deckId, deckName);
+            dialog.show();
+//            Context context = view.getContext();
+//            RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName, cardsAmount);
+//            FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+//            randomTestDialog.show(fragmentManager, "RandomTestDialog");
         }
     }
 
