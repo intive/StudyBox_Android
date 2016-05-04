@@ -18,7 +18,8 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blstream.studybox.activities.ExamActivity;
+import com.blstream.studybox.activities.BaseExamActivity;
+
 
 /**
  * Created by Marek Macko on 27.04.2016.
@@ -30,6 +31,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_RANDOM_AMOUNT = "randomAmount";
     private static final String TAG_CARDS_AMOUNT = "cardsAmount";
+    private static final String TAG_IN_EXAM = "inExam";
 
     private String deckId;
     private String deckName;
@@ -149,10 +151,11 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         randomAmount = convertNumberToWord(randomAmount);
 
         Context context = getContext();
-        Intent intent = new Intent(context, ExamActivity.class);
+        Intent intent = new Intent(context, BaseExamActivity.class);
         intent.putExtra(TAG_DECK_ID, deckId);
         intent.putExtra(TAG_DECK_NAME, deckName);
         intent.putExtra(TAG_RANDOM_AMOUNT, randomAmount);
+        intent.putExtra(TAG_RANDOM_AMOUNT, true);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

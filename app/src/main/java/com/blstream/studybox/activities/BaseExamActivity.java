@@ -70,7 +70,6 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     private String deckTitle;
     private String deckId;
     private String randomAmount;
-    private SweetAlertDialog dialog;
 
     public static void start(Context context, boolean isExam, String deckId, String deckName, boolean isRandomDeckExam) {
         final Intent intent = new Intent(context, BaseExamActivity.class);
@@ -119,7 +118,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
 
     private void setDrawerItemChecked(){
         boolean isRandomDeckExam = getIntent().getExtras().getBoolean(TAG_IS_RANDOM_EXAM);
-        if(isRandomDeckExam){
+        if (isRandomDeckExam) {
             drawerAdapter.randomDeckDrawerItem(true);
         }
     }

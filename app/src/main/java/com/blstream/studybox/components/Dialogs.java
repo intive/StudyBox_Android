@@ -2,8 +2,11 @@ package com.blstream.studybox.components;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.RandomTestDialog;
 import com.blstream.studybox.activities.BaseExamActivity;
 import com.blstream.studybox.events.ImproveAllEvent;
 
@@ -20,7 +23,7 @@ public class Dialogs extends SweetAlertDialog {
         this.context = context;
     }
 
-    public void modeDialogInit(final String deckId, final String deckName) {
+    public void modeDialogInit(final String deckId, final String deckName, final int cardsAmount) {
         this.setTitleText(getString(R.string.choose_mode))
                 .setCancelText(getString(R.string.study))
                 .setConfirmText(getString(R.string.exam))
@@ -35,7 +38,9 @@ public class Dialogs extends SweetAlertDialog {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         dismissWithAnimation();
-                        BaseExamActivity.start(getContext(), true, deckId, deckName, false);
+                        RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName, cardsAmount);
+                        FragmentManager fragmentManager = ((FragmentActivity) getContext()).getSupportFragmentManager();
+                        randomTestDialog.show(fragmentManager, "RandomTestDialog");
                     }
                 });
     }
