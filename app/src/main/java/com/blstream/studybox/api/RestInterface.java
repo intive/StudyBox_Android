@@ -23,7 +23,7 @@ public interface RestInterface {
     void getRandomDeck(@Query("random") boolean randomKey, @Query("random") boolean flashcardCountKey, Callback<List<Decks>> cb);
 
     @GET("/decks/{key}/flashcards")
-    void getFlashcards(@Path("key") String key, Callback<List<Card>> cb);
+    void getFlashcards(@Path("key") String key, @Query("random") String amount, Callback<List<Card>> cb);
 
     @GET("/decks/{keyDeck}/flashcards/{keyFlashcard}/tips")
     void getTips(@Path("keyDeck") String keyDeck, @Path("keyFlashcard") String keyFlashcard, Callback<List<Tip>> cb);

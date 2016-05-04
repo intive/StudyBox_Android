@@ -20,7 +20,6 @@ public class DataHelper implements DataProvider {
     private Context context;
     private List<Decks> privateDecks;
     private List<Decks> publicDecks;
-    private List<Card>  downloadedCards;
 
     public DataHelper(Context context) {
         this.context = context;
@@ -64,11 +63,10 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchFlashcards(String deckId, final DataProvider.OnCardsReceivedListener listener) {
-        RestClientManager.getFlashcards(deckId, new RequestCallback<>(new RequestListener<List<Card>>() {
+    public void fetchFlashcards(String deckId, String randomAmount, final OnCardsReceivedListener<List<Card>> listener) {
+        RestClientManager.getFlashcards(deckId, randomAmount, new RequestCallback<>(new RequestListener<List<Card>>() {
             @Override
             public void onSuccess(List<Card> response) {
-                downloadedCards = response;
                 saveCardsToDataBase(response);
                 listener.OnCardsReceived(response);
             }
@@ -83,7 +81,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener<List<Decks>> listener) {
-        RestClientManager.getRandomDeck(true, true , new RequestCallback<>(new RequestListener<List<Decks>>() {
+        RestClientManager.getRandomDeck(true, true, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
                 listener.OnDecksReceived(response);

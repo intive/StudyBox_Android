@@ -42,7 +42,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         this.toolbar = toolbar;
         try {
             this.activity = (Activity)context;
-        } catch(ClassCastException e){
+        } catch(ClassCastException e) {
             DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
         }
         this.login = new LoginManager(context);

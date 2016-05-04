@@ -45,6 +45,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
     private static final String TAG_CARD_ID = "cardId";
+    private static final String TAG_RANDOM_CARDS_AMOUNT = "randomAmount";
     private static final String TAG_IS_RANDOM_EXAM = "isRandomExam";
     private static final int ANIMATION_DURATION = 1000;
     private static final int TRANSITION_DURATION = 500;
@@ -68,7 +69,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     private DrawerAdapter drawerAdapter;
     private String deckTitle;
     private String deckId;
-    private SweetAlertDialog dialog;
+    private String randomAmount;
 
     public static void start(Context context, boolean isExam, String deckId, String deckName, boolean isRandomDeckExam) {
         final Intent intent = new Intent(context, BaseExamActivity.class);
@@ -86,6 +87,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,12 +99,12 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         initView();
     }
 
-    private void getIntentExtras(){
+    private void getIntentExtras() {
         Bundle extras = getIntent().getExtras();
         deckTitle = extras.getString(TAG_DECK_NAME);
         deckId = extras.getString(TAG_DECK_ID);
+        randomAmount = extras.getString(TAG_RANDOM_CARDS_AMOUNT);
         isInExam = extras.getBoolean(TAG_IN_EXAM);
-
     }
 
     private void initView() {
@@ -116,7 +118,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
 
     private void setDrawerItemChecked(){
         boolean isRandomDeckExam = getIntent().getExtras().getBoolean(TAG_IS_RANDOM_EXAM);
-        if(isRandomDeckExam){
+        if (isRandomDeckExam) {
             drawerAdapter.randomDeckDrawerItem(true);
         }
     }
@@ -135,7 +137,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
 
     @Override
     public void onNewViewStateInstance() {
-        presenter.getFlashcards(deckId);
+        presenter.getFlashcards(deckId, randomAmount);
         presenter.inExam(isInExam);
         setupAnimation();
     }
@@ -204,7 +206,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
 
     protected void setupAnimation() {
         if (!isRestoringViewState()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 setUpEnterAnimation();
             }
         }
