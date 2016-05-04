@@ -3,8 +3,8 @@ package com.blstream.studybox.decks_view;
 import android.content.Context;
 import android.view.View;
 
+import com.blstream.studybox.components.Dialogs;
 import com.blstream.studybox.activities.EmptyDeckActivity;
-import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.database.DataProvider;
@@ -35,7 +35,6 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     public void OnDecksReceived(List<Decks> decks) {
         if (isViewAttached()) {
             getView().setData(decks);
-
             getView().showLoading(false);
             getView().showContent();
         }
@@ -59,7 +58,10 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         if (flashcards == 0) {
             EmptyDeckActivity.start(view.getContext());
         } else {
-            ExamActivity.start(view.getContext(), deckId, deckName, false);
+            Context context = view.getContext();
+            Dialogs dialog = new Dialogs(context);
+            dialog.modeDialogInit(deckId, deckName);
+            dialog.show();
         }
     }
 

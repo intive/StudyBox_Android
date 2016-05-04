@@ -8,7 +8,9 @@ import com.blstream.studybox.events.CorrectAnswerEvent;
 import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
 import com.blstream.studybox.events.ShowAnswerEvent;
+import com.blstream.studybox.events.SkipAnswerEvent;
 import com.blstream.studybox.events.WrongAnswerEvent;
+import com.blstream.studybox.exam.CardPosition;
 import com.blstream.studybox.exam.ExamManager;
 import com.blstream.studybox.model.database.Card;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -26,6 +28,7 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     protected String currentCardId;
     private ExamManager examManager;
     private final Context context;
+    private boolean isInExamMode;
 
     public ExamPresenter(Context context) {
         this.context = context;
@@ -86,13 +89,25 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
 
     @Subscribe
     public void onCorrectAnswerEvent(CorrectAnswerEvent event) {
-        examManager.setCurrentCardCorrect();
+        if(isInExamMode) examManager.setCurrentCardCorrect();
+        examManager.setCardPosition(CardPosition.INCREMENT);
         moveToNextCard();
     }
 
     @Subscribe
     public void onWrongAnswerEvent(WrongAnswerEvent event) {
-        examManager.setCurrentCardWrong();
+        if(isInExamMode) {
+            examManager.setCurrentCardWrong();
+            examManager.setCardPosition(CardPosition.INCREMENT);
+        } else {
+            examManager.setCardPosition(CardPosition.SHUFFLE);
+        }
+        moveToNextCard();
+    }
+
+    @Subscribe
+    public void onSkipAnswerEvent(SkipAnswerEvent event) {
+        examManager.setCardPosition(CardPosition.END);
         moveToNextCard();
     }
 
@@ -123,5 +138,9 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
                 getView().showResult(correctAnswers, totalCards);
             }
         }
+    }
+
+    public void inExam(boolean isInExam) {
+        isInExamMode = isInExam;
     }
 }

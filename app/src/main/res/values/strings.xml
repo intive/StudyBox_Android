@@ -71,5 +71,14 @@
     <string name="empty_deck_info">Pusta talia!</string>
     <string name="empty_deck_extended_info">W tej talii nie ma fiszek</string>
     <string name="add_flashcard">Dodaj fiszki</string>
+    <string name="skip">Pomiń</string>
+    <string name="title_activity_study">StudyActivity</string>
+    <string name="no">Nie</string>
+    <string name="yes">Tak</string>
+    <string name="repeat_study_question">Czy rozpocząć naukę od nowa?</string>
+    <string name="repeat_study_info">To już wszystkie fiszki.</string>
+    <string name="exam">Egzamin</string>
+    <string name="study">Nauka</string>
+    <string name="choose_mode">Wybierz tryb</string>
 
 </resources>

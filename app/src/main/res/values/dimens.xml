@@ -38,5 +38,6 @@
     <dimen name="sign_up_cancel_link_text_size">16sp</dimen>
     <dimen name="exam_title_text">26sp</dimen>
     <dimen name="empty_box_size">160dp</dimen>
+    <dimen name="exam_medium_text_smaller">16sp</dimen>
 
 </resources>
