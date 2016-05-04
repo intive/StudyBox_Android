@@ -7,7 +7,7 @@
     android:weightSum="1.4">
 
     <FrameLayout
-        android:id="@+id/studyAnswerContainer"
+        android:id="@+id/AnswerContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/exam_element_bottom_margin"
@@ -20,7 +20,7 @@
             android:fitsSystemWindows="true">
 
             <TextView
-                android:id="@+id/answer_study"
+                android:id="@+id/answer"
                 android:text="@string/answer"
                 android:textSize="@dimen/exam_medium_text"
                 android:textAllCaps="true"
@@ -31,7 +31,7 @@
         </ScrollView>
 
         <ImageView
-            android:id="@+id/answer_image_study"
+            android:id="@+id/answer_image"
             android:scaleType="centerInside"
             android:visibility="gone"
             android:layout_gravity="center"
@@ -49,7 +49,7 @@
         android:weightSum="2">
 
         <ImageButton
-            android:id="@+id/incorrect_ans_btn_study"
+            android:id="@+id/incorrect_ans_btn"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -60,7 +60,7 @@
             android:layout_marginRight="@dimen/exam_element_margin"/>
 
         <ImageButton
-            android:id="@+id/correct_ans_btn_study"
+            android:id="@+id/correct_ans_btn"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -73,7 +73,7 @@
 
     </LinearLayout>
     <Button
-        android:id="@+id/skip_ans_btn_study"
+        android:id="@+id/skip_ans_btn"
         android:layout_weight="0.15"
         android:layout_width="match_parent"
         android:layout_height="0dp"

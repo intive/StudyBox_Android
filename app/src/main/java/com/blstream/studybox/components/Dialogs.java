@@ -3,6 +3,7 @@ package com.blstream.studybox.components;
 import android.app.Activity;
 import android.content.Context;
 
+import com.blstream.studybox.R;
 import com.blstream.studybox.activities.BaseExamActivity;
 import com.blstream.studybox.events.ImproveAllEvent;
 
@@ -20,9 +21,9 @@ public class Dialogs extends SweetAlertDialog {
     }
 
     public void modeDialogInit(final String deckId, final String deckName) {
-        this.setTitleText("Wybierz tryb")
-                .setCancelText("Nauka")
-                .setConfirmText("Egzamin")
+        this.setTitleText(getString(R.string.choose_mode))
+                .setCancelText(getString(R.string.study))
+                .setConfirmText(getString(R.string.exam))
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -40,23 +41,27 @@ public class Dialogs extends SweetAlertDialog {
     }
 
     public void studyEndDialogInit() {
-        this.setTitleText("To już wszystkie fiszki.")
-                .setContentText("Czy rozpocząć naukę od nowa?")
-                .setConfirmText("TAK")
-                .setCancelText("NIE")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        dismissWithAnimation();
-                        ((Activity) context).finish();
-                    }
-                })
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        dismissWithAnimation();
-                        EventBus.getDefault().post(new ImproveAllEvent());
-                    }
-                });
+        this.setTitleText(getString(R.string.repeat_study_info))
+                .setContentText(getString(R.string.repeat_study_question))
+                .setConfirmText(getString(R.string.yes))
+                        .setCancelText(getString(R.string.no))
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                dismissWithAnimation();
+                                ((Activity) context).finish();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                dismissWithAnimation();
+                                EventBus.getDefault().post(new ImproveAllEvent());
+                            }
+                        });
+    }
+
+    private String getString(int id) {
+        return context.getResources().getString(id);
     }
 }
