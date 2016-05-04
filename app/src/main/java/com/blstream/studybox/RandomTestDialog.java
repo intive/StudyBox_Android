@@ -20,11 +20,6 @@ import android.widget.TextView;
 
 import com.blstream.studybox.activities.BaseExamActivity;
 
-
-/**
- * Created by Marek Macko on 27.04.2016.
- *
- */
 public class RandomTestDialog extends DialogFragment implements View.OnClickListener {
 
     private static final String TAG_DECK_ID = "deckId";
@@ -155,7 +150,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         intent.putExtra(TAG_DECK_ID, deckId);
         intent.putExtra(TAG_DECK_NAME, deckName);
         intent.putExtra(TAG_RANDOM_AMOUNT, randomAmount);
-        intent.putExtra(TAG_RANDOM_AMOUNT, true);
+        intent.putExtra(TAG_IN_EXAM, true);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

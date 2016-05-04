@@ -11,10 +11,6 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import retrofit.RetrofitError;
 
-/**
- * Created by Marek Macko on 12.04.2016.
- *
- */
 public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 
     public void validateCredential(AuthCredentials credentials) {
