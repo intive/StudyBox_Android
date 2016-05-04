@@ -45,6 +45,10 @@ public class Card extends Model implements Parcelable{
         return new Select().from(Card.class).execute();
     }
 
+    public static Card getCardById(String id) {
+        return new Select().from(Card.class).where("flashcardId = ?", id).executeSingle();
+    }
+
     public String getDeckId() {
         return deckId;
     }

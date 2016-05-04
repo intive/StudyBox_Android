@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import com.blstream.studybox.activities.EmptyDeckActivity;
+import com.blstream.studybox.activities.ExamActivity;
 import com.blstream.studybox.RandomTestDialog;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.database.DataHelper;
@@ -61,6 +63,11 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName, cardsAmount);
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         randomTestDialog.show(fragmentManager, "RandomTestDialog");
+//        if (flashcards == 0) {
+//            EmptyDeckActivity.start(view.getContext());
+//        } else {
+//            ExamActivity.start(view.getContext(), deckId, deckName, false);
+//        }
     }
 
     @Override

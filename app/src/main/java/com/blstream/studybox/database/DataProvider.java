@@ -1,6 +1,5 @@
 package com.blstream.studybox.database;
 
-import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
 
 import java.util.List;
@@ -11,7 +10,9 @@ public interface DataProvider {
 
     void fetchPublicDecks(OnDecksReceivedListener listener);
 
-    void fetchFlashcards(String deckId, String randomAmount, OnCardsReceivedListener<List<Card>> listener);
+    void fetchFlashcards(String deckId, String randomAmount, OnCardsReceivedListener listener);
+
+    void fetchTips(String deckId, String cardId, OnTipsReceivedListener listener);
 
     void fetchRandomDeck(OnDecksReceivedListener<List<Decks>> listener);
 
@@ -21,6 +22,10 @@ public interface DataProvider {
 
     interface OnCardsReceivedListener<T> {
         void OnCardsReceived(T cards);
+    }
+
+    interface OnTipsReceivedListener<T> {
+        void OnTipsReceived(T tips);
     }
 
     List<Decks> getPrivateDecks();

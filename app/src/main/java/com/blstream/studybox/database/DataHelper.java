@@ -9,6 +9,7 @@ import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Tip;
 
 import java.util.List;
 
@@ -95,6 +96,20 @@ public class DataHelper implements DataProvider {
         }));
     }
 
+    @Override
+    public void fetchTips(String deckId, String cardId, final OnTipsReceivedListener listener) {
+        RestClientManager.getTips(deckId, cardId, new RequestCallback<>(new RequestListener<List<Tip>>() {
+            @Override
+            public void onSuccess(List<Tip> response) {
+                listener.OnTipsReceived(response);
+            }
+
+            @Override
+            public void onFailure(RetrofitError error) {
+
+            }
+        }));
+    }
 
     @Override
     public List<Decks> getPrivateDecks() {
