@@ -1,5 +1,6 @@
 package com.blstream.studybox.components;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.blstream.studybox.activities.BaseExamActivity;
@@ -11,10 +12,16 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Dialogs extends SweetAlertDialog {
 
+    private Context context;
+
+    public Dialogs(Context context, Activity owner) {
+        super(context);
+        this.context = context;
+    }
+
     public Dialogs(Context context) {
         super(context);
     }
-
     public void modeDialogInit(final String deckId, final String deckName) {
         this.setTitleText("Wybierz tryb")
                 .setCancelText("Nauka")
@@ -44,7 +51,7 @@ public class Dialogs extends SweetAlertDialog {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         dismissWithAnimation();
-                      //  getOwnerActivity().finish(); // to zwraca nulla
+                        ((Activity) context).finish();
                     }
                 })
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {

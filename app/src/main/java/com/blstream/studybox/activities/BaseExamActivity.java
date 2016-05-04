@@ -175,13 +175,13 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
             replaceFragment(answerFragment, cardId);
         }
     }
-    
+
     public void showResult(int correctAnswers, int totalCards) {
         if (isInExam) {
             ResultDialogFragment resultDialog = ResultDialogFragment.newInstance(correctAnswers, totalCards);
             resultDialog.show(getSupportFragmentManager(), TAG_RESULT);
         } else {
-            Dialogs dialog = new Dialogs(this);
+            Dialogs dialog = new Dialogs(this, this);
             dialog.studyEndDialogInit();
             dialog.show();
         }

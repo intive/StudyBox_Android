@@ -59,7 +59,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             EmptyDeckActivity.start(view.getContext());
         } else {
             Context context = view.getContext();
-            Dialogs dialog = new Dialogs(context);
+            Dialogs dialog = new Dialogs(context, null);
             dialog.modeDialogInit(deckId, deckName);
             dialog.show();
         }
