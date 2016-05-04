@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.activities.ExamActivity;
+import com.blstream.studybox.activities.BaseExamActivity;
 import com.blstream.studybox.activities.LoginActivity;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.database.DataHelper;
@@ -120,7 +120,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         if(decks != null){
             String deckId = decks.get(0).getDeckId();
             String deckName = decks.get(0).getName();
-            ExamActivity.start(context, deckId, deckName, true);
+            BaseExamActivity.start(context, true, deckId, deckName, true);
         }
     }
 }

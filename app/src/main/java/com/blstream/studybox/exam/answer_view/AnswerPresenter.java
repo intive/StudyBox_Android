@@ -3,6 +3,7 @@ package com.blstream.studybox.exam.answer_view;
 import android.util.Patterns;
 
 import com.blstream.studybox.events.CorrectAnswerEvent;
+import com.blstream.studybox.events.SkipAnswerEvent;
 import com.blstream.studybox.events.WrongAnswerEvent;
 import com.blstream.studybox.model.database.Card;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -38,6 +39,10 @@ public class AnswerPresenter extends MvpBasePresenter<AnswerView> {
 
     public void sendWrongAnswer() {
         EventBus.getDefault().post(new WrongAnswerEvent());
+    }
+
+    public void sendSkipAnswer() {
+        EventBus.getDefault().post(new SkipAnswerEvent());
     }
 
 }
