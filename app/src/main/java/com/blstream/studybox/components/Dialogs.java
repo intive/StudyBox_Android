@@ -30,8 +30,8 @@ public class Dialogs extends SweetAlertDialog {
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        dismissWithAnimation();
-                        BaseExamActivity.start(getContext(), false, deckId, deckName, false);
+                        dismiss();
+                        BaseExamActivity.start(context, false, deckId, deckName, false);
                     }
                 })
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -39,7 +39,7 @@ public class Dialogs extends SweetAlertDialog {
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         dismissWithAnimation();
                         RandomTestDialog randomTestDialog = RandomTestDialog.newInstance(deckId, deckName, cardsAmount);
-                        FragmentManager fragmentManager = ((FragmentActivity) getContext()).getSupportFragmentManager();
+                        FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                         randomTestDialog.show(fragmentManager, "RandomTestDialog");
                     }
                 });
