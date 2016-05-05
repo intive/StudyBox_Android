@@ -10,4 +10,13 @@ public interface QuestionView extends MvpView {
     void showImagePrompt(String url);
     void disablePrompt();
     void enablePrompt();
+    void switchToPrompts();
+    void switchToQuestion();
+    void setPromptPosition(int promptPosition);
+    void showLeftPromptArrow();
+    void hideLeftPromptArrow();
+    void showRightPromptArrow();
+    void hideRightPromptArrow();
+    void inPromptMode(boolean inPromptMode);
+
 }

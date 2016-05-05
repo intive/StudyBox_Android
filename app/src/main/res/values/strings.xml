@@ -61,6 +61,9 @@
     <string name="improve_only_wrong">Test z najgorszych</string>
     <string name="empty_deck">Pusta talia</string>
     <string name="no_decks">Brak talii</string>
+    <string name="next_prompt">Następna podpowiedź</string>
+    <string name="prev_prompt">Wcześniejsza podpowiedź</string>
+    <string name="question_image">Obrazek pytania</string>
 
     <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="open_options">USTAWIENIA</string>

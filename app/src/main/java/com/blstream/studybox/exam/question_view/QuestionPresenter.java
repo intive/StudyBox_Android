@@ -20,10 +20,13 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
     private Card card;
     private List<Tip> prompts;
     private Context context;
+    private boolean isInPromptMode;
+    private int promptPosition;
 
     public QuestionPresenter(Context context) {
         this.context = context;
         prompts = new ArrayList<>();
+
     }
 
     public void loadQuestion(String cardId) {
@@ -54,6 +57,7 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
                 //noinspection ConstantConditions
                 getView().enablePrompt();
             }
+            showPrompt(promptPosition);
         }
     }
 
@@ -73,8 +77,9 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
         }
     }
 
-    public void showPrompt() {
-        String prompt = prompts.get(0).getEssence();
+    public void showPrompt(int promptPos) {
+        promptPosition = promptPos;
+        String prompt = prompts.get(promptPosition).getEssence();
 
         if (Patterns.WEB_URL.matcher(prompt).matches()) {
             if (isViewAttached()) {
@@ -87,9 +92,76 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
                 getView().showTextPrompt(prompt);
             }
         }
+        setPromptArrowsVisibility();
+    }
+
+    private void setPromptArrowsVisibility() {
+        if (promptPosition == 0) {
+            if (isViewAttached()) {
+                //noinspection ConstantConditions
+                getView().hideLeftPromptArrow();
+            }
+        } else {
+            if (isViewAttached()) {
+                //noinspection ConstantConditions
+                getView().showLeftPromptArrow();
+            }
+        }
+
+        if (promptPosition == prompts.size() - 1) {
+            if (isViewAttached()) {
+                //noinspection ConstantConditions
+                getView().hideRightPromptArrow();
+            }
+        } else {
+            if (isViewAttached()) {
+                //noinspection ConstantConditions
+                getView().showRightPromptArrow();
+            }
+        }
     }
 
     public void showAnswer() {
         EventBus.getDefault().post(new ShowAnswerEvent());
+    }
+
+    public void switchView() {
+        if (!isInPromptMode) {
+            if (isViewAttached()) {
+                //noinspection ConstantConditions
+                getView().switchToPrompts();
+            }
+        } else {
+            if (isViewAttached()) {
+                //noinspection ConstantConditions
+                getView().switchToQuestion();
+            }
+        }
+    }
+
+    public void setView(boolean inPromptMode){
+        isInPromptMode = inPromptMode;
+        if (isInPromptMode) {
+            if (isViewAttached()) {
+                //noinspection ConstantConditions
+                getView().switchToPrompts();
+            }
+        }
+    }
+
+    public  void showNextPrompt(int promptPos){
+        promptPosition = promptPos;
+    }
+
+    public  void showPrevPrompt(int promptPos){
+        promptPosition = promptPos;
+    }
+
+    public void inPrompt(boolean isPromptShowed) {
+        isInPromptMode = isPromptShowed;
+    }
+
+    public void setPromptPosition(int promptPos) {
+        promptPosition = promptPos;
     }
 }

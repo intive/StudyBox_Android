@@ -28,14 +28,14 @@ public class Dialogs extends SweetAlertDialog {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         dismissWithAnimation();
-                        BaseExamActivity.start(getContext(), false, deckId, deckName, false);
+                        BaseExamActivity.start(context, false, deckId, deckName, false);
                     }
                 })
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         dismissWithAnimation();
-                        BaseExamActivity.start(getContext(), true, deckId, deckName, false);
+                        BaseExamActivity.start(context, false, deckId, deckName, false);
                     }
                 });
     }
