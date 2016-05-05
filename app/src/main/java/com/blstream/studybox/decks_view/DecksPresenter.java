@@ -3,9 +3,9 @@ package com.blstream.studybox.decks_view;
 import android.content.Context;
 import android.view.View;
 
-import com.blstream.studybox.components.Dialogs;
 import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
+import com.blstream.studybox.components.Dialogs;
 import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.database.DataProvider;
 import com.blstream.studybox.model.database.Decks;
@@ -43,24 +43,24 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     public void onDeckClicked(int position, View view) {
         String deckId;
         String deckName;
-        int flashcards;
+        int cardsAmount;
 
         if (loginManager.isUserLoggedIn()) {
             deckId = dataProvider.getPrivateDecks().get(position).getDeckId();
             deckName = dataProvider.getPrivateDecks().get(position).getName();
-            flashcards = dataProvider.getPrivateDecks().get(position).getFlashcardsCount();
+            cardsAmount = dataProvider.getPrivateDecks().get(position).getFlashcardsCount();
         } else {
             deckId = dataProvider.getPublicDecks().get(position).getDeckId();
             deckName = dataProvider.getPublicDecks().get(position).getName();
-            flashcards = dataProvider.getPublicDecks().get(position).getFlashcardsCount();
+            cardsAmount = dataProvider.getPublicDecks().get(position).getFlashcardsCount();
         }
 
-        if (flashcards == 0) {
+        if (cardsAmount == 0) {
             EmptyDeckActivity.start(view.getContext());
         } else {
             Context context = view.getContext();
             Dialogs dialog = new Dialogs(context);
-            dialog.modeDialogInit(deckId, deckName);
+            dialog.modeDialogInit(deckId, deckName, cardsAmount);
             dialog.show();
         }
     }
@@ -69,5 +69,4 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     public void attachView(DecksView view) {
         super.attachView(view);
     }
-
 }

@@ -83,5 +83,7 @@
     <string name="exam">Egzamin</string>
     <string name="study">Nauka</string>
     <string name="choose_mode">Wybierz tryb</string>
+    <string name="random_test_dialog_title">Wybierz ilość fiszek w teście</string>
+    <string name="all">Wszystkie</string>
 
 </resources>

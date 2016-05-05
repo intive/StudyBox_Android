@@ -24,7 +24,7 @@ public class QuestionViewState<V extends QuestionView> implements ViewState<V> {
     protected int viewSwitcherState = STATE_SHOW_QUESTION;
     protected int questionState = STATE_SHOW_QUESTION_TEXT;
     protected int promptState = STATE_DISABLE_PROMPT;
-    protected int leftPromptArrowState = STATE_HIDE_LEFT_PROMPT_ARROW ;
+    protected int leftPromptArrowState = STATE_HIDE_LEFT_PROMPT_ARROW;
     protected int rightPromptArrowState = STATE_HIDE_RIGHT_PROMPT_ARROW;
 
 
@@ -126,8 +126,8 @@ public class QuestionViewState<V extends QuestionView> implements ViewState<V> {
         }
     }
 
-    private void checkLeftPromptArrowState(V view){
-        switch (leftPromptArrowState ) {
+    private void checkLeftPromptArrowState(V view) {
+        switch (leftPromptArrowState) {
             case STATE_SHOW_LEFT_PROMPT_ARROW:
                 view.showLeftPromptArrow();
                 break;
@@ -137,8 +137,8 @@ public class QuestionViewState<V extends QuestionView> implements ViewState<V> {
         }
     }
 
-    private void checkRightPromptArrowState(V view){
-        switch (rightPromptArrowState ) {
+    private void checkRightPromptArrowState(V view) {
+        switch (rightPromptArrowState) {
             case STATE_SHOW_RIGHT_PROMPT_ARROW:
                 view.showRightPromptArrow();
                 break;

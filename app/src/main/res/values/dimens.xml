@@ -44,4 +44,10 @@
     <dimen name="sign_up_layout_margin_top">40dp</dimen>
     <dimen name="sign_up_cancel_link_text_size">16sp</dimen>
 
+    <!-- Random flashcards amount test -->
+    <dimen name="random_dialog_title_height">50dp</dimen>
+    <dimen name="random_dialog_title_text_size">12sp</dimen>
+    <dimen name="random_dialog_amount_view_height">40dp</dimen>
+    <dimen name="random_dialog_amount_text_size">10sp</dimen>
+
 </resources>
