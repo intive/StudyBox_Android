@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.method.ScrollingMovementMethod;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -38,6 +38,8 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     private String cardId;
     private static boolean isPromptShowed;
     private int promptPosition;
+    private Animation scale_up, scale_down;
+    private Animation fade_in, fade_out;
 
     @Bind(R.id.question)
     TextView questionText;
@@ -51,11 +53,11 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     @Bind(R.id.promptSwitcher)
     TextSwitcher promptSwitcher;
 
-    @Bind(R.id.promptImageSwitcher)
-    ImageSwitcher promptImageSwitcher;
-
     @Bind(R.id.promptQuestionSwitch)
     TextView promptQuestionSwitch;
+
+    @Bind(R.id.promptImage)
+    ImageView promptImage;
 
     @Bind(R.id.prevPrompt)
     ImageButton prevPromptBtn;
@@ -102,17 +104,17 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
 
     private void initView() {
         questionText.setMovementMethod(new ScrollingMovementMethod());
-        int padding = getResources().getDimensionPixelOffset(R.dimen.prompt_padding);
-        initPromptSwitcher(padding);
-        initPromptImageSwitcher(padding);
+        initPromptSwitcher();
+        initAnimations();
         setUpAnimations();
     }
 
-    private void initPromptSwitcher(final int padding) {
+    private void initPromptSwitcher() {
         promptSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
                 TextView textView = new TextView(getActivity());
+                int padding = getResources().getDimensionPixelOffset(R.dimen.prompt_padding);
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT);
                 params.gravity = Gravity.CENTER;
@@ -128,27 +130,19 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         });
     }
 
-    private void initPromptImageSwitcher(final int padding) {
-        promptImageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView imageView = new ImageView(getActivity());
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-                imageView.setLayoutParams(params);
-                imageView.setPadding(padding, padding, padding, padding);
-                return imageView;
-            }
-        });
+    private void initAnimations() {
+        Activity activity = getActivity();
+        scale_up = AnimationUtils.loadAnimation(activity, R.anim.scale_up);
+        scale_down = AnimationUtils.loadAnimation(activity, R.anim.scale_down);
+        fade_in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
+        fade_out = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
     }
 
     private void setUpAnimations() {
-        Activity activity = getActivity();
-        viewSwitcher.setInAnimation(activity, R.anim.scale_up);
-        viewSwitcher.setOutAnimation(activity, R.anim.scale_down);
-        promptSwitcher.setInAnimation(activity, R.anim.fade_in);
-        promptSwitcher.setOutAnimation(activity, R.anim.fade_out);
-        promptImageSwitcher.setInAnimation(activity, R.anim.fade_in);
-        promptImageSwitcher.setOutAnimation(activity, R.anim.fade_out);
+        viewSwitcher.setInAnimation(scale_up);
+        viewSwitcher.setOutAnimation(scale_down);
+        promptSwitcher.setInAnimation(fade_in);
+        promptSwitcher.setOutAnimation(fade_out);
     }
 
     @OnClick(R.id.promptQuestionSwitch)
@@ -157,7 +151,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     @Override
-    public void switchToPrompts(){
+    public void switchToPrompts() {
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateShowPrompt();
 
@@ -169,7 +163,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     @Override
-    public void switchToQuestion(){
+    public void switchToQuestion() {
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateShowQuestion();
 
@@ -198,13 +192,13 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     @Override
-    public void inPromptMode(boolean inPromptMode){
+    public void inPromptMode(boolean inPromptMode) {
         isPromptShowed = inPromptMode;
         presenter.setView(isPromptShowed);
     }
 
     @Override
-    public void showLeftPromptArrow(){
+    public void showLeftPromptArrow() {
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateShowLeftPromptArrow();
 
@@ -212,7 +206,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     @Override
-    public void hideLeftPromptArrow(){
+    public void hideLeftPromptArrow() {
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateHideLeftPromptArrow();
 
@@ -220,7 +214,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     @Override
-    public void showRightPromptArrow(){
+    public void showRightPromptArrow() {
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateShowRightPromptArrow();
 
@@ -228,7 +222,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     @Override
-    public void hideRightPromptArrow(){
+    public void hideRightPromptArrow() {
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateHideRightPromptArrow();
 
@@ -251,7 +245,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         promptQuestionSwitch.setVisibility(View.VISIBLE);
     }
 
-     @OnClick({R.id.question, R.id.question_image})
+    @OnClick({R.id.question, R.id.question_image})
     public void onQuestionClick() {
         presenter.showAnswer();
     }
@@ -281,7 +275,8 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
         vs.setStateShowPromptText(prompt, promptPosition);
 
-        promptImageSwitcher.setImageResource(android.R.color.transparent);
+        promptImage.setImageResource(android.R.color.transparent);
+        promptImage.setAnimation(fade_out);
         promptSwitcher.setText(prompt);
     }
 
@@ -290,14 +285,9 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
         vs.setStateShowPromptImage(url, promptPosition);
 
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-
         promptSwitcher.setText("");
-        TipImageSwitcherPicasso imageSwitcherPicasso = new TipImageSwitcherPicasso(getActivity(), promptImageSwitcher);
-        Picasso.with(getActivity()).load(url)
-                .resize(displaymetrics.widthPixels, displaymetrics.heightPixels)
-                .centerInside().placeholder(R.drawable.camera).into(imageSwitcherPicasso);
+        showImage(url, promptImage);
+        promptImage.setAnimation(fade_in);
     }
 
     private void showImage(String url, ImageView image) {

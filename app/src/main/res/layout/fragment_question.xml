@@ -58,11 +58,14 @@
                 android:background="@drawable/small_shadow"
                 android:gravity="center">
 
-                <ImageSwitcher
-                    android:id="@+id/promptImageSwitcher"
+                <ImageView
+                    android:id="@+id/promptImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"
+                    android:padding="@dimen/prompt_padding"
+                    android:contentDescription="@string/prompt" />
 
                 <TextSwitcher
                     android:id="@+id/promptSwitcher"
@@ -107,59 +110,9 @@
         android:layout_weight="0.4"
         android:background="@color/colorRaspberry"
         android:gravity="center"
+        android:visibility="gone"
         android:text="@string/prompt"
-        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="@dimen/exam_small_text" />
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/questionContainer"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginBottom="@dimen/exam_element_bottom_margin"-->
-    <!--android:layout_weight="1">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/question"-->
-    <!--android:text="@string/question"-->
-    <!--android:textSize="@dimen/exam_medium_text"-->
-    <!--android:scrollbars="vertical"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/question_image"-->
-    <!--android:scaleType="centerInside"-->
-    <!--android:visibility="gone"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
-
-    <!--</FrameLayout>-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/prompt"-->
-    <!--android:text="@string/prompt"-->
-    <!--android:textSize="@dimen/exam_small_text"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:visibility="gone"-->
-    <!--android:layout_weight="0.4"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:background="@color/colorRaspberry"-->
-    <!--android:gravity="center" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/prompt_image"-->
-    <!--android:scaleType="centerInside"-->
-    <!--android:background="@color/colorRaspberry"-->
-    <!--android:visibility="gone"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_weight="0.4"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp" />-->
 
 </LinearLayout>

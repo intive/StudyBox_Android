@@ -139,7 +139,7 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
         }
     }
 
-    public void setView(boolean inPromptMode){
+    public void setView(boolean inPromptMode) {
         isInPromptMode = inPromptMode;
         if (isInPromptMode) {
             if (isViewAttached()) {
@@ -149,11 +149,11 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
         }
     }
 
-    public  void showNextPrompt(int promptPos){
+    public void showNextPrompt(int promptPos) {
         promptPosition = promptPos;
     }
 
-    public  void showPrevPrompt(int promptPos){
+    public void showPrevPrompt(int promptPos) {
         promptPosition = promptPos;
     }
 
