@@ -17,6 +17,6 @@ public interface QuestionView extends MvpView {
     void hideLeftPromptArrow();
     void showRightPromptArrow();
     void hideRightPromptArrow();
-    void inPromptMode(boolean inPromptMode);
+    void showPromptsAfterOrientationChanged(boolean inPromptMode);
 
 }

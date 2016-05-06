@@ -36,7 +36,6 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     private static final String TAG_PROMPT = "Podpowiedź";
 
     private String cardId;
-    private static boolean isPromptShowed;
     private int promptPosition;
     private Animation scale_up, scale_down;
     private Animation fade_in, fade_out;
@@ -50,8 +49,8 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     @Bind(R.id.viewSwitcher)
     ViewSwitcher viewSwitcher;
 
-    @Bind(R.id.promptSwitcher)
-    TextSwitcher promptSwitcher;
+    @Bind(R.id.promptTextSwitcher)
+    TextSwitcher promptTextSwitcher;
 
     @Bind(R.id.promptQuestionSwitch)
     TextView promptQuestionSwitch;
@@ -110,7 +109,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     private void initPromptSwitcher() {
-        promptSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+        promptTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
                 TextView textView = new TextView(getActivity());
@@ -122,7 +121,6 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
                 textView.setGravity(Gravity.CENTER);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.exam_small_text));
                 textView.setPadding(padding, padding, padding, padding);
-                textView.setVerticalScrollBarEnabled(true);
                 textView.setMovementMethod(new ScrollingMovementMethod());
                 textView.setVerticalScrollBarEnabled(true);
                 return textView;
@@ -141,8 +139,8 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     private void setUpAnimations() {
         viewSwitcher.setInAnimation(scale_up);
         viewSwitcher.setOutAnimation(scale_down);
-        promptSwitcher.setInAnimation(fade_in);
-        promptSwitcher.setOutAnimation(fade_out);
+        promptTextSwitcher.setInAnimation(fade_in);
+        promptTextSwitcher.setOutAnimation(fade_out);
     }
 
     @OnClick(R.id.promptQuestionSwitch)
@@ -158,7 +156,6 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         viewSwitcher.showPrevious();
         promptQuestionSwitch.setText(TAG_QUESTION);
         promptQuestionSwitch.setBackgroundColor(getResources().getColor(R.color.colorDarkBlue));
-        isPromptShowed = true;
         presenter.inPrompt(true);
     }
 
@@ -170,7 +167,6 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         viewSwitcher.showNext();
         promptQuestionSwitch.setText(TAG_PROMPT);
         promptQuestionSwitch.setBackgroundColor(getResources().getColor(R.color.colorRaspberry));
-        isPromptShowed = false;
         presenter.inPrompt(false);
     }
 
@@ -192,9 +188,8 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     }
 
     @Override
-    public void inPromptMode(boolean inPromptMode) {
-        isPromptShowed = inPromptMode;
-        presenter.setView(isPromptShowed);
+    public void showPromptsAfterOrientationChanged(boolean inPromptMode) {
+        presenter.setPromptViewAfterOrientationChanged(inPromptMode);
     }
 
     @Override
@@ -277,7 +272,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
 
         promptImage.setImageResource(android.R.color.transparent);
         promptImage.setAnimation(fade_out);
-        promptSwitcher.setText(prompt);
+        promptTextSwitcher.setText(prompt);
     }
 
     @Override
@@ -285,7 +280,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
         vs.setStateShowPromptImage(url, promptPosition);
 
-        promptSwitcher.setText("");
+        promptTextSwitcher.setText("");
         showImage(url, promptImage);
         promptImage.setAnimation(fade_in);
     }

@@ -35,9 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:contentDescription="@string/question_image"
                 android:scaleType="centerInside"
-                android:visibility="gone"
-                android:contentDescription="@string/question_image" />
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -63,12 +63,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:scaleType="centerInside"
+                    android:contentDescription="@string/prompt"
                     android:padding="@dimen/prompt_padding"
-                    android:contentDescription="@string/prompt" />
+                    android:scaleType="centerInside" />
 
                 <TextSwitcher
-                    android:id="@+id/promptSwitcher"
+                    android:id="@+id/promptTextSwitcher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -83,7 +83,8 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/next_prompt"
                 android:scaleType="centerInside"
-                android:src="@drawable/next_button_selector" />
+                android:src="@drawable/next_button_selector"
+                android:visibility="invisible" />
 
             <ImageButton
                 android:id="@+id/prevPrompt"
@@ -93,7 +94,8 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/prev_prompt"
                 android:scaleType="centerInside"
-                android:src="@drawable/prev_button_selector" />
+                android:src="@drawable/prev_button_selector"
+                android:visibility="invisible" />
 
         </FrameLayout>
     </ViewSwitcher>
@@ -110,9 +112,9 @@
         android:layout_weight="0.4"
         android:background="@color/colorRaspberry"
         android:gravity="center"
-        android:visibility="gone"
         android:text="@string/prompt"
         android:textColor="@color/white"
-        android:textSize="@dimen/exam_small_text" />
+        android:textSize="@dimen/exam_small_text"
+        android:visibility="gone" />
 
 </LinearLayout>

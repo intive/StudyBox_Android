@@ -86,10 +86,10 @@ public class QuestionViewState<V extends QuestionView> implements ViewState<V> {
     public void apply(V view, boolean retained) {
         switch (viewSwitcherState) {
             case STATE_SHOW_QUESTION:
-                view.inPromptMode(false);
+                view.showPromptsAfterOrientationChanged(false);
                 break;
             case STATE_SHOW_PROMPT:
-                view.inPromptMode(true);
+                view.showPromptsAfterOrientationChanged(true);
                 break;
         }
 
