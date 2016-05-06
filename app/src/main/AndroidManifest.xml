@@ -46,6 +46,10 @@
             android:name=".activities.DecksActivity"
             android:label="@string/title_activity_decks"
             android:theme="@style/StudyBoxTheme" >
+
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
         </activity>
         <activity
             android:name=".activities.BaseExamActivity"
