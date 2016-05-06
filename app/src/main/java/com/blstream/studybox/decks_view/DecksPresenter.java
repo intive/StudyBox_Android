@@ -65,6 +65,10 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         }
     }
 
+    public void getDecksByName(String deckName) {
+        dataProvider.fetchDecksByName(this, deckName);
+    }
+
     @Override
     public void attachView(DecksView view) {
         super.attachView(view);

@@ -7,6 +7,7 @@ import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.auth.login.LoginManager;
+import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Decks;
 import com.blstream.studybox.model.database.Tip;
@@ -31,18 +32,18 @@ public class DataHelper implements DataProvider {
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Decks>>() {
 
-            @Override
-            public void onSuccess(List<Decks> response) {
-                privateDecks = response;
-                saveDecksToDataBase(response);
-                listener.OnDecksReceived(response);
-            }
+                    @Override
+                    public void onSuccess(List<Decks> response) {
+                        privateDecks = response;
+                        saveDecksToDataBase(response);
+                        listener.OnDecksReceived(response);
+                    }
 
-            @Override
-            public void onFailure(RetrofitError error) {
+                    @Override
+                    public void onFailure(RetrofitError error) {
 
-            }
-        }));
+                    }
+                }));
 
     }
 
@@ -89,6 +90,21 @@ public class DataHelper implements DataProvider {
 
             @Override
             public void onFailure(RetrofitError error) {
+            }
+        }));
+    }
+
+    @Override
+    public void fetchDecksByName(final OnDecksReceivedListener<List<Decks>> listener, String deckName) {
+        RestClientManager.getDecksByName(deckName, new RequestCallback<>(new RequestListener<List<Decks>>() {
+            @Override
+            public void onSuccess(List<Decks> response) {
+                listener.OnDecksReceived(response);
+            }
+
+            @Override
+            public void onFailure(RetrofitError error) {
+                DebugHelper.logString(error.getMessage());
             }
         }));
     }

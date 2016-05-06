@@ -17,6 +17,8 @@ public interface DataProvider {
 
     void fetchRandomDeck(OnDecksReceivedListener<Decks> listener);
 
+    void fetchDecksByName(OnDecksReceivedListener<List<Decks>> listener, String deckName);
+
     interface OnDecksReceivedListener<T> {
         void OnDecksReceived(T decks);
     }

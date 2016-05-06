@@ -159,9 +159,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
         if (size != 0) {
+            noDecks.setVisibility(View.GONE);
             adapter.setDecks(data);
         } else {
             noDecks.setVisibility(View.VISIBLE);
+            adapter.emptyAdapter();
         }
     }
 
@@ -197,7 +199,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            DebugHelper.logString(query);
+
+            if(connectionStatusReceiver.isConnected()){
+                presenter.getDecksByName(query.trim());
+                DebugHelper.logString(query);
+            }
         }
     }
 
@@ -214,19 +220,18 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                DebugHelper.logString(query);
+                //DebugHelper.logString(query);
 
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                DebugHelper.logString(newText);
+                //DebugHelper.logString(newText);
 
                 return false;
             }
         });
-
 
         return true;
     }
