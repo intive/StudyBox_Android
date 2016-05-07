@@ -1,6 +1,6 @@
 package com.blstream.studybox;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -154,11 +157,20 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+            setUpTransition();
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity());
+            context.startActivity(intent, options.toBundle());
         } else {
             context.startActivity(intent);
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setUpTransition(){
+        Transition exitTrans = new Explode();
+        getActivity().getWindow().setExitTransition(exitTrans);
+        Transition reenterTrans = new Slide();
+        getActivity().getWindow().setReenterTransition(reenterTrans);
     }
 
     private String convertNumberToWord(String number) {
