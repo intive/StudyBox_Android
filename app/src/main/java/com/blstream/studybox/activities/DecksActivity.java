@@ -20,11 +20,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
+import com.blstream.studybox.DecksSearch;
 import com.blstream.studybox.R;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.debugger.DebugHelper;
@@ -42,12 +44,13 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
-        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
+        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchInterface {
 
     private static final String TAG = "DecksActivity";
 
     private static final int TRANSITION_DURATION = 1000;
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private DecksSearch decksSearch;
 
     @Bind(R.id.decks_recycler_view)
     RecyclerView recyclerView;
@@ -79,8 +82,21 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decks);
-        handleIntent(getIntent());
+        setSearchableClass().setSearchInterface(this).handleIntent(getIntent());
         initView();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        decksSearch.handleIntent(intent);
+    }
+
+    @Override
+    public void onSearchIntentHandled(String query) {
+        if (connectionStatusReceiver.isConnected()) {
+            presenter.getDecksByName(query.trim());
+        }
     }
 
     @Override
@@ -96,11 +112,10 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         unregisterReceiver(connectionStatusReceiver);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        DebugHelper.logString(TAG + " onNewIntent");
-        handleIntent(intent);
+    private DecksSearch setSearchableClass(){
+        decksSearch = new DecksSearch();
+
+        return decksSearch;
     }
 
     private void initView() {
@@ -196,42 +211,18 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     }
 
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-
-            if(connectionStatusReceiver.isConnected()){
-                presenter.getDecksByName(query.trim());
-                DebugHelper.logString(query);
-            }
-        }
+    @Override
+    public void onCloseSearchClick() {
+        loadData(false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_toolbar_menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, DecksActivity.class)));
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //DebugHelper.logString(query);
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //DebugHelper.logString(newText);
-
-                return false;
-            }
-        });
+        decksSearch.setSearchable(this, menu);
 
         return true;
     }
