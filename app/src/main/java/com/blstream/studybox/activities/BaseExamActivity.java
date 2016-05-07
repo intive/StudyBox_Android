@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
+import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -70,7 +71,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     private String deckTitle;
     private String deckId;
     private String randomAmount;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,6 +1,7 @@
 package com.blstream.studybox;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -158,7 +159,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setUpTransition();
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity());
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
             context.startActivity(intent, options.toBundle());
         } else {
             context.startActivity(intent);

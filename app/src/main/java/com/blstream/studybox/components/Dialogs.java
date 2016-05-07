@@ -1,9 +1,18 @@
 package com.blstream.studybox.components;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.view.View;
+import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.RandomTestDialog;
@@ -17,6 +26,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class Dialogs extends SweetAlertDialog {
 
     private Context context;
+    private static final String TAG_DECK_ID = "deckId";
+    private static final String TAG_DECK_NAME = "deckName";
+    private static final String TAG_IN_EXAM= "inExam";
 
     public Dialogs(Context context) {
         super(context);
@@ -31,6 +43,7 @@ public class Dialogs extends SweetAlertDialog {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         dismiss();
+                        startExam(deckId, deckName, false);
                     }
                 })
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -67,5 +80,30 @@ public class Dialogs extends SweetAlertDialog {
 
     private String getString(int id) {
         return context.getResources().getString(id);
+    }
+
+    private void startExam(final String deckId, final String deckName, boolean isExam) {
+        Intent intent = new Intent(context, BaseExamActivity.class);
+        intent.putExtra(TAG_DECK_ID, deckId);
+        intent.putExtra(TAG_DECK_NAME, deckName);
+        intent.putExtra(TAG_IN_EXAM, isExam);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setUpTransition();
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
+            context.startActivity(intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setUpTransition(){
+        Activity activity = (Activity) context;
+        Transition exitTrans = new Explode();
+        activity.getWindow().setExitTransition(exitTrans);
+        Transition reenterTrans = new Slide();
+        activity.getWindow().setReenterTransition(reenterTrans);
     }
 }
