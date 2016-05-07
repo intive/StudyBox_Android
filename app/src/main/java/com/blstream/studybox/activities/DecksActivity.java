@@ -1,26 +1,20 @@
 package com.blstream.studybox.activities;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -29,7 +23,6 @@ import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.DecksSearch;
 import com.blstream.studybox.R;
 import com.blstream.studybox.components.DrawerAdapter;
-import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
@@ -112,7 +105,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         unregisterReceiver(connectionStatusReceiver);
     }
 
-    private DecksSearch setSearchableClass(){
+    private DecksSearch setSearchableClass() {
         decksSearch = new DecksSearch();
 
         return decksSearch;
@@ -171,15 +164,15 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public void setData(List<Decks> data) {
-        int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
-        if (size != 0) {
-            noDecks.setVisibility(View.GONE);
-            adapter.setDecks(data);
-        } else {
-            noDecks.setVisibility(View.VISIBLE);
-            adapter.emptyAdapter();
-        }
+        noDecks.setVisibility(View.GONE);
+        adapter.setDecks(data);
+    }
+
+    @Override
+    public void setEmptyListInfo() {
+        noDecks.setVisibility(View.VISIBLE);
+        adapter.emptyAdapter();
     }
 
     @Override
