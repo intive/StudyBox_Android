@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.transition.Explode;
 import android.transition.Slide;
 import android.transition.Transition;
-import android.view.View;
-import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.RandomTestDialog;
@@ -28,7 +26,7 @@ public class Dialogs extends SweetAlertDialog {
     private Context context;
     private static final String TAG_DECK_ID = "deckId";
     private static final String TAG_DECK_NAME = "deckName";
-    private static final String TAG_IN_EXAM= "inExam";
+    private static final String TAG_IN_EXAM = "inExam";
 
     public Dialogs(Context context) {
         super(context);
@@ -61,21 +59,21 @@ public class Dialogs extends SweetAlertDialog {
         this.setTitleText(getString(R.string.repeat_study_info))
                 .setContentText(getString(R.string.repeat_study_question))
                 .setConfirmText(getString(R.string.yes))
-                        .setCancelText(getString(R.string.no))
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                dismissWithAnimation();
-                                ((Activity) context).finish();
-                            }
-                        })
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                dismissWithAnimation();
-                                EventBus.getDefault().post(new ImproveAllEvent());
-                            }
-                        });
+                .setCancelText(getString(R.string.no))
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        dismissWithAnimation();
+                        ((Activity) context).finish();
+                    }
+                })
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        dismissWithAnimation();
+                        EventBus.getDefault().post(new ImproveAllEvent());
+                    }
+                });
     }
 
     private String getString(int id) {
@@ -99,7 +97,7 @@ public class Dialogs extends SweetAlertDialog {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setUpTransition(){
+    private void setUpTransition() {
         Activity activity = (Activity) context;
         Transition exitTrans = new Explode();
         activity.getWindow().setExitTransition(exitTrans);

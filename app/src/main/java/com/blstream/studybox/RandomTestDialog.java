@@ -134,7 +134,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
 
     private View createDivider() {
         View divider = new View(getContext());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT , 1);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
         divider.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorDarkBlue));
         divider.setLayoutParams(layoutParams);
 
@@ -167,7 +167,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setUpTransition(){
+    private void setUpTransition() {
         Transition exitTrans = new Explode();
         getActivity().getWindow().setExitTransition(exitTrans);
         Transition reenterTrans = new Slide();
