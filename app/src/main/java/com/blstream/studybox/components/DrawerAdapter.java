@@ -120,7 +120,6 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         if(decks != null){
             String deckId = decks.get(0).getDeckId();
             String deckName = decks.get(0).getName();
-            BaseExamActivity.start(context, true, deckId, deckName, true);
         }
     }
 }

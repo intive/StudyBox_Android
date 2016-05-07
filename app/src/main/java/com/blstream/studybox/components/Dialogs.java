@@ -31,7 +31,6 @@ public class Dialogs extends SweetAlertDialog {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         dismiss();
-                        BaseExamActivity.start(context, false, deckId, deckName, false);
                     }
                 })
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
