@@ -4,11 +4,19 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.method.ScrollingMovementMethod;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.blstream.studybox.R;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
@@ -24,20 +32,37 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         implements QuestionView {
 
     private static final String TAG_CARD_ID = "cardId";
+    private static final String TAG_QUESTION = "Pytanie";
+    private static final String TAG_PROMPT = "Podpowiedź";
 
     private String cardId;
+    private int promptPosition;
+    private Animation scale_up, scale_down;
+    private Animation fade_in, fade_out;
 
     @Bind(R.id.question)
     TextView questionText;
 
-    @Bind(R.id.prompt)
-    TextView promptText;
-
     @Bind(R.id.question_image)
     ImageView questionImage;
 
-    @Bind(R.id.prompt_image)
+    @Bind(R.id.viewSwitcher)
+    ViewSwitcher viewSwitcher;
+
+    @Bind(R.id.promptTextSwitcher)
+    TextSwitcher promptTextSwitcher;
+
+    @Bind(R.id.promptQuestionSwitch)
+    TextView promptQuestionSwitch;
+
+    @Bind(R.id.promptImage)
     ImageView promptImage;
+
+    @Bind(R.id.prevPrompt)
+    ImageButton prevPromptBtn;
+
+    @Bind(R.id.nextPrompt)
+    ImageButton nextPromptBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,8 +97,131 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_question, container, false);
         ButterKnife.bind(this, view);
-        questionText.setMovementMethod(new ScrollingMovementMethod());
+        initView();
         return view;
+    }
+
+    private void initView() {
+        questionText.setMovementMethod(new ScrollingMovementMethod());
+        initPromptSwitcher();
+        initAnimations();
+        setUpAnimations();
+    }
+
+    private void initPromptSwitcher() {
+        promptTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                TextView textView = new TextView(getActivity());
+                int padding = getResources().getDimensionPixelOffset(R.dimen.prompt_padding);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                params.gravity = Gravity.CENTER;
+                textView.setLayoutParams(params);
+                textView.setGravity(Gravity.CENTER);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.exam_small_text));
+                textView.setPadding(padding, padding, padding, padding);
+                textView.setMovementMethod(new ScrollingMovementMethod());
+                textView.setVerticalScrollBarEnabled(true);
+                return textView;
+            }
+        });
+    }
+
+    private void initAnimations() {
+        Activity activity = getActivity();
+        scale_up = AnimationUtils.loadAnimation(activity, R.anim.scale_up);
+        scale_down = AnimationUtils.loadAnimation(activity, R.anim.scale_down);
+        fade_in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
+        fade_out = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
+    }
+
+    private void setUpAnimations() {
+        viewSwitcher.setInAnimation(scale_up);
+        viewSwitcher.setOutAnimation(scale_down);
+        promptTextSwitcher.setInAnimation(fade_in);
+        promptTextSwitcher.setOutAnimation(fade_out);
+    }
+
+    @OnClick(R.id.promptQuestionSwitch)
+    public void onPromptWithQuestionSwitch(View view) {
+        presenter.switchView();
+    }
+
+    @Override
+    public void switchToPrompts() {
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateShowPrompt();
+
+        viewSwitcher.showPrevious();
+        promptQuestionSwitch.setText(TAG_QUESTION);
+        promptQuestionSwitch.setBackgroundColor(getResources().getColor(R.color.colorDarkBlue));
+        presenter.inPrompt(true);
+    }
+
+    @Override
+    public void switchToQuestion() {
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateShowQuestion();
+
+        viewSwitcher.showNext();
+        promptQuestionSwitch.setText(TAG_PROMPT);
+        promptQuestionSwitch.setBackgroundColor(getResources().getColor(R.color.colorRaspberry));
+        presenter.inPrompt(false);
+    }
+
+    @OnClick(R.id.nextPrompt)
+    public void nextPrompt(View view) {
+        promptPosition++;
+        presenter.showPrompt(promptPosition);
+    }
+
+    @OnClick(R.id.prevPrompt)
+    public void prevPrompt(View view) {
+        promptPosition--;
+        presenter.showPrompt(promptPosition);
+    }
+
+    @Override
+    public void setPromptPosition(int promptPos) {
+        promptPosition = promptPos;
+    }
+
+    @Override
+    public void showPromptsAfterOrientationChanged(boolean inPromptMode) {
+        presenter.setPromptViewAfterOrientationChanged(inPromptMode);
+    }
+
+    @Override
+    public void showLeftPromptArrow() {
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateShowLeftPromptArrow();
+
+        prevPromptBtn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLeftPromptArrow() {
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateHideLeftPromptArrow();
+
+        prevPromptBtn.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showRightPromptArrow() {
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateShowRightPromptArrow();
+
+        nextPromptBtn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRightPromptArrow() {
+        QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
+        questionViewState.setStateHideRightPromptArrow();
+
+        nextPromptBtn.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -81,7 +229,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateDisablePrompt();
 
-        promptText.setVisibility(View.GONE);
+        promptQuestionSwitch.setVisibility(View.GONE);
     }
 
     @Override
@@ -89,13 +237,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
         QuestionViewState questionViewState = (QuestionViewState<QuestionView>) viewState;
         questionViewState.setStateEnablePrompt();
 
-        promptText.setVisibility(View.VISIBLE);
-    }
-
-    @OnClick (R.id.prompt)
-    public void onPromptClick(View view) {
-        presenter.showPrompt();
-        promptText.setClickable(false);
+        promptQuestionSwitch.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.question, R.id.question_image})
@@ -126,21 +268,21 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     @Override
     public void showTextPrompt(String prompt) {
         QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
-        vs.setStateShowPromptText(prompt);
+        vs.setStateShowPromptText(prompt, promptPosition);
 
-        promptText.setVisibility(View.VISIBLE);
-        promptImage.setVisibility(View.GONE);
-        promptText.setText(prompt);
+        promptImage.setImageResource(android.R.color.transparent);
+        promptImage.setAnimation(fade_out);
+        promptTextSwitcher.setText(prompt);
     }
 
     @Override
     public void showImagePrompt(String url) {
         QuestionViewState vs = (QuestionViewState<QuestionView>) viewState;
-        vs.setStateShowPromptImage(url);
+        vs.setStateShowPromptImage(url, promptPosition);
 
-        promptText.setVisibility(View.GONE);
-        promptImage.setVisibility(View.VISIBLE);
+        promptTextSwitcher.setText("");
         showImage(url, promptImage);
+        promptImage.setAnimation(fade_in);
     }
 
     private void showImage(String url, ImageView image) {
