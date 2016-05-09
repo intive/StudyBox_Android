@@ -12,7 +12,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.transition.Explode;
-import android.transition.Slide;
 import android.transition.Transition;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -168,10 +167,9 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setUpTransition() {
+        Activity activity = (Activity) getContext();
         Transition exitTrans = new Explode();
-        getActivity().getWindow().setExitTransition(exitTrans);
-        Transition reenterTrans = new Slide();
-        getActivity().getWindow().setReenterTransition(reenterTrans);
+        activity.getWindow().setExitTransition(exitTrans);
     }
 
     private String convertNumberToWord(String number) {

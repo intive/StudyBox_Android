@@ -101,7 +101,5 @@ public class Dialogs extends SweetAlertDialog {
         Activity activity = (Activity) context;
         Transition exitTrans = new Explode();
         activity.getWindow().setExitTransition(exitTrans);
-        Transition reenterTrans = new Slide();
-        activity.getWindow().setReenterTransition(reenterTrans);
     }
 }
