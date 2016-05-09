@@ -1,6 +1,5 @@
 package com.blstream.studybox.components;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -155,5 +154,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         Activity activity = (Activity) context;
         Transition exitTrans = new Explode();
         activity.getWindow().setExitTransition(exitTrans);
+    }
+
+    @Override
+    public void OnEmptyResponse(String message) {
+
     }
 }

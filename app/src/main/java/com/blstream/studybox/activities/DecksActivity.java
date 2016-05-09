@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
-        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchInterface {
+        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
     private static final String TAG = "DecksActivity";
 
@@ -71,11 +72,14 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     @Bind(R.id.no_decks)
     LinearLayout noDecks;
 
+    @Bind(R.id.no_decks_text_view)
+    TextView noDecksView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decks);
-        setSearchableClass().setSearchInterface(this).handleIntent(getIntent());
+        setSearchableClass().setSearchListener(this).handleIntent(getIntent());
         initView();
     }
 
@@ -170,8 +174,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     @Override
-    public void setEmptyListInfo() {
+    public void setEmptyListInfo(String message) {
         noDecks.setVisibility(View.VISIBLE);
+        noDecksView.setText(message);
         adapter.emptyAdapter();
     }
 

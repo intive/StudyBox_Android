@@ -21,5 +21,5 @@ public interface DecksView extends MvpLceView<List<Decks>> {
     @Override
     void showContent();
 
-    void setEmptyListInfo();
+    void setEmptyListInfo(String message);
 }
