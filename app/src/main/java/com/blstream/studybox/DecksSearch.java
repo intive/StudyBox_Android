@@ -51,7 +51,7 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
                 new ComponentName(context, DecksActivity.class)));
 
         searchView.setOnQueryTextListener(this);
-        searchView.setIconifiedByDefault(false);
+        searchView.setIconifiedByDefault(true);
         searchView.setMaxWidth(MAX_WIDTH);
 
         setLengthLimit(MAX_LENGTH);
@@ -89,9 +89,11 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
     @Override
     public boolean onQueryTextChange(String newText) {
         if (newText == null || newText.length() == 0) {
-            //searchTextView.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+            searchView.setSubmitButtonEnabled(false);
+            searchTextView.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         } else {
-            searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
+            searchView.setSubmitButtonEnabled(true);
+            //searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
         }
 
         return false;
