@@ -2,20 +2,15 @@ package com.blstream.studybox.activities;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
-import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -36,7 +31,6 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         implements ExamView {

@@ -9,7 +9,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.transition.Explode;
-import android.transition.Slide;
 import android.transition.Transition;
 
 import com.blstream.studybox.R;
