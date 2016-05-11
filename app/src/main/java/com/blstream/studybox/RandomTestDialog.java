@@ -1,5 +1,6 @@
 package com.blstream.studybox;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,7 +133,7 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
 
     private View createDivider() {
         View divider = new View(getContext());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT , 1);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
         divider.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorDarkBlue));
         divider.setLayoutParams(layoutParams);
 
@@ -154,11 +157,19 @@ public class RandomTestDialog extends DialogFragment implements View.OnClickList
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+            setUpTransition();
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
+            context.startActivity(intent, options.toBundle());
         } else {
             context.startActivity(intent);
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setUpTransition() {
+        Activity activity = (Activity) getContext();
+        Transition exitTrans = new Explode();
+        activity.getWindow().setExitTransition(exitTrans);
     }
 
     private String convertNumberToWord(String number) {

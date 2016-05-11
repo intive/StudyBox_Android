@@ -2,14 +2,10 @@ package com.blstream.studybox.activities;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -35,7 +31,6 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresenter>
         implements ExamView {
@@ -70,23 +65,6 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     private String deckTitle;
     private String deckId;
     private String randomAmount;
-
-    public static void start(Context context, boolean isExam, String deckId, String deckName, boolean isRandomDeckExam) {
-        final Intent intent = new Intent(context, BaseExamActivity.class);
-        intent.putExtra(TAG_DECK_ID, deckId);
-        intent.putExtra(TAG_DECK_NAME, deckName);
-        intent.putExtra(TAG_IS_RANDOM_EXAM, isRandomDeckExam);
-        intent.putExtra(TAG_IN_EXAM, isExam);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
-        } else {
-            context.startActivity(intent);
-        }
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
