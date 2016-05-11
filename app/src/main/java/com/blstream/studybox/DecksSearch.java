@@ -20,7 +20,7 @@ import com.blstream.studybox.debugger.DebugHelper;
 
 public class DecksSearch implements SearchView.OnQueryTextListener {
     private static int MAX_WIDTH = 100000;
-    private static int MAX_LENGTH = 10;
+    private static int MAX_LENGTH = 100;
 
     private MenuItem searchItem;
     private SearchView searchView;
@@ -68,8 +68,6 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DebugHelper.logString("onCloseClicked");
-
                 searchView.setQuery("", false);
                 searchView.onActionViewCollapsed();
                 searchItem.collapseActionView();
@@ -82,13 +80,8 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText == null || newText.length() == 0) {
+        if (newText == null || newText.length() == 0 || newText.trim().length() == 0) {
             searchView.setSubmitButtonEnabled(false);
             searchTextView.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         } else {
@@ -96,6 +89,11 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
             //searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
         return false;
     }
 
