@@ -87,14 +87,18 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void onItemClick(int position, View v);
     }
 
-    public void setDecks(List<Decks> data) {
-        decksList = new ArrayList<Object>(data);
+    public void setDecks(List<Object> data) {
+        decksList = data;
         notifyDataSetChanged();
+    }
+
+    public List<Object> getDecks() {
+        return decksList;
     }
 
     public void setPositionIncentiveView(int position) {
         if (decksList != null) {
-            decksList.set(position, "testString");
+            decksList.add(position, "testString");
         }
     }
 
@@ -127,10 +131,6 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public SearchDecksHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        public void setSearchDecksImage(ImageView searchDecksImage) {
-            this.searchDecksImage = searchDecksImage;
         }
     }
 }

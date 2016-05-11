@@ -12,11 +12,13 @@ import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
+import java.util.Random;
 
-public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Decks>> {
+public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Object>> {
 
     private LoginManager loginManager;
     private DataProvider dataProvider;
+    private DecksAdapter decksAdapter;
 
     public DecksPresenter(Context context) {
         loginManager = new LoginManager(context);
@@ -32,32 +34,37 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     @Override
-    public void OnDecksReceived(boolean isPublic, List<Decks> decks) {
+    public void OnDecksReceived(boolean isPublic, List<Object> decks) {
         if (isPublic && decks.isEmpty()) {
             dataProvider.fetchPublicDecks(this);
-        } else {
-            if (isViewAttached()) {
-                getView().setData(decks);
-                getView().showLoading(false);
-                getView().showContent();
-            }
+        } else if (isViewAttached()) {
+            decks = getRandomDecksFromList(decks);
+            getView().setData(decks);
+            getView().showLoading(false);
+            getView().showContent();
         }
     }
 
-    public void onDeckClicked(int position, View view) {
-        String deckId;
-        String deckName;
-        int cardsAmount;
-
-        if (loginManager.isUserLoggedIn()) {
-            deckId = dataProvider.getPrivateDecks().get(position).getDeckId();
-            deckName = dataProvider.getPrivateDecks().get(position).getName();
-            cardsAmount = dataProvider.getPrivateDecks().get(position).getFlashcardsCount();
-        } else {
-            deckId = dataProvider.getPublicDecks().get(position).getDeckId();
-            deckName = dataProvider.getPublicDecks().get(position).getName();
-            cardsAmount = dataProvider.getPublicDecks().get(position).getFlashcardsCount();
+    private List<Object> getRandomDecksFromList(List<Object> decks) {
+        if (decks.size() >= 3) {
+            Random random = new Random();
+            int end = random.nextInt(decks.size()) + 3;
+            end = Math.min(end, decks.size());
+            decks = decks.subList(end - 3, end);
         }
+
+        return decks;
+    }
+
+    public void setDecksAdapter(DecksAdapter decksAdapter) {
+        this.decksAdapter = decksAdapter;
+    }
+
+    public void onDeckClicked(int position, View view) {
+        Decks deck = (Decks) decksAdapter.getDecks().get(position);
+        String deckId = deck.getDeckId();
+        String deckName = deck.getName();
+        int cardsAmount = deck.getFlashcardsCount();
 
         if (cardsAmount == 0) {
             EmptyDeckActivity.start(view.getContext());

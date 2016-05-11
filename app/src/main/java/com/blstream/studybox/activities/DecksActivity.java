@@ -1,6 +1,7 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,7 +24,6 @@ import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
-import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 
 import java.util.List;
@@ -33,7 +33,7 @@ import butterknife.BindInt;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
+public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Object>, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int TRANSITION_DURATION = 1000;
@@ -91,9 +91,9 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
         setUpRecyclerView();
+        setUpPresenter();
         setUpExitTransition();
         onViewPrepared();
-        noDecks.setVisibility(View.GONE);
     }
 
     private void setUpExitTransition() {
@@ -122,6 +122,10 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         recyclerView.setHasFixedSize(true);
     }
 
+    private void setUpPresenter() {
+        presenter.setDecksAdapter(adapter);
+    }
+
     private void onViewPrepared() {
         loadData(false);
     }
@@ -137,12 +141,16 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     @Override
-    public void setData(List<Decks> data) {
+    public void setData(List<Object> data) {
         int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
         if (size != 0) {
             adapter.setDecks(data);
-            adapter.setPositionIncentiveView(1);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                adapter.setPositionIncentiveView(1);
+            } else {
+                adapter.setPositionIncentiveView(2);
+            }
         } else {
             noDecks.setVisibility(View.VISIBLE);
         }
