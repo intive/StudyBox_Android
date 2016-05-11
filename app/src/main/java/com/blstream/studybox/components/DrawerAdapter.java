@@ -116,8 +116,8 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     }
 
     @Override
-    public void OnDecksReceived(List<Decks> decks) {
-        if(decks != null){
+    public void OnDecksReceived(boolean isPublic, List<Decks> decks) {
+        if (decks != null) {
             String deckId = decks.get(0).getDeckId();
             String deckName = decks.get(0).getName();
             BaseExamActivity.start(context, true, deckId, deckName, true);

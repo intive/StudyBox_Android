@@ -36,7 +36,7 @@ public class DataHelper implements DataProvider {
             public void onSuccess(List<Decks> response) {
                 privateDecks = response;
                 saveDecksToDataBase(response);
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(false, response);
             }
 
             @Override
@@ -52,7 +52,7 @@ public class DataHelper implements DataProvider {
             @Override
             public void onSuccess(List<Decks> response) {
                 publicDecks = response;
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(true, response);
             }
 
             @Override
@@ -84,7 +84,7 @@ public class DataHelper implements DataProvider {
         RestClientManager.getRandomDeck(true, true, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(true, response);
             }
 
             @Override

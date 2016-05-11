@@ -18,7 +18,7 @@ public interface DataProvider {
     void fetchRandomDeck(OnDecksReceivedListener<List<Decks>> listener);
 
     interface OnDecksReceivedListener<T> {
-        void OnDecksReceived(T decks);
+        void OnDecksReceived(boolean isPublic, T decks);
     }
 
     interface OnCardsReceivedListener<T> {

@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -62,8 +62,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     @Bind(R.id.loadingView)
     ProgressBar loadingView;
 
-    @Bind(R.id.no_decks)
-    LinearLayout noDecks;
+    @Bind(R.id.search_deck)
+    ImageView noDecks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +142,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         loadingView.setVisibility(View.GONE);
         if (size != 0) {
             adapter.setDecks(data);
+            adapter.setPositionIncentiveView(1);
         } else {
             noDecks.setVisibility(View.VISIBLE);
         }
