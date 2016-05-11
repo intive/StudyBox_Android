@@ -116,7 +116,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         setDrawerItemChecked();
     }
 
-    private void setDrawerItemChecked(){
+    private void setDrawerItemChecked() {
         boolean isRandomDeckExam = getIntent().getExtras().getBoolean(TAG_IS_RANDOM_EXAM);
         if (isRandomDeckExam) {
             drawerAdapter.randomDeckDrawerItem(true);

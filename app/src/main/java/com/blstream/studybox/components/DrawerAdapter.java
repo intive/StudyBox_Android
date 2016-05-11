@@ -75,6 +75,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         navigationView.getMenu().findItem(R.id.random_deck).setChecked(state);
     }
 
+    public void setMenuItemChecked(int id) {
+        navigationView.getMenu().findItem(id).setChecked(true);
+    }
+
     public void detachDrawer() {
         drawerLayout.removeDrawerListener(drawerToggle);
     }

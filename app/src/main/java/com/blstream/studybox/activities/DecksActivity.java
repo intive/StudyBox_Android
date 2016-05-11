@@ -63,7 +63,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Objec
     ProgressBar loadingView;
 
     @Bind(R.id.search_deck)
-    ImageView noDecks;
+    ImageView searchDeckIncentive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Objec
 
     private void initView() {
         ButterKnife.bind(this);
+        toolbar.setTitle(R.string.nav_my_decks);
         setSupportActionBar(toolbar);
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
@@ -107,6 +108,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Objec
     private void setUpNavigationDrawer() {
         drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
+        drawerAdapter.setMenuItemChecked(R.id.my_decks);
     }
 
     private void setUpSwipeToRefresh() {
@@ -152,7 +154,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Objec
                 adapter.setPositionIncentiveView(2);
             }
         } else {
-            noDecks.setVisibility(View.VISIBLE);
+            searchDeckIncentive.setVisibility(View.VISIBLE);
+            View parent = (View) searchDeckIncentive.getParent();
+            int width = parent.getWidth() / 2;
+            searchDeckIncentive.getLayoutParams().width = width;
+            searchDeckIncentive.getLayoutParams().height = width;
         }
     }
 
