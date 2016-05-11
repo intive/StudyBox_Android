@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -104,27 +103,27 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
         return false;
     }
 
-    public boolean getRestoreState(){
+    public boolean getRestoreState() {
         return restoreState;
     }
 
-    public void setRestoreState(boolean restoreState){
+    public void setRestoreState(boolean restoreState) {
         this.restoreState = restoreState;
     }
 
-    private void restoreState(){
-        if(!restoreState){
+    private void restoreState() {
+        if (!restoreState) {
             return;
         }
 
-        if (!TextUtils.isEmpty(currentQuery)) {
-            searchItem.expandActionView();
-            searchView.setQuery(currentQuery, false);
-            searchView.clearFocus();
-        }
+
+        searchItem.expandActionView();
+        searchView.setQuery(currentQuery, false);
+        searchView.clearFocus();
+
     }
 
-    public String getCurrentQuery(){
+    public String getCurrentQuery() {
         return searchTextView.getText().toString();
     }
 
