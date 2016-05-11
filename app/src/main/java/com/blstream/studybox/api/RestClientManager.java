@@ -12,9 +12,9 @@ import retrofit.RequestInterceptor;
 
 public class RestClientManager {
 
-    public static void getDecks(boolean key, RequestInterceptor interceptor, RequestCallback<List<Decks>> callback) {
+    public static void getPrivateDecks(boolean key, RequestInterceptor interceptor, RequestCallback<List<Decks>> callback) {
         RestInterface restInterface = new RestClient(interceptor).getService();
-        restInterface.getDecks(key, callback);
+        restInterface.getPrivateDecks(key, callback);
     }
 
     public static void getRandomDeck(boolean randomKey, boolean flashcardCountKey, RequestCallback<List<Decks>> callback){

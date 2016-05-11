@@ -1,6 +1,7 @@
 package com.blstream.studybox.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
@@ -27,7 +28,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener) {
-        RestClientManager.getDecks(true,
+        RestClientManager.getPrivateDecks(true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Decks>>() {
 
@@ -43,7 +44,6 @@ public class DataHelper implements DataProvider {
 
             }
         }));
-
     }
 
     @Override
