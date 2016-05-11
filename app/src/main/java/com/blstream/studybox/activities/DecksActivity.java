@@ -41,6 +41,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
     private static final String TAG = "DecksActivity";
+    static final String STATE_SEARCH = "restoreSearch";
+    static final String SEARCH_QUERY = "currentQuery";
 
     private static final int TRANSITION_DURATION = 1000;
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
@@ -107,6 +109,24 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     protected void onPause() {
         super.onPause();
         unregisterReceiver(connectionStatusReceiver);
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean(STATE_SEARCH, decksSearch.getRestoreState());
+        savedInstanceState.putString(SEARCH_QUERY, decksSearch.getCurrentQuery());
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        boolean restoreState = savedInstanceState.getBoolean(STATE_SEARCH);
+        String currentQuery = savedInstanceState.getString(SEARCH_QUERY);
+
+        decksSearch.setRestoreState(restoreState);
+        decksSearch.setCurrentQuery(currentQuery);
     }
 
     private DecksSearch setSearchableClass() {

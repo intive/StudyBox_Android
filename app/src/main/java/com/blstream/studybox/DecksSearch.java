@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +27,10 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
     private SearchView searchView;
     private AutoCompleteTextView searchTextView;
     private SearchManager searchManager;
-
     private SearchListener searchListener;
+
+    private boolean restoreState = false;
+    private String currentQuery = "";
 
 
     public void handleIntent(Intent intent) {
@@ -54,8 +57,10 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
         searchView.setIconifiedByDefault(true);
         searchView.setMaxWidth(MAX_WIDTH);
 
+
         setLengthLimit(MAX_LENGTH);
         setOnCloseClick();
+        restoreState();
     }
 
     private void setLengthLimit(int limit) {
@@ -71,6 +76,7 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
                 searchView.setQuery("", false);
                 searchView.onActionViewCollapsed();
                 searchItem.collapseActionView();
+                setRestoreState(false);
 
                 if (searchListener != null) {
                     searchListener.onCloseSearchClick();
@@ -89,12 +95,41 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
             //searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
         }
 
+        setRestoreState(true);
         return false;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
+    }
+
+    public boolean getRestoreState(){
+        return restoreState;
+    }
+
+    public void setRestoreState(boolean restoreState){
+        this.restoreState = restoreState;
+    }
+
+    private void restoreState(){
+        if(!restoreState){
+            return;
+        }
+
+        if (!TextUtils.isEmpty(currentQuery)) {
+            searchItem.expandActionView();
+            searchView.setQuery(currentQuery, false);
+            searchView.clearFocus();
+        }
+    }
+
+    public String getCurrentQuery(){
+        return searchTextView.getText().toString();
+    }
+
+    public void setCurrentQuery(String currentQuery) {
+        this.currentQuery = currentQuery;
     }
 
     public DecksSearch setSearchListener(SearchListener searchListener) {
