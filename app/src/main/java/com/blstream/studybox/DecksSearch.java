@@ -19,8 +19,8 @@ import com.blstream.studybox.debugger.DebugHelper;
 
 
 public class DecksSearch implements SearchView.OnQueryTextListener {
-    private static int MAX_WIDTH = 100000;
-    private static int MAX_LENGTH = 100;
+    private static final int MAX_WIDTH = 100000;
+    private static final int MAX_LENGTH = 100;
 
     private MenuItem searchItem;
     private SearchView searchView;
@@ -56,7 +56,6 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
         searchView.setIconifiedByDefault(true);
         searchView.setMaxWidth(MAX_WIDTH);
 
-
         setLengthLimit(MAX_LENGTH);
         setOnCloseClick();
         restoreState();
@@ -88,10 +87,10 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
     public boolean onQueryTextChange(String newText) {
         if (newText == null || newText.length() == 0 || newText.trim().length() == 0) {
             searchView.setSubmitButtonEnabled(false);
-            searchTextView.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+            searchTextView.setImeOptions(EditorInfo.IME_ACTION_NONE);
         } else {
             searchView.setSubmitButtonEnabled(true);
-            //searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
+            searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
         }
 
         setRestoreState(true);
@@ -116,11 +115,9 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
             return;
         }
 
-
         searchItem.expandActionView();
         searchView.setQuery(currentQuery, false);
         searchView.clearFocus();
-
     }
 
     public String getCurrentQuery() {
