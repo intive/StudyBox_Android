@@ -33,4 +33,7 @@ public interface RestInterface {
 
     @POST("/users/")
     void signUp(@Body AuthCredentials authCredentials, Callback<AuthCredentials> callback);
+
+    @GET("/decks")
+    void getDecksByName(@Query("name") String deckName, Callback<List<Decks>> cb);
 }

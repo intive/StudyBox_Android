@@ -156,4 +156,9 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         Transition exitTrans = new Explode();
         activity.getWindow().setExitTransition(exitTrans);
     }
+
+    @Override
+    public void OnEmptyResponse(String message) {
+
+    }
 }

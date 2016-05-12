@@ -22,9 +22,14 @@ public class RestClientManager {
         restInterface.getRandomDeck(key, callback);
     }
 
-    public static void getPublicDecks(boolean key, RequestCallback<List<Decks>> callback){
+    public static void getPublicDecks(boolean key, RequestCallback<List<Decks>> callback) {
         RestInterface restInterface = new RestClient().getService();
         restInterface.getDecks(key, callback);
+    }
+
+    public static void getDecksByName(String deckName, RequestCallback<List<Decks>> callback) {
+        RestInterface restInterface = new RestClient().getService();
+        restInterface.getDecksByName(deckName, callback);
     }
 
     public static void getFlashcards(final String key, final String randomAmount, RequestCallback<List<Card>> callback) {

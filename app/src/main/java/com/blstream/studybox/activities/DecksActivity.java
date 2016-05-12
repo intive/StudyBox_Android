@@ -1,6 +1,7 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,12 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
+import com.blstream.studybox.DecksSearch;
 import com.blstream.studybox.R;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
@@ -34,10 +38,15 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
-        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener {
+        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
+
+    private static final String TAG = "DecksActivity";
+    static final String STATE_SEARCH = "restoreSearch";
+    static final String SEARCH_QUERY = "currentQuery";
 
     private static final int TRANSITION_DURATION = 1000;
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+    private DecksSearch decksSearch;
 
     @Bind(R.id.decks_recycler_view)
     RecyclerView recyclerView;
@@ -65,11 +74,28 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     @Bind(R.id.no_decks)
     LinearLayout noDecks;
 
+    @Bind(R.id.no_decks_text_view)
+    TextView noDecksView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decks);
+        setSearchableClass().setSearchListener(this).handleIntent(getIntent());
         initView();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        decksSearch.handleIntent(intent);
+    }
+
+    @Override
+    public void onSearchIntentHandled(String query) {
+        if (connectionStatusReceiver.isConnected()) {
+            presenter.getDecksByName(query.trim());
+        }
     }
 
     @Override
@@ -83,6 +109,30 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     protected void onPause() {
         super.onPause();
         unregisterReceiver(connectionStatusReceiver);
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean(STATE_SEARCH, decksSearch.getRestoreState());
+        savedInstanceState.putString(SEARCH_QUERY, decksSearch.getCurrentQuery());
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        boolean restoreState = savedInstanceState.getBoolean(STATE_SEARCH);
+        String currentQuery = savedInstanceState.getString(SEARCH_QUERY);
+
+        decksSearch.setRestoreState(restoreState);
+        decksSearch.setCurrentQuery(currentQuery);
+    }
+
+    private DecksSearch setSearchableClass() {
+        decksSearch = new DecksSearch();
+
+        return decksSearch;
     }
 
     private void initView() {
@@ -138,13 +188,16 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public void setData(List<Decks> data) {
-        int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
-        if (size != 0) {
-            adapter.setDecks(data);
-        } else {
-            noDecks.setVisibility(View.VISIBLE);
-        }
+        noDecks.setVisibility(View.GONE);
+        adapter.setDecks(data);
+    }
+
+    @Override
+    public void setEmptyListInfo(String message) {
+        noDecks.setVisibility(View.VISIBLE);
+        noDecksView.setText(message);
+        adapter.emptyAdapter();
     }
 
     @Override
@@ -177,9 +230,18 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     @Override
+    public void onCloseSearchClick() {
+        loadData(false);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.search_toolbar_menu, menu);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_toolbar_menu, menu);
+
+        decksSearch.setSearchable(this, menu);
+
         return true;
     }
 

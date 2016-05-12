@@ -17,17 +17,20 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
 
     private LoginManager loginManager;
     private DataProvider dataProvider;
+    private EmptyResponseMessage responseMessage;
+
 
     public DecksPresenter(Context context) {
         loginManager = new LoginManager(context);
         dataProvider = new DataHelper(context);
+        responseMessage = new EmptyResponseInfo(context);
     }
 
-    public void loadDecks(boolean pullToRefresh) { // TODO: if timestamp available, add usage of pullToRefresh
+    public void loadDecks(boolean pullToRefresh) {  // TODO: if timestamp available, add usage of pullToRefresh
         if (loginManager.isUserLoggedIn()) {
-            dataProvider.fetchPrivateDecks(this);
+            dataProvider.fetchPrivateDecks(this, responseMessage.onEmptyDecks());
         } else {
-            dataProvider.fetchPublicDecks(this);
+            dataProvider.fetchPublicDecks(this, responseMessage.onEmptyDecks());
         }
     }
 
@@ -35,6 +38,15 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     public void OnDecksReceived(List<Decks> decks) {
         if (isViewAttached()) {
             getView().setData(decks);
+            getView().showLoading(false);
+            getView().showContent();
+        }
+    }
+
+    @Override
+    public void OnEmptyResponse(String message) {
+        if (isViewAttached()) {
+            getView().setEmptyListInfo(message);
             getView().showLoading(false);
             getView().showContent();
         }
@@ -63,6 +75,10 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             dialog.modeDialogInit(deckId, deckName, cardsAmount);
             dialog.show();
         }
+    }
+
+    public void getDecksByName(String deckName) {
+        dataProvider.fetchDecksByName(this, deckName, responseMessage.onEmptyQuery());
     }
 
     @Override

@@ -25,7 +25,7 @@ public class DebugHelper {
     private static final boolean ENABLE_STRICT_MODE        = true;
     private static final boolean ENABLE_LEAK_CANARY        = true;
     private static final boolean STRICT_MODE_KILL_ON_ERROR = false;
-    private static final int     METHOD_COUNT              = 3;
+    private static final int     METHOD_COUNT              = 2;
     private static final int     METHOD_OFFSET             = 2;
 
     private static boolean isDebuggable;
