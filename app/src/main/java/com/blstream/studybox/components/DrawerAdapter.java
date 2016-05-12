@@ -25,9 +25,7 @@ import com.blstream.studybox.database.DataProvider;
 import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.model.database.Decks;
 
-import java.util.List;
-
-public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener, DataProvider.OnDecksReceivedListener<List<Decks>> {
+public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener, DataProvider.OnDecksReceivedListener<Decks> {
 
     private static final int HEADER_INDEX = 0;
     private static final String TAG_IN_EXAM = "inExam";
@@ -125,10 +123,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     }
 
     @Override
-    public void OnDecksReceived(List<Decks> decks) {
+    public void OnDecksReceived(Decks decks) {
         if (decks != null) {
-            String deckId = decks.get(0).getDeckId();
-            String deckName = decks.get(0).getName();
+            String deckId = decks.getDeckId();
+            String deckName = decks.getName();
             startExam(deckId, deckName, true, true);
         }
     }

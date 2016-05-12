@@ -80,16 +80,15 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener<List<Decks>> listener) {
-        RestClientManager.getRandomDeck(true, true, new RequestCallback<>(new RequestListener<List<Decks>>() {
+    public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener<Decks> listener) {
+        RestClientManager.getRandomDeck(new RequestCallback<>(new RequestListener<Decks>() {
             @Override
-            public void onSuccess(List<Decks> response) {
+            public void onSuccess(Decks response) {
                 listener.OnDecksReceived(response);
             }
 
             @Override
             public void onFailure(RetrofitError error) {
-
             }
         }));
     }
