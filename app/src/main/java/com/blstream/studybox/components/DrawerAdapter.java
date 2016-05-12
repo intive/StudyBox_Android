@@ -124,10 +124,12 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
 
     @Override
     public void OnDecksReceived(Decks decks) {
-        if (decks != null) {
+        if (decks.getFlashcardsCount() != 0) {
             String deckId = decks.getDeckId();
             String deckName = decks.getName();
             startExam(deckId, deckName, true, true);
+        }else{
+            dataHelper.fetchRandomDeck(this);
         }
     }
 
