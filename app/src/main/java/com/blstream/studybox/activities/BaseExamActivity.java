@@ -87,7 +87,6 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
 
     private void initView() {
         ButterKnife.bind(this);
-        toolbar.setTitle(deckTitle);
         setSupportActionBar(toolbar);
         setUpEnterTransition();
         setUpNavigationDrawer();
@@ -117,6 +116,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     public void onNewViewStateInstance() {
         presenter.getFlashcards(deckId, randomAmount);
         presenter.inExam(isInExam);
+        setDeckTitle(deckTitle);
         setupAnimation();
     }
 
@@ -138,6 +138,13 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         ExamViewState examViewState = (ExamViewState) viewState;
         examViewState.saveCardCounter(currentCard, totalCards);
         cardsNumber.setText(getString(R.string.correct_answers, currentCard, totalCards));
+    }
+
+    @Override
+    public void setDeckTitle(String deckTitle) {
+        ExamViewState examViewState = (ExamViewState) viewState;
+        examViewState.saveDeckTitle(deckTitle);
+        toolbar.setTitle(deckTitle);
     }
 
     @Override
