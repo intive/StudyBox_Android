@@ -39,18 +39,8 @@ public class ExamStartDialog extends DialogFragment {
 
     @Bind(R.id.exam_mode_button)
     Button exam;
-    @Bind(R.id.mode_1_button)
-    Button one;
-    @Bind(R.id.mode_5_button)
-    Button five;
-    @Bind(R.id.mode_10_button)
-    Button ten;
-    @Bind(R.id.mode_15_button)
-    Button fifteen;
-    @Bind(R.id.mode_20_button)
-    Button twenty;
-    @Bind(R.id.mode_all_button)
-    Button all;
+    @Bind({ R.id.mode_1_button, R.id.mode_5_button, R.id.mode_10_button, R.id.mode_15_button, R.id.mode_20_button, R.id.mode_all_button })
+    Button[] quantityButton;
 
     public static ExamStartDialog newInstance(String deckId, String deckName, int cardsAmount) {
         Bundle arguments = new Bundle();
@@ -94,12 +84,12 @@ public class ExamStartDialog extends DialogFragment {
 
     private void enableButtons(int cardsQuantity) {
         exam.setBackgroundResource(R.drawable.background_raspberry);
-        all.setEnabled(true);
-        one.setEnabled(true);
-        if (cardsQuantity > 5) five.setEnabled(true);
-        if (cardsQuantity > 10) ten.setEnabled(true);
-        if (cardsQuantity > 15) fifteen.setEnabled(true);
-        if (cardsQuantity > 20) twenty.setEnabled(true);
+        quantityButton[5].setEnabled(true);
+        quantityButton[0].setEnabled(true);
+        if (cardsQuantity > 5) quantityButton[1].setEnabled(true);
+        if (cardsQuantity > 10) quantityButton[2].setEnabled(true);
+        if (cardsQuantity > 15) quantityButton[3].setEnabled(true);
+        if (cardsQuantity > 20) quantityButton[4].setEnabled(true);
     }
 
     private void readArguments() {
