@@ -6,7 +6,7 @@
         android:radius="20dp" />
     <stroke
         android:color="@android:color/transparent"
-        android:width="10dp"
+        android:width="15dp"
         />
     <padding
         android:left="20dp"
