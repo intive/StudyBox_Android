@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -18,8 +19,8 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.base.BaseViewStateActivity;
-import com.blstream.studybox.components.Dialogs;
 import com.blstream.studybox.components.DrawerAdapter;
+import com.blstream.studybox.components.StudyRestartDialog;
 import com.blstream.studybox.exam.ResultDialogFragment;
 import com.blstream.studybox.exam.answer_view.AnswerFragment;
 import com.blstream.studybox.exam.answer_view.StudyAnswerFragment;
@@ -165,9 +166,9 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
         } else {
-            Dialogs dialog = new Dialogs(this);
-            dialog.studyEndDialogInit();
-            dialog.show();
+            StudyRestartDialog studyRestartDialog = StudyRestartDialog.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            studyRestartDialog.show(fragmentManager, "ExamStartDialog");
         }
     }
 
