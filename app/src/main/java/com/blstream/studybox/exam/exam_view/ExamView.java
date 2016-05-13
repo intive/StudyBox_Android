@@ -8,4 +8,5 @@ public interface ExamView extends MvpView {
     void showQuestion(String cardId);
     void showAnswer(String cardId);
     void showResult(int correctAnswers, int totalCards);
+    void setDeckTitle(String deckTitle);
 }
