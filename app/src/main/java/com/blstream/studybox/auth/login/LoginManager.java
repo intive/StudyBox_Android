@@ -70,6 +70,6 @@ public class LoginManager implements LoginInterface {
 
     @Override
     public AuthCredentials getCredentials() {
-        return new AuthCredentials(getUserId(), getUserEmail(), getUserPassword(), null);
+        return new AuthCredentials(getUserId(), getUserEmail(), getUserPassword());
     }
 }
