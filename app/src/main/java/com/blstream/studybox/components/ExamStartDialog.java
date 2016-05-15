@@ -39,7 +39,8 @@ public class ExamStartDialog extends DialogFragment {
 
     @Bind(R.id.exam_mode_button)
     Button exam;
-    @Bind({ R.id.mode_1_button, R.id.mode_5_button, R.id.mode_10_button, R.id.mode_15_button, R.id.mode_20_button, R.id.mode_all_button })
+    @Bind({ R.id.mode_1_button, R.id.mode_5_button, R.id.mode_10_button,
+            R.id.mode_15_button, R.id.mode_20_button, R.id.mode_all_button })
     Button[] quantityButton;
 
     public static ExamStartDialog newInstance(String deckId, String deckName, int cardsAmount) {
@@ -60,23 +61,23 @@ public class ExamStartDialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         ButterKnife.bind(this, view);
+        readArguments();
         return view;
     }
 
     @OnClick(R.id.study_mode_button)
     public void startStudy(View view) {
-        readArguments();
         dismiss();
         setUpTest(null, false);
     }
 
     @OnClick(R.id.exam_mode_button)
     public void startExam(View view) {
-        readArguments();
         enableButtons(cardsQuantity);
     }
 
-    @OnClick({R.id.mode_1_button, R.id.mode_5_button, R.id.mode_10_button, R.id.mode_15_button, R.id.mode_20_button, R.id.mode_all_button})
+    @OnClick({R.id.mode_1_button, R.id.mode_5_button, R.id.mode_10_button,
+            R.id.mode_15_button, R.id.mode_20_button, R.id.mode_all_button})
     public void setQuantity(View view) {
         dismiss();
         setUpTest(view, true);

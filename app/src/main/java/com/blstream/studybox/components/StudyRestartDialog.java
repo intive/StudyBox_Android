@@ -1,14 +1,10 @@
 package com.blstream.studybox.components;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.transition.Explode;
-import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +21,7 @@ import butterknife.OnClick;
 public class StudyRestartDialog extends DialogFragment {
 
     public static StudyRestartDialog newInstance() {
-        StudyRestartDialog instance = new StudyRestartDialog();
-        return instance;
+        return new StudyRestartDialog();
     }
 
     @Override
@@ -40,21 +35,14 @@ public class StudyRestartDialog extends DialogFragment {
     }
 
     @OnClick(R.id.yes_button)
-    public void startStudy(View view) {
+    public void restartStudy(View view) {
         dismiss();
         EventBus.getDefault().post(new ImproveAllEvent());
     }
 
     @OnClick(R.id.no_button)
-    public void startExam(View view) {
+    public void finishStudy(View view) {
         dismiss();
         ((Activity) getContext()).finish();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setUpTransition() {
-        Activity activity = (Activity) getContext();
-        Transition exitTrans = new Explode();
-        activity.getWindow().setExitTransition(exitTrans);
     }
 }
