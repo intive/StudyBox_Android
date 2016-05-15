@@ -23,7 +23,6 @@
                 android:id="@+id/answer"
                 android:text="@string/answer"
                 android:textSize="@dimen/exam_medium_text"
-                android:textAllCaps="true"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"

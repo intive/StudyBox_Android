@@ -13,7 +13,6 @@ public class LoginManager implements LoginInterface {
     private static final String LOGIN_STATUS = "LoginStatus";
     private static final String USER_EMAIL = "UserEmail";
     private static final String USER_PASSWORD = "UserPassword";
-    private static final String USER_NAME = "UserName";
     private static final String USER_ID = "UserId";
     private static final String DEFAULT_EMAIL = "";
     private static final String DEFAULT_PASSWORD = "";
@@ -32,7 +31,6 @@ public class LoginManager implements LoginInterface {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(USER_EMAIL, credentials.getEmail());
         editor.putString(USER_PASSWORD, credentials.getPassword());
-        editor.putString(USER_NAME, credentials.getName());
         editor.putString(USER_ID, credentials.getId());
         editor.putBoolean(LOGIN_STATUS, true);
         editor.apply();
@@ -53,21 +51,16 @@ public class LoginManager implements LoginInterface {
 
     @Override
     public String getUserEmail() {
-        return preferences.getString(USER_EMAIL, DEFAULT_EMAIL);
+        if (isUserLoggedIn()) {
+            return preferences.getString(USER_EMAIL, DEFAULT_EMAIL);
+        } else {
+            return resources.getString(R.string.default_username);
+        }
     }
 
     @Override
     public String getUserPassword() {
         return preferences.getString(USER_PASSWORD, DEFAULT_PASSWORD);
-    }
-
-    @Override
-    public String getUserName() {
-        if (isUserLoggedIn()) {
-            return preferences.getString(USER_NAME, "");
-        } else {
-            return resources.getString(R.string.default_username);
-        }
     }
 
     @Override
@@ -77,6 +70,6 @@ public class LoginManager implements LoginInterface {
 
     @Override
     public AuthCredentials getCredentials() {
-        return new AuthCredentials(getUserId(), getUserName(), getUserEmail(), getUserPassword());
+        return new AuthCredentials(getUserId(), getUserEmail(), getUserPassword(), null);
     }
 }
