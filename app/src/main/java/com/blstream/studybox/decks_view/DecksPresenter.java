@@ -1,11 +1,13 @@
 package com.blstream.studybox.decks_view;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
-import com.blstream.studybox.components.Dialogs;
+import com.blstream.studybox.components.ExamStartDialog;
 import com.blstream.studybox.database.DataHelper;
 import com.blstream.studybox.database.DataProvider;
 import com.blstream.studybox.model.database.Decks;
@@ -71,9 +73,9 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             EmptyDeckActivity.start(view.getContext());
         } else {
             Context context = view.getContext();
-            Dialogs dialog = new Dialogs(context);
-            dialog.modeDialogInit(deckId, deckName, cardsAmount);
-            dialog.show();
+            ExamStartDialog examStartDialog = ExamStartDialog.newInstance(deckId, deckName, cardsAmount);
+            FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+            examStartDialog.show(fragmentManager, "ExamStartDialog");
         }
     }
 

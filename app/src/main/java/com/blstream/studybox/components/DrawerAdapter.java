@@ -103,12 +103,8 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
                 break;
             case R.id.my_decks:
                 break;
-            case R.id.create_deck:
-                break;
             case R.id.random_deck:
                 dataHelper.fetchRandomDeck(this);
-                break;
-            case R.id.statistics:
                 break;
             case R.id.logout:
                 login.deleteUser();
