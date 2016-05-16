@@ -199,11 +199,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         searchDeckIncentive
                 .getBackground()
                 .setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
-
-        View parent = (View) searchDeckIncentive.getParent();
-        int width = parent.getWidth() / columnQuantity;
-        searchDeckIncentive.getLayoutParams().width = width;
-        searchDeckIncentive.getLayoutParams().height = width;
     }
 
     private void onViewPrepared() {
@@ -233,7 +228,15 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
             }
         } else {
             searchDeckIncentive.setVisibility(View.VISIBLE);
+            setIncentiveViewSize();
         }
+    }
+
+    private void setIncentiveViewSize() {
+        View parent = (View) searchDeckIncentive.getParent();
+        int width = parent.getWidth() / columnQuantity;
+        searchDeckIncentive.getLayoutParams().width = width;
+        searchDeckIncentive.getLayoutParams().height = width;
     }
 
     @Override

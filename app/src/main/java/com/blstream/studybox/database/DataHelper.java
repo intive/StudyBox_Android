@@ -1,7 +1,6 @@
 package com.blstream.studybox.database;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
@@ -21,22 +20,19 @@ import retrofit.RetrofitError;
 public class DataHelper implements DataProvider {
 
     private Context context;
-    private List<Decks> privateDecks;
-    private List<Decks> publicDecks;
 
     public DataHelper(Context context) {
         this.context = context;
     }
 
     @Override
-    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener) {
+    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Decks>> listener) {
         RestClientManager.getPrivateDecks(true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Decks>>() {
 
                     @Override
                     public void onSuccess(List<Decks> response) {
-                        privateDecks = response;
                         saveDecksToDataBase(response);
                         listener.OnDecksReceived(response);
                     }
@@ -49,7 +45,7 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener listener, final String onEmptyResponseMessage) {
+    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener<List<Decks>> listener, final String onEmptyResponseMessage) {
         RestClientManager.getPublicDecks(true, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
@@ -58,7 +54,6 @@ public class DataHelper implements DataProvider {
                     return;
                 }
 
-                publicDecks = response;
                 listener.OnDecksReceived(response);
             }
 
@@ -121,7 +116,7 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchTips(String deckId, String cardId, final OnTipsReceivedListener listener) {
+    public void fetchTips(String deckId, String cardId, final OnTipsReceivedListener<List<Tip>> listener) {
         RestClientManager.getTips(deckId, cardId, new RequestCallback<>(new RequestListener<List<Tip>>() {
             @Override
             public void onSuccess(List<Tip> response) {
@@ -133,16 +128,6 @@ public class DataHelper implements DataProvider {
 
             }
         }));
-    }
-
-    @Override
-    public List<Decks> getPrivateDecks() {
-        return privateDecks;
-    }
-
-    @Override
-    public List<Decks> getPublicDecks() {
-        return publicDecks;
     }
 
     private void saveDecksToDataBase(List<Decks> decks) {

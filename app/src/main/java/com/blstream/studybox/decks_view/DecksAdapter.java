@@ -82,6 +82,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void onItemClick(int position, View v);
     }
 
+    @SuppressWarnings("unchecked")
     public void setDecks(List<Decks> data) {
         decksList = (List) data;
         notifyDataSetChanged();
@@ -93,7 +94,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setPositionIncentiveView(int position) {
         if (decksList != null) {
-            decksList.add(position, "testString");
+            decksList.add(position, "Incentive view");
         }
     }
 
