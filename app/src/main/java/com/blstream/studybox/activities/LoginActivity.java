@@ -11,10 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.base.BaseAuthActivity;
 import com.blstream.studybox.auth.BaseAuthViewState;
 import com.blstream.studybox.auth.login_view.LoginPresenter;
 import com.blstream.studybox.auth.login_view.LoginView;
+import com.blstream.studybox.base.BaseAuthActivity;
 import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -24,8 +24,8 @@ import butterknife.OnClick;
 
 
 public class LoginActivity extends BaseAuthActivity<LoginView, LoginPresenter>
-    implements LoginView {
-    
+        implements LoginView {
+
     @Bind(R.id.input_email)
     TextInputEditText emailInput;
 
@@ -71,17 +71,19 @@ public class LoginActivity extends BaseAuthActivity<LoginView, LoginPresenter>
     }
 
     @OnClick(R.id.link_sign_up)
-    public void onSignUpLinkClick(){
+    public void onSignUpLinkClick() {
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivity(intent);
     }
 
-    @Override @NonNull
+    @Override
+    @NonNull
     public LoginPresenter createPresenter() {
         return new LoginPresenter();
     }
 
-    @Override @NonNull
+    @Override
+    @NonNull
     public ViewState<LoginView> createViewState() {
         return new BaseAuthViewState<>();
     }
@@ -151,21 +153,21 @@ public class LoginActivity extends BaseAuthActivity<LoginView, LoginPresenter>
         loginProgressBar.setVisibility(View.VISIBLE);
     }
 
-    protected void setAuthError(String message){
+    protected void setAuthError(String message) {
         BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
         vs.setShowAuthError();
 
         setError(message);
     }
 
-    protected void setNetworkError(String message){
+    protected void setNetworkError(String message) {
         BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
         vs.setShowNetworkError();
 
         setError(message);
     }
 
-    protected void setUnexpectedError(String message){
+    protected void setUnexpectedError(String message) {
         BaseAuthViewState vs = (BaseAuthViewState<LoginView>) viewState;
         vs.setShowUnexpectedError();
 

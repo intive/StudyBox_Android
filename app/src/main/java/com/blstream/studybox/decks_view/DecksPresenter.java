@@ -8,19 +8,18 @@ import android.view.View;
 import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.components.ExamStartDialog;
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.database.DataProvider;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.data_provider.DataHelper;
+import com.blstream.studybox.data_provider.DataProvider;
+import com.blstream.studybox.model.database.Deck;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
 
-public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Decks>> {
+public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Deck>> {
 
     private LoginManager loginManager;
     private DataProvider dataProvider;
     private EmptyResponseMessage responseMessage;
-
 
     public DecksPresenter(Context context) {
         loginManager = new LoginManager(context);
@@ -37,7 +36,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     @Override
-    public void OnDecksReceived(List<Decks> decks) {
+    public void OnDecksReceived(List<Deck> decks) {
         if (isViewAttached()) {
             getView().setData(decks);
             getView().showLoading(false);

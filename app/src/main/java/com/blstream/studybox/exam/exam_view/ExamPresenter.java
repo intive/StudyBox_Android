@@ -2,8 +2,8 @@ package com.blstream.studybox.exam.exam_view;
 
 import android.content.Context;
 
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.database.DataProvider;
+import com.blstream.studybox.data_provider.DataHelper;
+import com.blstream.studybox.data_provider.DataProvider;
 import com.blstream.studybox.events.CorrectAnswerEvent;
 import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;

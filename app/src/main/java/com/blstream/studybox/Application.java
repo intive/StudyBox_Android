@@ -18,9 +18,9 @@ public class Application extends com.activeandroid.app.Application {
      */
     private void customFontInit() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
+                .setDefaultFontPath("fonts/Lato-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
         );
     }
 }

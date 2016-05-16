@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.DecksSearch;
@@ -27,7 +26,7 @@ import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 
 import java.util.List;
@@ -37,10 +36,9 @@ import butterknife.BindInt;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
+public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
-    private static final String TAG = "DecksActivity";
     static final String STATE_SEARCH = "restoreSearch";
     static final String SEARCH_QUERY = "currentQuery";
 
@@ -130,9 +128,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     private DecksSearch setSearchableClass() {
-        decksSearch = new DecksSearch();
-
-        return decksSearch;
+        return decksSearch = new DecksSearch();
     }
 
     private void initView() {
@@ -143,15 +139,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         setUpRecyclerView();
         setUpExitTransition();
         onViewPrepared();
-        noDecks.setVisibility(View.GONE);
-    }
-
-    private void setUpExitTransition() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Fade transition = new Fade();
-            transition.setDuration(TRANSITION_DURATION);
-            getWindow().setExitTransition(transition);
-        }
     }
 
     private void setUpNavigationDrawer() {
@@ -172,8 +159,17 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         recyclerView.setHasFixedSize(true);
     }
 
+    private void setUpExitTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade transition = new Fade();
+            transition.setDuration(TRANSITION_DURATION);
+            getWindow().setExitTransition(transition);
+        }
+    }
+
     private void onViewPrepared() {
         loadData(false);
+        noDecks.setVisibility(View.GONE);
     }
 
     @Override
@@ -187,7 +183,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     @Override
-    public void setData(List<Decks> data) {
+    public void setData(List<Deck> data) {
         loadingView.setVisibility(View.GONE);
         noDecks.setVisibility(View.GONE);
         adapter.setDecks(data);
@@ -220,13 +216,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public void onItemClick(int position, View view) {
-        if (connectionStatusReceiver.isConnected()) {
-            presenter.onDeckClicked(position, view);
-        } else {
-            // TODO: Delete Toast messages after providing better tests
-            Toast.makeText(this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
-        }
-
+        presenter.onDeckClicked(position, view);
     }
 
     @Override
@@ -236,7 +226,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_toolbar_menu, menu);
 
