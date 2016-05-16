@@ -1,12 +1,13 @@
 package com.blstream.studybox.activities;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -72,7 +73,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     @Bind(R.id.loadingView)
     ProgressBar loadingView;
 
-    @Bind(R.id.search_deck)
+    @Bind(R.id.search_deck_incentive)
     TextView searchDeckIncentive;
 
     @Bind(R.id.no_decks)
@@ -99,6 +100,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     public void onSearchIntentHandled(String query) {
         if (connectionStatusReceiver.isConnected()) {
             presenter.getDecksByName(query.trim());
+            searchDeckIncentive.setVisibility(View.GONE);
         }
     }
 
@@ -149,6 +151,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         setUpPresenter();
         setUpExitTransition();
         onViewPrepared();
+        setUpIncentiveView();
         noDecks.setVisibility(View.GONE);
     }
 
@@ -192,6 +195,17 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         }
     }
 
+    private void setUpIncentiveView() {
+        final int backgroundColor = ContextCompat
+                .getColor(this, R.color.colorDarkBlue);
+
+        searchDeckIncentive
+                .getBackground()
+                .setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
+
+        searchDeckIncentive.setText(R.string.search_decks);
+    }
+
     private void onViewPrepared() {
         loadData(false);
     }
@@ -210,13 +224,13 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     public void setData(List<Decks> data) {
         int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
-        if (size > 0) {
-            adapter.setDecks(data);
+        adapter.setDecks(data);
+        if (size > 0 && !decksSearch.hasFocus()) {
             adapter.setPositionIncentiveView(columnQuantity - 1);
         } else {
             searchDeckIncentive.setVisibility(View.VISIBLE);
             View parent = (View) searchDeckIncentive.getParent();
-            int width = parent.getWidth() / 2;
+            int width = parent.getWidth() / columnQuantity;
             searchDeckIncentive.getLayoutParams().width = width;
             searchDeckIncentive.getLayoutParams().height = width;
         }
@@ -264,7 +278,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_toolbar_menu, menu);
 

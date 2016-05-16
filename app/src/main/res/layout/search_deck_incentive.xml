@@ -6,7 +6,8 @@
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
     android:background="@drawable/search_incentive"
-    android:backgroundTint="@color/colorDarkBlue"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="5dp"
+    android:textColor="@color/colorDarkBlue">
 
 </TextView>

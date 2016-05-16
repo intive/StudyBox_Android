@@ -39,7 +39,7 @@
         android:layout_centerVertical="true" />
 
     <include
-        android:id="@+id/search_deck"
+        android:id="@+id/search_deck_incentive"
         layout="@layout/search_deck_incentive"
         android:visibility="gone" />
 

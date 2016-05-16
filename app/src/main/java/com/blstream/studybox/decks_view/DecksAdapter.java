@@ -1,6 +1,8 @@
 package com.blstream.studybox.decks_view;
 
+import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +36,9 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 viewHolder = new DeckViewHolder(deckView);
                 break;
             case IMAGE:
-                View imageView = inflater.inflate(R.layout.search_deck_incentive, parent, false);
-                viewHolder = new SearchDecksHolder(imageView);
+                TextView searchIncentiveView = (TextView) inflater.inflate(R.layout.search_deck_incentive, parent, false);
+                searchIncentiveView.setText(R.string.search_more_decks);
+                viewHolder = new SearchDecksHolder(searchIncentiveView);
                 break;
             default:
                 View defaultView = inflater.inflate(R.layout.deck, parent, false);
@@ -47,15 +50,11 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()) {
-            case DECK:
-                DeckViewHolder deckViewHolder = (DeckViewHolder) holder;
-                Decks deck = (Decks) decksList.get(position);
-                deckViewHolder.deckTitle.setText(deck.getName());
-                deckViewHolder.questionsQuantity.setText(String.valueOf(deck.getFlashcardsCount()));
-                break;
-            case IMAGE:
-                break;
+        if (holder.getItemViewType() == DECK) {
+            DeckViewHolder deckViewHolder = (DeckViewHolder) holder;
+            Decks deck = (Decks) decksList.get(position);
+            deckViewHolder.deckTitle.setText(deck.getName());
+            deckViewHolder.questionsQuantity.setText(String.valueOf(deck.getFlashcardsCount()));
         }
     }
 
@@ -122,11 +121,18 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static class SearchDecksHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.search_deck_incentive)
-        TextView searchDecksImage;
+        TextView searchIncentiveView;
 
         public SearchDecksHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            final int backgroundColor = ContextCompat
+                    .getColor(itemView.getContext(), R.color.colorDarkBlue);
+
+            searchIncentiveView
+                    .getBackground()
+                    .setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
         }
     }
 
