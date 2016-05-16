@@ -17,7 +17,6 @@ import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,9 +74,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Bind(R.id.search_deck_incentive)
     TextView searchDeckIncentive;
-
-    @Bind(R.id.no_decks)
-    LinearLayout noDecks;
 
     @Bind(R.id.no_decks_text_view)
     TextView noDecksView;
@@ -152,7 +148,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         setUpExitTransition();
         onViewPrepared();
         setUpIncentiveView();
-        noDecks.setVisibility(View.GONE);
+        noDecksView.setVisibility(View.GONE);
     }
 
     private void setUpExitTransition() {
@@ -199,11 +195,15 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         final int backgroundColor = ContextCompat
                 .getColor(this, R.color.colorDarkBlue);
 
+        searchDeckIncentive.setText(R.string.search_decks);
         searchDeckIncentive
                 .getBackground()
                 .setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
 
-        searchDeckIncentive.setText(R.string.search_decks);
+        View parent = (View) searchDeckIncentive.getParent();
+        int width = parent.getWidth() / columnQuantity;
+        searchDeckIncentive.getLayoutParams().width = width;
+        searchDeckIncentive.getLayoutParams().height = width;
     }
 
     private void onViewPrepared() {
@@ -222,23 +222,23 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     @Override
     public void setData(List<Decks> data) {
-        int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
+        noDecksView.setVisibility(View.GONE);
         adapter.setDecks(data);
-        if (size > 0 && !decksSearch.hasFocus()) {
-            adapter.setPositionIncentiveView(columnQuantity - 1);
+
+        int size = (data == null) ? 0 : data.size();
+        if (size > 0) {
+            if (!decksSearch.hasFocus()) {
+                adapter.setPositionIncentiveView(columnQuantity - 1);
+            }
         } else {
             searchDeckIncentive.setVisibility(View.VISIBLE);
-            View parent = (View) searchDeckIncentive.getParent();
-            int width = parent.getWidth() / columnQuantity;
-            searchDeckIncentive.getLayoutParams().width = width;
-            searchDeckIncentive.getLayoutParams().height = width;
         }
     }
 
     @Override
     public void setEmptyListInfo(String message) {
-        noDecks.setVisibility(View.VISIBLE);
+        noDecksView.setVisibility(View.VISIBLE);
         noDecksView.setText(message);
         adapter.emptyAdapter();
     }
