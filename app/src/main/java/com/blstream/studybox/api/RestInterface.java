@@ -35,5 +35,5 @@ public interface RestInterface {
     void signUp(@Body AuthCredentials authCredentials, Callback<AuthCredentials> callback);
 
     @GET("/decks")
-    void getDecksByName(@Query("name") String deckName, Callback<List<Decks>> cb);
+    void getDecksByName(@Query("name") String deckName, @Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Decks>> cb);
 }

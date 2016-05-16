@@ -22,14 +22,14 @@ public class DataHelper implements DataProvider {
     private Context context;
     private List<Decks> privateDecks;
     private List<Decks> publicDecks;
-    private List<Decks> actualDecks;
+    private List<Decks> currentDecks;
 
     public DataHelper(Context context) {
         this.context = context;
     }
 
     @Override
-    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener, final String onEmptyResponseMessage) {
+    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Decks>> listener, final String onEmptyResponseMessage) {
         RestClientManager.getDecks(true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Decks>>() {
@@ -42,7 +42,7 @@ public class DataHelper implements DataProvider {
                         }
 
                         privateDecks = response;
-                        actualDecks = response;
+                        currentDecks = response;
                         saveDecksToDataBase(response);
                         listener.OnDecksReceived(response);
                     }
@@ -55,7 +55,7 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener listener, final String onEmptyResponseMessage) {
+    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener<List<Decks>> listener, final String onEmptyResponseMessage) {
         RestClientManager.getPublicDecks(true, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
@@ -65,7 +65,7 @@ public class DataHelper implements DataProvider {
                 }
 
                 publicDecks = response;
-                actualDecks = response;
+                currentDecks = response;
                 listener.OnDecksReceived(response);
             }
 
@@ -109,7 +109,7 @@ public class DataHelper implements DataProvider {
 
     @Override
     public void fetchDecksByName(final OnDecksReceivedListener<List<Decks>> listener, String deckName, final String onEmptyResponseMessage) {
-        RestClientManager.getDecksByName(deckName, new RequestCallback<>(new RequestListener<List<Decks>>() {
+        RestClientManager.getDecksByName(deckName, true, new RequestCallback<>(new RequestListener<List<Decks>>() {
             @Override
             public void onSuccess(List<Decks> response) {
                 if (isNullOrEmpty(response)) {
@@ -117,7 +117,7 @@ public class DataHelper implements DataProvider {
                     return;
                 }
 
-                actualDecks = response;
+                currentDecks = response;
                 listener.OnDecksReceived(response);
             }
 
@@ -148,8 +148,9 @@ public class DataHelper implements DataProvider {
         return privateDecks;
     }
 
-    public List<Decks> getActualDecks(){
-        return actualDecks;
+    @Override
+    public List<Decks> getCurrentDecks(){
+        return currentDecks;
     }
 
     @Override

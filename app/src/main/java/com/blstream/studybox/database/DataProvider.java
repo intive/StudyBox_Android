@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface DataProvider {
 
-    void fetchPrivateDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
+    void fetchPrivateDecks(OnDecksReceivedListener<List<Decks>> listener, String onEmptyResponseMessage);
 
-    void fetchPublicDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
+    void fetchPublicDecks(OnDecksReceivedListener<List<Decks>> listener, String onEmptyResponseMessage);
 
     void fetchFlashcards(String deckId, String randomAmount, OnCardsReceivedListener<List<Card>> listener);
 
@@ -37,5 +37,5 @@ public interface DataProvider {
 
     List<Decks> getPublicDecks();
 
-    List<Decks> getActualDecks();
+    List<Decks> getCurrentDecks();
 }
