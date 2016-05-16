@@ -22,6 +22,7 @@ public class DataHelper implements DataProvider {
     private Context context;
     private List<Decks> privateDecks;
     private List<Decks> publicDecks;
+    private List<Decks> actualDecks;
 
     public DataHelper(Context context) {
         this.context = context;
@@ -41,6 +42,7 @@ public class DataHelper implements DataProvider {
                         }
 
                         privateDecks = response;
+                        actualDecks = response;
                         saveDecksToDataBase(response);
                         listener.OnDecksReceived(response);
                     }
@@ -63,6 +65,7 @@ public class DataHelper implements DataProvider {
                 }
 
                 publicDecks = response;
+                actualDecks = response;
                 listener.OnDecksReceived(response);
             }
 
@@ -114,6 +117,7 @@ public class DataHelper implements DataProvider {
                     return;
                 }
 
+                actualDecks = response;
                 listener.OnDecksReceived(response);
             }
 
@@ -142,6 +146,10 @@ public class DataHelper implements DataProvider {
     @Override
     public List<Decks> getPrivateDecks() {
         return privateDecks;
+    }
+
+    public List<Decks> getActualDecks(){
+        return actualDecks;
     }
 
     @Override

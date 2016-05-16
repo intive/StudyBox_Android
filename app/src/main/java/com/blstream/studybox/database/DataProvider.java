@@ -36,4 +36,6 @@ public interface DataProvider {
     List<Decks> getPrivateDecks();
 
     List<Decks> getPublicDecks();
+
+    List<Decks> getActualDecks();
 }

@@ -59,7 +59,11 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         String deckName;
         int cardsAmount;
 
-        if (loginManager.isUserLoggedIn()) {
+        deckId = dataProvider.getActualDecks().get(position).getDeckId();
+        deckName = dataProvider.getActualDecks().get(position).getName();
+        cardsAmount = dataProvider.getActualDecks().get(position).getFlashcardsCount();
+
+        /*if (loginManager.isUserLoggedIn()) {
             deckId = dataProvider.getPrivateDecks().get(position).getDeckId();
             deckName = dataProvider.getPrivateDecks().get(position).getName();
             cardsAmount = dataProvider.getPrivateDecks().get(position).getFlashcardsCount();
@@ -67,7 +71,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             deckId = dataProvider.getPublicDecks().get(position).getDeckId();
             deckName = dataProvider.getPublicDecks().get(position).getName();
             cardsAmount = dataProvider.getPublicDecks().get(position).getFlashcardsCount();
-        }
+        }*/
 
         if (cardsAmount == 0) {
             EmptyDeckActivity.start(view.getContext());
