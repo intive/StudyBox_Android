@@ -22,8 +22,8 @@ public interface RestInterface {
     @GET("/decks/me")
     void getPrivateDecks(@Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Decks>> cb);
 
-    @GET("/decks/")
-    void getRandomDeck(@Query("random") boolean randomKey, @Query("random") boolean flashcardCountKey, Callback<List<Decks>> cb);
+    @GET("/decks/random/")
+    void getRandomDeck(@Query("flashcardsCount") boolean flashcardCountKey, Callback<Decks> cb);
 
     @GET("/decks/{key}/flashcards")
     void getFlashcards(@Path("key") String key, @Query("random") String amount, Callback<List<Card>> cb);
@@ -36,4 +36,7 @@ public interface RestInterface {
 
     @POST("/users/")
     void signUp(@Body AuthCredentials authCredentials, Callback<AuthCredentials> callback);
+
+    @GET("/decks")
+    void getDecksByName(@Query("name") String deckName, Callback<List<Decks>> cb);
 }

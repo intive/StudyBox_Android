@@ -1,13 +1,18 @@
 package com.blstream.studybox.components;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -20,11 +25,13 @@ import com.blstream.studybox.database.DataProvider;
 import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.model.database.Decks;
 
-import java.util.List;
-
-public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener,DataProvider.OnDecksReceivedListener<List<Decks>> {
+public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener, DataProvider.OnDecksReceivedListener<Decks> {
 
     private static final int HEADER_INDEX = 0;
+    private static final String TAG_IN_EXAM = "inExam";
+    private static final String TAG_DECK_NAME = "deckName";
+    private static final String TAG_DECK_ID = "deckId";
+    private static final String TAG_IS_RANDOM_EXAM = "isRandomExam";
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -41,8 +48,8 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         this.drawerLayout = drawerLayout;
         this.toolbar = toolbar;
         try {
-            this.activity = (Activity)context;
-        } catch(ClassCastException e) {
+            this.activity = (Activity) context;
+        } catch (ClassCastException e) {
             DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
         }
         this.login = new LoginManager(context);
@@ -71,7 +78,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         drawerToggle.syncState();
     }
 
-    public void randomDeckDrawerItem(boolean state){
+    public void randomDeckDrawerItem(boolean state) {
         navigationView.getMenu().findItem(R.id.random_deck).setChecked(state);
     }
 
@@ -100,12 +107,8 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
                 break;
             case R.id.my_decks:
                 break;
-            case R.id.create_deck:
-                break;
             case R.id.random_deck:
                 dataHelper.fetchRandomDeck(this);
-                break;
-            case R.id.statistics:
                 break;
             case R.id.logout:
                 login.deleteUser();
@@ -120,11 +123,42 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     }
 
     @Override
-    public void OnDecksReceived(boolean isPublic, List<Decks> decks) {
-        if (decks != null) {
-            String deckId = decks.get(0).getDeckId();
-            String deckName = decks.get(0).getName();
-            BaseExamActivity.start(context, true, deckId, deckName, true);
+    public void OnDecksReceived(boolean isPublic, Decks decks) {
+        if (decks.getFlashcardsCount() != 0) {
+            String deckId = decks.getDeckId();
+            String deckName = decks.getName();
+            startExam(deckId, deckName, true, true);
+        }else{
+            dataHelper.fetchRandomDeck(this);
         }
+    }
+
+    private void startExam(final String deckId, final String deckName, boolean isExam, boolean isRandomDeckExam) {
+        Intent intent = new Intent(context, BaseExamActivity.class);
+        intent.putExtra(TAG_DECK_ID, deckId);
+        intent.putExtra(TAG_DECK_NAME, deckName);
+        intent.putExtra(TAG_IN_EXAM, isExam);
+        intent.putExtra(TAG_IS_RANDOM_EXAM, isRandomDeckExam);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setUpTransition();
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
+            context.startActivity(intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setUpTransition() {
+        Activity activity = (Activity) context;
+        Transition exitTrans = new Explode();
+        activity.getWindow().setExitTransition(exitTrans);
+    }
+
+    @Override
+    public void OnEmptyResponse(String message) {
+
     }
 }

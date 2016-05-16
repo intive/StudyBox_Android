@@ -133,4 +133,9 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ButterKnife.bind(this, itemView);
         }
     }
+
+    public void emptyAdapter(){
+        decksList.clear();
+        notifyDataSetChanged();
+    }
 }

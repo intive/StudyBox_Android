@@ -15,17 +15,9 @@
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_my_decks" />
         <item
-            android:id="@+id/create_deck"
-            android:icon="@drawable/ic_circle"
-            android:title="@string/nav_create_deck" />
-        <item
             android:id="@+id/random_deck"
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_show_deck" />
-        <item
-            android:id="@+id/statistics"
-            android:icon="@drawable/ic_circle"
-            android:title="@string/nav_statistics" />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_circle"

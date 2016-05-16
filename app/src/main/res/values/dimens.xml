@@ -36,7 +36,7 @@
     <dimen name="result_button_height">60dp</dimen>
     <dimen name="exam_title_text">26sp</dimen>
     <dimen name="empty_box_size">160dp</dimen>
-    <dimen name="exam_medium_text_smaller">16sp</dimen>
+    <dimen name="exam_medium_text_smaller">18sp</dimen>
     <dimen name="prompt_padding">10dp</dimen>
     <dimen name="prompt_side_margin">50dp</dimen>
 

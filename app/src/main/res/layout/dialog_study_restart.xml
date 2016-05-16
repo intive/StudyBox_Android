@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/repeat_study_info"
+        android:gravity="center"
+        android:textColor="@color/colorGraphite"
+        android:textSize="@dimen/exam_medium_text"
+        android:padding="@dimen/exam_element_margin"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/repeat_study_question"
+        android:gravity="center"
+        android:textColor="@color/colorGraphite"
+        android:textSize="@dimen/exam_medium_text_smaller"
+        android:layout_marginBottom="10dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/yes_button"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yes"
+            android:background="@drawable/dialog_button_bg_selector"
+            android:textColor="@color/colorGrey"
+            android:layout_margin="@dimen/exam_element_margin"/>
+        <Button
+            android:id="@+id/no_button"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no"
+            android:background="@drawable/dialog_button_bg_selector"
+            android:textColor="@color/colorGrey"
+            android:layout_margin="@dimen/exam_element_margin"/>
+    </LinearLayout>
+
+</LinearLayout>

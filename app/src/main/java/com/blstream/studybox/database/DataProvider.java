@@ -7,18 +7,22 @@ import java.util.List;
 
 public interface DataProvider {
 
-    void fetchPrivateDecks(OnDecksReceivedListener listener);
+    void fetchPrivateDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
 
-    void fetchPublicDecks(OnDecksReceivedListener listener);
+    void fetchPublicDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
 
     void fetchFlashcards(String deckId, String randomAmount, OnCardsReceivedListener<List<Card>> listener);
 
     void fetchTips(String deckId, String cardId, OnTipsReceivedListener listener);
 
-    void fetchRandomDeck(OnDecksReceivedListener<List<Decks>> listener);
+    void fetchRandomDeck(OnDecksReceivedListener<Decks> listener);
+
+    void fetchDecksByName(OnDecksReceivedListener<List<Decks>> listener, String deckName, String onEmptyResponseMessage);
 
     interface OnDecksReceivedListener<T> {
         void OnDecksReceived(boolean isPublic, T decks);
+
+        void OnEmptyResponse(String message);
     }
 
     interface OnCardsReceivedListener<T> {

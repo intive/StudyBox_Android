@@ -61,6 +61,7 @@
     <string name="improve_only_wrong">Test z najgorszych</string>
     <string name="empty_deck">Pusta talia</string>
     <string name="no_decks">Brak talii</string>
+    <string name="no_decks_query">Brak talii o podanej nazwie</string>
     <string name="next_prompt">Następna podpowiedź</string>
     <string name="prev_prompt">Wcześniejsza podpowiedź</string>
     <string name="question_image">Obrazek pytania</string>
@@ -83,7 +84,14 @@
     <string name="exam">Egzamin</string>
     <string name="study">Nauka</string>
     <string name="choose_mode">Wybierz tryb</string>
-    <string name="random_test_dialog_title">Wybierz ilość fiszek w teście</string>
     <string name="all">Wszystkie</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Wyszukaj...</string>
+    <string name="twenty">20</string>
+    <string name="fifteen">15</string>
+    <string name="ten">10</string>
+    <string name="five">5</string>
+    <string name="one">1</string>
+    <string name="choose_quantity">Wybierz ilość fiszek</string>
 
 </resources>
