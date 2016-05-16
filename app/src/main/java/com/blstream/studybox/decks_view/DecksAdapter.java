@@ -5,13 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.model.database.Decks;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -57,8 +55,6 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 deckViewHolder.questionsQuantity.setText(String.valueOf(deck.getFlashcardsCount()));
                 break;
             case IMAGE:
-                SearchDecksHolder searchDecksHolder = (SearchDecksHolder) holder;
-                searchDecksHolder.searchDecksImage.setImageResource(R.drawable.search_decks);
                 break;
         }
     }
@@ -87,8 +83,8 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void onItemClick(int position, View v);
     }
 
-    public void setDecks(List<Object> data) {
-        decksList = data;
+    public void setDecks(List<Decks> data) {
+        decksList = (List) data;
         notifyDataSetChanged();
     }
 
@@ -126,7 +122,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static class SearchDecksHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.search_deck_incentive)
-        ImageView searchDecksImage;
+        TextView searchDecksImage;
 
         public SearchDecksHolder(View itemView) {
             super(itemView);
@@ -134,8 +130,10 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public void emptyAdapter(){
-        decksList.clear();
-        notifyDataSetChanged();
+    public void emptyAdapter() {
+        if (decksList != null) {
+            decksList.clear();
+            notifyDataSetChanged();
+        }
     }
 }

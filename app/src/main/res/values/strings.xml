@@ -93,5 +93,6 @@
     <string name="five">5</string>
     <string name="one">1</string>
     <string name="choose_quantity">Wybierz ilość fiszek</string>
+    <string name="decks">Talie</string>
 
 </resources>

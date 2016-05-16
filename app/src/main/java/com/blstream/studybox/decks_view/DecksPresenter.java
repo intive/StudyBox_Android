@@ -16,7 +16,7 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import java.util.List;
 import java.util.Random;
 
-public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Object>> {
+public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Decks>> {
 
     private LoginManager loginManager;
     private DataProvider dataProvider;
@@ -31,17 +31,15 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
 
     public void loadDecks(boolean pullToRefresh) {  // TODO: if timestamp available, add usage of pullToRefresh
         if (loginManager.isUserLoggedIn()) {
-            dataProvider.fetchPrivateDecks(this, responseMessage.onEmptyDecks());
+            dataProvider.fetchPrivateDecks(this);
         } else {
             dataProvider.fetchPublicDecks(this, responseMessage.onEmptyDecks());
         }
     }
 
     @Override
-    public void OnDecksReceived(boolean isPublic, List<Object> decks) {
-        if (isPublic && decks.isEmpty()) {
-            dataProvider.fetchPublicDecks(this);
-        } else if (isViewAttached()) {
+    public void OnDecksReceived(List<Decks> decks) {
+       if (isViewAttached()) {
             decks = getRandomDecksFromList(decks);
             getView().setData(decks);
             getView().showLoading(false);
@@ -58,7 +56,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         }
     }
 
-    private List<Object> getRandomDecksFromList(List<Object> decks) {
+    private List<Decks> getRandomDecksFromList(List<Decks> decks) {
         if (decks.size() >= 3) {
             Random random = new Random();
             int end = random.nextInt(decks.size()) + 3;

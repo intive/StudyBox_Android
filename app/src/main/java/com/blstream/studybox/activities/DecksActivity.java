@@ -16,7 +16,7 @@ import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +24,12 @@ import android.widget.Toast;
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.DecksSearch;
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
 import com.blstream.studybox.decks_view.DecksView;
+import com.blstream.studybox.model.database.Decks;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 
 import java.util.List;
@@ -40,7 +42,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks>, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
-    private static final String TAG = "DecksActivity";
     static final String STATE_SEARCH = "restoreSearch";
     static final String SEARCH_QUERY = "currentQuery";
 
@@ -72,7 +73,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     ProgressBar loadingView;
 
     @Bind(R.id.search_deck)
-    ImageView searchDeckIncentive;
+    TextView searchDeckIncentive;
 
     @Bind(R.id.no_decks)
     LinearLayout noDecks;
@@ -140,7 +141,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
 
     private void initView() {
         ButterKnife.bind(this);
-        toolbar.setTitle(R.string.nav_my_decks);
+        setUpToolbarTitle();
         setSupportActionBar(toolbar);
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
@@ -182,6 +183,15 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
         presenter.setDecksAdapter(adapter);
     }
 
+    private void setUpToolbarTitle() {
+        final LoginManager loginManager = new LoginManager(this);
+        if (loginManager.isUserLoggedIn()) {
+            toolbar.setTitle(R.string.nav_my_decks);
+        } else {
+            toolbar.setTitle(R.string.decks);
+        }
+    }
+
     private void onViewPrepared() {
         loadData(false);
     }
@@ -197,16 +207,12 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
     }
 
     @Override
-    public void setData(List<Object> data) {
+    public void setData(List<Decks> data) {
         int size = (data == null) ? 0 : data.size();
         loadingView.setVisibility(View.GONE);
-        if (size != 0) {
+        if (size > 0) {
             adapter.setDecks(data);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                adapter.setPositionIncentiveView(1);
-            } else {
-                adapter.setPositionIncentiveView(2);
-            }
+            adapter.setPositionIncentiveView(columnQuantity - 1);
         } else {
             searchDeckIncentive.setVisibility(View.VISIBLE);
             View parent = (View) searchDeckIncentive.getParent();
@@ -249,7 +255,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Decks
             // TODO: Delete Toast messages after providing better tests
             Toast.makeText(this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override

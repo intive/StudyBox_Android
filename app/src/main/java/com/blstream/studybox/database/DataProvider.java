@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DataProvider {
 
-    void fetchPrivateDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
+    void fetchPrivateDecks(OnDecksReceivedListener listener);
 
     void fetchPublicDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
 
@@ -20,7 +20,7 @@ public interface DataProvider {
     void fetchDecksByName(OnDecksReceivedListener<List<Decks>> listener, String deckName, String onEmptyResponseMessage);
 
     interface OnDecksReceivedListener<T> {
-        void OnDecksReceived(boolean isPublic, T decks);
+        void OnDecksReceived(T decks);
 
         void OnEmptyResponse(String message);
     }

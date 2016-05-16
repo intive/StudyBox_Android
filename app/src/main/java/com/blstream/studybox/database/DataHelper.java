@@ -1,6 +1,7 @@
 package com.blstream.studybox.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
@@ -28,21 +29,16 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener, final String onEmptyResponseMessage) {
-        RestClientManager.getDecks(true,
+    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener listener) {
+        RestClientManager.getPrivateDecks(true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Decks>>() {
 
                     @Override
                     public void onSuccess(List<Decks> response) {
-                        if (isNullOrEmpty(response)) {
-                            listener.OnEmptyResponse(onEmptyResponseMessage);
-                            return;
-                        }
-
                         privateDecks = response;
                         saveDecksToDataBase(response);
-                        listener.OnDecksReceived(false, response);
+                        listener.OnDecksReceived(response);
                     }
 
             @Override
@@ -63,7 +59,7 @@ public class DataHelper implements DataProvider {
                 }
 
                 publicDecks = response;
-                listener.OnDecksReceived(true, response);
+                listener.OnDecksReceived(response);
             }
 
             @Override
@@ -114,7 +110,7 @@ public class DataHelper implements DataProvider {
                     return;
                 }
 
-                listener.OnDecksReceived(true, response);
+                listener.OnDecksReceived(response);
             }
 
             @Override
