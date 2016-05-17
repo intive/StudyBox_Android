@@ -1,5 +1,7 @@
 package com.blstream.studybox.model;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.Expose;
 
 public class AuthCredentials {
@@ -13,15 +15,24 @@ public class AuthCredentials {
     @Expose(deserialize = false)
     private String password;
 
+    private String repeatPassword;
+
     public AuthCredentials(String email, String password)  {
         this.email = email;
         this.password = password;
     }
 
-    public AuthCredentials(String id, String email, String password) {
+    public AuthCredentials(String email, String password, String repeatPassword) {
+        this.email = email;
+        this.password = password;
+        this.repeatPassword = repeatPassword;
+    }
+
+    public AuthCredentials(String id, String email, String password, @Nullable String repeatPassword) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.repeatPassword = repeatPassword;
     }
 
     public String getId() {
@@ -34,6 +45,11 @@ public class AuthCredentials {
 
     public String getPassword() {
         return password;
+    }
+
+    @Nullable
+    public String getRepeatPassword() {
+        return repeatPassword;
     }
 
     public void setPassword(String password) {

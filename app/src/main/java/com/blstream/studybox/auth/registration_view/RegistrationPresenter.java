@@ -13,14 +13,14 @@ import retrofit.RetrofitError;
 
 public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 
-    public void validateCredential(AuthCredentials credentials, String repeatPassword) {
+    public void validateCredential(AuthCredentials credentials) {
 
         if (isViewAttached()) {
             //noinspection ConstantConditions
             getView().showLoading();
         }
 
-        CredentialValidator validator = new CredentialValidator(credentials, repeatPassword,
+        CredentialValidator validator = new CredentialValidator(credentials,
                 new RegistrationValidatorListener() {
                     @Override
                     public void onSuccess(AuthCredentials credentials) {

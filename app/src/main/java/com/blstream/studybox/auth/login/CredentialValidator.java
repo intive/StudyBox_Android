@@ -11,19 +11,12 @@ public class CredentialValidator {
     private final static int MIN_PASSWORD_LENGTH = 8;
     private ValidatorListener listener;
     private AuthCredentials credentials;
-    private String repeatPassword;
     private boolean isPasswordValid;
     private boolean isRepeatPasswordValid;
     private boolean isEmailValid;
 
     public CredentialValidator(AuthCredentials credentials, ValidatorListener listener) {
         this.credentials = credentials;
-        this.listener = listener;
-    }
-
-    public CredentialValidator(AuthCredentials credentials, String repeatPassword, ValidatorListener listener) {
-        this.credentials = credentials;
-        this.repeatPassword = repeatPassword;
         this.listener = listener;
     }
 
@@ -44,7 +37,8 @@ public class CredentialValidator {
 
     private void validateRepeatPassword() {
         if (listener instanceof RegistrationValidatorListener) {
-            if (repeatPassword.isEmpty()) {
+            String repeatPassword = credentials.getRepeatPassword();
+            if (repeatPassword == null || repeatPassword.isEmpty()) {
                 ((RegistrationValidatorListener) listener).onShowEmptyRepeatPasswordError();
             } else  if (!credentials.getPassword().equals(repeatPassword)) {
                 ((RegistrationValidatorListener) listener).onPasswordsInconsistent();
