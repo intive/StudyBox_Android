@@ -193,7 +193,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     public void setEmptyListInfo(String message) {
         noDecks.setVisibility(View.VISIBLE);
         noDecksView.setText(message);
-        adapter.emptyAdapter();
+        adapter.clearAdapterList();
     }
 
     @Override

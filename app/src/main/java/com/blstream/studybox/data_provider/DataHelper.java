@@ -20,8 +20,6 @@ import retrofit.RetrofitError;
 public class DataHelper implements DataProvider {
 
     private Context context;
-    private List<Deck> privateDecks;
-    private List<Deck> publicDecks;
     private List<Deck> currentDecks;
 
     public DataHelper(Context context) {
@@ -41,7 +39,6 @@ public class DataHelper implements DataProvider {
                             return;
                         }
 
-                        setPrivateDecks(response);
                         setCurrentDecks(response);
                         saveDecksToDataBase(response);
                         listener.OnDecksReceived(response);
@@ -64,7 +61,6 @@ public class DataHelper implements DataProvider {
                     return;
                 }
 
-                setPublicDecks(response);
                 setCurrentDecks(response);
                 listener.OnDecksReceived(response);
             }
@@ -144,26 +140,8 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public List<Deck> getPrivateDecks() {
-        return privateDecks;
-    }
-
-    @Override
     public List<Deck> getCurrentDecks() {
         return currentDecks;
-    }
-
-    @Override
-    public List<Deck> getPublicDecks() {
-        return publicDecks;
-    }
-
-    private void setPrivateDecks(List<Deck> privateDecks) {
-        this.privateDecks = privateDecks;
-    }
-
-    private void setPublicDecks(List<Deck> publicDecks) {
-        this.publicDecks = publicDecks;
     }
 
     private void setCurrentDecks(List<Deck> currentDecks) {

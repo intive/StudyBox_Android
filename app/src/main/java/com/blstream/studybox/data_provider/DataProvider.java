@@ -33,9 +33,5 @@ public interface DataProvider {
         void OnTipsReceived(T tips);
     }
 
-    List<Deck> getPrivateDecks();
-
-    List<Deck> getPublicDecks();
-
     List<Deck> getCurrentDecks();
 }

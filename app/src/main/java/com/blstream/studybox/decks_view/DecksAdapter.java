@@ -73,7 +73,7 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public void emptyAdapter() {
+    public void clearAdapterList() {
         decksList.clear();
         notifyDataSetChanged();
     }
