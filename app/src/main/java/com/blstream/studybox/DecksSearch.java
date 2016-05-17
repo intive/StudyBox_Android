@@ -58,6 +58,7 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
 
         setLengthLimit(MAX_LENGTH);
         setOnCloseClick();
+        setOnMenuItemExpand();
         restoreState();
     }
 
@@ -79,6 +80,22 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
                 if (searchListener != null) {
                     searchListener.onCloseSearchClick();
                 }
+            }
+        });
+    }
+
+    private void setOnMenuItemExpand() {
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                setRestoreState(true);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                setRestoreState(false);
+                return true;
             }
         });
     }
