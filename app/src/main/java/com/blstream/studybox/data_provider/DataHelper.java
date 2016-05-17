@@ -33,7 +33,7 @@ public class DataHelper implements DataProvider {
                 new RequestCallback<>(new RequestListener<List<Deck>>() {
 
                     @Override
-                    public void onSuccess(List<Deck> response)
+                    public void onSuccess(List<Deck> response) {
                         setCurrentDecks(response);
                         saveDecksToDataBase(response);
                         listener.OnDecksReceived(response);

@@ -200,7 +200,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
 
     private void onViewPrepared() {
         loadData(false);
-        noDecks.setVisibility(View.GONE);
     }
 
     @Override

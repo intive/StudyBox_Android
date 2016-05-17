@@ -52,7 +52,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == DECK) {
             DeckViewHolder deckViewHolder = (DeckViewHolder) holder;
-            Decks deck = (Decks) decksList.get(position);
+            Deck deck = (Deck) decksList.get(position);
             deckViewHolder.deckTitle.setText(deck.getName());
             deckViewHolder.questionsQuantity.setText(String.valueOf(deck.getFlashcardsCount()));
         }
@@ -65,7 +65,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (decksList.get(position) instanceof Decks) {
+        if (decksList.get(position) instanceof Deck) {
             return DECK;
         } else if (decksList.get(position) instanceof String) {
             return IMAGE;
@@ -83,7 +83,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @SuppressWarnings("unchecked")
-    public void setDecks(List<Decks> data) {
+    public void setDecks(List<Deck> data) {
         decksList = (List) data;
         notifyDataSetChanged();
     }

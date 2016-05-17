@@ -56,7 +56,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         }
     }
 
-    private List<Decks> getRandomDecksFromList(List<Decks> decks) {
+    private List<Deck> getRandomDecksFromList(List<Deck> decks) {
         if (decks.size() >= 3) {
             Random random = new Random();
             int end = random.nextInt(decks.size()) + 3;
