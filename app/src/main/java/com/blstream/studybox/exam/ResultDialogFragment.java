@@ -2,8 +2,6 @@ package com.blstream.studybox.exam;
 
 import android.app.Activity;
 import android.app.Dialog;
-
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,10 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-
-
-import com.blstream.studybox.activities.DecksActivity;
-import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
 import com.github.mikephil.charting.charts.PieChart;

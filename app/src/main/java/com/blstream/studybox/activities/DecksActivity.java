@@ -78,12 +78,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     @Bind(R.id.no_decks_text_view)
     TextView noDecksView;
 
-
-    public static void start(Context context){
-        Intent intent = new Intent(context, EmptyDeckActivity.class);
-        context.startActivity(intent);
-    }
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
