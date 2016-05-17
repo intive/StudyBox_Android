@@ -30,10 +30,10 @@ public class Deck extends Model {
         super();
     }
 
-    public Deck(String id, String name, Boolean publicVisible) {
+    public Deck(String id, String name, Boolean isPublic) {
         this.id = id;
         this.name = name;
-        this.isPublic = publicVisible;
+        this.isPublic = isPublic;
     }
 
     public static List<Deck> getAll() {
@@ -58,12 +58,12 @@ public class Deck extends Model {
         this.name = name;
     }
 
-    public Boolean getPublicVisible() {
+    public Boolean getIsPublic() {
         return isPublic;
     }
 
-    public void setPublicVisible(Boolean publicVisible) {
-        this.isPublic = publicVisible;
+    public void setIsPublic(Boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public String getCreatorEmail() {
