@@ -85,6 +85,14 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         drawerLayout.removeDrawerListener(drawerToggle);
     }
 
+    public boolean isDrawerOpen() {
+        return drawerLayout.isDrawerOpen(GravityCompat.START);
+    }
+
+    public void closeDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Intent intent;

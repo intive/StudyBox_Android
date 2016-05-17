@@ -136,16 +136,25 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
 
     private void initView() {
         ButterKnife.bind(this);
-        setUpToolbarTitle();
         setSupportActionBar(toolbar);
+        setUpToolbarTitle();
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
         setUpRecyclerView();
         setUpPresenter();
         setUpExitTransition();
-        onViewPrepared();
         setUpIncentiveView();
+        onViewPrepared();
         noDecksView.setVisibility(View.GONE);
+    }
+
+    private void setUpToolbarTitle() {
+        final LoginManager loginManager = new LoginManager(this);
+        if (loginManager.isUserLoggedIn()) {
+            toolbar.setTitle(R.string.nav_my_decks);
+        } else {
+            toolbar.setTitle(R.string.decks);
+        }
     }
 
     private void setUpNavigationDrawer() {
@@ -167,24 +176,15 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         recyclerView.setHasFixedSize(true);
     }
 
+    private void setUpPresenter() {
+        presenter.setDecksAdapter(adapter);
+    }
+
     private void setUpExitTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Fade transition = new Fade();
             transition.setDuration(TRANSITION_DURATION);
             getWindow().setExitTransition(transition);
-        }
-    }
-
-    private void setUpPresenter() {
-        presenter.setDecksAdapter(adapter);
-    }
-
-    private void setUpToolbarTitle() {
-        final LoginManager loginManager = new LoginManager(this);
-        if (loginManager.isUserLoggedIn()) {
-            toolbar.setTitle(R.string.nav_my_decks);
-        } else {
-            toolbar.setTitle(R.string.decks);
         }
     }
 
@@ -217,7 +217,10 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         loadingView.setVisibility(View.GONE);
         noDecksView.setVisibility(View.GONE);
         adapter.setDecks(data);
+        setIncentiveView(data);
+    }
 
+    private void setIncentiveView(List<Deck> data) {
         int size = (data == null) ? 0 : data.size();
         if (size > 0) {
             if (!decksSearch.hasFocus()) {
@@ -225,11 +228,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
             }
         } else {
             searchDeckIncentive.setVisibility(View.VISIBLE);
-            setIncentiveViewSize();
+            setIncentiveViewParams();
         }
     }
 
-    private void setIncentiveViewSize() {
+    private void setIncentiveViewParams() {
         View parent = (View) searchDeckIncentive.getParent();
         int width = parent.getWidth() / columnQuantity;
         searchDeckIncentive.getLayoutParams().width = width;
@@ -291,6 +294,15 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     protected void onDestroy() {
         super.onDestroy();
         drawerAdapter.detachDrawer();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerAdapter.isDrawerOpen()) {
+            drawerAdapter.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     /**
