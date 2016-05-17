@@ -10,10 +10,10 @@ import retrofit.converter.GsonConverter;
 
 public class RestClient {
 
-    private static final String URL = "http://78.133.154.70:4000/";
+    private static final String URL = "http://78.133.154.70:3000/";
     private RestInterface restInterface;
 
-    public RestClient(){
+    public RestClient() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setConverter(new GsonConverter(new GsonBuilder()
                         .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
@@ -26,7 +26,7 @@ public class RestClient {
         restInterface = restAdapter.create(RestInterface.class);
     }
 
-    public RestClient(RequestInterceptor interceptor){
+    public RestClient(RequestInterceptor interceptor) {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setConverter(new GsonConverter(new GsonBuilder()
                         .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
@@ -39,7 +39,7 @@ public class RestClient {
         restInterface = restAdapter.create(RestInterface.class);
     }
 
-    public RestInterface getService(){
+    public RestInterface getService() {
         return restInterface;
     }
 }

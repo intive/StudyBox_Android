@@ -2,7 +2,7 @@ package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.model.database.Card;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 import com.blstream.studybox.model.database.Tip;
 
 import java.util.List;
@@ -12,24 +12,24 @@ import retrofit.RequestInterceptor;
 
 public class RestClientManager {
 
-    public static void getDecks(boolean key, RequestInterceptor interceptor, RequestCallback<List<Decks>> callback) {
+    public static void getDecks(boolean key, RequestInterceptor interceptor, RequestCallback<List<Deck>> callback) {
         RestInterface restInterface = new RestClient(interceptor).getService();
         restInterface.getDecks(key, callback);
     }
 
-    public static void getRandomDeck(boolean key, RequestCallback<Decks> callback){
+    public static void getRandomDeck(boolean key, RequestCallback<Deck> callback) {
         RestInterface restInterface = new RestClient().getService();
         restInterface.getRandomDeck(key, callback);
     }
 
-    public static void getPublicDecks(boolean key, RequestCallback<List<Decks>> callback) {
+    public static void getPublicDecks(boolean key, RequestCallback<List<Deck>> callback) {
         RestInterface restInterface = new RestClient().getService();
         restInterface.getDecks(key, callback);
     }
 
-    public static void getDecksByName(String deckName, RequestCallback<List<Decks>> callback) {
+    public static void getDecksByName(String deckName, boolean key, RequestCallback<List<Deck>> callback) {
         RestInterface restInterface = new RestClient().getService();
-        restInterface.getDecksByName(deckName, callback);
+        restInterface.getDecksByName(deckName, key, callback);
     }
 
     public static void getFlashcards(final String key, final String randomAmount, RequestCallback<List<Card>> callback) {

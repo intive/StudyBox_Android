@@ -3,8 +3,8 @@ package com.blstream.studybox.exam.question_view;
 import android.content.Context;
 import android.util.Patterns;
 
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.database.DataProvider;
+import com.blstream.studybox.data_provider.DataHelper;
+import com.blstream.studybox.data_provider.DataProvider;
 import com.blstream.studybox.events.ShowAnswerEvent;
 import com.blstream.studybox.model.database.Card;
 import com.blstream.studybox.model.database.Tip;

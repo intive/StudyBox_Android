@@ -20,12 +20,12 @@ import com.blstream.studybox.R;
 import com.blstream.studybox.activities.BaseExamActivity;
 import com.blstream.studybox.activities.LoginActivity;
 import com.blstream.studybox.auth.login.LoginManager;
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.database.DataProvider;
+import com.blstream.studybox.data_provider.DataHelper;
+import com.blstream.studybox.data_provider.DataProvider;
 import com.blstream.studybox.debugger.DebugHelper;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 
-public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener, DataProvider.OnDecksReceivedListener<Decks> {
+public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedListener, DataProvider.OnDecksReceivedListener<Deck> {
 
     private static final int HEADER_INDEX = 0;
     private static final String TAG_IN_EXAM = "inExam";
@@ -112,10 +112,10 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     }
 
     @Override
-    public void OnDecksReceived(Decks decks) {
-        if (decks.getFlashcardsCount() != 0) {
-            String deckId = decks.getDeckId();
-            String deckName = decks.getName();
+    public void OnDecksReceived(Deck deck) {
+        if (deck.getFlashcardsCount() != 0) {
+            String deckId = deck.getDeckId();
+            String deckName = deck.getName();
             startExam(deckId, deckName, true, true);
         }else{
             dataHelper.fetchRandomDeck(this);

@@ -21,7 +21,7 @@ public class SnackbarManager {
 
     private Snackbar createSnackbar(final Context context) {
 
-        if(context instanceof Activity) {
+        if (context instanceof Activity) {
             final Activity activity = (Activity) context;
 
             View rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);

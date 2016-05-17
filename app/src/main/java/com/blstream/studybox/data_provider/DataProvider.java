@@ -1,23 +1,23 @@
-package com.blstream.studybox.database;
+package com.blstream.studybox.data_provider;
 
 import com.blstream.studybox.model.database.Card;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 
 import java.util.List;
 
 public interface DataProvider {
 
-    void fetchPrivateDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
+    void fetchPrivateDecks(OnDecksReceivedListener<List<Deck>> listener, String onEmptyResponseMessage);
 
-    void fetchPublicDecks(OnDecksReceivedListener listener, String onEmptyResponseMessage);
+    void fetchPublicDecks(OnDecksReceivedListener<List<Deck>> listener, String onEmptyResponseMessage);
 
     void fetchFlashcards(String deckId, String randomAmount, OnCardsReceivedListener<List<Card>> listener);
 
     void fetchTips(String deckId, String cardId, OnTipsReceivedListener listener);
 
-    void fetchRandomDeck(OnDecksReceivedListener<Decks> listener);
+    void fetchRandomDeck(OnDecksReceivedListener<Deck> listener);
 
-    void fetchDecksByName(OnDecksReceivedListener<List<Decks>> listener, String deckName, String onEmptyResponseMessage);
+    void fetchDecksByName(OnDecksReceivedListener<List<Deck>> listener, String deckName, String onEmptyResponseMessage);
 
     interface OnDecksReceivedListener<T> {
         void OnDecksReceived(T decks);
@@ -33,7 +33,5 @@ public interface DataProvider {
         void OnTipsReceived(T tips);
     }
 
-    List<Decks> getPrivateDecks();
-
-    List<Decks> getPublicDecks();
+    List<Deck> getCurrentDecks();
 }

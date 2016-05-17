@@ -2,14 +2,13 @@ package com.blstream.studybox.decks_view;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ import butterknife.ButterKnife;
 public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> {
 
     private ClickListener clickListener;
-    private List<Decks> decksList;
+    private List<Deck> decksList;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Nullable
@@ -46,13 +45,6 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         this.clickListener = clickListener;
     }
 
-    public DecksAdapter() {
-    }
-
-    public DecksAdapter(List<Decks> decksList) {
-        this.decksList = decksList;
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -76,12 +68,12 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         void onItemClick(int position, View v);
     }
 
-    public void setDecks(List<Decks> data) {
+    public void setDecks(List<Deck> data) {
         decksList = data;
         notifyDataSetChanged();
     }
 
-    public void emptyAdapter(){
+    public void clearAdapterList() {
         decksList.clear();
         notifyDataSetChanged();
     }

@@ -8,19 +8,18 @@ import android.view.View;
 import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.components.ExamStartDialog;
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.database.DataProvider;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.data_provider.DataHelper;
+import com.blstream.studybox.data_provider.DataProvider;
+import com.blstream.studybox.model.database.Deck;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
 
-public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Decks>> {
+public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Deck>> {
 
     private LoginManager loginManager;
     private DataProvider dataProvider;
     private EmptyResponseMessage responseMessage;
-
 
     public DecksPresenter(Context context) {
         loginManager = new LoginManager(context);
@@ -37,7 +36,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     @Override
-    public void OnDecksReceived(List<Decks> decks) {
+    public void OnDecksReceived(List<Deck> decks) {
         if (isViewAttached()) {
             getView().setData(decks);
             getView().showLoading(false);
@@ -59,15 +58,9 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         String deckName;
         int cardsAmount;
 
-        if (loginManager.isUserLoggedIn()) {
-            deckId = dataProvider.getPrivateDecks().get(position).getDeckId();
-            deckName = dataProvider.getPrivateDecks().get(position).getName();
-            cardsAmount = dataProvider.getPrivateDecks().get(position).getFlashcardsCount();
-        } else {
-            deckId = dataProvider.getPublicDecks().get(position).getDeckId();
-            deckName = dataProvider.getPublicDecks().get(position).getName();
-            cardsAmount = dataProvider.getPublicDecks().get(position).getFlashcardsCount();
-        }
+        deckId = dataProvider.getCurrentDecks().get(position).getDeckId();
+        deckName = dataProvider.getCurrentDecks().get(position).getName();
+        cardsAmount = dataProvider.getCurrentDecks().get(position).getFlashcardsCount();
 
         if (cardsAmount == 0) {
             EmptyDeckActivity.start(view.getContext());
