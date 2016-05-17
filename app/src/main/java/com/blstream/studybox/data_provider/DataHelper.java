@@ -27,21 +27,16 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener, final String onEmptyResponseMessage) {
-        RestClientManager.getDecks(true,
+    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener) {
+        RestClientManager.getPrivateDecks(true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Deck>>() {
 
                     @Override
                     public void onSuccess(List<Deck> response) {
-                        if (isNullOrEmpty(response)) {
-                            listener.OnEmptyResponse(onEmptyResponseMessage);
-                            return;
-                        }
-
                         setCurrentDecks(response);
                         saveDecksToDataBase(response);
-                        listener.OnDecksReceived(response);
+                        listener.OnDecksReceived(response, true);
                     }
 
                     @Override
@@ -62,7 +57,7 @@ public class DataHelper implements DataProvider {
                 }
 
                 setCurrentDecks(response);
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(response, false);
             }
 
             @Override
@@ -94,7 +89,7 @@ public class DataHelper implements DataProvider {
         RestClientManager.getRandomDeck(true, new RequestCallback<>(new RequestListener<Deck>() {
             @Override
             public void onSuccess(Deck response) {
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(response, false);
             }
 
             @Override
@@ -114,7 +109,7 @@ public class DataHelper implements DataProvider {
                 }
 
                 setCurrentDecks(response);
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(response, false);
             }
 
             @Override
@@ -125,7 +120,7 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchTips(String deckId, String cardId, final OnTipsReceivedListener listener) {
+    public void fetchTips(String deckId, String cardId, final OnTipsReceivedListener<List<Tip>> listener) {
         RestClientManager.getTips(deckId, cardId, new RequestCallback<>(new RequestListener<List<Tip>>() {
             @Override
             public void onSuccess(List<Tip> response) {

@@ -18,6 +18,8 @@ public interface DecksView extends MvpLceView<List<Deck>> {
     @Override
     void setData(List<Deck> data);
 
+    void setData(List<Deck> data, boolean isUserDecks);
+
     @Override
     void showContent();
 

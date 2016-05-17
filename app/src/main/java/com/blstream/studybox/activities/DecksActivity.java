@@ -2,10 +2,12 @@ package com.blstream.studybox.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,13 +17,13 @@ import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.DecksSearch;
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
 import com.blstream.studybox.decks_view.DecksPresenter;
@@ -39,8 +41,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
-    static final String STATE_SEARCH = "restoreSearch";
-    static final String SEARCH_QUERY = "currentQuery";
+    private static final int RANDOM_DECKS_QUANTITY = 3;
+    private static final String STATE_SEARCH = "restoreSearch";
+    private static final String SEARCH_QUERY = "currentQuery";
 
     private static final int TRANSITION_DURATION = 1000;
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
@@ -69,8 +72,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     @Bind(R.id.loadingView)
     ProgressBar loadingView;
 
-    @Bind(R.id.no_decks)
-    LinearLayout noDecks;
+    @Bind(R.id.search_deck_incentive)
+    TextView searchDeckIncentive;
 
     @Bind(R.id.no_decks_text_view)
     TextView noDecksView;
@@ -93,6 +96,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     public void onSearchIntentHandled(String query) {
         if (connectionStatusReceiver.isConnected()) {
             presenter.getDecksByName(query.trim());
+            searchDeckIncentive.setVisibility(View.GONE);
         }
     }
 
@@ -133,17 +137,30 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
 
     private void initView() {
         ButterKnife.bind(this);
+        setUpToolbarTitle();
         setSupportActionBar(toolbar);
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
         setUpRecyclerView();
         setUpExitTransition();
+        setUpIncentiveView();
         onViewPrepared();
+        noDecksView.setVisibility(View.GONE);
+    }
+
+    private void setUpToolbarTitle() {
+        final LoginManager loginManager = new LoginManager(this);
+        if (loginManager.isUserLoggedIn()) {
+            toolbar.setTitle(R.string.nav_my_decks);
+        } else {
+            toolbar.setTitle(R.string.decks);
+        }
     }
 
     private void setUpNavigationDrawer() {
         drawerAdapter = new DrawerAdapter(this, navigationView, drawerLayout, toolbar);
         drawerAdapter.attachDrawer();
+        drawerAdapter.setMenuItemChecked(R.id.my_decks);
     }
 
     private void setUpSwipeToRefresh() {
@@ -167,9 +184,18 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         }
     }
 
+    private void setUpIncentiveView() {
+        final int backgroundColor = ContextCompat
+                .getColor(this, R.color.colorDarkBlue);
+
+        searchDeckIncentive.setText(R.string.search_decks);
+        searchDeckIncentive
+                .getBackground()
+                .setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
+    }
+
     private void onViewPrepared() {
         loadData(false);
-        noDecks.setVisibility(View.GONE);
     }
 
     @Override
@@ -183,15 +209,36 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     }
 
     @Override
-    public void setData(List<Deck> data) {
+    public void setData(List<Deck> data, boolean isUserDecks) {
         loadingView.setVisibility(View.GONE);
-        noDecks.setVisibility(View.GONE);
+        noDecksView.setVisibility(View.GONE);
         adapter.setDecks(data);
+        setIncentiveView(data, isUserDecks);
+    }
+
+    private void setIncentiveView(List<Deck> data, boolean isUserDecks) {
+        int size = (data == null) ? 0 : data.size();
+        if (size > 0) {
+            if (!decksSearch.hasFocus() && !isUserDecks) {
+                adapter.randomizeDecks(RANDOM_DECKS_QUANTITY);
+                adapter.setPositionIncentiveView(columnQuantity - 1);
+            }
+        } else {
+            searchDeckIncentive.setVisibility(View.VISIBLE);
+            setIncentiveViewParams();
+        }
+    }
+
+    private void setIncentiveViewParams() {
+        View parent = (View) searchDeckIncentive.getParent();
+        int width = parent.getWidth() / columnQuantity;
+        searchDeckIncentive.getLayoutParams().width = width;
+        searchDeckIncentive.getLayoutParams().height = width;
     }
 
     @Override
     public void setEmptyListInfo(String message) {
-        noDecks.setVisibility(View.VISIBLE);
+        noDecksView.setVisibility(View.VISIBLE);
         noDecksView.setText(message);
         adapter.clearAdapterList();
     }
@@ -244,6 +291,20 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     protected void onDestroy() {
         super.onDestroy();
         drawerAdapter.detachDrawer();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerAdapter.isDrawerOpen()) {
+            drawerAdapter.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void setData(List<Deck> data) {
+
     }
 
     /**

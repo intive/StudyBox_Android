@@ -77,8 +77,20 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         navigationView.getMenu().findItem(R.id.random_deck).setChecked(state);
     }
 
+    public void setMenuItemChecked(int id) {
+        navigationView.getMenu().findItem(id).setChecked(true);
+    }
+
     public void detachDrawer() {
         drawerLayout.removeDrawerListener(drawerToggle);
+    }
+
+    public boolean isDrawerOpen() {
+        return drawerLayout.isDrawerOpen(GravityCompat.START);
+    }
+
+    public void closeDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -112,12 +124,12 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     }
 
     @Override
-    public void OnDecksReceived(Deck deck) {
+    public void OnDecksReceived(Deck deck, boolean isUsersDecks) {
         if (deck.getFlashcardsCount() != 0) {
             String deckId = deck.getDeckId();
             String deckName = deck.getName();
             startExam(deckId, deckName, true, true);
-        }else{
+        } else {
             dataHelper.fetchRandomDeck(this);
         }
     }

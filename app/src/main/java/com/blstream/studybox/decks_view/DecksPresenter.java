@@ -29,16 +29,17 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
 
     public void loadDecks(boolean pullToRefresh) {  // TODO: if timestamp available, add usage of pullToRefresh
         if (loginManager.isUserLoggedIn()) {
-            dataProvider.fetchPrivateDecks(this, responseMessage.onEmptyDecks());
+            dataProvider.fetchPrivateDecks(this);
         } else {
             dataProvider.fetchPublicDecks(this, responseMessage.onEmptyDecks());
         }
     }
 
     @Override
-    public void OnDecksReceived(List<Deck> decks) {
-        if (isViewAttached()) {
-            getView().setData(decks);
+    public void OnDecksReceived(List<Deck> decks, boolean isUsersDecks) {
+       if (isViewAttached()) {
+           //noinspection ConstantConditions
+            getView().setData(decks, isUsersDecks);
             getView().showLoading(false);
             getView().showContent();
         }

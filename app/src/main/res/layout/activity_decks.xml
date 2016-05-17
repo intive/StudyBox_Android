@@ -21,13 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/app_bar_decks" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/no_decks"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
         <TextView
             android:id="@+id/no_decks_text_view"
@@ -36,7 +29,7 @@
             android:gravity="center"
             android:text="@string/no_decks"
             android:textSize="@dimen/card_title_text_size"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view_decks"
@@ -47,6 +40,6 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/nav_menu"
         app:itemIconTint="@drawable/navigation_view_icon_tint_selector"
-        app:itemTextColor="@drawable/navigation_view_text_color_selector"/>
+        app:itemTextColor="@drawable/navigation_view_text_color_selector" />
 
 </android.support.v4.widget.DrawerLayout>

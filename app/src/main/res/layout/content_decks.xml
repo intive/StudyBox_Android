@@ -8,6 +8,11 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_decks">
 
+    <include
+        android:id="@+id/search_deck_incentive"
+        layout="@layout/search_deck_incentive"
+        android:visibility="gone" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/contentView"
         android:layout_width="match_parent"
@@ -37,4 +42,5 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
+
 </RelativeLayout>

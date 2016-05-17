@@ -134,6 +134,10 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
         return this;
     }
 
+    public boolean hasFocus() {
+        return searchTextView != null && searchTextView.hasFocus();
+    }
+
     public interface SearchListener {
         void onSearchIntentHandled(String query);
 

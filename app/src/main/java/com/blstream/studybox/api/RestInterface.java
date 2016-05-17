@@ -19,6 +19,9 @@ public interface RestInterface {
     @GET("/decks/")
     void getDecks(@Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Deck>> cb);
 
+    @GET("/decks/me")
+    void getPrivateDecks(@Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Deck>> cb);
+
     @GET("/decks/random/")
     void getRandomDeck(@Query("flashcardsCount") boolean flashcardCountKey, Callback<Deck> cb);
 

@@ -189,7 +189,6 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
                 .commit();
     }
 
-
     protected void setupAnimation() {
         if (!isRestoringViewState()) {
             if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -223,7 +222,11 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
 
     @Override
     public void onBackPressed() {
-        this.finish();
+        if (drawerAdapter.isDrawerOpen()) {
+            drawerAdapter.closeDrawer();
+        } else {
+            this.finish();
+        }
     }
 
     @Override

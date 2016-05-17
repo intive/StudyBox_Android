@@ -1,6 +1,8 @@
 package com.blstream.studybox.decks_view;
 
+import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +13,111 @@ import com.blstream.studybox.R;
 import com.blstream.studybox.model.database.Deck;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> {
+public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int DECK = 0;
+    private static final int IMAGE = 1;
 
     private ClickListener clickListener;
-    private List<Deck> decksList;
+    private List<Object> decksList;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        switch (viewType) {
+            case DECK:
+                View deckView = inflater.inflate(R.layout.deck, parent, false);
+                viewHolder = new DeckViewHolder(deckView);
+                break;
+            case IMAGE:
+                TextView searchIncentiveView = (TextView) inflater.inflate(R.layout.search_deck_incentive, parent, false);
+                searchIncentiveView.setText(R.string.search_more_decks);
+                viewHolder = new SearchDecksHolder(searchIncentiveView);
+                break;
+            default:
+                View defaultView = inflater.inflate(R.layout.deck, parent, false);
+                viewHolder = new DeckViewHolder(defaultView);
+        }
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == DECK) {
+            DeckViewHolder deckViewHolder = (DeckViewHolder) holder;
+            Deck deck = (Deck) decksList.get(position);
+            deckViewHolder.deckTitle.setText(deck.getName());
+            deckViewHolder.questionsQuantity.setText(String.valueOf(deck.getFlashcardsCount()));
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return (decksList == null) ? 0 : decksList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (decksList.get(position) instanceof Deck) {
+            return DECK;
+        } else if (decksList.get(position) instanceof String) {
+            return IMAGE;
+        } else {
+            return -1;
+        }
+    }
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setDecks(List<Deck> data) {
+        decksList = (List) data;
+        notifyDataSetChanged();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void randomizeDecks(int quantity) {
+        if (decksList == null || quantity <= 0) {
+            return;
+        }
+
+        if (decksList.size() >= quantity) {
+            Random random = new Random();
+            int end = random.nextInt(decksList.size()) + quantity;
+            end = Math.min(end, decksList.size());
+            decksList = (List) decksList.subList(end - quantity, end);
+        }
+    }
+
+    public void clearAdapterList() {
+        if (decksList != null) {
+            decksList.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setPositionIncentiveView(int position) {
+        if (decksList != null) {
+            decksList.add(position, "Incentive view");
+        }
+    }
+
+    public class DeckViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         @Nullable
         @Bind(R.id.deck_title)
         public TextView deckTitle;
@@ -29,7 +126,7 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         @Bind(R.id.questions_quantity)
         public TextView questionsQuantity;
 
-        public ViewHolder(View itemView) {
+        public DeckViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
@@ -41,40 +138,21 @@ public class DecksAdapter extends RecyclerView.Adapter<DecksAdapter.ViewHolder> 
         }
     }
 
-    public void setOnItemClickListener(ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
+    public static class SearchDecksHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.deck, parent, false);
+        @Bind(R.id.search_deck_incentive)
+        TextView searchIncentiveView;
 
-        return new ViewHolder(view);
-    }
+        public SearchDecksHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.deckTitle.setText(decksList.get(position).getName());
-        holder.questionsQuantity.setText(String.valueOf(decksList.get(position).getFlashcardsCount()));
-    }
+            final int backgroundColor = ContextCompat
+                    .getColor(itemView.getContext(), R.color.colorDarkBlue);
 
-    @Override
-    public int getItemCount() {
-        return (decksList == null) ? 0 : decksList.size();
-    }
-
-    public interface ClickListener {
-        void onItemClick(int position, View v);
-    }
-
-    public void setDecks(List<Deck> data) {
-        decksList = data;
-        notifyDataSetChanged();
-    }
-
-    public void clearAdapterList() {
-        decksList.clear();
-        notifyDataSetChanged();
+            searchIncentiveView
+                    .getBackground()
+                    .setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
+        }
     }
 }
