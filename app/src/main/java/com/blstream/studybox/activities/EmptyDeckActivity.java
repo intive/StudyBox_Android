@@ -25,12 +25,6 @@ public class EmptyDeckActivity extends BaseAppCompatActivity {
         context.startActivity(intent);
     }
 
-    @OnClick(R.id.add_flashcards_button)
-    public void addFlashcards(View view) {
-        //we'll navigate to class responsible for adding flashcards from here
-        finish();
-    }
-
     @OnClick(R.id.my_decks_button)
     public void backToMyDecks(View view) {
         finish();

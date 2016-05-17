@@ -157,6 +157,7 @@ public class RegistrationActivity
     @Override
     public void loginSuccessful() {
         Intent intent = new Intent(RegistrationActivity.this, DecksActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

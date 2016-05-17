@@ -40,20 +40,6 @@
                 android:textSize="@dimen/exam_medium_text"
                 android:padding="@dimen/fab_margin"/>
 
-
-            <Button
-                android:id="@+id/add_flashcards_button"
-                android:text="@string/add_flashcard"
-                android:textAllCaps="true"
-                android:textSize="@dimen/exam_medium_text"
-                android:textColor="@color/colorGrey"
-                android:layout_height="@dimen/result_button_height"
-                android:layout_width="@dimen/result_button_width"
-                android:layout_gravity="center"
-                android:background="@color/colorRaspberry"
-                android:gravity="center"
-                android:layout_marginBottom="@dimen/your_score_bottom_margin"/>
-
             <Button
                 android:id="@+id/my_decks_button"
                 android:text="@string/my_decks"

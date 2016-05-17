@@ -9,7 +9,6 @@ public interface LoginInterface {
     boolean isUserLoggedIn();
     String getUserEmail();
     String getUserPassword();
-    String getUserName();
     String getUserId();
     AuthCredentials getCredentials();
 }
