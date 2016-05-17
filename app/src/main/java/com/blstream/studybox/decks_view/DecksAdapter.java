@@ -13,6 +13,7 @@ import com.blstream.studybox.R;
 import com.blstream.studybox.model.database.Deck;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -88,8 +89,25 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public List<Object> getDecks() {
-        return decksList;
+    @SuppressWarnings("unchecked")
+    public void randomizeDecks(int quantity) {
+        if (decksList == null || quantity <= 0) {
+            return;
+        }
+
+        if (decksList.size() >= quantity) {
+            Random random = new Random();
+            int end = random.nextInt(decksList.size()) + quantity;
+            end = Math.min(end, decksList.size());
+            decksList = (List) decksList.subList(end - quantity, end);
+        }
+    }
+
+    public void clearAdapterList() {
+        if (decksList != null) {
+            decksList.clear();
+            notifyDataSetChanged();
+        }
     }
 
     public void setPositionIncentiveView(int position) {
@@ -99,6 +117,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public class DeckViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         @Nullable
         @Bind(R.id.deck_title)
         public TextView deckTitle;
@@ -134,13 +153,6 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             searchIncentiveView
                     .getBackground()
                     .setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
-        }
-    }
-
-    public void clearAdapterList() {
-        if (decksList != null) {
-            decksList.clear();
-            notifyDataSetChanged();
         }
     }
 }

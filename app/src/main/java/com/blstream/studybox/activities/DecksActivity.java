@@ -41,8 +41,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>, DecksView, DecksPresenter>
         implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
-    static final String STATE_SEARCH = "restoreSearch";
-    static final String SEARCH_QUERY = "currentQuery";
+    private static final int RANDOM_DECKS_QUANTITY = 3;
+    private static final String STATE_SEARCH = "restoreSearch";
+    private static final String SEARCH_QUERY = "currentQuery";
 
     private static final int TRANSITION_DURATION = 1000;
     private ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
@@ -136,12 +137,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
 
     private void initView() {
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
         setUpToolbarTitle();
+        setSupportActionBar(toolbar);
         setUpNavigationDrawer();
         setUpSwipeToRefresh();
         setUpRecyclerView();
-        setUpPresenter();
         setUpExitTransition();
         setUpIncentiveView();
         onViewPrepared();
@@ -174,10 +174,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
         recyclerView.setHasFixedSize(true);
-    }
-
-    private void setUpPresenter() {
-        presenter.setDecksAdapter(adapter);
     }
 
     private void setUpExitTransition() {
@@ -224,6 +220,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         int size = (data == null) ? 0 : data.size();
         if (size > 0) {
             if (!decksSearch.hasFocus()) {
+                adapter.randomizeDecks(RANDOM_DECKS_QUANTITY);
                 adapter.setPositionIncentiveView(columnQuantity - 1);
             }
         } else {

@@ -14,14 +14,12 @@ import com.blstream.studybox.model.database.Deck;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
-import java.util.Random;
 
 public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Deck>> {
 
     private LoginManager loginManager;
     private DataProvider dataProvider;
     private EmptyResponseMessage responseMessage;
-    private DecksAdapter decksAdapter;
 
     public DecksPresenter(Context context) {
         loginManager = new LoginManager(context);
@@ -40,7 +38,6 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     @Override
     public void OnDecksReceived(List<Deck> decks) {
        if (isViewAttached()) {
-            decks = getRandomDecksFromList(decks);
             getView().setData(decks);
             getView().showLoading(false);
             getView().showContent();
@@ -54,21 +51,6 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
             getView().showLoading(false);
             getView().showContent();
         }
-    }
-
-    private List<Deck> getRandomDecksFromList(List<Deck> decks) {
-        if (decks.size() >= 3) {
-            Random random = new Random();
-            int end = random.nextInt(decks.size()) + 3;
-            end = Math.min(end, decks.size());
-            decks = decks.subList(end - 3, end);
-        }
-
-        return decks;
-    }
-
-    public void setDecksAdapter(DecksAdapter decksAdapter) {
-        this.decksAdapter = decksAdapter;
     }
 
     public void onDeckClicked(int position, View view) {
