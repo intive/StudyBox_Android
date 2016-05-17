@@ -10,7 +10,7 @@ import retrofit.converter.GsonConverter;
 
 public class RestClient {
 
-    private static final String URL = "http://78.133.154.70:3000/";
+    private static final String URL = "http://78.133.154.70:2000/";
     private RestInterface restInterface;
 
     public RestClient() {

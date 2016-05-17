@@ -2,7 +2,6 @@ package com.blstream.studybox.exam;
 
 import android.app.Activity;
 import android.app.Dialog;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,8 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-
-
 import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
 import com.github.mikephil.charting.charts.PieChart;
@@ -94,18 +91,18 @@ public class ResultDialogFragment extends DialogFragment {
     }
 
     @OnClick(R.id.my_decks)
-    public void backToMyDecks(View view) {
+    public void backToMyDecks() {
         activity.finish();
     }
 
     @OnClick(R.id.improve_result)
-    public void improveResult(View view) {
+    public void improveResult() {
         EventBus.getDefault().post(new ImproveAllEvent());
         dismiss();
     }
 
     @OnClick(R.id.improve_only_wrong)
-    public void improveOnlyWrong(View view) {
+    public void improveOnlyWrong() {
         EventBus.getDefault().post(new ImproveWrongEvent());
         dismiss();
     }

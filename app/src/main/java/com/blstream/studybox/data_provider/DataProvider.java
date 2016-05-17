@@ -20,6 +20,8 @@ public interface DataProvider {
 
     void fetchDecksByName(OnDecksReceivedListener<List<Deck>> listener, String deckName, String onEmptyResponseMessage);
 
+    void fetchDecksByNameLoggedIn(OnDecksReceivedListener<List<Deck>> listener, String deckName, String onEmptyResponseMessage);
+
     interface OnDecksReceivedListener<T> {
         void OnDecksReceived(T decks, boolean isUsersDecks);
 
