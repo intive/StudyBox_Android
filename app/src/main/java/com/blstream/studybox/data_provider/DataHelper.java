@@ -36,7 +36,7 @@ public class DataHelper implements DataProvider {
                     public void onSuccess(List<Deck> response) {
                         setCurrentDecks(response);
                         saveDecksToDataBase(response);
-                        listener.OnDecksReceived(response);
+                        listener.OnDecksReceived(response, true);
                     }
 
                     @Override
@@ -57,7 +57,7 @@ public class DataHelper implements DataProvider {
                 }
 
                 setCurrentDecks(response);
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(response, false);
             }
 
             @Override
@@ -89,7 +89,7 @@ public class DataHelper implements DataProvider {
         RestClientManager.getRandomDeck(true, new RequestCallback<>(new RequestListener<Deck>() {
             @Override
             public void onSuccess(Deck response) {
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(response, false);
             }
 
             @Override
@@ -109,7 +109,7 @@ public class DataHelper implements DataProvider {
                 }
 
                 setCurrentDecks(response);
-                listener.OnDecksReceived(response);
+                listener.OnDecksReceived(response, false);
             }
 
             @Override

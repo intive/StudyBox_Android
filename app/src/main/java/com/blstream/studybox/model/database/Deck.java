@@ -17,8 +17,8 @@ public class Deck extends Model {
     @Column(name = "name")
     private String name;
     @Expose
-    @Column(name = "publicVisible")
-    private Boolean publicVisible;
+    @Column(name = "isPublic")
+    private Boolean isPublic;
     @Expose
     @Column(name = "creatorEmail")
     private String creatorEmail;
@@ -33,7 +33,7 @@ public class Deck extends Model {
     public Deck(String id, String name, Boolean publicVisible) {
         this.id = id;
         this.name = name;
-        this.publicVisible = publicVisible;
+        this.isPublic = publicVisible;
     }
 
     public static List<Deck> getAll() {
@@ -59,11 +59,11 @@ public class Deck extends Model {
     }
 
     public Boolean getPublicVisible() {
-        return publicVisible;
+        return isPublic;
     }
 
     public void setPublicVisible(Boolean publicVisible) {
-        this.publicVisible = publicVisible;
+        this.isPublic = publicVisible;
     }
 
     public String getCreatorEmail() {

@@ -124,7 +124,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     }
 
     @Override
-    public void OnDecksReceived(Deck deck) {
+    public void OnDecksReceived(Deck deck, boolean isUsersDecks) {
         if (deck.getFlashcardsCount() != 0) {
             String deckId = deck.getDeckId();
             String deckName = deck.getName();

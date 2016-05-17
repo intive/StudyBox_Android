@@ -209,17 +209,17 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     }
 
     @Override
-    public void setData(List<Deck> data) {
+    public void setData(List<Deck> data, boolean isUserDecks) {
         loadingView.setVisibility(View.GONE);
         noDecksView.setVisibility(View.GONE);
         adapter.setDecks(data);
-        setIncentiveView(data);
+        setIncentiveView(data, isUserDecks);
     }
 
-    private void setIncentiveView(List<Deck> data) {
+    private void setIncentiveView(List<Deck> data, boolean isUserDecks) {
         int size = (data == null) ? 0 : data.size();
         if (size > 0) {
-            if (!decksSearch.hasFocus()) {
+            if (!decksSearch.hasFocus() && !isUserDecks) {
                 adapter.randomizeDecks(RANDOM_DECKS_QUANTITY);
                 adapter.setPositionIncentiveView(columnQuantity - 1);
             }
@@ -300,6 +300,11 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void setData(List<Deck> data) {
+
     }
 
     /**

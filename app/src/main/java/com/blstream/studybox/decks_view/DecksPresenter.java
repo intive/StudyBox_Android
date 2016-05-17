@@ -36,9 +36,10 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     @Override
-    public void OnDecksReceived(List<Deck> decks) {
+    public void OnDecksReceived(List<Deck> decks, boolean isUsersDecks) {
        if (isViewAttached()) {
-            getView().setData(decks);
+           //noinspection ConstantConditions
+            getView().setData(decks, isUsersDecks);
             getView().showLoading(false);
             getView().showContent();
         }
