@@ -75,7 +75,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
 
     public void getDecksByName(String deckName) {
         if(loginManager.isUserLoggedIn()){
-            dataProvider.fetchDecksByNameLoggedin(this, deckName, responseMessage.onEmptyQuery());
+            dataProvider.fetchDecksByNameLoggedIn(this, deckName, responseMessage.onEmptyQuery());
         } else {
             dataProvider.fetchDecksByName(this, deckName, responseMessage.onEmptyQuery());
         }

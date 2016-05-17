@@ -99,27 +99,27 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchDecksByNameLoggedin(final OnDecksReceivedListener<List<Deck>> listener, String deckName, final String onEmptyResponseMessage) {
+    public void fetchDecksByNameLoggedIn(final OnDecksReceivedListener<List<Deck>> listener, String deckName, final String onEmptyResponseMessage) {
         RestClientManager.getDecksByNameLoggedin(deckName, true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Deck>>() {
 
-            @Override
-            public void onSuccess(List<Deck> response) {
-                if (isNullOrEmpty(response)) {
-                    listener.OnEmptyResponse(onEmptyResponseMessage);
-                    return;
-                }
+                    @Override
+                    public void onSuccess(List<Deck> response) {
+                        if (isNullOrEmpty(response)) {
+                            listener.OnEmptyResponse(onEmptyResponseMessage);
+                            return;
+                        }
 
-                setCurrentDecks(response);
-                listener.OnDecksReceived(response);
-            }
+                        setCurrentDecks(response);
+                        listener.OnDecksReceived(response, false);
+                    }
 
-            @Override
-            public void onFailure(RetrofitError error) {
-                DebugHelper.logString(error.getMessage());
-            }
-        }));
+                    @Override
+                    public void onFailure(RetrofitError error) {
+                        DebugHelper.logString(error.getMessage());
+                    }
+                }));
     }
 
     @Override

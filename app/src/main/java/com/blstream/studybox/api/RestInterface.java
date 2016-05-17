@@ -43,7 +43,7 @@ public interface RestInterface {
                         Callback<List<Deck>> cb);
 
     @GET("/decks")
-    void getDecksByNameLoggedin(@Query("name") String deckName,
+    void getDecksByNameLoggedIn(@Query("name") String deckName,
                                 @Query("flashcardsCount") boolean flashcardCountKey,
                                 @Query("isPublic") boolean isPublic,
                                 @Query("includeOwn") boolean includeOwn,

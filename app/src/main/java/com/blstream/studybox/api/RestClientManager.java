@@ -29,7 +29,7 @@ public class RestClientManager {
 
     public static void getDecksByNameLoggedin(String deckName, boolean key, RequestInterceptor interceptor, RequestCallback<List<Deck>> callback) {
         RestInterface restInterface = new RestClient(interceptor).getService();
-        restInterface.getDecksByNameLoggedin(deckName, key, true, false, callback);
+        restInterface.getDecksByNameLoggedIn(deckName, key, true, false, callback);
     }
 
     public static void getDecksByName(String deckName, boolean key, RequestCallback<List<Deck>> callback) {
