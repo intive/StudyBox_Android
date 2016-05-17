@@ -38,5 +38,14 @@ public interface RestInterface {
     void signUp(@Body AuthCredentials authCredentials, Callback<AuthCredentials> callback);
 
     @GET("/decks")
-    void getDecksByName(@Query("name") String deckName, @Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Deck>> cb);
+    void getDecksByName(@Query("name") String deckName,
+                        @Query("flashcardsCount") boolean flashcardCountKey,
+                        Callback<List<Deck>> cb);
+
+    @GET("/decks")
+    void getDecksByNameLoggedin(@Query("name") String deckName,
+                                @Query("flashcardsCount") boolean flashcardCountKey,
+                                @Query("isPublic") boolean isPublic,
+                                @Query("includeOwn") boolean includeOwn,
+                                Callback<List<Deck>> cb);
 }
