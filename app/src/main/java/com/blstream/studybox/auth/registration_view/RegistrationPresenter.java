@@ -16,63 +16,66 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
     public void validateCredential(AuthCredentials credentials) {
 
         if (isViewAttached()) {
+            //noinspection ConstantConditions
             getView().showLoading();
         }
 
-        CredentialValidator validator = new CredentialValidator(credentials, new RegistrationValidatorListener() {
-            @Override
-            public void onSuccess(AuthCredentials credentials) {
-                signUp(credentials);
-            }
+        CredentialValidator validator = new CredentialValidator(credentials,
+                new RegistrationValidatorListener() {
+                    @Override
+                    public void onSuccess(AuthCredentials credentials) {
+                        signUp(credentials);
+                    }
 
-            @Override
-            public void onShowEmptyRepeatPasswordError() {
-                if (isViewAttached()) {
-                    getView().showEmptyRepeatPasswordError();
-                }
-            }
+                    @Override
+                    public void onShowEmptyRepeatPasswordError() {
+                        if (isViewAttached()) {
+                            getView().showEmptyRepeatPasswordError();
+                        }
+                    }
 
-            @Override
-            public void onPasswordsInconsistent() {
-                if (isViewAttached()) {
-                    getView().showPasswordInconsistent();
-                }
-            }
+                    @Override
+                    public void onPasswordsInconsistent() {
+                        if (isViewAttached()) {
+                            getView().showPasswordInconsistent();
+                        }
+                    }
 
-            @Override
-            public void onEmailFieldEmpty() {
-                if (isViewAttached()) {
-                    getView().showEmptyEmailError();
-                }
-            }
-            @Override
-            public void onPasswordFieldEmpty() {
-                if (isViewAttached()) {
-                    getView().showEmptyPasswordError();
-                }
-            }
+                    @Override
+                    public void onEmailFieldEmpty() {
+                        if (isViewAttached()) {
+                            getView().showEmptyEmailError();
+                        }
+                    }
+                    @Override
+                    public void onPasswordFieldEmpty() {
+                        if (isViewAttached()) {
+                            getView().showEmptyPasswordError();
+                        }
+                    }
 
-            @Override
-            public void onPasswordTooShort() {
-                if (isViewAttached()) {
-                    getView().showTooShortPasswordError();
-                }
-            }
+                    @Override
+                    public void onPasswordTooShort() {
+                        if (isViewAttached()) {
+                            getView().showTooShortPasswordError();
+                        }
+                    }
 
-            @Override
-            public void onEmailValidationFailure() {
-                if (isViewAttached()) {
-                    getView().showInvalidEmailError();
-                }
-            }
+                    @Override
+                    public void onEmailValidationFailure() {
+                        if (isViewAttached()) {
+                            getView().showInvalidEmailError();
+                        }
+                    }
 
-            @Override
-            public void onPasswordValidationFailure() {
-                if (isViewAttached()) {
-                    getView().showInvalidPasswordError();
+                    @Override
+                    public void onPasswordValidationFailure() {
+                        if (isViewAttached()) {
+                            getView().showInvalidPasswordError();
+                        }
+                    }
                 }
-            }
-        });
+        );
 
         validator.validate();
     }
@@ -98,6 +101,7 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
                     @Override
                     public void onSuccess(AuthCredentials response) {
                         if (isViewAttached()) {
+                            //noinspection ConstantConditions
                             getView().loginSuccessful();
 
                             response.setPassword(credentials.getPassword());
@@ -117,14 +121,17 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
     private void showError(RetrofitError error) {
         if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showNetworkError();
             }
         } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showAuthError();
             }
         } else {
             if (isViewAttached()) {
+                //noinspection ConstantConditions
                 getView().showUnexpectedError();
             }
         }

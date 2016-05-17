@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Class for monitoring network connection status.
  * In every activity should be:
- *  public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
+ * public ConnectionStatusReceiver connectionStatusReceiver = new ConnectionStatusReceiver();
  * and
- *  registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
+ * registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
  * in OnResume() method, and
- *  unregisterReceiver(connectionStatusReceiver);
+ * unregisterReceiver(connectionStatusReceiver);
  * in OnPause() method.
- *
+ * <p/>
  * This receiver provides also interface "ConnectionStatusReceiverListener" with two methods :
  * - networkAvailable()
  * - networkUnavailable()
@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 public class ConnectionStatusReceiver extends BroadcastReceiver {
-    private final static  String ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
+    private final static String ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     public final static IntentFilter filter = new IntentFilter(ACTION);
 
     private SnackbarManager snackbarManager = null;
@@ -113,7 +113,7 @@ public class ConnectionStatusReceiver extends BroadcastReceiver {
         void networkUnavailable();
     }
 
-    public boolean isConnected(){
+    public boolean isConnected() {
         return connected;
     }
 }

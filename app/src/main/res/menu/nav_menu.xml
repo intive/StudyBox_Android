@@ -7,10 +7,6 @@
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_login" />
         <item
-            android:id="@+id/my_account"
-            android:icon="@drawable/ic_circle"
-            android:title="@string/nav_my_account" />
-        <item
             android:id="@+id/my_decks"
             android:icon="@drawable/ic_circle"
             android:title="@string/nav_my_decks" />

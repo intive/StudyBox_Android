@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 
 import java.util.List;
 
@@ -137,7 +137,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public void emptyAdapter() {
+    public void clearAdapterList() {
         if (decksList != null) {
             decksList.clear();
             notifyDataSetChanged();

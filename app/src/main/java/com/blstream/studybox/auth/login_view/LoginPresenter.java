@@ -17,6 +17,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     public void validateCredential(AuthCredentials credentials) {
 
         if (isViewAttached()) {
+            //noinspection ConstantConditions
             getView().showLoading();
         }
 
@@ -71,6 +72,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     @Override
                     public void onSuccess(AuthCredentials response) {
                         if (isViewAttached()) {
+                            //noinspection ConstantConditions
                             getView().loginSuccessful();
 
                             response.setPassword(credentials.getPassword());
@@ -83,14 +85,17 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     public void onFailure(RetrofitError error) {
                         if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
                             if (isViewAttached()) {
+                                //noinspection ConstantConditions
                                 getView().showNetworkError();
                             }
                         } else if (error.getKind().equals(RetrofitError.Kind.HTTP)){
                             if (isViewAttached()) {
+                                //noinspection ConstantConditions
                                 getView().showAuthError();
                             }
                         } else {
                             if (isViewAttached()) {
+                                //noinspection ConstantConditions
                                 getView().showUnexpectedError();
                             }
                         }

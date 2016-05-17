@@ -37,9 +37,10 @@ public class CredentialValidator {
 
     private void validateRepeatPassword() {
         if (listener instanceof RegistrationValidatorListener) {
-            if (credentials.getRepeatPassword().isEmpty()) {
+            String repeatPassword = credentials.getRepeatPassword();
+            if (repeatPassword == null || repeatPassword.isEmpty()) {
                 ((RegistrationValidatorListener) listener).onShowEmptyRepeatPasswordError();
-            } else  if (!credentials.getPassword().equals(credentials.getRepeatPassword())) {
+            } else  if (!credentials.getPassword().equals(repeatPassword)) {
                 ((RegistrationValidatorListener) listener).onPasswordsInconsistent();
             } else {
                 isRepeatPasswordValid = true;

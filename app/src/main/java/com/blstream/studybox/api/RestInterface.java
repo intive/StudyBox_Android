@@ -2,7 +2,7 @@ package com.blstream.studybox.api;
 
 import com.blstream.studybox.model.AuthCredentials;
 import com.blstream.studybox.model.database.Card;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 import com.blstream.studybox.model.database.Tip;
 
 import java.util.List;
@@ -17,13 +17,13 @@ import retrofit.http.Query;
 public interface RestInterface {
 
     @GET("/decks/")
-    void getDecks(@Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Decks>> cb);
+    void getDecks(@Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Deck>> cb);
 
     @GET("/decks/me")
     void getPrivateDecks(@Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Decks>> cb);
 
     @GET("/decks/random/")
-    void getRandomDeck(@Query("flashcardsCount") boolean flashcardCountKey, Callback<Decks> cb);
+    void getRandomDeck(@Query("flashcardsCount") boolean flashcardCountKey, Callback<Deck> cb);
 
     @GET("/decks/{key}/flashcards")
     void getFlashcards(@Path("key") String key, @Query("random") String amount, Callback<List<Card>> cb);
@@ -38,5 +38,5 @@ public interface RestInterface {
     void signUp(@Body AuthCredentials authCredentials, Callback<AuthCredentials> callback);
 
     @GET("/decks")
-    void getDecksByName(@Query("name") String deckName, Callback<List<Decks>> cb);
+    void getDecksByName(@Query("name") String deckName, @Query("flashcardsCount") boolean flashcardCountKey, Callback<List<Deck>> cb);
 }

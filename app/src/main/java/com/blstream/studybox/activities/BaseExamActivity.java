@@ -37,7 +37,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
         implements ExamView {
 
     private static final String TAG_RESULT = "result";
-    private static final String TAG_IN_EXAM= "inExam";
+    private static final String TAG_IN_EXAM = "inExam";
     private static final String TAG_DECK_NAME = "deckName";
     private static final String TAG_DECK_ID = "deckId";
     private static final String TAG_CARD_ID = "cardId";
@@ -155,7 +155,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     }
 
     public void showAnswer(String cardId) {
-        if(isInExam) {
+        if (isInExam) {
             AnswerFragment answerFragment = new AnswerFragment();
             replaceFragment(answerFragment, cardId);
         } else {

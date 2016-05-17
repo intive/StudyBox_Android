@@ -1,4 +1,4 @@
-package com.blstream.studybox.database;
+package com.blstream.studybox.data_provider;
 
 import android.content.Context;
 
@@ -9,7 +9,7 @@ import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.debugger.DebugHelper;
 import com.blstream.studybox.model.database.Card;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.model.database.Deck;
 import com.blstream.studybox.model.database.Tip;
 
 import java.util.Collection;
@@ -20,40 +20,43 @@ import retrofit.RetrofitError;
 public class DataHelper implements DataProvider {
 
     private Context context;
+    private List<Deck> currentDecks;
 
     public DataHelper(Context context) {
         this.context = context;
     }
 
     @Override
-    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Decks>> listener) {
+    public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener) {
         RestClientManager.getPrivateDecks(true,
                 new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
-                new RequestCallback<>(new RequestListener<List<Decks>>() {
+                new RequestCallback<>(new RequestListener<List<Deck>>() {
 
                     @Override
-                    public void onSuccess(List<Decks> response) {
+                    public void onSuccess(List<Deck> response)
+                        setCurrentDecks(response);
                         saveDecksToDataBase(response);
                         listener.OnDecksReceived(response);
                     }
 
-            @Override
-            public void onFailure(RetrofitError error) {
+                    @Override
+                    public void onFailure(RetrofitError error) {
 
                     }
                 }));
     }
 
     @Override
-    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener<List<Decks>> listener, final String onEmptyResponseMessage) {
-        RestClientManager.getPublicDecks(true, new RequestCallback<>(new RequestListener<List<Decks>>() {
+    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener, final String onEmptyResponseMessage) {
+        RestClientManager.getPublicDecks(true, new RequestCallback<>(new RequestListener<List<Deck>>() {
             @Override
-            public void onSuccess(List<Decks> response) {
+            public void onSuccess(List<Deck> response) {
                 if (isNullOrEmpty(response)) {
                     listener.OnEmptyResponse(onEmptyResponseMessage);
                     return;
                 }
 
+                setCurrentDecks(response);
                 listener.OnDecksReceived(response);
             }
 
@@ -82,10 +85,10 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener<Decks> listener) {
-        RestClientManager.getRandomDeck(true, new RequestCallback<>(new RequestListener<Decks>() {
+    public void fetchRandomDeck(final DataProvider.OnDecksReceivedListener<Deck> listener) {
+        RestClientManager.getRandomDeck(true, new RequestCallback<>(new RequestListener<Deck>() {
             @Override
-            public void onSuccess(Decks response) {
+            public void onSuccess(Deck response) {
                 listener.OnDecksReceived(response);
             }
 
@@ -96,15 +99,16 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchDecksByName(final OnDecksReceivedListener<List<Decks>> listener, String deckName, final String onEmptyResponseMessage) {
-        RestClientManager.getDecksByName(deckName, new RequestCallback<>(new RequestListener<List<Decks>>() {
+    public void fetchDecksByName(final OnDecksReceivedListener<List<Deck>> listener, String deckName, final String onEmptyResponseMessage) {
+        RestClientManager.getDecksByName(deckName, true, new RequestCallback<>(new RequestListener<List<Deck>>() {
             @Override
-            public void onSuccess(List<Decks> response) {
+            public void onSuccess(List<Deck> response) {
                 if (isNullOrEmpty(response)) {
                     listener.OnEmptyResponse(onEmptyResponseMessage);
                     return;
                 }
 
+                setCurrentDecks(response);
                 listener.OnDecksReceived(response);
             }
 
@@ -130,8 +134,17 @@ public class DataHelper implements DataProvider {
         }));
     }
 
-    private void saveDecksToDataBase(List<Decks> decks) {
-        for (Decks deck : decks) {
+    @Override
+    public List<Deck> getCurrentDecks() {
+        return currentDecks;
+    }
+
+    private void setCurrentDecks(List<Deck> currentDecks) {
+        this.currentDecks = currentDecks;
+    }
+
+    private void saveDecksToDataBase(List<Deck> decks) {
+        for (Deck deck : decks) {
             deck.save();
         }
     }

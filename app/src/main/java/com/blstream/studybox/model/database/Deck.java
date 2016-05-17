@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 import java.util.List;
 
 @Table(name = "Decks")
-public class Decks extends Model {
+public class Deck extends Model {
     @Expose
     @Column(name = "deckId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String id;
@@ -26,19 +26,19 @@ public class Decks extends Model {
     @Column(name = "flashcardsCount")
     private int flashcardsCount;
 
-    public Decks() {
+    public Deck() {
         super();
     }
 
-    public Decks(String id, String name, Boolean publicVisible) {
+    public Deck(String id, String name, Boolean publicVisible) {
         this.id = id;
         this.name = name;
         this.publicVisible = publicVisible;
     }
 
-    public static List<Decks> getAll() {
+    public static List<Deck> getAll() {
         return new Select()
-                .from(Decks.class)
+                .from(Deck.class)
                 .execute();
     }
 

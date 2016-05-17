@@ -8,15 +8,15 @@ import android.view.View;
 import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.components.ExamStartDialog;
-import com.blstream.studybox.database.DataHelper;
-import com.blstream.studybox.database.DataProvider;
-import com.blstream.studybox.model.database.Decks;
+import com.blstream.studybox.data_provider.DataHelper;
+import com.blstream.studybox.data_provider.DataProvider;
+import com.blstream.studybox.model.database.Deck;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
 import java.util.Random;
 
-public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Decks>> {
+public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Deck>> {
 
     private LoginManager loginManager;
     private DataProvider dataProvider;
@@ -38,7 +38,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     @Override
-    public void OnDecksReceived(List<Decks> decks) {
+    public void OnDecksReceived(List<Deck> decks) {
        if (isViewAttached()) {
             decks = getRandomDecksFromList(decks);
             getView().setData(decks);
@@ -72,10 +72,13 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     public void onDeckClicked(int position, View view) {
-        Decks deck = (Decks) decksAdapter.getDecks().get(position);
-        String deckId = deck.getDeckId();
-        String deckName = deck.getName();
-        int cardsAmount = deck.getFlashcardsCount();
+        String deckId;
+        String deckName;
+        int cardsAmount;
+
+        deckId = dataProvider.getCurrentDecks().get(position).getDeckId();
+        deckName = dataProvider.getCurrentDecks().get(position).getName();
+        cardsAmount = dataProvider.getCurrentDecks().get(position).getFlashcardsCount();
 
         if (cardsAmount == 0) {
             EmptyDeckActivity.start(view.getContext());
