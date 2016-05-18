@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>, DecksView, DecksPresenter>
-        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
+        implements DecksView,SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
     private static final int RANDOM_DECKS_QUANTITY = 3;
     private static final String STATE_SEARCH = "restoreSearch";
@@ -170,7 +170,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
 
     private void setUpRecyclerView() {
         adapter = new DecksAdapter();
-        adapter.setOnItemClickListener(this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
@@ -260,11 +259,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     @Override
     protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
         return null;
-    }
-
-    @Override
-    public void onItemClick(int position, View view) {
-        presenter.onDeckClicked(position, view);
     }
 
     @Override

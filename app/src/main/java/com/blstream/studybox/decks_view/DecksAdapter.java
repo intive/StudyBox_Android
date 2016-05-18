@@ -1,7 +1,10 @@
 package com.blstream.studybox.decks_view;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.activities.EmptyDeckActivity;
+import com.blstream.studybox.components.ExamStartDialog;
 import com.blstream.studybox.model.database.Deck;
 
 import java.util.Collections;
@@ -24,7 +29,6 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int DECK = 0;
     private static final int IMAGE = 1;
 
-    private ClickListener clickListener;
     private List<Object> decksList;
 
     @Override
@@ -74,14 +78,6 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         } else {
             return -1;
         }
-    }
-
-    public void setOnItemClickListener(ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    public interface ClickListener {
-        void onItemClick(int position, View v);
     }
 
     @SuppressWarnings("unchecked")
@@ -136,7 +132,19 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            clickListener.onItemClick(getAdapterPosition(), v);
+            int position = getAdapterPosition();
+            int cardsAmount;
+
+            Deck deck = ((Deck) decksList.get(position));
+            cardsAmount = deck.getFlashcardsCount();
+            if (cardsAmount == 0) {
+                EmptyDeckActivity.start(v.getContext());
+            } else {
+                Context context = v.getContext();
+                ExamStartDialog examStartDialog = ExamStartDialog.newInstance(deck.getDeckId(), deck.getName(), cardsAmount);
+                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                examStartDialog.show(fragmentManager, "ExamStartDialog");
+            }
         }
     }
 
