@@ -228,6 +228,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         }
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     private void setIncentiveViewParams() {
         View parent = (View) searchDeckIncentive.getParent();
         int width = parent.getWidth() / columnQuantity;

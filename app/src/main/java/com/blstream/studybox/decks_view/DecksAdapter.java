@@ -2,7 +2,6 @@ package com.blstream.studybox.decks_view;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -106,18 +105,16 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setPositionIncentiveView(int position) {
-        if (decksList != null && decksList.size() <= position) {
+        if (decksList != null && decksList.size() >= position) {
             decksList.add(position, "Incentive view");
         }
     }
 
     public class DeckViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Nullable
         @Bind(R.id.deck_title)
         public TextView deckTitle;
 
-        @Nullable
         @Bind(R.id.questions_quantity)
         public TextView questionsQuantity;
 
@@ -132,7 +129,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             int position = getAdapterPosition();
             int cardsAmount;
 
-            Deck deck = ((Deck) decksList.get(position));
+            Deck deck = (Deck) decksList.get(position);
             cardsAmount = deck.getFlashcardsCount();
             if (cardsAmount == 0) {
                 EmptyDeckActivity.start(v.getContext());
