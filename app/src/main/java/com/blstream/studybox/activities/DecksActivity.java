@@ -150,7 +150,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     }
 
     private void setUpToolbarTitle() {
-        final LoginManager loginManager = new LoginManager(this);
+        final LoginManager loginManager = new LoginManager();
         if (loginManager.isUserLoggedIn()) {
             toolbar.setTitle(R.string.nav_my_decks);
         } else {

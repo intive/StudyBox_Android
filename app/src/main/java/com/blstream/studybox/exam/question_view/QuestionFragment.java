@@ -78,7 +78,7 @@ public class QuestionFragment extends MvpViewStateFragment<QuestionView, Questio
     @NonNull
     @Override
     public QuestionPresenter createPresenter() {
-        return new QuestionPresenter(getActivity().getApplicationContext());
+        return new QuestionPresenter();
     }
 
     @NonNull

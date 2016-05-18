@@ -76,7 +76,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                             getView().loginSuccessful();
 
                             response.setPassword(credentials.getPassword());
-                            LoginManager login = new LoginManager(getView().getContext());
+                            LoginManager login = new LoginManager();
                             login.saveUser(response);
                         }
                     }

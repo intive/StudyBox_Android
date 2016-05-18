@@ -1,6 +1,5 @@
 package com.blstream.studybox.exam.question_view;
 
-import android.content.Context;
 import android.util.Patterns;
 
 import com.blstream.studybox.data_provider.DataHelper;
@@ -19,12 +18,10 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
 
     private Card card;
     private List<Tip> prompts;
-    private Context context;
     private boolean isInPromptMode;
     private int promptPosition;
 
-    public QuestionPresenter(Context context) {
-        this.context = context;
+    public QuestionPresenter() {
         prompts = new ArrayList<>();
 
     }
@@ -36,7 +33,7 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
     }
 
     private void loadPrompts() {
-        final DataProvider dataProvider = new DataHelper(context);
+        final DataProvider dataProvider = new DataHelper();
         dataProvider.fetchTips(card.getDeckId(), card.getCardId(), new DataProvider.OnTipsReceivedListener<List<Tip>>() {
             @Override
             public void OnTipsReceived(List<Tip> tips) {

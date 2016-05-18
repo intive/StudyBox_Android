@@ -22,8 +22,8 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     private EmptyResponseMessage responseMessage;
 
     public DecksPresenter(Context context) {
-        loginManager = new LoginManager(context);
-        dataProvider = new DataHelper(context);
+        loginManager = new LoginManager();
+        dataProvider = new DataHelper();
         responseMessage = new EmptyResponseInfo(context);
     }
 

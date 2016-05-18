@@ -105,7 +105,7 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
                             getView().loginSuccessful();
 
                             response.setPassword(credentials.getPassword());
-                            LoginManager login = new LoginManager(getView().getContext());
+                            LoginManager login = new LoginManager();
                             login.saveUser(response);
                         }
                     }

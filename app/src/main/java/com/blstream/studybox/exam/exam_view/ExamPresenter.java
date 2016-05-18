@@ -1,7 +1,5 @@
 package com.blstream.studybox.exam.exam_view;
 
-import android.content.Context;
-
 import com.blstream.studybox.data_provider.DataHelper;
 import com.blstream.studybox.data_provider.DataProvider;
 import com.blstream.studybox.events.CorrectAnswerEvent;
@@ -27,12 +25,7 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     protected int currentCardNumber;
     protected String currentCardId;
     private ExamManager examManager;
-    private final Context context;
     private boolean isInExamMode;
-
-    public ExamPresenter(Context context) {
-        this.context = context;
-    }
 
     @Override
     public void attachView(ExamView view) {
@@ -47,7 +40,7 @@ public class ExamPresenter extends MvpBasePresenter<ExamView> {
     }
 
     public void getFlashcards(String deckId, String randomAmount) {
-        final DataProvider dataProvider = new DataHelper(context);
+        final DataProvider dataProvider = new DataHelper();
         dataProvider.fetchFlashcards(deckId, randomAmount, new DataProvider.OnCardsReceivedListener<List<Card>>() {
             @Override
             public void OnCardsReceived(List<Card> cards) {
