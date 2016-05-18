@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.BaseExamActivity;
+import com.blstream.studybox.activities.DecksActivity;
 import com.blstream.studybox.activities.LoginActivity;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.data_provider.DataHelper;
@@ -107,6 +108,11 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
                 activity.finish();
                 break;
             case R.id.my_decks:
+                if(!(activity instanceof DecksActivity)){
+                    intent = new Intent(context, DecksActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    activity.startActivity(intent);
+                }
                 break;
             case R.id.random_deck:
                 dataHelper.fetchRandomDeck(this);
