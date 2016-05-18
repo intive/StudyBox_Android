@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 import com.blstream.studybox.model.database.Deck;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -85,6 +86,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @SuppressWarnings("unchecked")
     public void setDecks(List<Deck> data) {
+        Collections.sort(data);
         decksList = (List) data;
         notifyDataSetChanged();
     }
