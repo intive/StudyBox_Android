@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.DecksSearch;
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.login.LoginInterface;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
@@ -150,8 +151,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     }
 
     private void setUpToolbarTitle() {
-        final LoginManager loginManager = new LoginManager();
-        if (loginManager.isUserLoggedIn()) {
+        final LoginInterface loginInterface = new LoginManager();
+        if (loginInterface.isUserLoggedIn()) {
             toolbar.setTitle(R.string.nav_my_decks);
         } else {
             toolbar.setTitle(R.string.decks);

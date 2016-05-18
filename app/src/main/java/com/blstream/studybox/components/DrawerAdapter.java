@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.blstream.studybox.R;
 import com.blstream.studybox.activities.BaseExamActivity;
 import com.blstream.studybox.activities.LoginActivity;
+import com.blstream.studybox.auth.login.LoginInterface;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.data_provider.DataHelper;
 import com.blstream.studybox.data_provider.DataProvider;
@@ -38,7 +39,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Toolbar toolbar;
     private Context context;
     private Activity activity;
-    private LoginManager login;
+    private LoginInterface login;
     private ActionBarDrawerToggle drawerToggle;
     private DataHelper dataHelper = new DataHelper();
 
