@@ -41,7 +41,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>, DecksView, DecksPresenter>
         implements DecksView,SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
-    private static final int RANDOM_DECKS_QUANTITY = 3;
     private static final String STATE_SEARCH = "restoreSearch";
     private static final String SEARCH_QUERY = "currentQuery";
 
@@ -220,7 +219,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         int size = (data == null) ? 0 : data.size();
         if (size > 0) {
             if (!decksSearch.hasFocus() && !isUserDecks) {
-                adapter.randomizeDecks(RANDOM_DECKS_QUANTITY);
+                adapter.shuffleDecks();
                 adapter.setPositionIncentiveView(columnQuantity - 1);
             }
         } else {

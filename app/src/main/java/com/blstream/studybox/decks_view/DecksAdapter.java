@@ -19,13 +19,13 @@ import com.blstream.studybox.model.database.Deck;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int RANDOM_DECKS_QUANTITY = 3;
     private static final int DECK = 0;
     private static final int IMAGE = 1;
 
@@ -87,17 +87,14 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    @SuppressWarnings("unchecked")
-    public void randomizeDecks(int quantity) {
-        if (decksList == null || quantity <= 0) {
+    public void shuffleDecks() {
+        if (decksList == null) {
             return;
         }
 
-        if (decksList.size() >= quantity) {
-            Random random = new Random();
-            int end = random.nextInt(decksList.size()) + quantity;
-            end = Math.min(end, decksList.size());
-            decksList = (List) decksList.subList(end - quantity, end);
+        Collections.shuffle(decksList);
+        if (decksList.size() >= RANDOM_DECKS_QUANTITY) {
+            decksList = decksList.subList(0, RANDOM_DECKS_QUANTITY);
         }
     }
 
@@ -109,7 +106,7 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setPositionIncentiveView(int position) {
-        if (decksList != null) {
+        if (decksList != null && decksList.size() <= position) {
             decksList.add(position, "Incentive view");
         }
     }
