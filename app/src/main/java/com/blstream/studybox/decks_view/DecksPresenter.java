@@ -54,25 +54,6 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
         }
     }
 
-    public void onDeckClicked(int position, View view) {
-        String deckId;
-        String deckName;
-        int cardsAmount;
-
-        deckId = dataProvider.getCurrentDecks().get(position).getDeckId();
-        deckName = dataProvider.getCurrentDecks().get(position).getName();
-        cardsAmount = dataProvider.getCurrentDecks().get(position).getFlashcardsCount();
-
-        if (cardsAmount == 0) {
-            EmptyDeckActivity.start(view.getContext());
-        } else {
-            Context context = view.getContext();
-            ExamStartDialog examStartDialog = ExamStartDialog.newInstance(deckId, deckName, cardsAmount);
-            FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-            examStartDialog.show(fragmentManager, "ExamStartDialog");
-        }
-    }
-
     public void getDecksByName(String deckName) {
         if(loginManager.isUserLoggedIn()){
             dataProvider.fetchDecksByNameLoggedIn(this, deckName, responseMessage.onEmptyQuery());
