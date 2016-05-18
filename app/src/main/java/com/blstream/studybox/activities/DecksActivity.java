@@ -40,9 +40,8 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>, DecksView, DecksPresenter>
-        implements DecksView, DecksAdapter.ClickListener, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
+        implements DecksView, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
-    private static final int RANDOM_DECKS_QUANTITY = 3;
     private static final String STATE_SEARCH = "restoreSearch";
     private static final String SEARCH_QUERY = "currentQuery";
 
@@ -106,6 +105,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     protected void onResume() {
         super.onResume();
         drawerAdapter.randomDeckDrawerItem(false);
+        drawerAdapter.setMenuItemChecked(R.id.my_decks);
         registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
@@ -171,7 +171,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
 
     private void setUpRecyclerView() {
         adapter = new DecksAdapter();
-        adapter.setOnItemClickListener(this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, columnQuantity));
@@ -222,7 +221,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         int size = (data == null) ? 0 : data.size();
         if (size > 0) {
             if (!decksSearch.hasFocus() && !isUserDecks) {
-                adapter.randomizeDecks(RANDOM_DECKS_QUANTITY);
+                adapter.shuffleDecks();
                 adapter.setPositionIncentiveView(columnQuantity - 1);
             }
         } else {
@@ -231,6 +230,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         }
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     private void setIncentiveViewParams() {
         View parent = (View) searchDeckIncentive.getParent();
         int width = parent.getWidth() / columnQuantity;
@@ -261,11 +261,6 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     @Override
     protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
         return null;
-    }
-
-    @Override
-    public void onItemClick(int position, View view) {
-        presenter.onDeckClicked(position, view);
     }
 
     @Override

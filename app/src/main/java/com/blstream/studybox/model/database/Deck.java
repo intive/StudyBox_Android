@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 import java.util.List;
 
 @Table(name = "Decks")
-public class Deck extends Model {
+public class Deck extends Model implements Comparable<Deck> {
     @Expose
     @Column(name = "deckId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String id;
@@ -80,6 +80,11 @@ public class Deck extends Model {
 
     public void setFlashcardsCount(int flashcardsCount) {
         this.flashcardsCount = flashcardsCount;
+    }
+
+    @Override
+    public int compareTo(Deck another) {
+        return name.compareToIgnoreCase(another.getName());
     }
 }
 

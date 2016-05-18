@@ -1,7 +1,9 @@
 package com.blstream.studybox.decks_view;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
-import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,20 +12,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.activities.EmptyDeckActivity;
+import com.blstream.studybox.components.ExamStartDialog;
 import com.blstream.studybox.model.database.Deck;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int RANDOM_DECKS_QUANTITY = 3;
     private static final int DECK = 0;
     private static final int IMAGE = 1;
 
-    private ClickListener clickListener;
     private List<Object> decksList;
 
     @Override
@@ -75,31 +79,21 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public void setOnItemClickListener(ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    public interface ClickListener {
-        void onItemClick(int position, View v);
-    }
-
     @SuppressWarnings("unchecked")
     public void setDecks(List<Deck> data) {
+        Collections.sort(data);
         decksList = (List) data;
         notifyDataSetChanged();
     }
 
-    @SuppressWarnings("unchecked")
-    public void randomizeDecks(int quantity) {
-        if (decksList == null || quantity <= 0) {
+    public void shuffleDecks() {
+        if (decksList == null) {
             return;
         }
 
-        if (decksList.size() >= quantity) {
-            Random random = new Random();
-            int end = random.nextInt(decksList.size()) + quantity;
-            end = Math.min(end, decksList.size());
-            decksList = (List) decksList.subList(end - quantity, end);
+        Collections.shuffle(decksList);
+        if (decksList.size() >= RANDOM_DECKS_QUANTITY) {
+            decksList = decksList.subList(0, RANDOM_DECKS_QUANTITY);
         }
     }
 
@@ -111,18 +105,16 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setPositionIncentiveView(int position) {
-        if (decksList != null) {
+        if (decksList != null && decksList.size() >= position) {
             decksList.add(position, "Incentive view");
         }
     }
 
     public class DeckViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Nullable
         @Bind(R.id.deck_title)
         public TextView deckTitle;
 
-        @Nullable
         @Bind(R.id.questions_quantity)
         public TextView questionsQuantity;
 
@@ -134,7 +126,19 @@ public class DecksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            clickListener.onItemClick(getAdapterPosition(), v);
+            int position = getAdapterPosition();
+            int cardsAmount;
+
+            Deck deck = (Deck) decksList.get(position);
+            cardsAmount = deck.getFlashcardsCount();
+            if (cardsAmount == 0) {
+                EmptyDeckActivity.start(v.getContext());
+            } else {
+                Context context = v.getContext();
+                ExamStartDialog examStartDialog = ExamStartDialog.newInstance(deck.getDeckId(), deck.getName(), cardsAmount);
+                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                examStartDialog.show(fragmentManager, "ExamStartDialog");
+            }
         }
     }
 
