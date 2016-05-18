@@ -105,6 +105,7 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     protected void onResume() {
         super.onResume();
         drawerAdapter.randomDeckDrawerItem(false);
+        drawerAdapter.setMenuItemChecked(R.id.my_decks);
         registerReceiver(connectionStatusReceiver, ConnectionStatusReceiver.filter);
     }
 
