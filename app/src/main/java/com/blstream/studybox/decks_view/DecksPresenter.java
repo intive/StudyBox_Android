@@ -1,13 +1,8 @@
 package com.blstream.studybox.decks_view;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
 
-import com.blstream.studybox.activities.EmptyDeckActivity;
 import com.blstream.studybox.auth.login.LoginManager;
-import com.blstream.studybox.components.ExamStartDialog;
 import com.blstream.studybox.data_provider.DataHelper;
 import com.blstream.studybox.data_provider.DataProvider;
 import com.blstream.studybox.model.database.Deck;
@@ -55,7 +50,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     public void getDecksByName(String deckName) {
-        if(loginManager.isUserLoggedIn()){
+        if (loginManager.isUserLoggedIn()) {
             dataProvider.fetchDecksByNameLoggedIn(this, deckName, responseMessage.onEmptyQuery());
         } else {
             dataProvider.fetchDecksByName(this, deckName, responseMessage.onEmptyQuery());
