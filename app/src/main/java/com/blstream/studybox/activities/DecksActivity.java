@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -276,6 +277,16 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
         decksSearch.setSearchable(this, menu);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.home){
+            loadData(false);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

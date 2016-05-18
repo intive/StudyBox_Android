@@ -27,6 +27,7 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
     private AutoCompleteTextView searchTextView;
     private SearchManager searchManager;
     private SearchListener searchListener;
+    private ImageView closeButton;
 
     private boolean restoreState = false;
     private String currentQuery = "";
@@ -68,7 +69,7 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
     }
 
     private void setOnCloseClick() {
-        ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
+        closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +95,9 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                if (searchListener != null) {
+                    searchListener.onCloseSearchClick();
+                }
                 setRestoreState(false);
                 return true;
             }
