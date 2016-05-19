@@ -6,7 +6,9 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 
+import java.text.Collator;
 import java.util.List;
+import java.util.Locale;
 
 @Table(name = "Decks")
 public class Deck extends Model implements Comparable<Deck> {
@@ -25,6 +27,8 @@ public class Deck extends Model implements Comparable<Deck> {
     @Expose
     @Column(name = "flashcardsCount")
     private int flashcardsCount;
+
+    private static final Collator collator = Collator.getInstance(Locale.getDefault());
 
     public Deck() {
         super();
@@ -84,7 +88,7 @@ public class Deck extends Model implements Comparable<Deck> {
 
     @Override
     public int compareTo(Deck another) {
-        return name.compareToIgnoreCase(another.getName());
+        return collator.compare(name, another.getName());
     }
 }
 
