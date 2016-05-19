@@ -28,6 +28,8 @@ public class Deck extends Model implements Comparable<Deck> {
     @Column(name = "flashcardsCount")
     private int flashcardsCount;
 
+    private static final Collator collator = Collator.getInstance(Locale.getDefault());
+
     public Deck() {
         super();
     }
@@ -86,7 +88,6 @@ public class Deck extends Model implements Comparable<Deck> {
 
     @Override
     public int compareTo(Deck another) {
-        Collator collator = Collator.getInstance(Locale.getDefault());
         return collator.compare(name, another.getName());
     }
 }
