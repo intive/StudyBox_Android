@@ -5,6 +5,7 @@ import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
 import com.blstream.studybox.api.RestClientManager;
 import com.blstream.studybox.auth.login.CredentialValidator;
+import com.blstream.studybox.auth.login.LoginInterface;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.model.AuthCredentials;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -105,7 +106,7 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
                             getView().loginSuccessful();
 
                             response.setPassword(credentials.getPassword());
-                            LoginManager login = new LoginManager(getView().getContext());
+                            LoginInterface login = new LoginManager();
                             login.saveUser(response);
                         }
                     }

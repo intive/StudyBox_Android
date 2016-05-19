@@ -104,7 +104,7 @@ public class BaseExamActivity extends BaseViewStateActivity<ExamView, ExamPresen
     @NonNull
     @Override
     public ExamPresenter createPresenter() {
-        return new ExamPresenter(getApplicationContext());
+        return new ExamPresenter();
     }
 
     @NonNull

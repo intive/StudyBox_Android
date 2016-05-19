@@ -1,7 +1,5 @@
 package com.blstream.studybox.data_provider;
 
-import android.content.Context;
-
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
@@ -19,17 +17,12 @@ import retrofit.RetrofitError;
 
 public class DataHelper implements DataProvider {
 
-    private Context context;
     private List<Deck> currentDecks;
-
-    public DataHelper(Context context) {
-        this.context = context;
-    }
 
     @Override
     public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener) {
         RestClientManager.getPrivateDecks(true,
-                new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
+                new AuthRequestInterceptor(new LoginManager().getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Deck>>() {
 
                     @Override
@@ -101,7 +94,7 @@ public class DataHelper implements DataProvider {
     @Override
     public void fetchDecksByNameLoggedIn(final OnDecksReceivedListener<List<Deck>> listener, String deckName, final String onEmptyResponseMessage) {
         RestClientManager.getDecksByNameLoggedin(deckName, true,
-                new AuthRequestInterceptor(new LoginManager(context).getCredentials()),
+                new AuthRequestInterceptor(new LoginManager().getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Deck>>() {
 
                     @Override

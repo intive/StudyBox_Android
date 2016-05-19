@@ -20,6 +20,7 @@ import com.blstream.studybox.R;
 import com.blstream.studybox.activities.BaseExamActivity;
 import com.blstream.studybox.activities.DecksActivity;
 import com.blstream.studybox.activities.LoginActivity;
+import com.blstream.studybox.auth.login.LoginInterface;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.data_provider.DataHelper;
 import com.blstream.studybox.data_provider.DataProvider;
@@ -39,9 +40,9 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Toolbar toolbar;
     private Context context;
     private Activity activity;
-    private LoginManager login;
+    private LoginInterface login;
     private ActionBarDrawerToggle drawerToggle;
-    private DataHelper dataHelper = new DataHelper(context);
+    private DataHelper dataHelper = new DataHelper();
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -53,7 +54,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
         } catch (ClassCastException e) {
             DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
         }
-        this.login = new LoginManager(context);
+        this.login = new LoginManager();
     }
 
     public void attachDrawer() {

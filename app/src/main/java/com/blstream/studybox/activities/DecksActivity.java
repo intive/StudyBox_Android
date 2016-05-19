@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.blstream.studybox.ConnectionStatusReceiver;
 import com.blstream.studybox.DecksSearch;
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.login.LoginInterface;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.components.DrawerAdapter;
 import com.blstream.studybox.decks_view.DecksAdapter;
@@ -39,7 +40,7 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>, DecksView, DecksPresenter>
-        implements DecksView,SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
+        implements DecksView, SwipeRefreshLayout.OnRefreshListener, DecksSearch.SearchListener {
 
     private static final String STATE_SEARCH = "restoreSearch";
     private static final String SEARCH_QUERY = "currentQuery";
@@ -150,8 +151,8 @@ public class DecksActivity extends MvpLceActivity<SwipeRefreshLayout, List<Deck>
     }
 
     private void setUpToolbarTitle() {
-        final LoginManager loginManager = new LoginManager(this);
-        if (loginManager.isUserLoggedIn()) {
+        final LoginInterface loginInterface = new LoginManager();
+        if (loginInterface.isUserLoggedIn()) {
             toolbar.setTitle(R.string.nav_my_decks);
         } else {
             toolbar.setTitle(R.string.decks);

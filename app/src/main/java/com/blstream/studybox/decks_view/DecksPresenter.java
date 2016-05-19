@@ -2,6 +2,7 @@ package com.blstream.studybox.decks_view;
 
 import android.content.Context;
 
+import com.blstream.studybox.auth.login.LoginInterface;
 import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.data_provider.DataHelper;
 import com.blstream.studybox.data_provider.DataProvider;
@@ -12,18 +13,18 @@ import java.util.List;
 
 public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataProvider.OnDecksReceivedListener<List<Deck>> {
 
-    private LoginManager loginManager;
+    private LoginInterface loginInterface;
     private DataProvider dataProvider;
     private EmptyResponseMessage responseMessage;
 
     public DecksPresenter(Context context) {
-        loginManager = new LoginManager(context);
-        dataProvider = new DataHelper(context);
+        loginInterface = new LoginManager();
+        dataProvider = new DataHelper();
         responseMessage = new EmptyResponseInfo(context);
     }
 
     public void loadDecks(boolean pullToRefresh) {  // TODO: if timestamp available, add usage of pullToRefresh
-        if (loginManager.isUserLoggedIn()) {
+        if (loginInterface.isUserLoggedIn()) {
             dataProvider.fetchPrivateDecks(this);
         } else {
             dataProvider.fetchPublicDecks(this, responseMessage.onEmptyDecks());
@@ -50,7 +51,7 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
     }
 
     public void getDecksByName(String deckName) {
-        if (loginManager.isUserLoggedIn()) {
+        if (loginInterface.isUserLoggedIn()) {
             dataProvider.fetchDecksByNameLoggedIn(this, deckName, responseMessage.onEmptyQuery());
         } else {
             dataProvider.fetchDecksByName(this, deckName, responseMessage.onEmptyQuery());
