@@ -27,7 +27,6 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
     private AutoCompleteTextView searchTextView;
     private SearchManager searchManager;
     private SearchListener searchListener;
-    private ImageView closeButton;
 
     private boolean restoreState = false;
     private String currentQuery = "";
@@ -63,13 +62,27 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
         restoreState();
     }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText == null || newText.length() == 0 || newText.trim().length() == 0) {
+            searchView.setSubmitButtonEnabled(false);
+            searchTextView.setImeOptions(EditorInfo.IME_ACTION_NONE);
+        } else {
+            searchView.setSubmitButtonEnabled(true);
+            searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
+        }
+
+        setRestoreState(true);
+        return false;
+    }
+
     private void setLengthLimit(int limit) {
         InputFilter[] filters = new InputFilter[]{new InputFilter.LengthFilter(limit)};
         searchTextView.setFilters(filters);
     }
 
     private void setOnCloseClick() {
-        closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
+        ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,20 +115,6 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
                 return true;
             }
         });
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        if (newText == null || newText.length() == 0 || newText.trim().length() == 0) {
-            searchView.setSubmitButtonEnabled(false);
-            searchTextView.setImeOptions(EditorInfo.IME_ACTION_NONE);
-        } else {
-            searchView.setSubmitButtonEnabled(true);
-            searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
-        }
-
-        setRestoreState(true);
-        return false;
     }
 
     @Override
