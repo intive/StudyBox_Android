@@ -62,6 +62,20 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
         restoreState();
     }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText == null || newText.length() == 0 || newText.trim().length() == 0) {
+            searchView.setSubmitButtonEnabled(false);
+            searchTextView.setImeOptions(EditorInfo.IME_ACTION_NONE);
+        } else {
+            searchView.setSubmitButtonEnabled(true);
+            searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
+        }
+
+        setRestoreState(true);
+        return false;
+    }
+
     private void setLengthLimit(int limit) {
         InputFilter[] filters = new InputFilter[]{new InputFilter.LengthFilter(limit)};
         searchTextView.setFilters(filters);
@@ -94,24 +108,13 @@ public class DecksSearch implements SearchView.OnQueryTextListener {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                if (searchListener != null) {
+                    searchListener.onCloseSearchClick();
+                }
                 setRestoreState(false);
                 return true;
             }
         });
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        if (newText == null || newText.length() == 0 || newText.trim().length() == 0) {
-            searchView.setSubmitButtonEnabled(false);
-            searchTextView.setImeOptions(EditorInfo.IME_ACTION_NONE);
-        } else {
-            searchView.setSubmitButtonEnabled(true);
-            searchTextView.setImeOptions(EditorInfo.IME_MASK_ACTION | EditorInfo.IME_ACTION_SEARCH);
-        }
-
-        setRestoreState(true);
-        return false;
     }
 
     @Override
