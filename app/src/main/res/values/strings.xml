@@ -62,6 +62,7 @@
     <string name="empty_deck">Pusta talia</string>
     <string name="no_decks">Brak talii</string>
     <string name="no_decks_query">Brak talii o podanej nazwie</string>
+    <string name="decks_download_error">Błąd pobierania talii</string>
     <string name="next_prompt">Następna podpowiedź</string>
     <string name="prev_prompt">Wcześniejsza podpowiedź</string>
     <string name="question_image">Obrazek pytania</string>
@@ -96,5 +97,6 @@
     <string name="decks">Talie</string>
     <string name="search_more_decks">Wyszukaj więcej talii!</string>
     <string name="search_decks">Wyszukaj talie!</string>
+    <string name="download_decks_error">Błąd pobierania talii</string>
 
 </resources>

@@ -23,7 +23,6 @@ public class QuestionPresenter extends MvpBasePresenter<QuestionView> {
 
     public QuestionPresenter() {
         prompts = new ArrayList<>();
-
     }
 
     public void loadQuestion(String cardId) {

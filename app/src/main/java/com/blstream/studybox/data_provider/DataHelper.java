@@ -1,5 +1,8 @@
 package com.blstream.studybox.data_provider;
 
+import android.content.res.Resources;
+
+import com.blstream.studybox.R;
 import com.blstream.studybox.api.AuthRequestInterceptor;
 import com.blstream.studybox.api.RequestCallback;
 import com.blstream.studybox.api.RequestListener;
@@ -18,6 +21,13 @@ import retrofit.RetrofitError;
 public class DataHelper implements DataProvider {
 
     private List<Deck> currentDecks;
+    private Resources resources;
+
+    public DataHelper() {}
+
+    public DataHelper(Resources resources) {
+        this.resources = resources;
+    }
 
     @Override
     public void fetchPrivateDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener) {
@@ -40,12 +50,12 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener, final String onEmptyResponseMessage) {
+    public void fetchPublicDecks(final DataProvider.OnDecksReceivedListener<List<Deck>> listener) {
         RestClientManager.getPublicDecks(true, new RequestCallback<>(new RequestListener<List<Deck>>() {
             @Override
             public void onSuccess(List<Deck> response) {
                 if (isNullOrEmpty(response)) {
-                    listener.OnEmptyResponse(onEmptyResponseMessage);
+                    listener.OnEmptyResponse(resources.getString(R.string.no_decks));
                     return;
                 }
 
@@ -55,7 +65,7 @@ public class DataHelper implements DataProvider {
 
             @Override
             public void onFailure(RetrofitError error) {
-
+                listener.OnEmptyResponse(resources.getString(R.string.decks_download_error));
             }
         }));
     }
@@ -92,15 +102,15 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchDecksByNameLoggedIn(final OnDecksReceivedListener<List<Deck>> listener, String deckName, final String onEmptyResponseMessage) {
-        RestClientManager.getDecksByNameLoggedin(deckName, true,
+    public void fetchDecksByNameLoggedIn(final OnDecksReceivedListener<List<Deck>> listener, String deckName) {
+        RestClientManager.getDecksByNameLoggedIn(deckName, true,
                 new AuthRequestInterceptor(new LoginManager().getCredentials()),
                 new RequestCallback<>(new RequestListener<List<Deck>>() {
 
                     @Override
                     public void onSuccess(List<Deck> response) {
                         if (isNullOrEmpty(response)) {
-                            listener.OnEmptyResponse(onEmptyResponseMessage);
+                            listener.OnEmptyResponse(resources.getString(R.string.no_decks_query));
                             return;
                         }
 
@@ -116,12 +126,12 @@ public class DataHelper implements DataProvider {
     }
 
     @Override
-    public void fetchDecksByName(final OnDecksReceivedListener<List<Deck>> listener, String deckName, final String onEmptyResponseMessage) {
+    public void fetchDecksByName(final OnDecksReceivedListener<List<Deck>> listener, String deckName) {
         RestClientManager.getDecksByName(deckName, true, new RequestCallback<>(new RequestListener<List<Deck>>() {
             @Override
             public void onSuccess(List<Deck> response) {
                 if (isNullOrEmpty(response)) {
-                    listener.OnEmptyResponse(onEmptyResponseMessage);
+                    listener.OnEmptyResponse(resources.getString(R.string.no_decks_query));
                     return;
                 }
 
