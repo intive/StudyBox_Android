@@ -44,7 +44,7 @@ public class DataHelper implements DataProvider {
 
                     @Override
                     public void onFailure(RetrofitError error) {
-
+                        listener.OnEmptyResponse(resources.getString(R.string.decks_download_error));
                     }
                 }));
     }
