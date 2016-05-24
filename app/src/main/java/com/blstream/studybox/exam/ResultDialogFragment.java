@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
 import com.github.mikephil.charting.charts.PieChart;
@@ -40,6 +41,7 @@ public class ResultDialogFragment extends DialogFragment {
     private int correctAnswers;
     private int noOfQuestions;
     private Activity activity;
+    private LoginManager loginManager = new LoginManager();
 
     @Bind(R.id.congrats)
     TextView congrats;
@@ -49,6 +51,9 @@ public class ResultDialogFragment extends DialogFragment {
 
     @Bind(R.id.pieChart)
     PieChart pieChart;
+
+    @Bind(R.id.my_decks)
+    Button myDecks;
 
     @Bind(R.id.improve_result)
     Button improve;
@@ -72,7 +77,6 @@ public class ResultDialogFragment extends DialogFragment {
         noOfQuestions = getArguments().getInt(TAG_NUMBER_OF_QUESTIONS);
         activity = getActivity();
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.NoDrawerTheme);
-
     }
 
     @Override
@@ -85,6 +89,11 @@ public class ResultDialogFragment extends DialogFragment {
 
     private void initView(View view) {
         ButterKnife.bind(this, view);
+
+        if(!loginManager.isUserLoggedIn()){
+            myDecks.setText(R.string.decks);
+        }
+
         if (correctAnswers == noOfQuestions) {
             improve.setVisibility(View.GONE);
             improveWrong.setVisibility(View.GONE);
