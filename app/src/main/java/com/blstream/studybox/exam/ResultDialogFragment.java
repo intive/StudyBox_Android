@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.blstream.studybox.R;
+import com.blstream.studybox.auth.login.LoginManager;
 import com.blstream.studybox.events.ImproveAllEvent;
 import com.blstream.studybox.events.ImproveWrongEvent;
 import com.github.mikephil.charting.charts.PieChart;
@@ -40,12 +41,19 @@ public class ResultDialogFragment extends DialogFragment {
     private int correctAnswers;
     private int noOfQuestions;
     private Activity activity;
+    private LoginManager loginManager = new LoginManager();
+
+    @Bind(R.id.congrats)
+    TextView congrats;
 
     @Bind(R.id.total_score)
     TextView totalScore;
 
     @Bind(R.id.pieChart)
     PieChart pieChart;
+
+    @Bind(R.id.my_decks)
+    Button myDecks;
 
     @Bind(R.id.improve_result)
     Button improve;
@@ -68,7 +76,7 @@ public class ResultDialogFragment extends DialogFragment {
         correctAnswers = getArguments().getInt(TAG_CORRECT_ANSWERS);
         noOfQuestions = getArguments().getInt(TAG_NUMBER_OF_QUESTIONS);
         activity = getActivity();
-        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Light);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.NoDrawerTheme);
     }
 
     @Override
@@ -81,13 +89,32 @@ public class ResultDialogFragment extends DialogFragment {
 
     private void initView(View view) {
         ButterKnife.bind(this, view);
+
+        if (loginManager.isUserLoggedIn()) {
+            myDecks.setText(R.string.my_decks);
+        } else {
+            myDecks.setText(R.string.decks);
+        }
+
         if (correctAnswers == noOfQuestions) {
             improve.setVisibility(View.GONE);
             improveWrong.setVisibility(View.GONE);
         }
+        setCongratsMessage();
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
         customizePieChart();
         addPieChartData(correctAnswers, noOfQuestions);
+    }
+
+    private void setCongratsMessage() {
+        double result = ((double) correctAnswers) / noOfQuestions;
+        if (result <= 0.5) {
+            congrats.setText(getString(R.string.unfortunately));
+        } else if (result > 0.5 && result <= 0.8) {
+            congrats.setText(getString(R.string.not_bad));
+        } else {
+            congrats.setText(getString(R.string.congrats));
+        }
     }
 
     @OnClick(R.id.my_decks)

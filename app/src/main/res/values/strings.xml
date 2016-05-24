@@ -55,6 +55,8 @@
     <string name="incorrect_quantity">Złych</string>
     <string name="prompt">Podpowiedź</string>
     <string name="congrats">Gratulacje!</string>
+    <string name="not_bad">Nieźle!</string>
+    <string name="unfortunately">Niestety…</string>
     <string name="your_score">Twój wynik</string>
     <string name="my_decks">Moje talie</string>
     <string name="improve_result">Popraw wynik</string>
@@ -92,7 +94,7 @@
     <string name="ten">10</string>
     <string name="five">5</string>
     <string name="one">1</string>
-    <string name="choose_quantity">Wybierz ilość fiszek</string>
+    <string name="choose_quantity">Wybierz liczbę fiszek</string>
     <string name="decks">Talie</string>
     <string name="search_more_decks">Wyszukaj więcej talii!</string>
     <string name="search_decks">Wyszukaj talie!</string>
