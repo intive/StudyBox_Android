@@ -30,8 +30,10 @@ public class EmptyDeckActivity extends BaseAppCompatActivity {
 
     }
 
-    private void setButtonText(){
-        if(!loginManager.isUserLoggedIn()){
+    private void setButtonText() {
+        if (loginManager.isUserLoggedIn()) {
+            myDecks.setText(R.string.my_decks);
+        } else {
             myDecks.setText(R.string.decks);
         }
     }

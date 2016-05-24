@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/exam_element_bottom_margin"
                 android:gravity="center"
-                android:text="@string/congrats"
                 android:textSize="@dimen/exam_title_text" />
 
 
@@ -60,7 +59,6 @@
                 android:layout_marginBottom="@dimen/your_score_bottom_margin"
                 android:background="@color/colorDarkBlue"
                 android:gravity="center"
-                android:text="@string/my_decks"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGrey"
                 android:textSize="@dimen/exam_smallest_text" />
@@ -83,13 +81,13 @@
                 android:layout_width="@dimen/result_button_width"
                 android:layout_height="@dimen/result_button_height"
                 android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/your_score_bottom_margin"
                 android:background="@color/colorRaspberry"
                 android:gravity="center"
                 android:text="@string/improve_only_wrong"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGrey"
-                android:textSize="@dimen/exam_smallest_text"
-                android:layout_marginBottom="@dimen/your_score_bottom_margin"/>
+                android:textSize="@dimen/exam_smallest_text" />
 
         </LinearLayout>
     </ScrollView>

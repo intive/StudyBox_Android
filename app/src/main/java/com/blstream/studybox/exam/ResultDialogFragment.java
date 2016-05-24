@@ -90,7 +90,9 @@ public class ResultDialogFragment extends DialogFragment {
     private void initView(View view) {
         ButterKnife.bind(this, view);
 
-        if(!loginManager.isUserLoggedIn()){
+        if (loginManager.isUserLoggedIn()) {
+            myDecks.setText(R.string.my_decks);
+        } else {
             myDecks.setText(R.string.decks);
         }
 
@@ -110,6 +112,8 @@ public class ResultDialogFragment extends DialogFragment {
             congrats.setText(getString(R.string.unfortunately));
         } else if (result > 0.5 && result <= 0.8) {
             congrats.setText(getString(R.string.not_bad));
+        } else {
+            congrats.setText(getString(R.string.congrats));
         }
     }
 
