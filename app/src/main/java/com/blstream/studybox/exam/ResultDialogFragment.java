@@ -41,6 +41,9 @@ public class ResultDialogFragment extends DialogFragment {
     private int noOfQuestions;
     private Activity activity;
 
+    @Bind(R.id.congrats)
+    TextView congrats;
+
     @Bind(R.id.total_score)
     TextView totalScore;
 
@@ -86,9 +89,19 @@ public class ResultDialogFragment extends DialogFragment {
             improve.setVisibility(View.GONE);
             improveWrong.setVisibility(View.GONE);
         }
+        setCongratsMessage();
         totalScore.setText(getString(R.string.correct_answers, correctAnswers, noOfQuestions));
         customizePieChart();
         addPieChartData(correctAnswers, noOfQuestions);
+    }
+
+    private void setCongratsMessage() {
+        double result = ((double) correctAnswers) / noOfQuestions;
+        if (result <= 0.5) {
+            congrats.setText(getString(R.string.unfortunately));
+        } else if (result > 0.5 && result <= 0.8) {
+            congrats.setText(getString(R.string.not_bad));
+        }
     }
 
     @OnClick(R.id.my_decks)
