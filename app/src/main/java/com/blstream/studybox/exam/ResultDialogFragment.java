@@ -68,7 +68,7 @@ public class ResultDialogFragment extends DialogFragment {
         correctAnswers = getArguments().getInt(TAG_CORRECT_ANSWERS);
         noOfQuestions = getArguments().getInt(TAG_NUMBER_OF_QUESTIONS);
         activity = getActivity();
-        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Light);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.NoDrawerTheme);
     }
 
     @Override
