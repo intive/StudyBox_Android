@@ -35,6 +35,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/NoDrawerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,6 +65,7 @@
         <activity
             android:name=".activities.RegistrationActivity"
             android:label="@string/title_activity_registration"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/NoDrawerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
