@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrey"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:background="@color/colorGrey">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -30,7 +29,7 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="220dp"
                 android:padding="5dp" />
 
             <TextView
@@ -56,7 +55,7 @@
             <Button
                 android:id="@+id/my_decks"
                 android:layout_width="@dimen/result_button_width"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/result_button_height"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/your_score_bottom_margin"
                 android:background="@color/colorDarkBlue"
@@ -64,12 +63,12 @@
                 android:text="@string/my_decks"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGrey"
-                android:textSize="@dimen/exam_medium_text" />
+                android:textSize="@dimen/exam_smallest_text" />
 
             <Button
                 android:id="@+id/improve_result"
                 android:layout_width="@dimen/result_button_width"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/result_button_height"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/your_score_bottom_margin"
                 android:background="@color/colorRaspberry"
@@ -77,19 +76,20 @@
                 android:text="@string/improve_result"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGrey"
-                android:textSize="@dimen/exam_medium_text" />
+                android:textSize="@dimen/exam_smallest_text" />
 
             <Button
                 android:id="@+id/improve_only_wrong"
                 android:layout_width="@dimen/result_button_width"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/result_button_height"
                 android:layout_gravity="center"
                 android:background="@color/colorRaspberry"
                 android:gravity="center"
                 android:text="@string/improve_only_wrong"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGrey"
-                android:textSize="@dimen/exam_medium_text" />
+                android:textSize="@dimen/exam_smallest_text"
+                android:layout_marginBottom="@dimen/your_score_bottom_margin"/>
 
         </LinearLayout>
     </ScrollView>
