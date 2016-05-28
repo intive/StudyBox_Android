@@ -44,7 +44,9 @@ public class DataHelper implements DataProvider {
 
                     @Override
                     public void onFailure(RetrofitError error) {
-                        listener.OnEmptyResponse(resources.getString(R.string.decks_download_error));
+                        if (resources != null) {
+                            listener.OnEmptyResponse(resources.getString(R.string.decks_download_error));
+                        }
                     }
                 }));
     }
@@ -54,7 +56,7 @@ public class DataHelper implements DataProvider {
         RestClientManager.getPublicDecks(true, new RequestCallback<>(new RequestListener<List<Deck>>() {
             @Override
             public void onSuccess(List<Deck> response) {
-                if (isNullOrEmpty(response)) {
+                if (isNullOrEmpty(response) && resources != null) {
                     listener.OnEmptyResponse(resources.getString(R.string.no_decks));
                     return;
                 }
@@ -65,7 +67,9 @@ public class DataHelper implements DataProvider {
 
             @Override
             public void onFailure(RetrofitError error) {
-                listener.OnEmptyResponse(resources.getString(R.string.decks_download_error));
+                if (resources != null) {
+                    listener.OnEmptyResponse(resources.getString(R.string.decks_download_error));
+                }
             }
         }));
     }
@@ -109,7 +113,7 @@ public class DataHelper implements DataProvider {
 
                     @Override
                     public void onSuccess(List<Deck> response) {
-                        if (isNullOrEmpty(response)) {
+                        if (isNullOrEmpty(response) && resources != null) {
                             listener.OnEmptyResponse(resources.getString(R.string.no_decks_query));
                             return;
                         }
@@ -130,7 +134,7 @@ public class DataHelper implements DataProvider {
         RestClientManager.getDecksByName(deckName, true, new RequestCallback<>(new RequestListener<List<Deck>>() {
             @Override
             public void onSuccess(List<Deck> response) {
-                if (isNullOrEmpty(response)) {
+                if (isNullOrEmpty(response) && resources != null) {
                     listener.OnEmptyResponse(resources.getString(R.string.no_decks_query));
                     return;
                 }
