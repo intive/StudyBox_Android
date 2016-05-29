@@ -42,7 +42,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
     private Activity activity;
     private LoginInterface login;
     private ActionBarDrawerToggle drawerToggle;
-    private DataHelper dataHelper = new DataHelper();
+    private DataHelper dataHelper;
 
     public DrawerAdapter(Context context, NavigationView navigationView, DrawerLayout drawerLayout, Toolbar toolbar) {
         this.context = context;
@@ -55,6 +55,7 @@ public class DrawerAdapter implements NavigationView.OnNavigationItemSelectedLis
             DebugHelper.logException(e, "Unable to cast context to Activity object type", "CastException");
         }
         this.login = new LoginManager();
+        dataHelper = new DataHelper(context.getResources());
     }
 
     public void attachDrawer() {

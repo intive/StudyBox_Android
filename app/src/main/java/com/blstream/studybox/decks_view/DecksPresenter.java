@@ -15,19 +15,17 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
 
     private LoginInterface loginInterface;
     private DataProvider dataProvider;
-    private EmptyResponseMessage responseMessage;
 
     public DecksPresenter(Context context) {
         loginInterface = new LoginManager();
-        dataProvider = new DataHelper();
-        responseMessage = new EmptyResponseInfo(context);
+        dataProvider = new DataHelper(context.getResources());
     }
 
     public void loadDecks(boolean pullToRefresh) {  // TODO: if timestamp available, add usage of pullToRefresh
         if (loginInterface.isUserLoggedIn()) {
             dataProvider.fetchPrivateDecks(this);
         } else {
-            dataProvider.fetchPublicDecks(this, responseMessage.onEmptyDecks());
+            dataProvider.fetchPublicDecks(this);
         }
     }
 
@@ -52,9 +50,9 @@ public class DecksPresenter extends MvpBasePresenter<DecksView> implements DataP
 
     public void getDecksByName(String deckName) {
         if (loginInterface.isUserLoggedIn()) {
-            dataProvider.fetchDecksByNameLoggedIn(this, deckName, responseMessage.onEmptyQuery());
+            dataProvider.fetchDecksByNameLoggedIn(this, deckName);
         } else {
-            dataProvider.fetchDecksByName(this, deckName, responseMessage.onEmptyQuery());
+            dataProvider.fetchDecksByName(this, deckName);
         }
     }
 
