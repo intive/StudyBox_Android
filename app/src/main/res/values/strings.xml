@@ -97,6 +97,5 @@
     <string name="decks">Talie</string>
     <string name="search_more_decks">Wyszukaj więcej talii!</string>
     <string name="search_decks">Wyszukaj talie!</string>
-    <string name="download_decks_error">Błąd pobierania talii</string>
 
 </resources>
